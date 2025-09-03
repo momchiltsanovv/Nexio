@@ -1,4 +1,4 @@
-package com.example.nexio;
+package com.app.nexio;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
