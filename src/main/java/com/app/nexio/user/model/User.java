@@ -28,13 +28,15 @@ public class User {
     @Column(nullable = false, unique = true)
     private String username;
 
+    @Column(nullable = false)
     private String firstName;
 
+    @Column(nullable = false)
     private String lastName;
 
     private String profilePicture;
 
-    @Email
+
     @Column(unique = true,
             nullable = false)
     private String email;
@@ -51,7 +53,7 @@ public class User {
     private LocalDateTime updatedOn;
 
     @Column
-    @OneToMany(mappedBy = "user",
+    @OneToMany(mappedBy = "owner",
                fetch = FetchType.EAGER)
     private Set<Item> items;
 

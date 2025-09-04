@@ -40,5 +40,5 @@ public class Item {
     private Category category;
 
     @ManyToOne
-    private User user;
+    private User owner;
 }
