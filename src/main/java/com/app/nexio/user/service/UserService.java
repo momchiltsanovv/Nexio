@@ -48,6 +48,7 @@ public class UserService {
     }
 
     private User initializeUser(RegisterRequest registerRequest) {
+
         return User.builder()
                    .username(registerRequest.getUsername())
                    .password(passwordEncoder.encode(registerRequest.getPassword()))
