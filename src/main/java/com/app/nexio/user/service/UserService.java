@@ -56,6 +56,5 @@ public class UserService {
                    .lastName(registerRequest.getLastName())
                    .email(registerRequest.getEmail())
                    .build();
-
     }
 }
