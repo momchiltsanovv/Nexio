@@ -133,6 +133,165 @@ document.getElementById('google-login').addEventListener('click', () => {
     showToast('Google Sign-In coming soon!', 'success');
 });
 
+// Form validation and loading states
+function initializeFormHandlers() {
+    // Login form
+    const loginForm = document.getElementById('login-form');
+    const loginSubmit = document.getElementById('login-submit');
+    
+    if (loginForm && loginSubmit) {
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            handleFormSubmission(loginSubmit, 'login');
+        });
+    }
+    
+    // Register form
+    const registerForm = document.getElementById('register-form');
+    const registerSubmit = document.getElementById('register-submit');
+    
+    if (registerForm && registerSubmit) {
+        registerForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            handleFormSubmission(registerSubmit, 'register');
+        });
+    }
+    
+    // Add real-time validation
+    addRealTimeValidation();
+}
+
+function handleFormSubmission(button, formType) {
+    // Show loading state
+    button.classList.add('loading');
+    button.disabled = true;
+    
+    // Simulate form submission (replace with actual API call)
+    setTimeout(() => {
+        // Hide loading state
+        button.classList.remove('loading');
+        button.disabled = false;
+        
+        // Show success message
+        showToast(`${formType === 'login' ? 'Login' : 'Registration'} successful!`, 'success');
+        
+        // Reset form
+        const form = button.closest('form');
+        if (form) {
+            form.reset();
+            clearFormValidation(form);
+        }
+    }, 2000);
+}
+
+function addRealTimeValidation() {
+    const inputs = document.querySelectorAll('.input');
+    
+    inputs.forEach(input => {
+        input.addEventListener('blur', () => {
+            validateField(input);
+        });
+        
+        input.addEventListener('input', () => {
+            clearFieldError(input);
+        });
+    });
+}
+
+function validateField(input) {
+    const formGroup = input.closest('.form-group');
+    const value = input.value.trim();
+    const fieldName = input.name;
+    
+    // Clear previous states
+    formGroup.classList.remove('success', 'error');
+    
+    if (!value) {
+        if (input.required) {
+            showFieldError(formGroup, `${fieldName} is required`);
+            return false;
+        }
+    } else {
+        // Email validation
+        if (fieldName === 'email' && !isValidEmail(value)) {
+            showFieldError(formGroup, 'Please enter a valid email address');
+            return false;
+        }
+        
+        // Password validation
+        if (fieldName === 'password' && value.length < 6) {
+            showFieldError(formGroup, 'Password must be at least 6 characters');
+            return false;
+        }
+        
+        // Confirm password validation
+        if (fieldName === 'confirmPassword') {
+            const password = document.querySelector('input[name="password"]').value;
+            if (value !== password) {
+                showFieldError(formGroup, 'Passwords do not match');
+                return false;
+            }
+        }
+        
+        // Show success state
+        formGroup.classList.add('success');
+    }
+    
+    return true;
+}
+
+function showFieldError(formGroup, message) {
+    formGroup.classList.add('error');
+    
+    // Remove existing error message
+    const existingError = formGroup.querySelector('.field-error');
+    if (existingError) {
+        existingError.remove();
+    }
+    
+    // Add error message
+    const errorDiv = document.createElement('div');
+    errorDiv.className = 'field-error';
+    errorDiv.textContent = message;
+    errorDiv.style.color = '#dc2626';
+    errorDiv.style.fontSize = '0.75rem';
+    errorDiv.style.marginTop = '0.25rem';
+    errorDiv.style.marginLeft = '0.5rem';
+    
+    formGroup.appendChild(errorDiv);
+}
+
+function clearFieldError(input) {
+    const formGroup = input.closest('.form-group');
+    formGroup.classList.remove('error');
+    
+    const existingError = formGroup.querySelector('.field-error');
+    if (existingError) {
+        existingError.remove();
+    }
+}
+
+function clearFormValidation(form) {
+    const formGroups = form.querySelectorAll('.form-group');
+    formGroups.forEach(group => {
+        group.classList.remove('success', 'error');
+        const error = group.querySelector('.field-error');
+        if (error) {
+            error.remove();
+        }
+    });
+}
+
+function isValidEmail(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+}
+
+// Initialize form handlers when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    initializeFormHandlers();
+});
+
 document.getElementById('google-register').addEventListener('click', () => {
     showToast('Google Sign-Up coming soon!', 'success');
 });
