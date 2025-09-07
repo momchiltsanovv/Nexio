@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User List - My App</title>
+    <link rel="stylesheet" href="/static/css/users.css">
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <div class="header-top">
+            <h1 class="header-title">All Users</h1>
+            <p class="header-subtitle">Active Members</p>
+        </div>
+        <div class="header-controls">
+            <div class="search-container">
+                <svg class="search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                </svg>
+                <label for="searchBox"></label><input type="text" class="search-box" id="searchBox" placeholder="Search users...">
+            </div>
+            <div class="sort-container">
+                <span class="sort-label">Sort by:</span>
+                <div class="custom-select">
+                    <button class="select-button" id="selectButton">
+                        <span id="selectedText">Newest</span>
+                        <svg class="select-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    <div class="select-dropdown" id="selectDropdown">
+                        <div class="select-option selected" data-value="newest">Newest</div>
+                        <div class="select-option" data-value="oldest">Oldest</div>
+                        <div class="select-option" data-value="name">Name</div>
+                        <div class="select-option" data-value="username">Username</div>
+                        <div class="select-option" data-value="email">Email</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="table-container">
+        <table class="users-table">
+            <thead class="table-header">
+            <tr>
+                <th>ID</th>
+                <th>Username</th>
+                <th>First & Last Name</th>
+                <th>Email</th>
+                <th>Status</th>
+                <th>Role</th>
+                <th>Created On</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody id="usersTableBody">
+            <!-- Users will be populated here -->
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script src="/static/js/users.js"></script>
+</body>
+</html>
