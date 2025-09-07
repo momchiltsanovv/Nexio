@@ -176,3 +176,4 @@ window.addEventListener('load', () => {
         fadeInUp(el, index * 200);
     });
 });
+//TODO CONNECT THE LINKS TO THE LOGIN/REGISTER PAGE
