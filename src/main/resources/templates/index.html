@@ -28,16 +28,12 @@
     <div class="card">
         <!-- Left side with image -->
         <div class="card-left" aria-label="Login illustration">
-            <img src="/static/images/login.png" alt="University students illustration" class="card-left-image">
+<!--            <img src="/static/images/login.png" alt="University students illustration" class="card-left-image">-->
             <div class="image-overlay">
                 <div class="overlay-content">
                     <h2 class="overlay-title">Your University Marketplace</h2>
                     <p class="overlay-subtitle">Connect, Buy, Sell with fellow students</p>
-                    <div class="feature-dots">
-                        <span class="dot active"></span>
-                        <span class="dot"></span>
-                        <span class="dot"></span>
-                    </div>
+                    <!-- Removed the feature-dots div -->
                 </div>
             </div>
         </div>
@@ -45,99 +41,100 @@
         <!-- Right side with form -->
         <div class="card-right">
             <div class="card-header">
-                <div class="back-to-website">
-                    <a href="/" class="back-link">
-                        <span>Back to website</span>
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="m9 18 6-6-6-6"/>
-                        </svg>
-                    </a>
-                </div>
-                <h2 class="welcome-title" id="form-title">Create an account</h2>
-                <div class="account-switch">
-                    <span id="switch-text">Already have an account?</span>
-                    <a href="#" id="switch-link">Log in</a>
+                <!-- Sliding Tab Bar -->
+                <div class="tab-bar">
+                    <div class="tab-slider"></div>
+                    <button class="tab-button active" data-tab="register">Sign Up</button>
+                    <button class="tab-button" data-tab="login">Log In</button>
                 </div>
             </div>
 
             <div class="card-content">
                 <!-- Register Form -->
-                <div class="form-container" id="register-container">
-                    <form class="form" id="register-form">
-                        <!-- Name fields side by side -->
-                        <div class="form-row">
-                            <div class="form-group form-group-half">
-                                <label class="label" for="register-first-name">First Name</label>
-                                <input class="input register" type="text" id="register-first-name" name="firstName" placeholder="Fletcher" required>
+                <div class="form-container active" id="register-container">
+                    <div class="form-scroll-wrapper">
+                        <form class="form" id="register-form">
+                            <div class="form-welcome">
+                                <h2 class="welcome-title">Create an account</h2>
+                            </div>
+                            <!-- Name fields side by side -->
+                            <div class="form-row">
+                                <div class="form-group form-group-half">
+                                    <label class="label" for="register-first-name">First Name</label>
+                                    <input class="input register" type="text" id="register-first-name" name="firstName" placeholder="First Name" required>
+                                </div>
+
+                                <div class="form-group form-group-half">
+                                    <label class="label" for="register-last-name">Last Name</label>
+                                    <input class="input register" type="text" id="register-last-name" name="lastName" placeholder="Last Name" required>
+                                </div>
                             </div>
 
-                            <div class="form-group form-group-half">
-                                <label class="label" for="register-last-name">Last Name</label>
-                                <input class="input register" type="text" id="register-last-name" name="lastName" placeholder="Last name" required>
+                            <div class="form-group">
+                                <label class="label" for="register-email">Email</label>
+                                <input class="input register" type="email" id="register-email" name="email" placeholder="Email" required>
                             </div>
-                        </div>
 
-                        <div class="form-group">
-                            <label class="label" for="register-email">Email</label>
-                            <input class="input register" type="email" id="register-email" name="email" placeholder="Email" required>
-                        </div>
+                            <div class="form-group">
+                                <label class="label" for="register-password">Password</label>
+                                <div class="input-container password-container">
+                                    <input class="input register" type="password" id="register-password" name="password" placeholder="Enter your password" minlength="6" required>
+                                    <button type="button" class="password-toggle register" data-target="register-password">
+                                        <svg class="eye-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                            <circle cx="12" cy="12" r="3"></circle>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
 
-                        <div class="form-group">
-                            <label class="label" for="register-password">Password</label>
-                            <div class="input-container password-container">
-                                <input class="input register" type="password" id="register-password" name="password" placeholder="Enter your password" minlength="6" required>
-                                <button type="button" class="password-toggle register" data-target="register-password">
-                                    <svg class="eye-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                                        <circle cx="12" cy="12" r="3"></circle>
+
+                            <div class="terms-checkbox">
+                                <input type="checkbox" id="terms" required>
+                                <label for="terms" class="checkbox-label">
+                                    I agree to the&nbsp;<a href="#" class="terms-link">Terms & Conditions</a>
+                                </label>
+                            </div>
+
+                            <button type="submit" class="button button-primary" id="register-submit">
+                                <span class="loading-spinner"></span>
+                                <span class="button-text">Create account</span>
+                            </button>
+
+                            <div class="separator">
+                                <span class="separator-text">Or register with</span>
+                            </div>
+
+                            <div class="social-buttons">
+                                <button type="button" class="button button-outline social-btn" id="google-register">
+                                    <svg class="social-icon" viewBox="0 0 24 24" width="20" height="20">
+                                        <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+                                        <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                                        <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+                                        <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
                                     </svg>
+                                    Google
+                                </button>
+                                <button type="button" class="button button-outline social-btn" id="apple-register">
+                                    <svg class="social-icon" viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                                        <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+                                    </svg>
+                                    Apple
                                 </button>
                             </div>
-                        </div>
-
-                        <div class="terms-checkbox">
-                            <input type="checkbox" id="terms" required>
-                            <label for="terms" class="checkbox-label">
-                                <span class="checkmark"></span>
-                                I agree to the <a href="#" class="terms-link">Terms & Conditions</a>
-                            </label>
-                        </div>
-
-                        <button type="submit" class="button button-primary" id="register-submit">
-                            <span class="loading-spinner"></span>
-                            <span class="button-text">Create account</span>
-                        </button>
-                    </form>
-
-                    <div class="separator">
-                        <span class="separator-text">Or register with</span>
-                    </div>
-
-                    <div class="social-buttons">
-                        <button type="button" class="button button-outline social-btn" id="google-register">
-                            <svg class="social-icon" viewBox="0 0 24 24" width="20" height="20">
-                                <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
-                                <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
-                                <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
-                                <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
-                            </svg>
-                            Google
-                        </button>
-                        <button type="button" class="button button-outline social-btn" id="apple-register">
-                            <svg class="social-icon" viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
-                                <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
-                            </svg>
-                            Apple
-                        </button>
+                        </form>
                     </div>
                 </div>
 
                 <!-- Login Form -->
-                <div class="form-container" id="login-container" style="display: none;">
+                <div class="form-container" id="login-container">
                     <form class="form" id="login-form">
+                        <div class="form-welcome">
+                            <h2 class="welcome-title">Welcome back!</h2>
+                        </div>
                         <div class="form-group">
                             <label class="label" for="login-email">Email</label>
-                            <input class="input" type="email" id="login-email" name="email" placeholder="Enter your email" required>
+                            <input class="input" type="email" id="login-email" name="email" placeholder="Email" required>
                         </div>
 
                         <div class="form-group">
@@ -159,29 +156,29 @@
                             <span class="loading-spinner"></span>
                             <span class="button-text">Sign In to Nexio</span>
                         </button>
+
+                        <div class="separator">
+                            <span class="separator-text">Or continue with</span>
+                        </div>
+
+                        <div class="social-buttons">
+                            <button type="button" class="button button-outline social-btn" id="google-login">
+                                <svg class="social-icon" viewBox="0 0 24 24" width="20" height="20">
+                                    <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+                                    <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                                    <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+                                    <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+                                </svg>
+                                Google
+                            </button>
+                            <button type="button" class="button button-outline social-btn" id="apple-login">
+                                <svg class="social-icon" viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                                    <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+                                </svg>
+                                Apple
+                            </button>
+                        </div>
                     </form>
-
-                    <div class="separator">
-                        <span class="separator-text">Or continue with</span>
-                    </div>
-
-                    <div class="social-buttons">
-                        <button type="button" class="button button-outline social-btn" id="google-login">
-                            <svg class="social-icon" viewBox="0 0 24 24" width="20" height="20">
-                                <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
-                                <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
-                                <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
-                                <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
-                            </svg>
-                            Google
-                        </button>
-                        <button type="button" class="button button-outline social-btn" id="apple-login">
-                            <svg class="social-icon" viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
-                                <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
-                            </svg>
-                            Apple
-                        </button>
-                    </div>
                 </div>
             </div>
         </div>
