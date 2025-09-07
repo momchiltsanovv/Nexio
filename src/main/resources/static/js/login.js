@@ -1,3 +1,18 @@
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Check URL parameters to determine which tab to show
+    const urlParams = new URLSearchParams(window.location.search);
+    const tab = urlParams.get('tab');
+
+    if (tab === 'login') {
+        // Switch to login tab
+        switchToTab('login');
+    } else if (tab === 'register') {
+        // Switch to register tab (default is already register, but being explicit)
+        switchToTab('register');
+    }
+});
 // Tab switching functionality
 document.addEventListener('DOMContentLoaded', () => {
     const tabButtons = document.querySelectorAll('.tab-button');
@@ -165,3 +180,28 @@ document.querySelectorAll('.terms-link').forEach(link => {
         showToast('Terms and policies page coming soon!', 'success');
     });
 });
+function switchToTab(tabName) {
+    const tabButtons = document.querySelectorAll('.tab-button');
+    const formContainers = document.querySelectorAll('.form-container');
+    const tabSlider = document.querySelector('.tab-slider');
+
+    // Remove active class from all tabs and containers
+    tabButtons.forEach(btn => btn.classList.remove('active'));
+    formContainers.forEach(container => container.classList.remove('active'));
+
+    // Add active class to selected tab
+    const selectedTab = document.querySelector(`[data-tab="${tabName}"]`);
+    const selectedContainer = document.getElementById(`${tabName}-container`);
+
+    if (selectedTab && selectedContainer) {
+        selectedTab.classList.add('active');
+        selectedContainer.classList.add('active');
+
+        // Move slider
+        if (tabName === 'login') {
+            tabSlider.style.transform = 'translateX(100%)';
+        } else {
+            tabSlider.style.transform = 'translateX(0%)';
+        }
+    }
+}
