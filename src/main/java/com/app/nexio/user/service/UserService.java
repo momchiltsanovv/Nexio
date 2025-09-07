@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.security.Provider;
 import java.util.Optional;
+import java.util.UUID;
 
 @Slf4j
 @Service
@@ -37,17 +38,16 @@ public class UserService {
             throw new UsernameAlreadyTakenException("Username [%s] already exist.".formatted(registerRequest.getUsername()));
         }
 
-        User user = userRepository.save(initializeUser(registerRequest));
+        User user = userRepository.save(initializeNewUser(registerRequest));
 
 
         log.info("Successfully create new user account for [%s] and id [%s]".formatted(user.getUsername(),
                                                                                        user.getId()));
-        //TODO
 
-        return user;
+        return userRepository.save(user);
     }
 
-    private User initializeUser(RegisterRequest registerRequest) {
+    private User initializeNewUser(RegisterRequest registerRequest) {
 
         return User.builder()
                    .username(registerRequest.getUsername())
@@ -56,5 +56,9 @@ public class UserService {
                    .lastName(registerRequest.getLastName())
                    .email(registerRequest.getEmail())
                    .build();
+    }
+
+    public User getById(UUID userId) {
+        return userRepository.getById(userId);
     }
 }
