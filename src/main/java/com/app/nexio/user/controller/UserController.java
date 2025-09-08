@@ -18,22 +18,22 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping
-    @RequireAdminRole
-    public ModelAndView getAllUsers(HttpSession session) {
-
-        UUID userId = (UUID) session.getAttribute(USER_ID_SESSION_ATTRIBUTE);
-        User loggedUser = userService.getById(userId);
-
-        List<UserInformation> users = userService.getAllUsers().stream()
-                                                 .map(DtoMapper::toUserInformation)
-                                                 .toList();
-
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("user", loggedUser);
-        modelAndView.addObject("users", users);
-        modelAndView.setViewName("users");
-
-        return modelAndView;
-    }
+//    @GetMapping
+//    @RequireAdminRole
+//    public ModelAndView getAllUsers(HttpSession session) {
+//
+//        UUID userId = (UUID) session.getAttribute(USER_ID_SESSION_ATTRIBUTE);
+//        User loggedUser = userService.getById(userId);
+//
+//        List<UserInformation> users = userService.getAllUsers().stream()
+//                                                 .map(DtoMapper::toUserInformation)
+//                                                 .toList();
+//
+//        ModelAndView modelAndView = new ModelAndView();
+//        modelAndView.addObject("user", loggedUser);
+//        modelAndView.addObject("users", users);
+//        modelAndView.setViewName("users");
+//
+//        return modelAndView;
+//    }
 }

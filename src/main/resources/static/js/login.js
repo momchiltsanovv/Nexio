@@ -1,5 +1,3 @@
-
-
 document.addEventListener('DOMContentLoaded', () => {
     // Check URL parameters to determine which tab to show
     const urlParams = new URLSearchParams(window.location.search);
@@ -13,6 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
         switchToTab('register');
     }
 });
+
 // Tab switching functionality
 document.addEventListener('DOMContentLoaded', () => {
     const tabButtons = document.querySelectorAll('.tab-button');

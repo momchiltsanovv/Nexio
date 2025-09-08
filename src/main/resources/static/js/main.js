@@ -2,10 +2,12 @@
 const navToggle = document.getElementById('navToggle');
 const navMenu = document.getElementById('navMenu');
 
-navToggle.addEventListener('click', () => {
-    navMenu.classList.toggle('active');
-    navToggle.classList.toggle('active');
-});
+if (navToggle && navMenu) {
+    navToggle.addEventListener('click', () => {
+        navMenu.classList.toggle('active');
+        navToggle.classList.toggle('active');
+    });
+}
 
 // Smooth Scrolling for Navigation Links
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -22,16 +24,20 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 });
 
 // Navbar Background on Scroll
-window.addEventListener('scroll', () => {
+window.addEventListener('scroll', throttle(() => {
+    // Navbar background change
     const navbar = document.querySelector('.navbar');
-    if (window.scrollY > 100) {
-        navbar.style.background = 'rgba(255, 255, 255, 0.98)';
-        navbar.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.1)';
-    } else {
-        navbar.style.background = 'rgba(255, 255, 255, 0.95)';
-        navbar.style.boxShadow = 'none';
+    if (navbar) {
+        if (window.scrollY > 100) {
+            navbar.style.background = 'rgba(33, 35, 70, 0.98)'; // Keep dark theme
+            navbar.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.3)';
+        } else {
+            navbar.style.background = 'rgba(33, 35, 70, 0.95)';
+            navbar.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.2)';
+        }
     }
-});
+}, 16));
+
 
 // Intersection Observer for Animations
 const observerOptions = {
@@ -99,27 +105,47 @@ if (heroStats) {
 
 // Button Click Handlers
 document.addEventListener('DOMContentLoaded', () => {
-    // Get Started Button
-    const getStartedBtns = document.querySelectorAll('.btn-primary');
-    getStartedBtns.forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            if (btn.textContent.includes('Get Started') || btn.textContent.includes('Sign Up')) {
+    // Sign In Button - redirect to log in tab
+    const signInBtns = document.querySelectorAll('.btn-outline');
+    signInBtns.forEach(btn => {
+        if (btn.textContent.includes('Sign In')) {
+            btn.addEventListener('click', (e) => {
                 e.preventDefault();
-                // Add your sign-up logic here
-                console.log('Redirecting to sign-up...');
-                // window.location.href = '/signup';
-            }
-        });
+                console.log('Redirecting to login...');
+                window.location.href = '/login?tab=login';
+            });
+        }
     });
 
-    // Sign In Button
-    const signInBtn = document.querySelector('.btn-outline');
-    if (signInBtn) {
-        signInBtn.addEventListener('click', (e) => {
+    // Get Started Button - redirect to sign up tab
+    const getStartedBtns = document.querySelectorAll('.btn-primary');
+    getStartedBtns.forEach(btn => {
+        if (btn.textContent.includes('Get Started')) {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                console.log('Redirecting to sign-up...');
+                window.location.href = '/login?tab=register';
+            });
+        }
+    });
+
+    // Handle hero section buttons
+    const heroStartShoppingBtn = document.querySelector('.hero-actions .btn-primary');
+    if (heroStartShoppingBtn && heroStartShoppingBtn.textContent.includes('Start Shopping')) {
+        heroStartShoppingBtn.addEventListener('click', (e) => {
             e.preventDefault();
-            // Add your sign-in logic here
-            console.log('Redirecting to sign-in...');
-            // window.location.href = '/signin';
+            console.log('Redirecting to sign-up for shopping...');
+            window.location.href = '/login?tab=register';
+        });
+    }
+
+    // Handle CTA section buttons
+    const ctaSignUpBtn = document.querySelector('.cta-actions .btn-primary');
+    if (ctaSignUpBtn && (ctaSignUpBtn.textContent.includes('Sign Up') || ctaSignUpBtn.textContent.includes('edu Email'))) {
+        ctaSignUpBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            console.log('Redirecting to sign-up from CTA...');
+            window.location.href = '/login?tab=register';
         });
     }
 
@@ -129,11 +155,21 @@ document.addEventListener('DOMContentLoaded', () => {
         if (btn.textContent.includes('Demo')) {
             btn.addEventListener('click', (e) => {
                 e.preventDefault();
-                // Add demo logic here
                 console.log('Opening demo...');
                 alert('Demo feature coming soon!');
             });
         }
+    });
+
+    // Category cards click handlers (optional - for future functionality)
+    const categoryCards = document.querySelectorAll('.category-card');
+    categoryCards.forEach(card => {
+        card.addEventListener('click', () => {
+            const categoryName = card.querySelector('h3').textContent;
+            console.log(`Clicked on ${categoryName} category`);
+            // For now, redirect to sign up. Later you can redirect to category pages
+            window.location.href = '/login?tab=register';
+        });
     });
 });
 
@@ -176,4 +212,71 @@ window.addEventListener('load', () => {
         fadeInUp(el, index * 200);
     });
 });
-//TODO CONNECT THE LINKS TO THE LOGIN/REGISTER PAGE
+
+// Close mobile menu when clicking on links
+document.querySelectorAll('.nav-link').forEach(link => {
+    link.addEventListener('click', () => {
+        if (navMenu && navToggle) {
+            navMenu.classList.remove('active');
+            navToggle.classList.remove('active');
+        }
+    });
+});
+
+// Close mobile menu when clicking outside
+document.addEventListener('click', (e) => {
+    if (navMenu && navToggle && !navMenu.contains(e.target) && !navToggle.contains(e.target)) {
+        navMenu.classList.remove('active');
+        navToggle.classList.remove('active');
+    }
+});
+
+// Scroll to top functionality (optional)
+const scrollToTop = () => {
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
+};
+
+
+
+// Handle keyboard navigation
+document.addEventListener('keydown', (e) => {
+    // Close mobile menu with Escape key
+    if (e.key === 'Escape' && navMenu && navMenu.classList.contains('active')) {
+        navMenu.classList.remove('active');
+        navToggle.classList.remove('active');
+    }
+});
+
+// Performance optimization: Throttle scroll events
+const throttle = (func, limit) => {
+    let inThrottle;
+    return function() {
+        const args = arguments;
+        const context = this;
+        if (!inThrottle) {
+            func.apply(context, args);
+            inThrottle = true;
+            setTimeout(() => inThrottle = false, limit);
+        }
+    }
+};
+
+// Apply throttling to scroll events
+window.addEventListener('scroll', throttle(() => {
+    // Navbar background change
+    const navbar = document.querySelector('.navbar');
+    if (navbar) {
+        if (window.scrollY > 100) {
+            navbar.style.background = 'rgba(255, 255, 255, 0.98)';
+            navbar.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.1)';
+        } else {
+            navbar.style.background = 'rgba(255, 255, 255, 0.95)';
+            navbar.style.boxShadow = 'none';
+        }
+    }
+}, 16));
+
+console.log('Nexio main.js loaded successfully!');
