@@ -28,7 +28,7 @@
     <div class="card">
         <!-- Left side with image -->
         <div class="card-left" aria-label="Login illustration">
-<!--            <img src="/static/images/login.png" alt="University students illustration" class="card-left-image">-->
+            <!--            <img src="/static/images/login.png" alt="University students illustration" class="card-left-image">-->
             <div class="image-overlay">
                 <div class="overlay-content">
                     <h2 class="overlay-title">Your University Marketplace</h2>
@@ -150,7 +150,16 @@
                             </div>
                         </div>
 
-                        <button type="button" class="forgot-password">Forgot password?</button>
+                        <!-- Remember Me and Forgot Password on same level -->
+                        <div class="remember-forgot-row">
+                            <div class="remember-me-checkbox">
+                                <input type="checkbox" id="remember-me" name="rememberMe">
+                                <label for="remember-me" class="checkbox-label">
+                                    Remember me
+                                </label>
+                            </div>
+                            <button type="button" class="forgot-password">Forgot password?</button>
+                        </div>
 
                         <button type="submit" class="button button-primary" id="login-submit">
                             <span class="loading-spinner"></span>

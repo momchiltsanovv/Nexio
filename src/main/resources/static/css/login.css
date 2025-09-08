@@ -185,8 +185,6 @@ body {
     color: white;
 }
 
-
-
 .main-header {
     position: fixed;
     top: 0;
@@ -437,7 +435,71 @@ body {
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Terms checkbox styling - Made smaller */
+/* Remember Me and Forgot Password Row */
+.remember-forgot-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 1rem 0 0.8rem 0;
+    width: 100%;
+}
+
+/* Remember Me checkbox styling - Updated to 19x19px */
+.remember-me-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.remember-me-checkbox input[type="checkbox"] {
+    appearance: none;
+    width: 19px;
+    height: 19px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+    background: transparent;
+    cursor: pointer;
+    position: relative;
+    flex-shrink: 0;
+    transition: all 0.2s ease;
+}
+
+.remember-me-checkbox input[type="checkbox"]:hover {
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+.remember-me-checkbox input[type="checkbox"]:checked {
+    background: linear-gradient(135deg, #7C3AED 0%, #A855F7 100%);
+    border-color: #7C3AED;
+}
+
+.remember-me-checkbox input[type="checkbox"]:checked::after {
+    content: '✓';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 1;
+}
+
+.remember-me-checkbox .checkbox-label {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.7);
+    line-height: 1.4;
+    cursor: pointer;
+    margin: 0;
+    padding: 0;
+    white-space: nowrap;
+}
+
+.remember-me-checkbox .checkbox-label:hover {
+    color: rgba(255, 255, 255, 0.85);
+}
+
+/* Terms checkbox styling - Updated to 19x19px */
 .terms-checkbox {
     display: flex;
     align-items: flex-start;
@@ -447,8 +509,8 @@ body {
 
 .terms-checkbox input[type="checkbox"] {
     appearance: none;
-    width: 20px;
-    height: 20px;
+    width: 19px;
+    height: 19px;
     border: 2px solid rgba(255, 255, 255, 0.3);
     border-radius: 4px;
     background: transparent;
@@ -504,13 +566,12 @@ body {
     cursor: pointer;
     text-decoration: none;
     transition: all 0.2s ease;
-    text-align: left;
-    margin-bottom: 0.8rem;
+    text-align: right;
+    white-space: nowrap;
 }
 
 .forgot-password:hover {
     color: rgba(206, 58, 129, 0.8);
-    transform: translateX(2px);
 }
 
 .button {
@@ -767,6 +828,23 @@ body {
         width: 100%;
     }
 
+    /* Remember Me and Forgot Password Row for mobile */
+    .remember-forgot-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.8rem;
+        margin: 1rem 0;
+    }
+
+    .remember-me-checkbox {
+        align-self: flex-start;
+    }
+
+    .forgot-password {
+        align-self: flex-end;
+        text-align: right;
+    }
+
     /* Input styling for mobile */
     .input {
         background: rgba(255, 255, 255, 0.1);
@@ -801,7 +879,23 @@ body {
         color: white;
     }
 
-    /* Checkbox styling for mobile */
+    /* Mobile responsive styles for checkboxes - Updated to 19x19px */
+    .remember-me-checkbox input[type="checkbox"] {
+        border-color: rgba(255, 255, 255, 0.3);
+        width: 19px;
+        height: 19px;
+    }
+
+    .remember-me-checkbox input[type="checkbox"]:checked {
+        background: linear-gradient(135deg, #7C3AED 0%, #A855F7 100%);
+        border-color: #7C3AED;
+    }
+
+    .remember-me-checkbox .checkbox-label {
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 0.9rem;
+    }
+
     .terms-checkbox {
         justify-content: center; /* Center checkbox and text */
         width: 100%;
@@ -809,6 +903,8 @@ body {
 
     .terms-checkbox input[type="checkbox"] {
         border-color: rgba(255, 255, 255, 0.3);
+        width: 19px;
+        height: 19px;
     }
 
     .terms-checkbox input[type="checkbox"]:checked {
@@ -818,12 +914,13 @@ body {
 
     .checkbox-label {
         color: rgba(255, 255, 255, 0.8);
+        font-size: 0.9rem;
     }
 
     /* Forgot password for mobile */
     .forgot-password {
         color: #CE3A81;
-        text-align: center; /* Center the forgot password link */
+        font-size: 0.9rem;
     }
 
     .forgot-password:hover {
@@ -946,6 +1043,21 @@ body {
     .form-group-half {
         flex: none;
     }
+
+    .remember-forgot-row {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.8rem;
+    }
+
+    .remember-me-checkbox {
+        align-self: flex-start;
+    }
+
+    .forgot-password {
+        align-self: flex-start;
+        text-align: left;
+    }
 }
 
 @media (max-width: 360px) {
@@ -970,7 +1082,6 @@ body {
         max-width: 240px;
     }
 }
-
 
 /* Responsive breakpoints for header */
 @media (min-width: 640px) {

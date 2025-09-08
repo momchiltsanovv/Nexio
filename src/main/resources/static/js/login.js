@@ -10,6 +10,9 @@ document.addEventListener('DOMContentLoaded', () => {
         // Switch to register tab (default is already register, but being explicit)
         switchToTab('register');
     }
+
+    // Check if user should be remembered
+    checkRememberMe();
 });
 
 // Tab switching functionality
@@ -133,6 +136,25 @@ function handleFormSubmission(button, formType) {
     button.classList.add('loading');
     button.disabled = true;
 
+    // Get form data including remember me checkbox
+    const form = button.closest('form');
+    const formData = new FormData(form);
+
+    // Handle remember me functionality for login
+    if (formType === 'login') {
+        const rememberMe = formData.get('rememberMe');
+        if (rememberMe) {
+            // Store remember me preference (you can implement actual storage logic here)
+            localStorage.setItem('rememberMe', 'true');
+            localStorage.setItem('rememberedEmail', formData.get('email'));
+            console.log('Remember me enabled for 30 days');
+        } else {
+            // Clear remember me data
+            localStorage.removeItem('rememberMe');
+            localStorage.removeItem('rememberedEmail');
+        }
+    }
+
     // Simulate form submission (replace with actual API call)
     setTimeout(() => {
         // Hide loading state
@@ -143,11 +165,26 @@ function handleFormSubmission(button, formType) {
         showToast(`${formType === 'login' ? 'Login' : 'Registration'} successful!`, 'success');
 
         // Reset form
-        const form = button.closest('form');
         if (form) {
             form.reset();
         }
     }, 2000);
+}
+
+function checkRememberMe() {
+    const rememberMe = localStorage.getItem('rememberMe');
+    const rememberedEmail = localStorage.getItem('rememberedEmail');
+
+    if (rememberMe === 'true' && rememberedEmail) {
+        // Pre-fill email field
+        const emailInput = document.getElementById('login-email');
+        const rememberCheckbox = document.getElementById('remember-me');
+
+        if (emailInput && rememberCheckbox) {
+            emailInput.value = rememberedEmail;
+            rememberCheckbox.checked = true;
+        }
+    }
 }
 
 // Social authentication buttons
@@ -179,6 +216,7 @@ document.querySelectorAll('.terms-link').forEach(link => {
         showToast('Terms and policies page coming soon!', 'success');
     });
 });
+
 function switchToTab(tabName) {
     const tabButtons = document.querySelectorAll('.tab-button');
     const formContainers = document.querySelectorAll('.form-container');
