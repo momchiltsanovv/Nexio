@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexio - About Us & FAQ</title>
+    <link rel="stylesheet" href="/static/css/info.css">
+    <link rel="stylesheet" href="https://use.typekit.net/rau1mwa.css">
+</head>
+<body>
+<!-- Hero Section with Background Image -->
+<section class="hero-section">
+    <div class="hero-overlay">
+        <div class="hero-content">
+            <span class="nexio-text">nexio</span>
+        </div>
+    </div>
+</section>
+
+<!-- Navigation Tabs -->
+<section class="nav-tabs">
+    <div class="container">
+        <div class="tab-buttons">
+            <button class="tab-btn active" onclick="showTab('about')">ABOUT US</button>
+            <button class="tab-btn" onclick="showTab('faq')">FAQ</button>
+        </div>
+    </div>
+</section>
+
+<!-- About Us Content -->
+<section class="content-section" id="about-content">
+    <div class="container">
+        <div class="content-grid">
+            <div class="text-content">
+                <h2>Our Story</h2>
+                <p>Nexio is a marketplace built with students in mind. Founded in 2024 by four university students, we
+                    saw an opportunity to make student life more convenient and sustainable. In our neighborhoods, we
+                    noticed many items that might be discarded as useless—but we recognized their value.</p>
+
+                <p>Alongside this, we, and many other students, had frustrating experiences with traditional platforms,
+                    facing scams, unreliable sellers, and unexpected long-distance trips for disappointing
+                    purchases.</p>
+
+                <p>Nexio was created to solve these problems by providing a dedicated platform that ensures transactions
+                    are safe, verified, and rooted within the student community.</p>
+
+                <h2>What Makes Us Different</h2>
+                <p>Nexio isn't just another marketplace. Our platform is designed specifically for the student
+                    experience. Safety and trust are at the core of what we do; users are verified through their
+                    university email, creating a secure environment where students can confidently interact with their
+                    peers.</p>
+
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">🎓</div>
+                        <h3>Student-Verified</h3>
+                        <p>All users verified through university email addresses</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🔒</div>
+                        <h3>Secure Transactions</h3>
+                        <p>Safe and reliable peer-to-peer marketplace</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🌱</div>
+                        <h3>Sustainable</h3>
+                        <p>Giving new life to items that might be discarded</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">📍</div>
+                        <h3>Local Community</h3>
+                        <p>Connect with students in your area</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Team Section -->
+        <div class="team-section">
+            <h2>Meet Our Team</h2>
+            <div class="team-grid">
+                <div class="team-member">
+                    <div class="member-avatar">
+                        <img src="/static/images/team/momchil.jpeg" alt="Momchil Tsanov" class="member-image">
+                    </div>
+                    <h3>Momchil Tsanov</h3>
+                    <p>Co-Founder & CEO</p>
+                    <span>Computer Science, New Bulgarian University</span>
+                </div>
+                <div class="team-member">
+                    <div class="member-avatar">
+                        <img src="/static/images/team/teya.jpg" alt="Teya Simova" class="member-image">
+                    </div>
+                    <h3>Teya Simova</h3>
+                    <p>Public Relations Specialist</p>
+                    <span>New Bulgarian University</span>
+                </div>
+                <div class="team-member">
+                    <div class="member-avatar">
+                        <img src="/static/images/team/daria.jpg" alt="Daria Dian" class="member-image">
+                    </div>
+                    <h3>Daria Dian</h3>
+                    <p>Marketing Specialist</p>
+                    <span>New Bulgarian University</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ Content -->
+<section class="content-section" id="faq-content" style="display: none;">
+    <div class="container">
+        <h2>Frequently Asked Questions</h2>
+        <div class="faq-grid">
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFAQ(this)">
+                    <span>How do I get started on Nexio?</span>
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <p>Getting started is easy! Simply sign up with your university email address, verify your account,
+                        and you're ready to start buying and selling. Your university email ensures you're part of a
+                        trusted student community.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFAQ(this)">
+                    <span>Is Nexio only for students?</span>
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <p>Yes, Nexio is exclusively designed for university students. All users must verify their accounts
+                        using a valid university email address to ensure a safe and trusted community.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFAQ(this)">
+                    <span>How do payments work?</span>
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <p>Currently, payments are handled directly between buyers and sellers. We recommend meeting in
+                        safe, public locations on campus for exchanges. We're working on integrated payment solutions
+                        for future updates.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFAQ(this)">
+                    <span>What can I sell on Nexio?</span>
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <p>You can sell textbooks, electronics, furniture, clothing, and other student-relevant items. We
+                        prohibit illegal items, dangerous goods, and items that violate university policies.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFAQ(this)">
+                    <span>How do I report a problem?</span>
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <p>If you encounter any issues, you can report them through our contact form or email us directly at
+                        support@nexio.com. We take all reports seriously and respond within 24 hours.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFAQ(this)">
+                    <span>Is there a fee to use Nexio?</span>
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <p>Nexio is completely free to use! There are no listing fees, transaction fees, or membership
+                        costs. We believe in keeping student-to-student commerce accessible.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFAQ(this)">
+                    <span>How do I stay safe while using Nexio?</span>
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <p>Always meet in public, well-lit areas on campus. Bring a friend when possible. Trust your
+                        instincts—if something feels off, don't proceed. Report suspicious behavior immediately.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFAQ(this)">
+                    <span>Can I use Nexio on mobile?</span>
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <p>Yes! Nexio is fully responsive and works great on mobile devices. We're also working on dedicated
+                        mobile apps for iOS and Android—stay tuned!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Back to Home Button -->
+<div class="back-home">
+    <button class="btn btn-primary" onclick="window.location.href='/'">
+        ← Back to Marketplace
+    </button>
+</div>
+
+<script src="/static/js/info.js"></script>
+</body>
+</html>
