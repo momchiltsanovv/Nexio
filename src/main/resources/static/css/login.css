@@ -31,22 +31,22 @@ body {
     backdrop-filter: blur(10px);
     border-radius: 1rem;
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-    overflow: visible; /* Changed from hidden to visible */
+    overflow: visible;
     display: grid;
     grid-template-columns: 1fr 1fr;
     min-height: 800px;
-    max-height: 800px;
+    max-height: 850px; /* Increased slightly */
     max-width: 1400px;
-    position: relative; /* Added for positioning context */
+    position: relative;
 }
 
 /* Left side with image - Now overlaying */
 .card-left {
     position: absolute;
-    top: 20px; /* Equal spacing from top */
-    left: 20px; /* Equal spacing from left */
-    bottom: 20px; /* Equal spacing from bottom */
-    width: calc(45% - 20px); /* Width remains the same */
+    top: 20px;
+    left: 20px;
+    bottom: 20px;
+    width: calc(45% - 20px);
     min-width: 0;
     overflow: hidden;
     display: flex;
@@ -75,7 +75,7 @@ body {
     pointer-events: none;
     text-align: center;
     width: 80%;
-    z-index: 3; /* Above the image */
+    z-index: 3;
 }
 
 .overlay-content {
@@ -98,7 +98,7 @@ body {
 
 .form-welcome {
     text-align: center;
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem; /* Reduced from 2rem */
 }
 
 .welcome-title {
@@ -117,15 +117,14 @@ body {
     background: #2D2D41;
     color: white;
     border-radius: 1rem;
-    /* Extra padding to account for overlay */
-    padding: 3rem 3rem 3rem 4rem;
+    padding: 2.5rem 3rem 2.5rem 1.5rem; /* Reduced top/bottom padding */
     overflow: hidden;
-    grid-column: 2; /* Ensure it stays in the right column */
-    z-index: 1; /* Below the left card */
+    grid-column: 2;
+    z-index: 1;
 }
 
 .card-header {
-    padding: 0 0 1.5rem 0;
+    padding: 0 0 1rem 0; /* Reduced from 1.5rem */
     text-align: center;
     flex-shrink: 0;
 }
@@ -137,7 +136,7 @@ body {
     background: rgba(255, 255, 255, 0.1);
     border-radius: 1.5rem;
     padding: 0.3rem;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem; /* Reduced from 1.5rem */
     backdrop-filter: blur(10px);
     max-width: 350px;
     margin-left: auto;
@@ -262,6 +261,7 @@ body {
     position: relative;
     height: 100%;
     overflow: hidden;
+    min-height: 0; /* Important for flexbox scrolling */
 }
 
 /* Form Container Transitions */
@@ -278,6 +278,7 @@ body {
     right: 0;
     display: flex;
     flex-direction: column;
+    min-height: 0; /* Important for flexbox scrolling */
 }
 
 .form-container.active {
@@ -297,45 +298,50 @@ body {
     transform: translateX(30px);
 }
 
-/* Scroll wrapper for register form */
+/* Enhanced scroll wrapper for register form */
 .form-scroll-wrapper {
-    height: 100%;
+    flex: 1;
     overflow-y: auto;
     overflow-x: hidden;
     padding-right: 0.5rem;
     margin-right: -0.5rem;
+    scroll-behavior: smooth;
+    /* Ensure proper scrolling */
+    min-height: 0;
 }
 
-/* Hide scrollbar but keep functionality */
+/* Enhanced scrollbar styling */
 .form-scroll-wrapper::-webkit-scrollbar {
-    width: 4px;
+    width: 6px;
 }
 
 .form-scroll-wrapper::-webkit-scrollbar-track {
-    background: transparent;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 3px;
 }
 
 .form-scroll-wrapper::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 2px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 3px;
+    transition: background 0.2s ease;
 }
 
 .form-scroll-wrapper::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.4);
 }
 
 /* For Firefox */
 .form-scroll-wrapper {
     scrollbar-width: thin;
-    scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+    scrollbar-color: rgba(255, 255, 255, 0.3) rgba(255, 255, 255, 0.05);
 }
 
 /* Form wrapper to center and constrain width */
 .form {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
-    padding-bottom: 1rem;
+    gap: 1.2rem; /* Reduced from 1.5rem */
+    padding-bottom: 1.5rem; /* Added more bottom padding for scroll */
     max-width: 400px;
     margin: 0 auto;
     width: 100%;
@@ -344,7 +350,7 @@ body {
 .form-group {
     display: flex;
     flex-direction: column;
-    gap: 0.3rem;
+    gap: 0.25rem; /* Reduced from 0.3rem */
 }
 
 /* Form row for side-by-side fields */
@@ -358,7 +364,7 @@ body {
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 0.3rem;
+    gap: 0.25rem; /* Reduced from 0.3rem */
 }
 
 /* Hide labels - they are still in HTML for accessibility but visually hidden */
@@ -380,7 +386,7 @@ body {
 
 .input {
     width: 100%;
-    padding: 0.8rem 1rem;
+    padding: 0.75rem 1rem; /* Slightly reduced padding */
     border: 1px solid rgba(255, 255, 255, 0.3);
     border-radius: 0.8rem;
     font-size: 1rem;
@@ -388,7 +394,7 @@ body {
     color: white;
     backdrop-filter: blur(10px);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    height: 48px;
+    height: 46px; /* Reduced from 48px */
 }
 
 .input::placeholder {
@@ -440,7 +446,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin: 1rem 0 0.8rem 0;
+    margin: 0.8rem 0 0.6rem 0; /* Reduced margins */
     width: 100%;
 }
 
@@ -504,7 +510,7 @@ body {
     display: flex;
     align-items: flex-start;
     gap: 0.8rem;
-    margin: 0.8rem 0;
+    margin: 0.6rem 0; /* Reduced from 0.8rem 0 */
 }
 
 .terms-checkbox input[type="checkbox"] {
@@ -587,7 +593,7 @@ body {
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    height: 50px;
+    height: 48px; /* Slightly reduced */
 }
 
 .button-primary {
@@ -616,7 +622,7 @@ body {
 
 .separator {
     position: relative;
-    margin: 1.2rem 0;
+    margin: 1rem 0; /* Reduced from 1.2rem 0 */
     text-align: center;
 }
 
@@ -646,7 +652,7 @@ body {
 .social-buttons {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 1.2rem;
+    gap: 1rem; /* Reduced from 1.2rem */
 }
 
 .social-btn {
@@ -656,7 +662,7 @@ body {
     gap: 0.6rem;
     padding: 1rem;
     font-size: 0.9rem;
-    height: 50px;
+    height: 48px; /* Slightly reduced */
 }
 
 .social-icon {
@@ -723,28 +729,28 @@ body {
         padding: 80px 1rem 1rem;
         display: flex;
         align-items: center;
-        justify-content: center; /* Center horizontally */
+        justify-content: center;
         min-height: 100vh;
     }
 
     .container {
         width: 100%;
-        max-width: 400px; /* Constrain container width */
-        margin: 0 auto; /* Center the container */
+        max-width: 400px;
+        margin: 0 auto;
         display: flex;
         justify-content: center;
     }
 
     .card {
         grid-template-columns: 1fr;
-        width: 100%; /* Take full container width */
-        max-width: 380px; /* Maximum card width */
+        width: 100%;
+        max-width: 380px;
         min-height: auto;
-        max-height: none;
+        max-height: 90vh; /* Limit height on mobile */
         overflow: hidden;
         background: rgba(45, 45, 65, 0.95);
         border-radius: 1rem;
-        margin: 0 auto; /* Center the card */
+        margin: 0 auto;
     }
 
     .card-left {
@@ -754,31 +760,35 @@ body {
     .card-right {
         background: rgba(45, 45, 65, 0.95);
         color: white;
-        padding: 2rem; /* Equal padding on all sides */
+        padding: 2rem;
         position: static;
         z-index: auto;
         grid-column: 1;
         width: 100%;
         display: flex;
         flex-direction: column;
-        align-items: center; /* Center content horizontally */
+        align-items: center;
+        overflow: hidden; /* Ensure mobile scrolling works */
     }
 
     .card-header {
         width: 100%;
-        max-width: 320px; /* Constrain header width */
+        max-width: 320px;
         margin: 0 auto;
+        flex-shrink: 0;
     }
 
     .card-content {
         width: 100%;
-        max-width: 320px; /* Constrain content width */
+        max-width: 320px;
         margin: 0 auto;
+        flex: 1;
+        min-height: 0; /* Important for mobile scrolling */
     }
 
     .tab-bar {
         background: rgba(255, 255, 255, 0.1);
-        max-width: 280px; /* Smaller tab bar */
+        max-width: 280px;
         margin-left: auto;
         margin-right: auto;
         width: 100%;
@@ -809,7 +819,7 @@ body {
     /* Form welcome styling for mobile */
     .form-welcome {
         text-align: center;
-        margin-bottom: 1.5rem;
+        margin-bottom: 1.2rem; /* Reduced */
         width: 100%;
     }
 
@@ -818,14 +828,22 @@ body {
         color: white;
         margin: 0;
         font-weight: 700;
-        font-family: cooper-black-std, serif ;
+        font-family: cooper-black-std, serif;
     }
 
     /* Form styling */
     .form {
-        max-width: 300px; /* Constrain form width */
-        margin: 0 auto; /* Center the form */
+        max-width: 300px;
+        margin: 0 auto;
         width: 100%;
+        gap: 1rem; /* Reduced spacing on mobile */
+    }
+
+    /* Enhanced mobile scrolling */
+    .form-scroll-wrapper {
+        max-height: calc(90vh - 200px); /* Adjust based on header/tab height */
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
     }
 
     /* Remember Me and Forgot Password Row for mobile */
@@ -833,7 +851,7 @@ body {
         flex-direction: column;
         align-items: flex-start;
         gap: 0.8rem;
-        margin: 1rem 0;
+        margin: 0.8rem 0;
     }
 
     .remember-me-checkbox {
@@ -897,8 +915,9 @@ body {
     }
 
     .terms-checkbox {
-        justify-content: center; /* Center checkbox and text */
+        justify-content: center;
         width: 100%;
+        margin: 0.5rem 0; /* Reduced */
     }
 
     .terms-checkbox input[type="checkbox"] {
@@ -929,7 +948,7 @@ body {
 
     /* Button styling for mobile */
     .button {
-        height: 46px;
+        height: 44px; /* Reduced */
         width: 100%;
         margin: 0 auto;
     }
@@ -947,6 +966,7 @@ body {
     .separator {
         width: 100%;
         text-align: center;
+        margin: 0.8rem 0; /* Reduced */
     }
 
     .separator::before {
@@ -962,13 +982,14 @@ body {
     .social-buttons {
         width: 100%;
         justify-items: center;
+        gap: 0.8rem; /* Reduced */
     }
 
     .social-btn {
         background: rgba(255, 255, 255, 0.1);
         border: 1px solid rgba(255, 255, 255, 0.2);
         color: white;
-        height: 46px;
+        height: 44px; /* Reduced */
         width: 100%;
     }
 
@@ -980,19 +1001,19 @@ body {
         color: white;
     }
 
-    /* Scrollbar styling for mobile */
+    /* Enhanced scrollbar styling for mobile */
     .form-scroll-wrapper::-webkit-scrollbar-thumb {
-        background: rgba(255, 255, 255, 0.2);
+        background: rgba(255, 255, 255, 0.3);
     }
 
     .form-scroll-wrapper {
-        scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+        scrollbar-color: rgba(255, 255, 255, 0.3) rgba(255, 255, 255, 0.05);
     }
 }
 
 @media (max-width: 480px) {
     body {
-        padding: 80px 0.5rem 1rem; /* Reduce padding on very small screens */
+        padding: 80px 0.5rem 1rem;
     }
 
     .container {
@@ -1002,10 +1023,11 @@ body {
 
     .card {
         max-width: 340px;
+        max-height: 85vh; /* Further limit on small screens */
     }
 
     .card-right {
-        padding: 1.5rem; /* Reduce padding on very small screens */
+        padding: 1.5rem;
     }
 
     .card-header,
@@ -1019,6 +1041,7 @@ body {
 
     .form {
         max-width: 260px;
+        gap: 0.9rem; /* Even more compact */
     }
 
     .welcome-title {
@@ -1027,7 +1050,7 @@ body {
 
     .social-buttons {
         grid-template-columns: 1fr;
-        gap: 1rem;
+        gap: 0.8rem;
     }
 
     .tab-button {
@@ -1037,7 +1060,7 @@ body {
 
     .form-row {
         flex-direction: column;
-        gap: 1.2rem;
+        gap: 1rem; /* Reduced */
     }
 
     .form-group-half {
@@ -1047,7 +1070,7 @@ body {
     .remember-forgot-row {
         flex-direction: column;
         align-items: stretch;
-        gap: 0.8rem;
+        gap: 0.6rem; /* Reduced */
     }
 
     .remember-me-checkbox {
@@ -1058,6 +1081,11 @@ body {
         align-self: flex-start;
         text-align: left;
     }
+
+    /* Enhanced mobile scrolling for very small screens */
+    .form-scroll-wrapper {
+        max-height: calc(85vh - 180px);
+    }
 }
 
 @media (max-width: 360px) {
@@ -1067,6 +1095,7 @@ body {
 
     .card {
         max-width: 310px;
+        max-height: 80vh;
     }
 
     .card-header,
@@ -1080,6 +1109,11 @@ body {
 
     .form {
         max-width: 240px;
+        gap: 0.8rem;
+    }
+
+    .form-scroll-wrapper {
+        max-height: calc(80vh - 160px);
     }
 }
 

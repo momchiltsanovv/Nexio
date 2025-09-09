@@ -4,19 +4,32 @@ document.addEventListener('DOMContentLoaded', () => {
     const tab = urlParams.get('tab');
 
     if (tab === 'login') {
-        // Switch to login tab
         switchToTab('login');
     } else if (tab === 'register') {
-        // Switch to register tab (default is already register, but being explicit)
         switchToTab('register');
     }
 
     // Check if user should be remembered
     checkRememberMe();
+
+    // Initialize tab switching functionality
+    initializeTabSwitching();
+
+    // Initialize form handlers
+    initializeFormHandlers();
+
+    // Initialize password toggles
+    initializePasswordToggles();
+
+    // Initialize social buttons
+    initializeSocialButtons();
+
+    // Initialize other buttons
+    initializeOtherButtons();
 });
 
 // Tab switching functionality
-document.addEventListener('DOMContentLoaded', () => {
+function initializeTabSwitching() {
     const tabButtons = document.querySelectorAll('.tab-button');
     const tabSlider = document.querySelector('.tab-slider');
     const registerContainer = document.getElementById('register-container');
@@ -62,38 +75,43 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
-
-    // Initialize form handlers
-    initializeFormHandlers();
-});
+}
 
 // Password visibility toggle
-document.querySelectorAll('.password-toggle').forEach(toggle => {
-    toggle.addEventListener('click', () => {
-        const targetId = toggle.dataset.target;
-        const input = document.getElementById(targetId);
-        const eyeIcon = toggle.querySelector('.eye-icon');
+function initializePasswordToggles() {
+    document.querySelectorAll('.password-toggle').forEach(toggle => {
+        toggle.addEventListener('click', () => {
+            const targetId = toggle.dataset.target;
+            const input = document.getElementById(targetId);
+            const eyeIcon = toggle.querySelector('.eye-icon');
 
-        if (input.type === 'password') {
-            input.type = 'text';
-            eyeIcon.innerHTML = `
-                <path d="m17.94 17.94a10.07 10.07 0 0 1-15.88 0"></path>
-                <path d="m1 1 22 22"></path>
-                <path d="M1 12s4-8 11-8a9.96 9.96 0 0 1 5 1.3"></path>
-                <path d="M12 21c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"></path>
-            `;
-        } else {
-            input.type = 'password';
-            eyeIcon.innerHTML = `
-                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                <circle cx="12" cy="12" r="3"></circle>
-            `;
-        }
+            if (input && eyeIcon) {
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    eyeIcon.innerHTML = `
+                        <path d="m17.94 17.94a10.07 10.07 0 0 1-15.88 0"></path>
+                        <path d="m1 1 22 22"></path>
+                        <path d="M1 12s4-8 11-8a9.96 9.96 0 0 1 5 1.3"></path>
+                        <path d="M12 21c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"></path>
+                    `;
+                } else {
+                    input.type = 'password';
+                    eyeIcon.innerHTML = `
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                        <circle cx="12" cy="12" r="3"></circle>
+                    `;
+                }
+            }
+        });
     });
-});
+}
 
 // Toast notification function
 function showToast(message, type = 'success') {
+    // Remove any existing toasts first
+    const existingToasts = document.querySelectorAll('.toast');
+    existingToasts.forEach(toast => toast.remove());
+
     const toast = document.createElement('div');
     toast.className = `toast ${type}`;
     toast.textContent = message;
@@ -102,7 +120,11 @@ function showToast(message, type = 'success') {
     setTimeout(() => toast.classList.add('show'), 100);
     setTimeout(() => {
         toast.classList.remove('show');
-        setTimeout(() => document.body.removeChild(toast), 300);
+        setTimeout(() => {
+            if (document.body.contains(toast)) {
+                document.body.removeChild(toast);
+            }
+        }, 300);
     }, 3000);
 }
 
@@ -115,7 +137,9 @@ function initializeFormHandlers() {
     if (loginForm && loginSubmit) {
         loginForm.addEventListener('submit', (e) => {
             e.preventDefault();
-            handleFormSubmission(loginSubmit, 'login');
+            if (validateForm(loginForm, 'login')) {
+                handleFormSubmission(loginSubmit, 'login');
+            }
         });
     }
 
@@ -126,9 +150,71 @@ function initializeFormHandlers() {
     if (registerForm && registerSubmit) {
         registerForm.addEventListener('submit', (e) => {
             e.preventDefault();
-            handleFormSubmission(registerSubmit, 'register');
+            if (validateForm(registerForm, 'register')) {
+                handleFormSubmission(registerSubmit, 'register');
+            }
         });
     }
+}
+
+// Form validation function
+function validateForm(form, formType) {
+    const formData = new FormData(form);
+
+    if (formType === 'register') {
+        // Check required fields for registration
+        const requiredFields = ['firstName', 'lastName', 'email', 'university', 'password'];
+        for (const field of requiredFields) {
+            if (!formData.get(field) || formData.get(field).trim() === '') {
+                showToast(`Please fill in your ${field.replace(/([A-Z])/g, ' $1').toLowerCase()}`, 'error');
+                return false;
+            }
+        }
+
+        // Check terms checkbox
+        if (!formData.get('terms')) {
+            showToast('Please agree to the Terms & Conditions', 'error');
+            return false;
+        }
+
+        // Basic email validation
+        const email = formData.get('email');
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            showToast('Please enter a valid email address', 'error');
+            return false;
+        }
+
+        // Password length validation
+        const password = formData.get('password');
+        if (password.length < 6) {
+            showToast('Password must be at least 6 characters long', 'error');
+            return false;
+        }
+    } else if (formType === 'login') {
+        // Check required fields for login
+        const email = formData.get('email');
+        const password = formData.get('password');
+
+        if (!email || email.trim() === '') {
+            showToast('Please enter your email', 'error');
+            return false;
+        }
+
+        if (!password || password.trim() === '') {
+            showToast('Please enter your password', 'error');
+            return false;
+        }
+
+        // Basic email validation
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            showToast('Please enter a valid email address', 'error');
+            return false;
+        }
+    }
+
+    return true;
 }
 
 function handleFormSubmission(button, formType) {
@@ -144,12 +230,10 @@ function handleFormSubmission(button, formType) {
     if (formType === 'login') {
         const rememberMe = formData.get('rememberMe');
         if (rememberMe) {
-            // Store remember me preference (you can implement actual storage logic here)
             localStorage.setItem('rememberMe', 'true');
             localStorage.setItem('rememberedEmail', formData.get('email'));
             console.log('Remember me enabled for 30 days');
         } else {
-            // Clear remember me data
             localStorage.removeItem('rememberMe');
             localStorage.removeItem('rememberedEmail');
         }
@@ -164,23 +248,40 @@ function handleFormSubmission(button, formType) {
         // Show success message
         showToast(`${formType === 'login' ? 'Login' : 'Registration'} successful!`, 'success');
 
-        // Save some basic info for profile display (best-effort from form inputs)
+        // Save user data to localStorage (for demo purposes)
         try {
             const formDataObj = Object.fromEntries(formData.entries());
             if (formType === 'login') {
                 if (formDataObj.email) localStorage.setItem('email', formDataObj.email);
             } else if (formType === 'register') {
+                // Save all registration data including university
                 if (formDataObj.email) localStorage.setItem('email', formDataObj.email);
                 if (formDataObj.firstName) localStorage.setItem('firstName', formDataObj.firstName);
                 if (formDataObj.lastName) localStorage.setItem('lastName', formDataObj.lastName);
+                if (formDataObj.university) localStorage.setItem('university', formDataObj.university); // Added university field
                 if (formDataObj.username) localStorage.setItem('username', formDataObj.username);
-            }
-        } catch (e) { /* noop */ }
 
-        // Redirect after login to profile page
-        if (formType === 'login') {
-            window.location.href = '/profile';
+                // Log registration data for debugging
+                console.log('Registration data saved:', {
+                    email: formDataObj.email,
+                    firstName: formDataObj.firstName,
+                    lastName: formDataObj.lastName,
+                    university: formDataObj.university
+                });
+            }
+        } catch (e) {
+            console.error('Error saving form data:', e);
         }
+
+        // Redirect after successful submission
+        setTimeout(() => {
+            if (formType === 'login') {
+                window.location.href = '/profile';
+            } else {
+                // For registration, you might want to redirect to a welcome page or login
+                window.location.href = '/profile';
+            }
+        }, 1500);
 
         // Reset form
         if (form) {
@@ -206,34 +307,42 @@ function checkRememberMe() {
 }
 
 // Social authentication buttons
-document.getElementById('google-register')?.addEventListener('click', () => {
-    showToast('Google Sign-Up coming soon!', 'success');
-});
+function initializeSocialButtons() {
+    const socialButtons = [
+        { id: 'google-register', message: 'Google Sign-Up coming soon!' },
+        { id: 'apple-register', message: 'Apple Sign-Up coming soon!' },
+        { id: 'google-login', message: 'Google Sign-In coming soon!' },
+        { id: 'apple-login', message: 'Apple Sign-In coming soon!' }
+    ];
 
-document.getElementById('apple-register')?.addEventListener('click', () => {
-    showToast('Apple Sign-Up coming soon!', 'success');
-});
-
-document.getElementById('google-login')?.addEventListener('click', () => {
-    showToast('Google Sign-In coming soon!', 'success');
-});
-
-document.getElementById('apple-login')?.addEventListener('click', () => {
-    showToast('Apple Sign-In coming soon!', 'success');
-});
-
-// Forgot password
-document.querySelector('.forgot-password')?.addEventListener('click', () => {
-    showToast('Password reset link sent to your email!', 'success');
-});
-
-// Terms links
-document.querySelectorAll('.terms-link').forEach(link => {
-    link.addEventListener('click', (e) => {
-        e.preventDefault();
-        showToast('Terms and policies page coming soon!', 'success');
+    socialButtons.forEach(({ id, message }) => {
+        const button = document.getElementById(id);
+        if (button) {
+            button.addEventListener('click', () => {
+                showToast(message, 'success');
+            });
+        }
     });
-});
+}
+
+// Other buttons (forgot password, terms links)
+function initializeOtherButtons() {
+    // Forgot password
+    const forgotPasswordBtn = document.querySelector('.forgot-password');
+    if (forgotPasswordBtn) {
+        forgotPasswordBtn.addEventListener('click', () => {
+            showToast('Password reset link sent to your email!', 'success');
+        });
+    }
+
+    // Terms links
+    document.querySelectorAll('.terms-link').forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            showToast('Terms and policies page coming soon!', 'success');
+        });
+    });
+}
 
 function switchToTab(tabName) {
     const tabButtons = document.querySelectorAll('.tab-button');
@@ -252,11 +361,11 @@ function switchToTab(tabName) {
         selectedTab.classList.add('active');
         selectedContainer.classList.add('active');
 
-        // Move slider
+        // Move slider - using CSS classes instead of direct style manipulation
         if (tabName === 'login') {
-            tabSlider.style.transform = 'translateX(100%)';
+            tabSlider.classList.add('login-active');
         } else {
-            tabSlider.style.transform = 'translateX(0%)';
+            tabSlider.classList.remove('login-active');
         }
     }
 }
