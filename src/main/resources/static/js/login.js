@@ -164,11 +164,29 @@ function handleFormSubmission(button, formType) {
         // Show success message
         showToast(`${formType === 'login' ? 'Login' : 'Registration'} successful!`, 'success');
 
+        // Save some basic info for profile display (best-effort from form inputs)
+        try {
+            const formDataObj = Object.fromEntries(formData.entries());
+            if (formType === 'login') {
+                if (formDataObj.email) localStorage.setItem('email', formDataObj.email);
+            } else if (formType === 'register') {
+                if (formDataObj.email) localStorage.setItem('email', formDataObj.email);
+                if (formDataObj.firstName) localStorage.setItem('firstName', formDataObj.firstName);
+                if (formDataObj.lastName) localStorage.setItem('lastName', formDataObj.lastName);
+                if (formDataObj.username) localStorage.setItem('username', formDataObj.username);
+            }
+        } catch (e) { /* noop */ }
+
+        // Redirect after login to profile page
+        if (formType === 'login') {
+            window.location.href = '/profile';
+        }
+
         // Reset form
         if (form) {
             form.reset();
         }
-    }, 2000);
+    }, 800);
 }
 
 function checkRememberMe() {
