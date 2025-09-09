@@ -26,7 +26,58 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initialize other buttons
     initializeOtherButtons();
+
+    // Initialize university dropdown
+    initializeUniversityDropdown();
 });
+
+// University Custom Select Functionality
+function initializeUniversityDropdown() {
+    const universitySelectButton = document.getElementById('universitySelectButton');
+    const universitySelectDropdown = document.getElementById('universitySelectDropdown');
+    const universitySelectedText = document.getElementById('universitySelectedText');
+    const universitySelectOptions = document.querySelectorAll('#universitySelectDropdown .select-option');
+    const universityHiddenInput = document.getElementById('register-university');
+
+    if (universitySelectButton && universitySelectDropdown) {
+        universitySelectButton.addEventListener('click', () => {
+            universitySelectButton.classList.toggle('active');
+            universitySelectDropdown.classList.toggle('active');
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!universitySelectButton.contains(e.target) && !universitySelectDropdown.contains(e.target)) {
+                universitySelectButton.classList.remove('active');
+                universitySelectDropdown.classList.remove('active');
+            }
+        });
+
+        universitySelectOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                const value = option.dataset.value;
+                const text = option.textContent;
+
+                // Update selected option
+                universitySelectOptions.forEach(opt => opt.classList.remove('selected'));
+                option.classList.add('selected');
+
+                // Update button text and remove placeholder class
+                universitySelectedText.textContent = text;
+                universitySelectedText.classList.remove('placeholder');
+
+                // Update hidden input value
+                if (universityHiddenInput) {
+                    universityHiddenInput.value = value;
+                }
+
+                // Close dropdown
+                universitySelectButton.classList.remove('active');
+                universitySelectDropdown.classList.remove('active');
+            });
+        });
+    }
+}
 
 // Tab switching functionality
 function initializeTabSwitching() {
@@ -159,26 +210,50 @@ function initializeFormHandlers() {
 
 // Form validation function
 function validateForm(form, formType) {
-    const formData = new FormData(form);
-
     if (formType === 'register') {
+        // Get university value from hidden input
+        const universityValue = document.getElementById('register-university')?.value;
+
         // Check required fields for registration
-        const requiredFields = ['firstName', 'lastName', 'email', 'university', 'password'];
-        for (const field of requiredFields) {
-            if (!formData.get(field) || formData.get(field).trim() === '') {
-                showToast(`Please fill in your ${field.replace(/([A-Z])/g, ' $1').toLowerCase()}`, 'error');
-                return false;
-            }
+        const firstName = document.getElementById('register-first-name')?.value?.trim();
+        const lastName = document.getElementById('register-last-name')?.value?.trim();
+        const email = document.getElementById('register-email')?.value?.trim();
+        const password = document.getElementById('register-password')?.value;
+        const termsChecked = document.getElementById('terms')?.checked;
+
+        // Validate each field
+        if (!firstName) {
+            showToast('Please fill in your first name', 'error');
+            return false;
+        }
+
+        if (!lastName) {
+            showToast('Please fill in your last name', 'error');
+            return false;
+        }
+
+        if (!email) {
+            showToast('Please fill in your email', 'error');
+            return false;
+        }
+
+        if (!universityValue) {
+            showToast('Please select your university', 'error');
+            return false;
+        }
+
+        if (!password) {
+            showToast('Please fill in your password', 'error');
+            return false;
         }
 
         // Check terms checkbox
-        if (!formData.get('terms')) {
+        if (!termsChecked) {
             showToast('Please agree to the Terms & Conditions', 'error');
             return false;
         }
 
         // Basic email validation
-        const email = formData.get('email');
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(email)) {
             showToast('Please enter a valid email address', 'error');
@@ -186,22 +261,22 @@ function validateForm(form, formType) {
         }
 
         // Password length validation
-        const password = formData.get('password');
         if (password.length < 6) {
             showToast('Password must be at least 6 characters long', 'error');
             return false;
         }
+
     } else if (formType === 'login') {
         // Check required fields for login
-        const email = formData.get('email');
-        const password = formData.get('password');
+        const email = document.getElementById('login-email')?.value?.trim();
+        const password = document.getElementById('login-password')?.value;
 
-        if (!email || email.trim() === '') {
+        if (!email) {
             showToast('Please enter your email', 'error');
             return false;
         }
 
-        if (!password || password.trim() === '') {
+        if (!password) {
             showToast('Please enter your password', 'error');
             return false;
         }
@@ -222,16 +297,17 @@ function handleFormSubmission(button, formType) {
     button.classList.add('loading');
     button.disabled = true;
 
-    // Get form data including remember me checkbox
+    // Get form data
     const form = button.closest('form');
-    const formData = new FormData(form);
 
     // Handle remember me functionality for login
     if (formType === 'login') {
-        const rememberMe = formData.get('rememberMe');
-        if (rememberMe) {
+        const rememberMe = document.getElementById('remember-me')?.checked;
+        const email = document.getElementById('login-email')?.value;
+
+        if (rememberMe && email) {
             localStorage.setItem('rememberMe', 'true');
-            localStorage.setItem('rememberedEmail', formData.get('email'));
+            localStorage.setItem('rememberedEmail', email);
             console.log('Remember me enabled for 30 days');
         } else {
             localStorage.removeItem('rememberMe');
@@ -250,23 +326,27 @@ function handleFormSubmission(button, formType) {
 
         // Save user data to localStorage (for demo purposes)
         try {
-            const formDataObj = Object.fromEntries(formData.entries());
             if (formType === 'login') {
-                if (formDataObj.email) localStorage.setItem('email', formDataObj.email);
+                const email = document.getElementById('login-email')?.value;
+                if (email) localStorage.setItem('email', email);
             } else if (formType === 'register') {
                 // Save all registration data including university
-                if (formDataObj.email) localStorage.setItem('email', formDataObj.email);
-                if (formDataObj.firstName) localStorage.setItem('firstName', formDataObj.firstName);
-                if (formDataObj.lastName) localStorage.setItem('lastName', formDataObj.lastName);
-                if (formDataObj.university) localStorage.setItem('university', formDataObj.university); // Added university field
-                if (formDataObj.username) localStorage.setItem('username', formDataObj.username);
+                const email = document.getElementById('register-email')?.value;
+                const firstName = document.getElementById('register-first-name')?.value;
+                const lastName = document.getElementById('register-last-name')?.value;
+                const university = document.getElementById('register-university')?.value;
+
+                if (email) localStorage.setItem('email', email);
+                if (firstName) localStorage.setItem('firstName', firstName);
+                if (lastName) localStorage.setItem('lastName', lastName);
+                if (university) localStorage.setItem('university', university);
 
                 // Log registration data for debugging
                 console.log('Registration data saved:', {
-                    email: formDataObj.email,
-                    firstName: formDataObj.firstName,
-                    lastName: formDataObj.lastName,
-                    university: formDataObj.university
+                    email: email,
+                    firstName: firstName,
+                    lastName: lastName,
+                    university: university
                 });
             }
         } catch (e) {
@@ -286,6 +366,19 @@ function handleFormSubmission(button, formType) {
         // Reset form
         if (form) {
             form.reset();
+            // Reset university dropdown
+            const universitySelectedText = document.getElementById('universitySelectedText');
+            const universityHiddenInput = document.getElementById('register-university');
+            const universitySelectOptions = document.querySelectorAll('#universitySelectDropdown .select-option');
+
+            if (universitySelectedText) {
+                universitySelectedText.textContent = 'Select your university';
+                universitySelectedText.classList.add('placeholder');
+            }
+            if (universityHiddenInput) {
+                universityHiddenInput.value = '';
+            }
+            universitySelectOptions.forEach(opt => opt.classList.remove('selected'));
         }
     }, 800);
 }

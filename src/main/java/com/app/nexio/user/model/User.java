@@ -36,7 +36,6 @@ public class User {
 
     private String profilePicture;
 
-
     @Column(unique = true,
             nullable = false)
     private String email;

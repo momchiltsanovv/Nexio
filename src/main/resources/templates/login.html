@@ -78,7 +78,24 @@
                             <!-- New University field -->
                             <div class="form-group">
                                 <label class="label" for="register-university">University</label>
-                                <input class="input register" type="text" id="register-university" name="university" placeholder="University" required>
+                                <div class="custom-select">
+                                    <button type="button" class="select-button" id="universitySelectButton">
+                                        <span id="universitySelectedText" class="placeholder">Select your university</span>
+                                        <svg class="select-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                        </svg>
+                                    </button>
+                                    <div class="select-dropdown" id="universitySelectDropdown">
+                                        <div class="select-option" data-value="New Bulgarian University">New Bulgarian University</div>
+                                        <div class="select-option" data-value="Medical University of Sofia">Medical University of Sofia</div>
+                                        <div class="select-option" data-value="Sofia University St. Kliment Ohridski">Sofia University St. Kliment Ohridski</div>
+                                        <div class="select-option" data-value="Technical University of Sofia">Technical University of Sofia</div>
+                                        <div class="select-option" data-value="University of National and World Economy">University of National and World Economy</div>
+                                        <div class="select-option" data-value="University of Architecture, Civil Eng. and Geodesy">University of Architecture, Civil Eng. and Geodesy</div>
+                                    </div>
+                                </div>
+                                <!-- Hidden input to store the selected value for form submission -->
+                                <input type="hidden" id="register-university" name="university" required>
                             </div>
 
                             <div class="form-group">
