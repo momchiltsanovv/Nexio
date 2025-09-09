@@ -61,4 +61,12 @@ public class UserService {
     public User getById(UUID userId) {
         return userRepository.getById(userId);
     }
+
+    public User findByUsername(String username) {
+        return userRepository.findByUsername(username).orElse(null);
+    }
+
+    public boolean checkPassword(String rawPassword, String encodedPassword) {
+        return passwordEncoder.matches(rawPassword, encodedPassword);
+    }
 }

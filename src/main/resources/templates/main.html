@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="no-js">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nexio - Your University Marketplace</title>
     <link rel="stylesheet" href="/static/css/main.css">
-`    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://use.typekit.net/rau1mwa.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -21,11 +21,12 @@
             <a href="#home" class="nav-link">Home</a>
             <a href="#features" class="nav-link">Features</a>
             <a href="#categories" class="nav-link">Categories</a>
-            <a href="#about" class="nav-link">About</a> 
+            <a href="#about" class="nav-link">About</a>
         </div>
         <div class="nav-actions">
-            <a href="/login?tab=login" class="btn btn-outline">Sign In</a>
-            <a href="/login?tab=register" class="btn btn-primary">Get Started</a>
+            <button class="btn btn-outline" id="signInBtn">Sign In</button>
+            <button class="btn btn-primary" id="getStartedBtn">Get Started</button>
+            <button class="btn btn-outline" id="logoutBtn" style="display: none;">Logout</button>
         </div>
         <div class="nav-toggle" id="navToggle">
             <span></span>
@@ -37,6 +38,17 @@
 
 <!-- Hero Section -->
 <section id="home" class="hero">
+    <div class="hero-particles">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+    </div>
     <div class="hero-container">
         <div class="hero-content">
             <div class="hero-badge">
@@ -133,12 +145,12 @@
 <!-- Features Section -->
 <section id="features" class="features">
     <div class="container">
-        <div class="section-header">
+        <div class="section-header reveal">
             <h2>Why Choose Nexio?</h2>
             <p>Built specifically for university students with features that matter most to your campus life.</p>
         </div>
-        <div class="features-grid">
-            <div class="feature-card">
+        <div class="features-grid reveal-stagger">
+            <div class="feature-card card-3d magnetic">
                 <div class="feature-icon">
                     <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M9 12l2 2 4-4"/>
@@ -148,7 +160,7 @@
                 <h3>University Verified</h3>
                 <p>Only students with .edu emails can join. Your campus community, verified and trusted.</p>
             </div>
-            <div class="feature-card">
+            <div class="feature-card card-3d magnetic">
                 <div class="feature-icon">
                     <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
@@ -160,7 +172,7 @@
                 <h3>Semester Sync</h3>
                 <p>Automatic reminders to sell textbooks at semester end. Never miss the perfect selling time.</p>
             </div>
-            <div class="feature-card">
+            <div class="feature-card card-3d magnetic">
                 <div class="feature-icon">
                     <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
@@ -170,7 +182,7 @@
                 <h3>Campus Delivery</h3>
                 <p>Get items delivered right to your dorm or meet at safe campus locations.</p>
             </div>
-            <div class="feature-card">
+            <div class="feature-card card-3d magnetic">
                 <div class="feature-icon">
                     <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
@@ -179,7 +191,7 @@
                 <h3>Direct Messaging</h3>
                 <p>Chat directly with buyers and sellers. Negotiate prices and arrange meetups safely.</p>
             </div>
-            <div class="feature-card">
+            <div class="feature-card card-3d magnetic">
                 <div class="feature-icon">
                     <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/>
@@ -188,18 +200,18 @@
                 <h3>Trust & Safety</h3>
                 <p>User ratings, verification badges, and report system keep your transactions secure.</p>
             </div>
-            <div class="feature-card">
+            <div class="feature-card card-3d magnetic">
                 <div class="feature-icon">
                     <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="11" cy="11" r="8"/>
-                        <path d="m21 21-4.35-4.35"/>
-                        <rect x="8" y="8" width="6" height="6" rx="1"/>
+                        <path d="M3 7V5a2 2 0 0 1 2-2h2"/>
+                        <path d="M17 3h2a2 2 0 0 1 2 2v2"/>
+                        <path d="M21 17v2a2 2 0 0 1-2 2h-2"/>
+                        <path d="M7 21H5a2 2 0 0 1-2-2v-2"/>
                     </svg>
                 </div>
-                <h3>Smart Item Recognition</h3>
-                <p>Take a photo and our AI instantly identifies items, suggests prices, and fills in details automatically.</p>
+                <h3>ISBN Scanner</h3>
+                <p>Scan textbook barcodes to instantly fill in details. Selling books has never been easier.</p>
             </div>
-
         </div>
     </div>
 </section>
@@ -207,42 +219,42 @@
 <!-- Categories Section -->
 <section id="categories" class="categories">
     <div class="container">
-        <div class="section-header">
+        <div class="section-header reveal">
             <h2>Shop by Category</h2>
             <p>Find exactly what you need for your university life.</p>
         </div>
-        <div class="categories-grid">
-            <div class="category-card">
+        <div class="categories-grid reveal-stagger">
+            <div class="category-card card-3d magnetic">
                 <div class="category-icon">📚</div>
                 <h3>Textbooks</h3>
                 <p>Course materials, study guides, and reference books</p>
                 <span class="category-count">2,500+ items</span>
             </div>
-            <div class="category-card">
+            <div class="category-card card-3d magnetic">
                 <div class="category-icon">💻</div>
                 <h3>Electronics</h3>
                 <p>Laptops, tablets, calculators, and tech accessories</p>
                 <span class="category-count">1,200+ items</span>
             </div>
-            <div class="category-card">
+            <div class="category-card card-3d magnetic">
                 <div class="category-icon">🪑</div>
                 <h3>Furniture</h3>
                 <p>Dorm furniture, desks, chairs, and storage solutions</p>
                 <span class="category-count">800+ items</span>
             </div>
-            <div class="category-card">
+            <div class="category-card card-3d magnetic">
                 <div class="category-icon">👕</div>
                 <h3>Clothing</h3>
                 <p>University apparel, casual wear, and accessories</p>
                 <span class="category-count">1,500+ items</span>
             </div>
-            <div class="category-card">
+            <div class="category-card card-3d magnetic">
                 <div class="category-icon">🏠</div>
                 <h3>Dorm Supplies</h3>
                 <p>Bedding, kitchen items, and dorm essentials</p>
                 <span class="category-count">900+ items</span>
             </div>
-            <div class="category-card">
+            <div class="category-card card-3d magnetic">
                 <div class="category-icon">🔬</div>
                 <h3>Study Group</h3>
                 <p>Share lab equipment, calculators, and study materials</p>
@@ -252,10 +264,67 @@
     </div>
 </section>
 
+<!-- Split Section: Buy and sell -->
+<section class="split">
+    <div class="container">
+        <div class="split-grid">
+            <div class="split-media reveal reveal-left">
+            </div>
+            <div class="split-content reveal reveal-right">
+                <h2>Buy and sell</h2>
+                <p>Empor is Canada's first student‑exclusive marketplace. Our platform enables students to exchange pre‑loved goods within a trusted, user‑verified community. By giving students a platform to repurpose their goods conveniently, we aim to create more sustainable student communities, fostering a circular economy that reduces student waste.</p>
+                <div class="split-actions">
+                    <a href="#" class="btn btn-primary">
+                        <span>Buy and Sell Goods and Services</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container steps">
+        <h3 class="reveal">How it works?</h3>
+        <ol class="steps-list reveal-stagger">
+            <li><strong>Sign Up:</strong> Verify your student email to join your campus market.</li>
+            <li><strong>List or Browse:</strong> Post items or explore categories tailored to students.</li>
+            <li><strong>Connect & Chat:</strong> Message sellers or buyers directly to ask questions.</li>
+            <li><strong>Meet & Complete:</strong> Meet up safely and give the seller your verification code to finalize the deal.</li>
+        </ol>
+    </div>
+    
+</section>
+
+<!-- Split Section: Made by students -->
+<section class="split split-alt">
+    <div class="container">
+        <div class="split-grid reverse">
+            <div class="split-media reveal reveal-right">
+            </div>
+            <div class="split-content reveal reveal-left">
+                <h2>Made by students, for students</h2>
+                <ul class="bullet-list reveal-stagger">
+                    <li>
+                        <strong>Find a compatible buyer or seller</strong>
+                        <p>Students are the ideal buyers and sellers because they understand each other’s needs.</p>
+                    </li>
+                    <li>
+                        <strong>Safe and local transactions</strong>
+                        <p>No need to travel across the city. Empor connects you with students within your campus community.</p>
+                    </li>
+                    <li>
+                        <strong>Promote sustainability</strong>
+                        <p>Turn unused items into cash while helping to reduce waste.</p>
+                    </li>
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</section>
+
 <!-- CTA Section -->
 <section class="cta">
     <div class="container">
-        <div class="cta-content">
+        <div class="cta-content reveal">
             <h2>Ready to Join Your Campus Marketplace?</h2>
             <p>Connect with thousands of students, buy and sell safely, and make your university life easier.</p>
             <div class="cta-actions">

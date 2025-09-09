@@ -39,27 +39,54 @@ window.addEventListener('scroll', throttle(() => {
 }, 16));
 
 
-// Intersection Observer for Animations
-const observerOptions = {
-    threshold: 0.1,
-    rootMargin: '0px 0px -50px 0px'
-};
+// Scroll reveal animations
+document.addEventListener('DOMContentLoaded', () => {
+    // Remove no-js class to enable animations
+    document.documentElement.classList.remove('no-js');
+    
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.style.opacity = '1';
-            entry.target.style.transform = 'translateY(0)';
-        }
-    });
-}, observerOptions);
+    if (!prefersReducedMotion) {
+        const revealObserverOptions = { 
+            threshold: 0.1, 
+            rootMargin: '0px 0px -50px 0px' 
+        };
 
-// Observe elements for animation
-document.querySelectorAll('.feature-card, .category-card').forEach(el => {
-    el.style.opacity = '0';
-    el.style.transform = 'translateY(30px)';
-    el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-    observer.observe(el);
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    // For staggered animations, also reveal children
+                    if (entry.target.classList.contains('reveal-stagger')) {
+                        const children = entry.target.children;
+                        Array.from(children).forEach((child, index) => {
+                            setTimeout(() => {
+                                child.classList.add('visible');
+                            }, index * 100);
+                        });
+                    }
+                }
+            });
+        }, revealObserverOptions);
+
+        // Observe all elements with reveal classes
+        const revealElements = document.querySelectorAll('.reveal, .reveal-stagger');
+        revealElements.forEach(el => {
+            revealObserver.observe(el);
+        });
+    } else {
+        // If reduced motion is preferred, show all elements immediately
+        const revealElements = document.querySelectorAll('.reveal, .reveal-stagger');
+        revealElements.forEach(el => {
+            el.classList.add('visible');
+            if (el.classList.contains('reveal-stagger')) {
+                const children = el.children;
+                Array.from(children).forEach(child => {
+                    child.classList.add('visible');
+                });
+            }
+        });
+    }
 });
 
 // Stats Counter Animation
@@ -106,28 +133,53 @@ if (heroStats) {
 // Button Click Handlers
 document.addEventListener('DOMContentLoaded', () => {
     // Sign In Button - redirect to log in tab
-    const signInBtns = document.querySelectorAll('.btn-outline');
-    signInBtns.forEach(btn => {
-        if (btn.textContent.includes('Sign In')) {
-            btn.addEventListener('click', (e) => {
-                e.preventDefault();
-                console.log('Redirecting to login...');
-                window.location.href = '/login?tab=login';
-            });
-        }
-    });
+    const signInBtn = document.getElementById('signInBtn');
+    if (signInBtn) {
+        signInBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            console.log('Redirecting to login...');
+            window.location.href = '/login?tab=login';
+        });
+    }
 
     // Get Started Button - redirect to sign up tab
-    const getStartedBtns = document.querySelectorAll('.btn-primary');
-    getStartedBtns.forEach(btn => {
-        if (btn.textContent.includes('Get Started')) {
-            btn.addEventListener('click', (e) => {
-                e.preventDefault();
-                console.log('Redirecting to sign-up...');
-                window.location.href = '/login?tab=register';
-            });
-        }
-    });
+    const getStartedBtn = document.getElementById('getStartedBtn');
+    if (getStartedBtn) {
+        getStartedBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            console.log('Redirecting to sign-up...');
+            window.location.href = '/login?tab=register';
+        });
+    }
+
+    // Logout Button
+    const logoutBtn = document.getElementById('logoutBtn');
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', async (e) => {
+            e.preventDefault();
+            try {
+                const response = await fetch('/logout', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    }
+                });
+                
+                if (response.ok) {
+                    // Clear login status from localStorage
+                    localStorage.removeItem('isLoggedIn');
+                    window.location.href = '/login?message=' + encodeURIComponent('You have been logged out successfully.');
+                } else {
+                    console.error('Logout failed');
+                }
+            } catch (error) {
+                console.error('Logout error:', error);
+            }
+        });
+    }
+
+    // Check if user is logged in and update UI
+    checkLoginStatus();
 
     // Handle hero section buttons
     const heroStartShoppingBtn = document.querySelector('.hero-actions .btn-primary');
@@ -278,5 +330,294 @@ window.addEventListener('scroll', throttle(() => {
         }
     }
 }, 16));
+
+// Interactive features
+document.addEventListener('DOMContentLoaded', () => {
+    // Add ripple effect to buttons
+    const buttons = document.querySelectorAll('.btn');
+    buttons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            const ripple = document.createElement('span');
+            const rect = this.getBoundingClientRect();
+            const size = Math.max(rect.width, rect.height);
+            const x = e.clientX - rect.left - size / 2;
+            const y = e.clientY - rect.top - size / 2;
+            
+            ripple.style.width = ripple.style.height = size + 'px';
+            ripple.style.left = x + 'px';
+            ripple.style.top = y + 'px';
+            ripple.classList.add('ripple');
+            
+            this.appendChild(ripple);
+            
+            setTimeout(() => {
+                ripple.remove();
+            }, 600);
+        });
+    });
+
+    // Add click effects to stats
+    const stats = document.querySelectorAll('.stat');
+    stats.forEach(stat => {
+        stat.addEventListener('click', function() {
+            this.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                this.style.transform = '';
+            }, 150);
+        });
+    });
+
+    // Add click effects to floating cards
+    const floatingCards = document.querySelectorAll('.floating-card');
+    floatingCards.forEach(card => {
+        card.addEventListener('click', function() {
+            this.style.animation = 'none';
+            this.style.transform = 'scale(1.2) rotate(5deg)';
+            setTimeout(() => {
+                this.style.animation = 'float 6s ease-in-out infinite';
+                this.style.transform = '';
+            }, 300);
+        });
+    });
+
+    // Add hover sound effect simulation (visual feedback)
+    const interactiveElements = document.querySelectorAll('.feature-card, .category-card, .nav-link');
+    interactiveElements.forEach(element => {
+        element.addEventListener('mouseenter', function() {
+            this.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+        });
+    });
+
+    // Add scroll-triggered parallax effect to hero elements
+    window.addEventListener('scroll', () => {
+        const scrolled = window.pageYOffset;
+        const parallaxElements = document.querySelectorAll('.hero-badge, .floating-card');
+        
+        parallaxElements.forEach((element, index) => {
+            const speed = 0.5 + (index * 0.1);
+            element.style.transform = `translateY(${scrolled * speed}px)`;
+        });
+    });
+
+    // Add typing effect to hero title
+    const heroTitle = document.querySelector('.hero-title');
+    if (heroTitle) {
+        const text = heroTitle.innerHTML;
+        heroTitle.innerHTML = '';
+        let i = 0;
+        
+        const typeWriter = () => {
+            if (i < text.length) {
+                heroTitle.innerHTML += text.charAt(i);
+                i++;
+                setTimeout(typeWriter, 50);
+            }
+        };
+        
+        setTimeout(typeWriter, 1000);
+    }
+
+    // Advanced scroll-triggered animations
+    const advancedScrollObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                
+                // Add staggered animation for child elements
+                const children = entry.target.querySelectorAll('.scroll-reveal, .scroll-reveal-left, .scroll-reveal-right');
+                children.forEach((child, index) => {
+                    setTimeout(() => {
+                        child.classList.add('visible');
+                    }, index * 200);
+                });
+            }
+        });
+    }, { threshold: 0.1, rootMargin: '0px 0px -100px 0px' });
+
+    // Observe advanced scroll elements
+    const advancedElements = document.querySelectorAll('.scroll-reveal, .scroll-reveal-left, .scroll-reveal-right');
+    advancedElements.forEach(el => {
+        advancedScrollObserver.observe(el);
+    });
+
+    // Magnetic hover effect
+    const magneticElements = document.querySelectorAll('.magnetic');
+    magneticElements.forEach(element => {
+        element.addEventListener('mousemove', (e) => {
+            const rect = element.getBoundingClientRect();
+            const x = e.clientX - rect.left - rect.width / 2;
+            const y = e.clientY - rect.top - rect.height / 2;
+            
+            element.style.transform = `translate(${x * 0.1}px, ${y * 0.1}px) scale(1.05)`;
+        });
+        
+        element.addEventListener('mouseleave', () => {
+            element.style.transform = 'translate(0, 0) scale(1)';
+        });
+    });
+
+    // 3D card tilt effect
+    const card3DElements = document.querySelectorAll('.card-3d');
+    card3DElements.forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            
+            const rotateX = (y - centerY) / 10;
+            const rotateY = (centerX - x) / 10;
+            
+            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(20px)`;
+        });
+        
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateZ(0)';
+        });
+    });
+
+    // Text reveal animation
+    const textRevealElements = document.querySelectorAll('.text-reveal');
+    textRevealElements.forEach(element => {
+        const text = element.textContent;
+        element.innerHTML = '';
+        
+        text.split('').forEach(char => {
+            const span = document.createElement('span');
+            span.textContent = char === ' ' ? '\u00A0' : char;
+            element.appendChild(span);
+        });
+    });
+
+    // Progress bar animations
+    const progressBars = document.querySelectorAll('.progress-fill');
+    const progressObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animate');
+            }
+        });
+    }, { threshold: 0.5 });
+
+    progressBars.forEach(bar => {
+        progressObserver.observe(bar);
+    });
+
+    // Advanced button interactions
+    const advancedButtons = document.querySelectorAll('.btn-advanced');
+    advancedButtons.forEach(button => {
+        button.addEventListener('mouseenter', () => {
+            button.style.animationPlayState = 'paused';
+        });
+        
+        button.addEventListener('mouseleave', () => {
+            button.style.animationPlayState = 'running';
+        });
+    });
+
+    // Loading shimmer effect
+    const shimmerElements = document.querySelectorAll('.loading-shimmer');
+    shimmerElements.forEach(element => {
+        element.addEventListener('mouseenter', () => {
+            element.style.animationPlayState = 'paused';
+        });
+        
+        element.addEventListener('mouseleave', () => {
+            element.style.animationPlayState = 'running';
+        });
+    });
+
+    // Cursor trail effect
+    let mouseX = 0, mouseY = 0;
+    let trail = [];
+    
+    document.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        
+        // Create trail particle
+        const particle = document.createElement('div');
+        particle.style.position = 'fixed';
+        particle.style.left = mouseX + 'px';
+        particle.style.top = mouseY + 'px';
+        particle.style.width = '4px';
+        particle.style.height = '4px';
+        particle.style.background = 'rgba(206, 58, 129, 0.6)';
+        particle.style.borderRadius = '50%';
+        particle.style.pointerEvents = 'none';
+        particle.style.zIndex = '9999';
+        particle.style.transition = 'all 0.3s ease';
+        
+        document.body.appendChild(particle);
+        
+        setTimeout(() => {
+            particle.style.opacity = '0';
+            particle.style.transform = 'scale(0)';
+            setTimeout(() => {
+                document.body.removeChild(particle);
+            }, 300);
+        }, 100);
+    });
+
+    // Smooth scroll with easing
+    const smoothScrollLinks = document.querySelectorAll('a[href^="#"]');
+    smoothScrollLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const target = document.querySelector(link.getAttribute('href'));
+            if (target) {
+                const targetPosition = target.offsetTop - 80;
+                window.scrollTo({
+                    top: targetPosition,
+                    behavior: 'smooth'
+                });
+            }
+        });
+    });
+});
+
+// Add ripple effect CSS
+const style = document.createElement('style');
+style.textContent = `
+    .ripple {
+        position: absolute;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.6);
+        transform: scale(0);
+        animation: ripple-animation 0.6s linear;
+        pointer-events: none;
+    }
+    
+    @keyframes ripple-animation {
+        to {
+            transform: scale(4);
+            opacity: 0;
+        }
+    }
+`;
+document.head.appendChild(style);
+
+// Function to check login status and update UI
+function checkLoginStatus() {
+    // This would typically make an API call to check if user is logged in
+    // For now, we'll check if there's a session cookie or localStorage
+    const isLoggedIn = document.cookie.includes('JSESSIONID') || localStorage.getItem('isLoggedIn');
+    
+    const signInBtn = document.getElementById('signInBtn');
+    const getStartedBtn = document.getElementById('getStartedBtn');
+    const logoutBtn = document.getElementById('logoutBtn');
+    
+    if (isLoggedIn) {
+        if (signInBtn) signInBtn.style.display = 'none';
+        if (getStartedBtn) getStartedBtn.style.display = 'none';
+        if (logoutBtn) logoutBtn.style.display = 'inline-flex';
+    } else {
+        if (signInBtn) signInBtn.style.display = 'inline-flex';
+        if (getStartedBtn) getStartedBtn.style.display = 'inline-flex';
+        if (logoutBtn) logoutBtn.style.display = 'none';
+    }
+}
 
 console.log('Nexio main.js loaded successfully!');
