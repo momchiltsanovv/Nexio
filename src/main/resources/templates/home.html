@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js" style="scroll-behavior: smooth;">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexio - University Marketplace</title>
+    <link rel="stylesheet" href="/static/css/main.css">
+    <link rel="stylesheet" href="/static/css/home.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://use.typekit.net/rau1mwa.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body class="estore-home">
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h2>nexio</h2>
+            </div>
+            <div class="nav-menu" id="navMenu">
+                <a href="#home" class="nav-link">Home</a>
+                <a href="#features" class="nav-link">Features</a>
+                <a href="#categories" class="nav-link">Categories</a>
+                <a href="#about" class="nav-link">About</a>
+            </div>
+            <div class="nav-actions">
+                <button class="btn btn-icon" id="wishlistBtn" title="Wishlist">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                    </svg>
+                </button>
+                <button class="btn btn-icon" id="profileBtn" title="Profile">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                        <circle cx="12" cy="7" r="4"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="nav-toggle" id="navToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Search and Filter Section -->
+    <section class="search-filter-section">
+        <div class="search-filter-container">
+            <div class="search-section">
+                <div class="search-container">
+                    <svg class="search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                    <input type="text" class="search-input" id="searchInput" placeholder="Search for textbooks, electronics, furniture...">
+                </div>
+                <button class="filter-toggle" id="filterToggle">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polygon points="22,3 2,3 10,12.46 10,19 14,21 14,12.46 22,3"/>
+                    </svg>
+                    Filters
+                </button>
+            </div>
+
+            <div class="advanced-filters" id="advancedFilters">
+                <div class="filter-row">
+                    <div class="filter-group">
+                        <label class="filter-label">Category</label>
+                        <select class="filter-select" id="categoryFilter">
+                            <option value="">All Categories</option>
+                            <option value="textbooks">Textbooks</option>
+                            <option value="electronics">Electronics</option>
+                            <option value="furniture">Furniture</option>
+                            <option value="clothing">Clothing</option>
+                            <option value="sports">Sports</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label class="filter-label">Condition</label>
+                        <select class="filter-select" id="conditionFilter">
+                            <option value="">All Conditions</option>
+                            <option value="new">New</option>
+                            <option value="like-new">Like New</option>
+                            <option value="good">Good</option>
+                            <option value="fair">Fair</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label class="filter-label">Price Range</label>
+                        <div class="price-range">
+                            <input type="number" class="price-input" id="minPrice" placeholder="Min" min="0">
+                            <span>-</span>
+                            <input type="number" class="price-input" id="maxPrice" placeholder="Max" min="0">
+                        </div>
+                    </div>
+                </div>
+                <div class="filter-row">
+                    <div class="filter-group">
+                        <label class="filter-label">Sort By</label>
+                        <select class="filter-select" id="sortFilter">
+                            <option value="newest">Newest First</option>
+                            <option value="price-low">Price: Low to High</option>
+                            <option value="price-high">Price: High to Low</option>
+                            <option value="popular">Most Popular</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label class="filter-label">Location</label>
+                        <select class="filter-select" id="locationFilter">
+                            <option value="">All Locations</option>
+                            <option value="campus">On Campus</option>
+                            <option value="nearby">Nearby</option>
+                            <option value="shipping">Shipping Available</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label class="filter-label">Availability</label>
+                        <select class="filter-select" id="availabilityFilter">
+                            <option value="">All Items</option>
+                            <option value="available">Available Now</option>
+                            <option value="reserved">Reserved</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="filter-actions">
+                    <button class="btn-clear" id="clearFilters">Clear All</button>
+                    <button class="btn-apply" id="applyFilters">Apply Filters</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Showcase Section -->
+    <section class="showcase-section">
+        <div class="showcase-container">
+            <!-- Product Slider -->
+            <div class="product-slider">
+                <div class="slider-main">
+                    <div class="slider-overlay">
+                        <div class="overlay-title">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                            </svg>
+                            Complete your dorm with essential furniture
+                        </div>
+                        <div class="overlay-text">
+                            Find everything you need for your university life - from textbooks to electronics, all from fellow students.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="slider-nav">
+                    <div class="slider-product">
+                        <div class="product-thumb">🪑</div>
+                        <div class="product-info">
+                            <h4>Study Chair</h4>
+                            <p>Comfortable ergonomic chair</p>
+                        </div>
+                    </div>
+                    <div class="slider-controls">
+                        <button class="slider-arrow">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="15,18 9,12 15,6"/>
+                            </svg>
+                        </button>
+                        <span class="slider-counter">1/5</span>
+                        <button class="slider-arrow">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="9,18 15,12 9,6"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Featured Product -->
+            <div class="featured-product">
+                <div class="product-image">
+                    <div class="color-swatches">
+                        <div class="color-swatch color-grey active"></div>
+                        <div class="color-swatch color-brown"></div>
+                        <div class="color-swatch color-light-grey"></div>
+                    </div>
+                    <div style="font-size: 48px;">💻</div>
+                </div>
+                <div class="product-details">
+                    <h3>MacBook Pro 13" M2 Chip</h3>
+                    <div class="product-store">by Apple Store</div>
+                    <button class="add-to-cart">
+                        <span class="price">$1,299.00</span>
+                        <span>Add to Cart</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Popular Products Section -->
+    <section class="popular-section">
+        <div class="popular-container">
+            <div class="section-header">
+                <h2 class="section-title">Popular products</h2>
+            </div>
+
+            <div class="products-grid">
+                <div class="product-card">
+                    <div class="product-image-container">
+                        <div class="wishlist-icon">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                            </svg>
+                        </div>
+                        <div style="font-size: 48px;">💻</div>
+                    </div>
+                    <div class="product-price">$1,299.00</div>
+                    <div class="product-name">MacBook Pro 13" M2 Chip</div>
+                    <div class="product-brand">Apple</div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image-container">
+                        <div class="wishlist-icon active">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                            </svg>
+                        </div>
+                        <div style="font-size: 48px;">📱</div>
+                    </div>
+                    <div class="product-price">$999.00</div>
+                    <div class="product-name">iPhone 14 Pro</div>
+                    <div class="product-brand">Apple</div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image-container">
+                        <div class="wishlist-icon">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                            </svg>
+                        </div>
+                        <div style="font-size: 48px;">🎧</div>
+                    </div>
+                    <div class="product-price">$249.00</div>
+                    <div class="product-name">AirPods Pro 2nd Gen</div>
+                    <div class="product-brand">Apple</div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image-container">
+                        <div class="wishlist-icon">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                            </svg>
+                        </div>
+                        <div style="font-size: 48px;">📚</div>
+                    </div>
+                    <div class="product-price">$89.50</div>
+                    <div class="product-name">Calculus Textbook</div>
+                    <div class="product-brand">Pearson</div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image-container">
+                        <div class="wishlist-icon active">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                            </svg>
+                        </div>
+                        <div style="font-size: 48px;">🎧</div>
+                    </div>
+                    <div class="product-price">$684.60</div>
+                    <div class="product-name">Buds 4 Lite Black</div>
+                    <div class="product-brand">Xiaomi</div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image-container">
+                        <div class="wishlist-icon active">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                            </svg>
+                        </div>
+                        <div style="font-size: 48px;">🎮</div>
+                    </div>
+                    <div class="product-price">$684.60</div>
+                    <div class="product-name">PlayStation 5 825GB</div>
+                    <div class="product-brand">Sony</div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image-container">
+                        <div class="wishlist-icon">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                            </svg>
+                        </div>
+                        <div style="font-size: 48px;">⌚</div>
+                    </div>
+                    <div class="product-price">$168.50</div>
+                    <div class="product-name">Galaxy Watch4 40mm</div>
+                    <div class="product-brand">Samsung</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="/static/js/home.js"></script>
+</body>
+</html>
