@@ -1183,6 +1183,7 @@ body {
 .feature-card {
     padding: var(--space-3xl);
     background: linear-gradient(135deg, var(--surface-light) 0%, var(--surface-light-hover) 100%);
+    border: 1px solid transparent;
     border-radius: var(--radius-2xl);
     text-align: center;
     box-shadow: var(--shadow-sm), 0 0 0 1px rgba(255, 255, 255, 0.5);
@@ -1213,6 +1214,7 @@ body {
 .feature-card:hover {
     transform: translateY(-8px);
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    border-color: var(--secondary-color);
 }
 
 .feature-icon {
@@ -1281,6 +1283,7 @@ body {
 .category-card {
     padding: var(--space-3xl);
     background: linear-gradient(135deg, var(--surface-light) 0%, var(--surface-light-hover) 100%);
+    border: 1px solid transparent;
     border-radius: var(--radius-2xl);
     text-align: center;
     box-shadow: var(--shadow-sm), 0 0 0 1px rgba(255, 255, 255, 0.5);
@@ -1311,6 +1314,7 @@ body {
 .category-card:hover {
     transform: translateY(-8px);
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    border-color: var(--secondary-color);
 }
 .category-icon {
     width: 80px;

@@ -67,8 +67,6 @@ body {
     letter-spacing: -0.05em;
     transition: all 0.2s ease;
     flex-shrink: 0;
-    transform: rotate(-15deg); /* Added rotation */
-    transform-origin: center; /* Ensures it rotates from the center */
 }
 
 .hero-title {
