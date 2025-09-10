@@ -336,7 +336,7 @@ window.addEventListener('load', () => {
     const heroElements = document.querySelectorAll('.hero-badge, .hero-title, .hero-description, .hero-actions');
     heroElements.forEach((el, index) => {
         // Minimal delay: badge=0ms, title=50ms, description=100ms, actions=150ms
-        fadeInUp(el, index * 50);
+        fadeInUp(el, index * 10);
     });
 });
 
@@ -485,7 +485,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (i < text.length) {
                 heroTitle.innerHTML += text.charAt(i);
                 i++;
-                setTimeout(typeWriter, 20); // Even faster typing speed
+                setTimeout(typeWriter, 50); // Even faster typing speed
             }
         };
         
