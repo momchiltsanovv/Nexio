@@ -110,6 +110,211 @@ document.addEventListener('DOMContentLoaded', function() {
         el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
         observer.observe(el);
     });
+
+    // Add click functionality to feature cards
+    const featureCards = document.querySelectorAll('.feature-card');
+    featureCards.forEach(card => {
+        card.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            const title = card.querySelector('h3').textContent;
+            console.log('Feature card clicked:', title);
+            showCardDetails(title, card);
+        });
+    });
+
+    // Add click functionality to team member cards
+    const teamMembers = document.querySelectorAll('.team-member');
+    teamMembers.forEach(member => {
+        member.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            const name = member.querySelector('h3').textContent;
+            const role = member.querySelector('p').textContent;
+            console.log('Team member clicked:', name);
+            showTeamMemberDetails(name, role, member);
+        });
+    });
+});
+
+// Function to show feature card details
+function showCardDetails(title, card) {
+    const description = card.querySelector('p').textContent;
+    const icon = card.querySelector('.feature-icon').textContent;
+    
+    // Get modal elements
+    const modal = document.getElementById('cardModal');
+    const modalIcon = document.getElementById('modalIcon');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalDescription = document.getElementById('modalDescription');
+    const modalFeatures = document.getElementById('modalFeatures');
+    
+    // Populate modal content
+    modalIcon.innerHTML = icon;
+    modalTitle.textContent = title;
+    modalDescription.textContent = description;
+    
+    // Add specific features based on the card type
+    let features = [];
+    switch(title) {
+        case 'Student-Verified':
+            features = [
+                'University email verification required',
+                'Campus community exclusivity',
+                'Enhanced trust and safety',
+                'Reduced fraud and scams'
+            ];
+            break;
+        case 'Secure Transactions':
+            features = [
+                'Peer-to-peer verification system',
+                'Safe payment processing',
+                'Dispute resolution support',
+                'Transaction monitoring'
+            ];
+            break;
+        case 'Sustainable':
+            features = [
+                'Reduces campus waste',
+                'Promotes circular economy',
+                'Environmental consciousness',
+                'Community sustainability'
+            ];
+            break;
+        case 'Local Community':
+            features = [
+                'Campus-based connections',
+                'Local meetup options',
+                'Shared university experience',
+                'Community building'
+            ];
+            break;
+        default:
+            features = [
+                'Designed specifically for students',
+                'Enhanced user experience',
+                'Campus-focused features',
+                'Student community benefits'
+            ];
+    }
+    
+    // Populate features
+    modalFeatures.innerHTML = '';
+    features.forEach(feature => {
+        const featureElement = document.createElement('div');
+        featureElement.className = 'modal-feature';
+        featureElement.innerHTML = `
+            <span class="modal-feature-icon">✓</span>
+            <span class="modal-feature-text">${feature}</span>
+        `;
+        modalFeatures.appendChild(featureElement);
+    });
+    
+    // Show modal
+    modal.classList.add('active');
+    document.body.classList.add('modal-open');
+}
+
+// Function to show team member details
+function showTeamMemberDetails(name, role, member) {
+    // Get modal elements
+    const modal = document.getElementById('cardModal');
+    const modalIcon = document.getElementById('modalIcon');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalDescription = document.getElementById('modalDescription');
+    const modalFeatures = document.getElementById('modalFeatures');
+    
+    // Get university info and image
+    const university = member.querySelector('span').textContent;
+    const memberImage = member.querySelector('.member-image');
+    const imageSrc = memberImage ? memberImage.src : '';
+    const imageAlt = memberImage ? memberImage.alt : name;
+    
+    // Populate modal content
+    if (imageSrc) {
+        modalIcon.innerHTML = `<img src="${imageSrc}" alt="${imageAlt}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 12px;">`;
+    } else {
+        modalIcon.innerHTML = '👤'; // Fallback to default person icon
+    }
+    modalTitle.textContent = name;
+    modalDescription.textContent = `${role} at ${university}`;
+    
+    // Add specific features based on the team member
+    let features = [];
+    switch(name) {
+        case 'Momchil Tsanov':
+            features = [
+                'Co-Founder & CEO of Nexio',
+                'Computer Science student at New Bulgarian University',
+                'Leads product development and strategy',
+                'Passionate about student entrepreneurship',
+                'Focuses on technical innovation and user experience'
+            ];
+            break;
+        case 'Daria Dian':
+            features = [
+                'Marketing Specialist at Nexio',
+                'Student at New Bulgarian University',
+                'Manages brand awareness and user acquisition',
+                'Creates engaging marketing campaigns',
+                'Builds community partnerships and outreach'
+            ];
+            break;
+        case 'Teya Simova':
+            features = [
+                'Public Relations Specialist at Nexio',
+                'Student at New Bulgarian University',
+                'Handles media relations and communications',
+                'Manages social media presence',
+                'Coordinates events and community engagement'
+            ];
+            break;
+        default:
+            features = [
+                'Part of the Nexio development team',
+                'Passionate about student marketplace solutions',
+                'Committed to creating the best user experience',
+                'Dedicated to building a safe student community'
+            ];
+    }
+    
+    // Populate features
+    modalFeatures.innerHTML = '';
+    features.forEach(feature => {
+        const featureElement = document.createElement('div');
+        featureElement.className = 'modal-feature';
+        featureElement.innerHTML = `
+            <span class="modal-feature-icon">✓</span>
+            <span class="modal-feature-text">${feature}</span>
+        `;
+        modalFeatures.appendChild(featureElement);
+    });
+    
+    // Show modal
+    modal.classList.add('active');
+    document.body.classList.add('modal-open');
+}
+
+// Function to close modal
+function closeModal() {
+    const modal = document.getElementById('cardModal');
+    modal.classList.remove('active');
+    document.body.classList.remove('modal-open');
+}
+
+// Close modal when clicking outside
+document.addEventListener('click', (e) => {
+    const modal = document.getElementById('cardModal');
+    if (e.target === modal) {
+        closeModal();
+    }
+});
+
+// Close modal with Escape key
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        closeModal();
+    }
 });
 
 console.log('Info page loaded successfully!');
