@@ -15,12 +15,12 @@
     --warning-color: #f59e0b;
     --error-color: #ef4444;
     
-    /* Text Colors */
+    /* Text Colors - Enhanced Contrast */
     --text-primary: #ffffff;
-    --text-secondary: rgba(255, 255, 255, 0.8);
-    --text-light: rgba(255, 255, 255, 0.6);
-    --text-dark: #1e293b;
-    --text-muted: #64748b;
+    --text-secondary: rgba(255, 255, 255, 0.9);
+    --text-light: rgba(255, 255, 255, 0.8);
+    --text-dark: #0f172a;
+    --text-muted: #475569;
     
     /* Background & Surfaces */
     --background: linear-gradient(135deg, #212346 0%, #212346 50%, #CE3A81 100%);
@@ -167,8 +167,8 @@ body {
 }
 
 .nav-link:focus {
-    outline: 2px solid var(--secondary-color);
-    outline-offset: 2px;
+    outline: none;
+    border: none;
 }
 
 .nav-link:hover {
@@ -240,8 +240,8 @@ body {
 }
 
 .btn:focus {
-    outline: 2px solid var(--secondary-color);
-    outline-offset: 2px;
+    outline: none;
+    border: none;
 }
 
 .btn:disabled {

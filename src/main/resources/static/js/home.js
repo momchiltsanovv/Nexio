@@ -1,123 +1,335 @@
-// Simple interactivity for the home page
+// Complete home page functionality with working dropdown menus
 document.addEventListener('DOMContentLoaded', function() {
     // Remove no-js class to enable animations
     document.documentElement.classList.remove('no-js');
 
-    // Wishlist functionality
-    const wishlistIcons = document.querySelectorAll('.wishlist-icon');
-    
-    wishlistIcons.forEach(icon => {
-        icon.addEventListener('click', function() {
-            this.classList.toggle('active');
-            
-            if (this.classList.contains('active')) {
-                // Add to wishlist
-                console.log('Added to wishlist');
-            } else {
-                // Remove from wishlist
-                console.log('Removed from wishlist');
-            }
-        });
-    });
+    // Filter state management
+    let currentFilters = {
+        category: '',
+        condition: '',
+        minPrice: '',
+        maxPrice: '',
+        sortBy: 'newest',
+        location: '',
+        availability: '',
+        quickFilter: 'all'
+    };
 
-    // Slider functionality
-    const sliderArrows = document.querySelectorAll('.slider-arrow');
-    let currentSlide = 1;
-    const totalSlides = 5;
-    
-    sliderArrows.forEach(arrow => {
-        arrow.addEventListener('click', function() {
-            if (this.querySelector('polyline').getAttribute('points') === '15,18 9,12 15,6') {
-                // Previous
-                currentSlide = currentSlide > 1 ? currentSlide - 1 : totalSlides;
-            } else {
-                // Next
-                currentSlide = currentSlide < totalSlides ? currentSlide + 1 : 1;
-            }
-            
-            document.querySelector('.slider-counter').textContent = `${currentSlide}/${totalSlides}`;
-        });
-    });
-
-    // Search and Filter functionality
-    const searchInput = document.getElementById('searchInput');
-    const filterToggle = document.getElementById('filterToggle');
-    const advancedFilters = document.getElementById('advancedFilters');
-    const clearFilters = document.getElementById('clearFilters');
-    const applyFilters = document.getElementById('applyFilters');
-    const productCards = document.querySelectorAll('.product-card');
-
-    // Toggle advanced filters
-    filterToggle.addEventListener('click', function() {
-        advancedFilters.classList.toggle('active');
-        const isActive = advancedFilters.classList.contains('active');
-        this.innerHTML = isActive ? 
-            `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polyline points="22,3 2,3 10,12.46 10,19 14,21 14,12.46 22,3"/>
-            </svg>
-            Hide Filters` :
-            `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polyline points="22,3 2,3 10,12.46 10,19 14,21 14,12.46 22,3"/>
-            </svg>
-            Filters`;
-    });
-
-    // Search functionality
-    searchInput.addEventListener('input', function() {
-        const searchTerm = this.value.toLowerCase();
-        filterProducts();
-    });
-
-    // Clear all filters
-    clearFilters.addEventListener('click', function() {
-        // Reset all filter inputs
-        document.getElementById('categoryFilter').value = '';
-        document.getElementById('conditionFilter').value = '';
-        document.getElementById('minPrice').value = '';
-        document.getElementById('maxPrice').value = '';
-        document.getElementById('sortFilter').value = 'newest';
-        document.getElementById('locationFilter').value = '';
-        document.getElementById('availabilityFilter').value = '';
-        searchInput.value = '';
+    // Initialize all custom dropdowns
+    function initializeCustomDropdowns() {
+        const customSelects = document.querySelectorAll('.custom-select');
         
-        // Show all products
-        productCards.forEach(card => {
-            card.style.display = 'block';
+        customSelects.forEach(select => {
+            const button = select.querySelector('.select-button');
+            const dropdown = select.querySelector('.select-dropdown');
+            const textSpan = select.querySelector('.select-text');
+            const options = select.querySelectorAll('.select-option');
+            
+            if (!button || !dropdown || !textSpan) return;
+            
+            // Toggle dropdown on button click
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                // Close other dropdowns
+                closeAllDropdowns();
+                
+                // Toggle current dropdown
+                const isActive = dropdown.classList.contains('active');
+                if (!isActive) {
+                    button.classList.add('active');
+                    dropdown.classList.add('active');
+                    select.classList.add('active');
+                }
+            });
+            
+            // Handle option selection
+            options.forEach(option => {
+                option.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    const value = this.getAttribute('data-value');
+                    const text = this.textContent;
+                    
+                    // Update selected option styling
+                    options.forEach(opt => opt.classList.remove('selected'));
+                    this.classList.add('selected');
+                    
+                    // Update button text
+                    textSpan.textContent = text;
+                    
+                    // Close dropdown
+                    button.classList.remove('active');
+                    dropdown.classList.remove('active');
+                    select.classList.remove('active');
+                    
+                    // Update filter based on select ID
+                    updateFilterValue(select.id, value);
+                    
+                    // Apply filters immediately
+                    filterProducts();
+                });
+            });
         });
+    }
+    
+    // Close all dropdowns
+    function closeAllDropdowns() {
+        document.querySelectorAll('.custom-select').forEach(select => {
+            const button = select.querySelector('.select-button');
+            const dropdown = select.querySelector('.select-dropdown');
+            if (button && dropdown) {
+                button.classList.remove('active');
+                dropdown.classList.remove('active');
+                select.classList.remove('active');
+            }
+        });
+    }
+    
+    // Update filter value based on dropdown ID
+    function updateFilterValue(selectId, value) {
+        console.log(`Updating filter: ${selectId} = ${value}`);
+        switch(selectId) {
+            case 'categorySelect':
+                currentFilters.category = value;
+                break;
+            case 'conditionSelect':
+                currentFilters.condition = value;
+                break;
+            case 'sortSelect':
+                currentFilters.sortBy = value;
+                break;
+            case 'locationSelect':
+                currentFilters.location = value;
+                break;
+            case 'availabilitySelect':
+                currentFilters.availability = value;
+                break;
+        }
+        console.log('Current filters:', currentFilters);
+    }
+    
+    // Close dropdowns when clicking outside
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.custom-select')) {
+            closeAllDropdowns();
+        }
+    });
+    
+    // Close dropdowns on escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            closeAllDropdowns();
+        }
     });
 
-    // Apply filters
-    applyFilters.addEventListener('click', function() {
-        filterProducts();
+    // Filter toggle functionality
+    function toggleFilterSection() {
+        console.log('Filter button clicked!');
+        const filters = document.getElementById('advancedFilters');
+        const button = document.getElementById('filterToggle');
+        
+        if (filters && button) {
+            if (filters.style.display === 'none' || filters.style.display === '') {
+                filters.style.display = 'block';
+                button.innerHTML = `
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polygon points="22,3 2,3 10,12.46 10,19 14,21 14,12.46 22,3"/>
+                    </svg>
+                    Hide Filters`;
+                console.log('Filters shown');
+            } else {
+                filters.style.display = 'none';
+                button.innerHTML = `
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polygon points="22,3 2,3 10,12.46 10,19 14,21 14,12.46 22,3"/>
+                    </svg>
+                    Filters`;
+                console.log('Filters hidden');
+            }
+        } else {
+            console.error('Filter elements not found!');
+        }
+    }
+
+    // Add event listener to filter toggle button
+    const filterToggle = document.getElementById('filterToggle');
+    if (filterToggle) {
+        filterToggle.addEventListener('click', toggleFilterSection);
+    }
+
+    // Quick Filter functionality
+    const quickFilterBtns = document.querySelectorAll('.quick-filter-btn');
+    quickFilterBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            // Remove active class from all buttons
+            quickFilterBtns.forEach(b => b.classList.remove('active'));
+            // Add active class to clicked button
+            this.classList.add('active');
+            
+            const filterType = this.getAttribute('data-filter');
+            currentFilters.quickFilter = filterType;
+            
+            // Apply quick filter
+            applyQuickFilter(filterType);
+        });
     });
+    
+    // Apply quick filter based on type
+    function applyQuickFilter(filterType) {
+        // Reset advanced filters
+        const minPrice = document.getElementById('minPrice');
+        const maxPrice = document.getElementById('maxPrice');
+        if (minPrice) minPrice.value = '';
+        if (maxPrice) maxPrice.value = '';
+        
+        switch(filterType) {
+            case 'all':
+                // Reset all filters
+                currentFilters = {
+                    category: '',
+                    condition: '',
+                    minPrice: '',
+                    maxPrice: '',
+                    sortBy: 'newest',
+                    location: '',
+                    availability: '',
+                    quickFilter: 'all'
+                };
+                // Reset custom dropdowns
+                resetCustomSelect('categorySelect', 'All Categories');
+                resetCustomSelect('conditionSelect', 'All Conditions');
+                resetCustomSelect('locationSelect', 'All Locations');
+                resetCustomSelect('availabilitySelect', 'All Items');
+                break;
+            case 'textbooks':
+                currentFilters.category = 'textbooks';
+                updateCustomSelect('categorySelect', 'textbooks', 'Textbooks');
+                break;
+            case 'electronics':
+                currentFilters.category = 'electronics';
+                updateCustomSelect('categorySelect', 'electronics', 'Electronics');
+                break;
+            case 'furniture':
+                currentFilters.category = 'furniture';
+                updateCustomSelect('categorySelect', 'furniture', 'Furniture');
+                break;
+            case 'clothing':
+                currentFilters.category = 'clothing';
+                updateCustomSelect('categorySelect', 'clothing', 'Clothing');
+                break;
+            case 'sports':
+                currentFilters.category = 'sports';
+                updateCustomSelect('categorySelect', 'sports', 'Sports');
+                break;
+            case 'under-50':
+                currentFilters.maxPrice = '50';
+                if (maxPrice) maxPrice.value = '50';
+                break;
+            case 'new-items':
+                currentFilters.condition = 'new';
+                updateCustomSelect('conditionSelect', 'new', 'New');
+                break;
+        }
+        
+        // Apply the filters
+        filterProducts();
+    }
+    
+    function updateCustomSelect(selectId, value, text) {
+        const select = document.getElementById(selectId);
+        if (!select) return;
+        
+        const button = select.querySelector('.select-button');
+        const textSpan = button?.querySelector('.select-text');
+        const dropdown = select.querySelector('.select-dropdown');
+        
+        // Update button text
+        if (textSpan) {
+            textSpan.textContent = text;
+        }
+        
+        // Update selected option
+        if (dropdown) {
+            dropdown.querySelectorAll('.select-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            const selectedOption = dropdown.querySelector(`[data-value="${value}"]`);
+            if (selectedOption) {
+                selectedOption.classList.add('selected');
+            }
+        }
+    }
+
+    // Reset dropdown to default value
+    function resetCustomSelect(selectId, defaultText) {
+        const select = document.getElementById(selectId);
+        if (!select) return;
+        
+        const button = select.querySelector('.select-button');
+        const textSpan = select.querySelector('.select-text');
+        const dropdown = select.querySelector('.select-dropdown');
+        const options = select.querySelectorAll('.select-option');
+        
+        // Reset button text
+        if (textSpan) {
+            textSpan.textContent = defaultText;
+        }
+        
+        // Reset selected option
+        options.forEach(option => option.classList.remove('selected'));
+        const firstOption = select.querySelector('.select-option:first-child');
+        if (firstOption) {
+            firstOption.classList.add('selected');
+        }
+        
+        // Close dropdown
+        if (button && dropdown) {
+            button.classList.remove('active');
+            dropdown.classList.remove('active');
+            select.classList.remove('active');
+        }
+    }
 
     // Filter products based on search and filters
     function filterProducts() {
-        const searchTerm = searchInput.value.toLowerCase().trim();
-        const category = document.getElementById('categoryFilter').value;
-        const condition = document.getElementById('conditionFilter').value;
-        const minPrice = parseFloat(document.getElementById('minPrice').value) || 0;
-        const maxPrice = parseFloat(document.getElementById('maxPrice').value) || Infinity;
-        const sortBy = document.getElementById('sortFilter').value;
-        const location = document.getElementById('locationFilter').value;
-        const availability = document.getElementById('availabilityFilter').value;
+        const searchInput = document.getElementById('searchInput');
+        const productCards = document.querySelectorAll('.product-card');
+        
+        const searchTerm = searchInput ? searchInput.value.toLowerCase().trim() : '';
+        const category = currentFilters.category || '';
+        const condition = currentFilters.condition || '';
+        const minPrice = parseFloat(document.getElementById('minPrice')?.value) || 0;
+        const maxPrice = parseFloat(document.getElementById('maxPrice')?.value) || Infinity;
+        const sortBy = currentFilters.sortBy || 'newest';
+        const location = currentFilters.location || '';
+        const availability = currentFilters.availability || '';
+
+        console.log('Filtering with:', {
+            searchTerm, category, condition, minPrice, maxPrice, sortBy, location, availability
+        });
 
         // Show/hide showcase section based on search
         const showcaseSection = document.querySelector('.showcase-section');
-        if (searchTerm !== '') {
-            showcaseSection.style.display = 'none';
-        } else {
-            showcaseSection.style.display = 'block';
+        if (showcaseSection) {
+            if (searchTerm !== '') {
+                showcaseSection.style.display = 'none';
+            } else {
+                showcaseSection.style.display = 'block';
+            }
         }
 
         let visibleProducts = [];
 
         productCards.forEach(card => {
-            const productName = card.querySelector('.product-name').textContent.toLowerCase();
-            const productBrand = card.querySelector('.product-brand').textContent.toLowerCase();
-            const productPrice = parseFloat(card.querySelector('.product-price').textContent.replace('$', ''));
+            const productName = card.querySelector('.product-name')?.textContent.toLowerCase() || '';
+            const productBrand = card.querySelector('.product-brand')?.textContent.toLowerCase() || '';
+            const productPriceText = card.querySelector('.product-price')?.textContent.replace('$', '') || '0';
+            const productPrice = parseFloat(productPriceText);
             
-            // Search filter - if there's a search term, only show matching products
+            // Search filter
             const matchesSearch = searchTerm === '' || 
                 productName.includes(searchTerm) || 
                 productBrand.includes(searchTerm);
@@ -125,11 +337,21 @@ document.addEventListener('DOMContentLoaded', function() {
             // Price filter
             const matchesPrice = productPrice >= minPrice && productPrice <= maxPrice;
 
-            // For demo purposes, we'll simulate other filters
-            const matchesCategory = category === '' || Math.random() > 0.3; // Simulate category matching
-            const matchesCondition = condition === '' || Math.random() > 0.3; // Simulate condition matching
-            const matchesLocation = location === '' || Math.random() > 0.3; // Simulate location matching
-            const matchesAvailability = availability === '' || Math.random() > 0.3; // Simulate availability matching
+            // Filter by category
+            const productCategory = card.getAttribute('data-category') || '';
+            const matchesCategory = category === '' || productCategory === category;
+            
+            // Filter by condition
+            const productCondition = card.getAttribute('data-condition') || '';
+            const matchesCondition = condition === '' || productCondition === condition;
+            
+            // Filter by location
+            const productLocation = card.getAttribute('data-location') || '';
+            const matchesLocation = location === '' || productLocation === location;
+            
+            // Filter by availability
+            const productAvailability = card.getAttribute('data-availability') || '';
+            const matchesAvailability = availability === '' || productAvailability === availability;
 
             if (matchesSearch && matchesPrice && matchesCategory && matchesCondition && matchesLocation && matchesAvailability) {
                 card.style.display = 'block';
@@ -138,6 +360,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 card.style.display = 'none';
             }
         });
+
+        console.log(`Filtered products: ${visibleProducts.length} visible out of ${productCards.length} total`);
 
         // Show "No results found" message if search has no matches
         showNoResultsMessage(searchTerm, visibleProducts.length);
@@ -162,26 +386,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // Reorder in DOM
             const productsGrid = document.querySelector('.products-grid');
-            visibleProducts.forEach(product => {
-                productsGrid.appendChild(product);
-            });
+            if (productsGrid) {
+                visibleProducts.forEach(product => {
+                    productsGrid.appendChild(product);
+                });
+            }
         }
-    }
-
-    // Real-time search as user types
-    searchInput.addEventListener('input', debounce(filterProducts, 300));
-
-    // Debounce function to limit search frequency
-    function debounce(func, wait) {
-        let timeout;
-        return function executedFunction(...args) {
-            const later = () => {
-                clearTimeout(timeout);
-                func(...args);
-            };
-            clearTimeout(timeout);
-            timeout = setTimeout(later, wait);
-        };
     }
 
     // Show "No results found" message
@@ -213,9 +423,131 @@ document.addEventListener('DOMContentLoaded', function() {
                 <h3 style="margin: 0 0 8px 0; color: var(--text-dark);">No results found</h3>
                 <p style="margin: 0;">No products match "${searchTerm}". Try a different search term.</p>
             `;
-            productsGrid.appendChild(noResultsMsg);
+            if (productsGrid) {
+                productsGrid.appendChild(noResultsMsg);
+            }
         }
     }
+
+    // Search functionality
+    const searchInput = document.getElementById('searchInput');
+    if (searchInput) {
+        searchInput.addEventListener('input', debounce(filterProducts, 300));
+    }
+
+    // Price input filtering
+    const minPriceInput = document.getElementById('minPrice');
+    const maxPriceInput = document.getElementById('maxPrice');
+    if (minPriceInput) {
+        minPriceInput.addEventListener('input', debounce(filterProducts, 300));
+    }
+    if (maxPriceInput) {
+        maxPriceInput.addEventListener('input', debounce(filterProducts, 300));
+    }
+
+    // Clear all filters functionality
+    const clearFilters = document.getElementById('clearFilters');
+    if (clearFilters) {
+        clearFilters.addEventListener('click', function() {
+            // Reset all filter inputs
+            if (minPriceInput) minPriceInput.value = '';
+            if (maxPriceInput) maxPriceInput.value = '';
+            if (searchInput) searchInput.value = '';
+            
+            // Reset custom dropdowns
+            resetCustomSelect('categorySelect', 'All Categories');
+            resetCustomSelect('conditionSelect', 'All Conditions');
+            resetCustomSelect('sortSelect', 'Newest First');
+            resetCustomSelect('locationSelect', 'All Locations');
+            resetCustomSelect('availabilitySelect', 'All Items');
+            
+            // Reset quick filter buttons
+            quickFilterBtns.forEach(btn => btn.classList.remove('active'));
+            const allItemsBtn = document.querySelector('[data-filter="all"]');
+            if (allItemsBtn) allItemsBtn.classList.add('active');
+            
+            // Reset filter state
+            currentFilters = {
+                category: '',
+                condition: '',
+                minPrice: '',
+                maxPrice: '',
+                sortBy: 'newest',
+                location: '',
+                availability: '',
+                quickFilter: 'all'
+            };
+            
+            // Show all products
+            const productCards = document.querySelectorAll('.product-card');
+            productCards.forEach(card => {
+                card.style.display = 'block';
+            });
+
+            // Remove no results message
+            const noResultsMsg = document.getElementById('no-results-message');
+            if (noResultsMsg) {
+                noResultsMsg.remove();
+            }
+        });
+    }
+    
+    // Apply filters functionality
+    const applyFilters = document.getElementById('applyFilters');
+    if (applyFilters) {
+        applyFilters.addEventListener('click', function() {
+            filterProducts();
+        });
+    }
+
+    // Debounce function to limit search frequency
+    function debounce(func, wait) {
+        let timeout;
+        return function executedFunction(...args) {
+            const later = () => {
+                clearTimeout(timeout);
+                func(...args);
+            };
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+        };
+    }
+
+    // Wishlist functionality
+    const wishlistIcons = document.querySelectorAll('.wishlist-icon');
+    wishlistIcons.forEach(icon => {
+        icon.addEventListener('click', function() {
+            this.classList.toggle('active');
+            
+            if (this.classList.contains('active')) {
+                console.log('Added to wishlist');
+            } else {
+                console.log('Removed from wishlist');
+            }
+        });
+    });
+
+    // Slider functionality
+    const sliderArrows = document.querySelectorAll('.slider-arrow');
+    let currentSlide = 1;
+    const totalSlides = 5;
+    
+    sliderArrows.forEach(arrow => {
+        arrow.addEventListener('click', function() {
+            if (this.querySelector('polyline').getAttribute('points') === '15,18 9,12 15,6') {
+                // Previous
+                currentSlide = currentSlide > 1 ? currentSlide - 1 : totalSlides;
+            } else {
+                // Next
+                currentSlide = currentSlide < totalSlides ? currentSlide + 1 : 1;
+            }
+            
+            const counter = document.querySelector('.slider-counter');
+            if (counter) {
+                counter.textContent = `${currentSlide}/${totalSlides}`;
+            }
+        });
+    });
 
     // Navbar button functionality
     const wishlistBtn = document.getElementById('wishlistBtn');
@@ -223,266 +555,22 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (wishlistBtn) {
         wishlistBtn.addEventListener('click', function() {
-            // Toggle wishlist visibility or redirect to wishlist page
             console.log('Wishlist button clicked');
-            // You can add wishlist functionality here
-            // For example: window.location.href = '/wishlist';
         });
     }
 
     if (profileBtn) {
         profileBtn.addEventListener('click', function() {
-            // Redirect to profile page
             console.log('Profile button clicked');
-            // You can add profile functionality here
-            // For example: window.location.href = '/profile';
         });
     }
 
-    // Hero button functionality
-    const startShoppingBtn = document.getElementById('startShoppingBtn');
-    const sellItemBtn = document.getElementById('sellItemBtn');
-
-    if (startShoppingBtn) {
-        startShoppingBtn.addEventListener('click', function() {
-            // Scroll to products section
-            const productsSection = document.querySelector('.popular-section');
-            if (productsSection) {
-                productsSection.scrollIntoView({ behavior: 'smooth' });
-            }
-        });
-    }
-
-    if (sellItemBtn) {
-        sellItemBtn.addEventListener('click', function() {
-            // Redirect to sell page or show sell modal
-            console.log('Sell item button clicked');
-            // You can add sell functionality here
-            // For example: window.location.href = '/sell';
-        });
-    }
-
-    // Enhanced floating card interactions
-    const floatingCards = document.querySelectorAll('.floating-card');
-    floatingCards.forEach(card => {
-        card.addEventListener('click', function() {
-            this.style.animation = 'none';
-            this.style.transform = 'scale(1.2) rotate(5deg)';
-            setTimeout(() => {
-                this.style.animation = 'float 6s ease-in-out infinite';
-                this.style.transform = '';
-            }, 300);
-        });
-    });
-
-    // Search Autocomplete Implementation
-    const searchInput = document.getElementById('searchInput');
-    const searchSuggestions = document.getElementById('searchSuggestions');
-    const suggestionsContent = document.getElementById('suggestionsContent');
-    const clearRecentBtn = document.getElementById('clearRecent');
-
-    // Sample search suggestions data
-    const searchSuggestionsData = [
-        { text: 'MacBook Pro', category: 'Electronics' },
-        { text: 'iPhone 14', category: 'Electronics' },
-        { text: 'Calculus Textbook', category: 'Books' },
-        { text: 'AirPods Pro', category: 'Electronics' },
-        { text: 'Gaming Chair', category: 'Furniture' },
-        { text: 'Textbook', category: 'Books' },
-        { text: 'Laptop', category: 'Electronics' },
-        { text: 'Desk Lamp', category: 'Furniture' },
-        { text: 'Study Table', category: 'Furniture' },
-        { text: 'Wireless Mouse', category: 'Electronics' }
-    ];
-
-    // Get recent searches from localStorage
-    function getRecentSearches() {
-        return JSON.parse(localStorage.getItem('recentSearches') || '[]');
-    }
-
-    // Save search to recent searches
-    function saveRecentSearch(searchTerm) {
-        if (!searchTerm.trim()) return;
-        
-        let recentSearches = getRecentSearches();
-        recentSearches = recentSearches.filter(term => term !== searchTerm);
-        recentSearches.unshift(searchTerm);
-        recentSearches = recentSearches.slice(0, 5); // Keep only last 5 searches
-        
-        localStorage.setItem('recentSearches', JSON.stringify(recentSearches));
-    }
-
-    // Clear recent searches
-    function clearRecentSearches() {
-        localStorage.removeItem('recentSearches');
-        showSuggestions('');
-    }
-
-    // Show search suggestions
-    function showSuggestions(query) {
-        const recentSearches = getRecentSearches();
-        const filteredSuggestions = searchSuggestionsData.filter(item => 
-            item.text.toLowerCase().includes(query.toLowerCase())
-        );
-
-        suggestionsContent.innerHTML = '';
-
-        if (query.length === 0) {
-            // Show recent searches when no query
-            if (recentSearches.length > 0) {
-                recentSearches.forEach(term => {
-                    const suggestionItem = createSuggestionItem(term, 'Recent');
-                    suggestionsContent.appendChild(suggestionItem);
-                });
-            } else {
-                // Show popular searches
-                searchSuggestionsData.slice(0, 5).forEach(item => {
-                    const suggestionItem = createSuggestionItem(item.text, item.category);
-                    suggestionsContent.appendChild(suggestionItem);
-                });
-            }
-        } else {
-            // Show filtered suggestions
-            filteredSuggestions.forEach(item => {
-                const suggestionItem = createSuggestionItem(item.text, item.category);
-                suggestionsContent.appendChild(suggestionItem);
-            });
-        }
-
-        searchSuggestions.classList.toggle('show', suggestionsContent.children.length > 0);
-    }
-
-    // Create suggestion item element
-    function createSuggestionItem(text, category) {
-        const item = document.createElement('button');
-        item.className = 'suggestion-item';
-        item.innerHTML = `
-            <svg class="search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-            </svg>
-            <span class="suggestion-text">${text}</span>
-            <span class="suggestion-category">${category}</span>
-        `;
-        
-        item.addEventListener('click', () => {
-            searchInput.value = text;
-            searchSuggestions.classList.remove('show');
-            saveRecentSearch(text);
-            // Trigger search
-            searchInput.dispatchEvent(new Event('input'));
-        });
-        
-        return item;
-    }
-
-    // Search input event listeners
-    searchInput.addEventListener('input', debounce((e) => {
-        const query = e.target.value;
-        showSuggestions(query);
-    }, 300));
-
-    searchInput.addEventListener('focus', () => {
-        showSuggestions(searchInput.value);
-    });
-
-    searchInput.addEventListener('blur', (e) => {
-        // Delay hiding to allow clicking on suggestions
-        setTimeout(() => {
-            searchSuggestions.classList.remove('show');
-        }, 200);
-    });
-
-    // Clear recent searches
-    clearRecentBtn.addEventListener('click', clearRecentSearches);
-
-    // Hide suggestions when clicking outside
-    document.addEventListener('click', (e) => {
-        if (!searchInput.contains(e.target) && !searchSuggestions.contains(e.target)) {
-            searchSuggestions.classList.remove('show');
-        }
-    });
-
-    // Back to Top Button Implementation
-    const backToTopBtn = document.getElementById('backToTop');
-
-    function toggleBackToTop() {
-        if (window.scrollY > 300) {
-            backToTopBtn.classList.add('show');
-        } else {
-            backToTopBtn.classList.remove('show');
-        }
-    }
-
-    backToTopBtn.addEventListener('click', () => {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
-    });
-
-    window.addEventListener('scroll', debounce(toggleBackToTop, 100));
-
-    // Loading States Implementation
-    const loadingOverlay = document.getElementById('loadingOverlay');
-
-    function showLoading(text = 'Loading...') {
-        const loadingText = loadingOverlay.querySelector('.loading-text');
-        loadingText.textContent = text;
-        loadingOverlay.classList.add('show');
-    }
-
-    function hideLoading() {
-        loadingOverlay.classList.remove('show');
-    }
-
-    // Add loading states to buttons
-    function addLoadingToButton(button, duration = 2000) {
-        button.classList.add('loading');
-        button.disabled = true;
-        
-        setTimeout(() => {
-            button.classList.remove('loading');
-            button.disabled = false;
-        }, duration);
-    }
-
-    // Add loading states to search
-    function addLoadingToSearch() {
-        searchInput.classList.add('loading');
-        setTimeout(() => {
-            searchInput.classList.remove('loading');
-        }, 1000);
-    }
-
-    // Add loading states to product cards
-    function addLoadingToProductCards() {
-        const productCards = document.querySelectorAll('.product-card');
-        productCards.forEach(card => {
-            card.classList.add('loading');
-        });
-        
-        setTimeout(() => {
-            productCards.forEach(card => {
-                card.classList.remove('loading');
-            });
-        }, 1500);
-    }
-
-    // Simulate loading for demo purposes
-    document.addEventListener('click', (e) => {
-        if (e.target.classList.contains('btn-hero')) {
-            addLoadingToButton(e.target, 2000);
-        }
-        
-        if (e.target.classList.contains('filter-toggle')) {
-            addLoadingToSearch();
-        }
-    });
-
-    // Global loading functions for external use
-    window.showLoading = showLoading;
-    window.hideLoading = hideLoading;
-    window.addLoadingToButton = addLoadingToButton;
-    window.addLoadingToSearch = addLoadingToSearch;
-    window.addLoadingToProductCards = addLoadingToProductCards;
+    // Initialize all dropdowns
+    initializeCustomDropdowns();
+    
+    // Make functions available globally
+    window.toggleFilterSection = toggleFilterSection;
+    window.filterProducts = filterProducts;
+    
+    console.log('Home page initialized with working dropdowns!');
 });

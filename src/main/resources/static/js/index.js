@@ -1346,4 +1346,4 @@ document.addEventListener('DOMContentLoaded', () => {
     initStatsDashboard();
 });
 
-console.log('Nexio main.js loaded successfully!');
+console.log('Nexio index.js loaded successfully!');

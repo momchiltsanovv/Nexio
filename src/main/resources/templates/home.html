@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nexio - University Marketplace</title>
-    <link rel="stylesheet" href="/static/css/main.css">
+    <link rel="stylesheet" href="/static/css/index.css">
     <link rel="stylesheet" href="/static/css/home.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -62,30 +62,58 @@
                     Filters
                 </button>
             </div>
+            
+            <!-- Quick Filter Buttons -->
+            <div class="quick-filters" id="quickFilters">
+                <button class="quick-filter-btn active" data-filter="all">All Items</button>
+                <button class="quick-filter-btn" data-filter="textbooks">📚 Textbooks</button>
+                <button class="quick-filter-btn" data-filter="electronics">💻 Electronics</button>
+                <button class="quick-filter-btn" data-filter="furniture">🪑 Furniture</button>
+                <button class="quick-filter-btn" data-filter="clothing">👕 Clothing</button>
+                <button class="quick-filter-btn" data-filter="sports">⚽ Sports</button>
+                <button class="quick-filter-btn" data-filter="under-50">Under $50</button>
+                <button class="quick-filter-btn" data-filter="new-items">New Items</button>
+            </div>
 
             <div class="advanced-filters" id="advancedFilters">
                 <div class="filter-row">
                     <div class="filter-group">
                         <label class="filter-label">Category</label>
-                        <select class="filter-select" id="categoryFilter">
-                            <option value="">All Categories</option>
-                            <option value="textbooks">Textbooks</option>
-                            <option value="electronics">Electronics</option>
-                            <option value="furniture">Furniture</option>
-                            <option value="clothing">Clothing</option>
-                            <option value="sports">Sports</option>
-                            <option value="other">Other</option>
-                        </select>
+                        <div class="custom-select" id="categorySelect">
+                            <button type="button" class="select-button">
+                                <span class="select-text">All Categories</span>
+                                <svg class="select-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="6,9 12,15 18,9"></polyline>
+                                </svg>
+                            </button>
+                            <div class="select-dropdown">
+                                <div class="select-option selected" data-value="">All Categories</div>
+                                <div class="select-option" data-value="textbooks">Textbooks</div>
+                                <div class="select-option" data-value="electronics">Electronics</div>
+                                <div class="select-option" data-value="furniture">Furniture</div>
+                                <div class="select-option" data-value="clothing">Clothing</div>
+                                <div class="select-option" data-value="sports">Sports</div>
+                                <div class="select-option" data-value="other">Other</div>
+                            </div>
+                        </div>
                     </div>
                     <div class="filter-group">
                         <label class="filter-label">Condition</label>
-                        <select class="filter-select" id="conditionFilter">
-                            <option value="">All Conditions</option>
-                            <option value="new">New</option>
-                            <option value="like-new">Like New</option>
-                            <option value="good">Good</option>
-                            <option value="fair">Fair</option>
-                        </select>
+                        <div class="custom-select" id="conditionSelect">
+                            <button type="button" class="select-button">
+                                <span class="select-text">All Conditions</span>
+                                <svg class="select-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="6,9 12,15 18,9"></polyline>
+                                </svg>
+                            </button>
+                            <div class="select-dropdown">
+                                <div class="select-option selected" data-value="">All Conditions</div>
+                                <div class="select-option" data-value="new">New</div>
+                                <div class="select-option" data-value="like-new">Like New</div>
+                                <div class="select-option" data-value="good">Good</div>
+                                <div class="select-option" data-value="fair">Fair</div>
+                            </div>
+                        </div>
                     </div>
                     <div class="filter-group">
                         <label class="filter-label">Price Range</label>
@@ -99,29 +127,53 @@
                 <div class="filter-row">
                     <div class="filter-group">
                         <label class="filter-label">Sort By</label>
-                        <select class="filter-select" id="sortFilter">
-                            <option value="newest">Newest First</option>
-                            <option value="price-low">Price: Low to High</option>
-                            <option value="price-high">Price: High to Low</option>
-                            <option value="popular">Most Popular</option>
-                        </select>
+                        <div class="custom-select" id="sortSelect">
+                            <button type="button" class="select-button">
+                                <span class="select-text">Newest First</span>
+                                <svg class="select-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="6,9 12,15 18,9"></polyline>
+                                </svg>
+                            </button>
+                            <div class="select-dropdown">
+                                <div class="select-option selected" data-value="newest">Newest First</div>
+                                <div class="select-option" data-value="price-low">Price: Low to High</div>
+                                <div class="select-option" data-value="price-high">Price: High to Low</div>
+                                <div class="select-option" data-value="popular">Most Popular</div>
+                            </div>
+                        </div>
                     </div>
                     <div class="filter-group">
                         <label class="filter-label">Location</label>
-                        <select class="filter-select" id="locationFilter">
-                            <option value="">All Locations</option>
-                            <option value="campus">On Campus</option>
-                            <option value="nearby">Nearby</option>
-                            <option value="shipping">Shipping Available</option>
-                        </select>
+                        <div class="custom-select" id="locationSelect">
+                            <button type="button" class="select-button">
+                                <span class="select-text">All Locations</span>
+                                <svg class="select-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="6,9 12,15 18,9"></polyline>
+                                </svg>
+                            </button>
+                            <div class="select-dropdown">
+                                <div class="select-option selected" data-value="">All Locations</div>
+                                <div class="select-option" data-value="campus">On Campus</div>
+                                <div class="select-option" data-value="nearby">Nearby</div>
+                                <div class="select-option" data-value="shipping">Shipping Available</div>
+                            </div>
+                        </div>
                     </div>
                     <div class="filter-group">
                         <label class="filter-label">Availability</label>
-                        <select class="filter-select" id="availabilityFilter">
-                            <option value="">All Items</option>
-                            <option value="available">Available Now</option>
-                            <option value="reserved">Reserved</option>
-                        </select>
+                        <div class="custom-select" id="availabilitySelect">
+                            <button type="button" class="select-button">
+                                <span class="select-text">All Items</span>
+                                <svg class="select-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="6,9 12,15 18,9"></polyline>
+                                </svg>
+                            </button>
+                            <div class="select-dropdown">
+                                <div class="select-option selected" data-value="">All Items</div>
+                                <div class="select-option" data-value="available">Available Now</div>
+                                <div class="select-option" data-value="reserved">Reserved</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="filter-actions">
@@ -205,7 +257,7 @@
             </div>
 
             <div class="products-grid">
-                <div class="product-card">
+                <div class="product-card" data-category="electronics" data-condition="new" data-location="campus" data-availability="available">
                     <div class="product-image-container">
                         <div class="wishlist-icon">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -219,7 +271,7 @@
                     <div class="product-brand">Apple</div>
                 </div>
 
-                <div class="product-card">
+                <div class="product-card" data-category="electronics" data-condition="like-new" data-location="nearby" data-availability="available">
                     <div class="product-image-container">
                         <div class="wishlist-icon active">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
@@ -233,7 +285,7 @@
                     <div class="product-brand">Apple</div>
                 </div>
 
-                <div class="product-card">
+                <div class="product-card" data-category="electronics" data-condition="new" data-location="campus" data-availability="available">
                     <div class="product-image-container">
                         <div class="wishlist-icon">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -247,7 +299,7 @@
                     <div class="product-brand">Apple</div>
                 </div>
 
-                <div class="product-card">
+                <div class="product-card" data-category="textbooks" data-condition="good" data-location="campus" data-availability="available">
                     <div class="product-image-container">
                         <div class="wishlist-icon">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -261,7 +313,7 @@
                     <div class="product-brand">Pearson</div>
                 </div>
 
-                <div class="product-card">
+                <div class="product-card" data-category="electronics" data-condition="fair" data-location="shipping" data-availability="reserved">
                     <div class="product-image-container">
                         <div class="wishlist-icon active">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
@@ -275,7 +327,7 @@
                     <div class="product-brand">Xiaomi</div>
                 </div>
 
-                <div class="product-card">
+                <div class="product-card" data-category="electronics" data-condition="like-new" data-location="nearby" data-availability="available">
                     <div class="product-image-container">
                         <div class="wishlist-icon active">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
@@ -289,7 +341,7 @@
                     <div class="product-brand">Sony</div>
                 </div>
 
-                <div class="product-card">
+                <div class="product-card" data-category="electronics" data-condition="good" data-location="campus" data-availability="available">
                     <div class="product-image-container">
                         <div class="wishlist-icon">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -301,6 +353,48 @@
                     <div class="product-price">$168.50</div>
                     <div class="product-name">Galaxy Watch4 40mm</div>
                     <div class="product-brand">Samsung</div>
+                </div>
+
+                <div class="product-card" data-category="furniture" data-condition="like-new" data-location="campus" data-availability="available">
+                    <div class="product-image-container">
+                        <div class="wishlist-icon">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                            </svg>
+                        </div>
+                        <div style="font-size: 48px;">🪑</div>
+                    </div>
+                    <div class="product-price">$45.00</div>
+                    <div class="product-name">Office Chair</div>
+                    <div class="product-brand">IKEA</div>
+                </div>
+
+                <div class="product-card" data-category="clothing" data-condition="new" data-location="nearby" data-availability="available">
+                    <div class="product-image-container">
+                        <div class="wishlist-icon">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                            </svg>
+                        </div>
+                        <div style="font-size: 48px;">👕</div>
+                    </div>
+                    <div class="product-price">$25.00</div>
+                    <div class="product-name">University Hoodie</div>
+                    <div class="product-brand">Nike</div>
+                </div>
+
+                <div class="product-card" data-category="sports" data-condition="good" data-location="campus" data-availability="available">
+                    <div class="product-image-container">
+                        <div class="wishlist-icon">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                            </svg>
+                        </div>
+                        <div style="font-size: 48px;">⚽</div>
+                    </div>
+                    <div class="product-price">$15.00</div>
+                    <div class="product-name">Soccer Ball</div>
+                    <div class="product-brand">Adidas</div>
                 </div>
             </div>
         </div>
