@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js" style="scroll-behavior: smooth;" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexio - Wishlist</title>
+    <link rel="stylesheet" href="/static/css/index.css">
+    <link rel="stylesheet" href="/static/css/wishlist.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://use.typekit.net/rau1mwa.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+<!-- Hero Particles -->
+<div class="hero-particles">
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+</div>
+
+<!-- Navigation -->
+<nav class="navbar">
+    <div class="nav-container">
+        <div class="nav-logo">
+            <h2>nexio</h2>
+        </div>
+        <div class="nav-menu" id="navMenu">
+            <a href="/" class="nav-link">Home</a>
+            <a href="/profile" class="nav-link">Account</a>
+            <a href="/info" class="nav-link">About Us</a>
+        </div>
+        <div class="nav-actions">
+            <button class="btn btn-icon" id="wishlistBtn" title="My Wishlist">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                </svg>
+            </button>
+            <button class="btn btn-icon" id="profileBtn" title="My Account">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                    <circle cx="12" cy="7" r="4"/>
+                </svg>
+            </button>
+        </div>
+        <div class="nav-toggle" id="navToggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>
+</nav>
+
+<!-- Wishlist Hero Section -->
+<section class="wishlist-hero">
+    <div class="content">
+        <div class="hero-header">
+            <div class="hero-content reveal">
+                <h1 class="hero-title">My Wishlist</h1>
+                <p class="hero-subtitle">Items you've saved for later</p>
+            </div>
+            <div class="brand-section reveal-right">
+                <span class="nexio-text">nexio</span>
+                <p class="brand-tagline">Student Marketplace</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Wishlist Container -->
+<div class="wishlist-container">
+    <!-- Header Section -->
+    <div class="wishlist-header reveal">
+        <div class="header-content">
+            <h1 class="page-title">My Wishlist</h1>
+            <p class="page-subtitle">Items you've saved for later</p>
+        </div>
+        <div class="header-actions">
+            <button class="action-btn primary" onclick="window.location.href='/'">
+                <span class="btn-icon">🛍️</span>
+                <span class="btn-text">Browse Items</span>
+            </button>
+            <button class="action-btn secondary" onclick="shareWishlist()">
+                <span class="btn-icon">📤</span>
+                <span class="btn-text">Share</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Stats Section -->
+    <div class="stats-section reveal">
+        <div class="stats-grid">
+            <div class="stat-card reveal-scale">
+                <div class="stat-icon">❤️</div>
+                <div class="stat-content">
+                    <div class="stat-number" id="total-items">0</div>
+                    <div class="stat-label">Saved Items</div>
+                </div>
+            </div>
+            <div class="stat-card reveal-scale">
+                <div class="stat-icon">💰</div>
+                <div class="stat-content">
+                    <div class="stat-number" id="total-value">$0</div>
+                    <div class="stat-label">Total Value</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filter and Sort Section -->
+    <div class="controls-section reveal">
+        <div class="filter-controls">
+            <h3 class="controls-title">Filter by Category</h3>
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-filter="all">
+                    <span class="filter-icon">📋</span>
+                    <span class="filter-text">All</span>
+                    <span class="filter-count" id="count-all">0</span>
+                </button>
+                <button class="filter-btn" data-filter="textbooks">
+                    <span class="filter-icon">📚</span>
+                    <span class="filter-text">Textbooks</span>
+                    <span class="filter-count" id="count-textbooks">0</span>
+                </button>
+                <button class="filter-btn" data-filter="electronics">
+                    <span class="filter-icon">💻</span>
+                    <span class="filter-text">Electronics</span>
+                    <span class="filter-count" id="count-electronics">0</span>
+                </button>
+                <button class="filter-btn" data-filter="furniture">
+                    <span class="filter-icon">🪑</span>
+                    <span class="filter-text">Furniture</span>
+                    <span class="filter-count" id="count-furniture">0</span>
+                </button>
+                <button class="filter-btn" data-filter="clothing">
+                    <span class="filter-icon">👕</span>
+                    <span class="filter-text">Clothing</span>
+                    <span class="filter-count" id="count-clothing">0</span>
+                </button>
+            </div>
+        </div>
+        <div class="sort-controls">
+            <div class="sort-group">
+                <label for="sortSelect" class="sort-label">Sort by:</label>
+                <select class="sort-select" id="sortSelect">
+                    <option value="date-added">Date Added</option>
+                    <option value="price-low">Price: Low to High</option>
+                    <option value="price-high">Price: High to Low</option>
+                    <option value="name">Name A-Z</option>
+                </select>
+            </div>
+            <div class="view-controls">
+                <button class="view-btn active" data-view="grid" title="Grid View">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="7" height="7"/>
+                        <rect x="14" y="3" width="7" height="7"/>
+                        <rect x="14" y="14" width="7" height="7"/>
+                        <rect x="3" y="14" width="7" height="7"/>
+                    </svg>
+                </button>
+                <button class="view-btn" data-view="list" title="List View">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="8" y1="6" x2="21" y2="6"/>
+                        <line x1="8" y1="12" x2="21" y2="12"/>
+                        <line x1="8" y1="18" x2="21" y2="18"/>
+                        <line x1="3" y1="6" x2="3.01" y2="6"/>
+                        <line x1="3" y1="12" x2="3.01" y2="12"/>
+                        <line x1="3" y1="18" x2="3.01" y2="18"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Items Grid -->
+    <div class="items-section reveal">
+        <div class="wishlist-grid" id="wishlistGrid">
+        <!-- Sample wishlist items -->
+        <div class="wishlist-item" data-category="textbooks" data-price="45" data-date="2024-01-15">
+            <div class="item-image">
+                <div class="item-emoji">📚</div>
+                <div class="item-badge">Textbook</div>
+            </div>
+            <div class="item-content">
+                <h3 class="item-title">Calculus: Early Transcendentals</h3>
+                <p class="item-description">Used textbook in good condition, 8th edition</p>
+                <div class="item-meta">
+                    <span class="item-price">$45</span>
+                    <span class="item-condition">Good</span>
+                </div>
+                <div class="item-actions">
+                    <button class="btn btn-primary btn-sm">View Details</button>
+                    <button class="btn btn-outline btn-sm remove-btn">Remove</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="wishlist-item" data-category="electronics" data-price="120" data-date="2024-01-14">
+            <div class="item-image">
+                <div class="item-emoji">💻</div>
+                <div class="item-badge">Electronics</div>
+            </div>
+            <div class="item-content">
+                <h3 class="item-title">MacBook Air M1</h3>
+                <p class="item-description">2020 MacBook Air, 8GB RAM, 256GB SSD</p>
+                <div class="item-meta">
+                    <span class="item-price">$120</span>
+                    <span class="item-condition">Excellent</span>
+                </div>
+                <div class="item-actions">
+                    <button class="btn btn-primary btn-sm">View Details</button>
+                    <button class="btn btn-outline btn-sm remove-btn">Remove</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="wishlist-item" data-category="furniture" data-price="80" data-date="2024-01-13">
+            <div class="item-image">
+                <div class="item-emoji">🪑</div>
+                <div class="item-badge">Furniture</div>
+            </div>
+            <div class="item-content">
+                <h3 class="item-title">Office Chair</h3>
+                <p class="item-description">Ergonomic office chair, adjustable height</p>
+                <div class="item-meta">
+                    <span class="item-price">$80</span>
+                    <span class="item-condition">Very Good</span>
+                </div>
+                <div class="item-actions">
+                    <button class="btn btn-primary btn-sm">View Details</button>
+                    <button class="btn btn-outline btn-sm remove-btn">Remove</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="wishlist-item" data-category="clothing" data-price="25" data-date="2024-01-12">
+            <div class="item-image">
+                <div class="item-emoji">👕</div>
+                <div class="item-badge">Clothing</div>
+            </div>
+            <div class="item-content">
+                <h3 class="item-title">University Hoodie</h3>
+                <p class="item-description">Official university hoodie, size M</p>
+                <div class="item-meta">
+                    <span class="item-price">$25</span>
+                    <span class="item-condition">Good</span>
+                </div>
+                <div class="item-actions">
+                    <button class="btn btn-primary btn-sm">View Details</button>
+                    <button class="btn btn-outline btn-sm remove-btn">Remove</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="wishlist-item" data-category="textbooks" data-price="35" data-date="2024-01-11">
+            <div class="item-image">
+                <div class="item-emoji">📖</div>
+                <div class="item-badge">Textbook</div>
+            </div>
+            <div class="item-content">
+                <h3 class="item-title">Introduction to Psychology</h3>
+                <p class="item-description">Psychology textbook, 12th edition, like new</p>
+                <div class="item-meta">
+                    <span class="item-price">$35</span>
+                    <span class="item-condition">Like New</span>
+                </div>
+                <div class="item-actions">
+                    <button class="btn btn-primary btn-sm">View Details</button>
+                    <button class="btn btn-outline btn-sm remove-btn">Remove</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="wishlist-item" data-category="electronics" data-price="65" data-date="2024-01-10">
+            <div class="item-image">
+                <div class="item-emoji">🎧</div>
+                <div class="item-badge">Electronics</div>
+            </div>
+            <div class="item-content">
+                <h3 class="item-title">Sony WH-1000XM4 Headphones</h3>
+                <p class="item-description">Noise-canceling wireless headphones, excellent condition</p>
+                <div class="item-meta">
+                    <span class="item-price">$65</span>
+                    <span class="item-condition">Excellent</span>
+                </div>
+                <div class="item-actions">
+                    <button class="btn btn-primary btn-sm">View Details</button>
+                    <button class="btn btn-outline btn-sm remove-btn">Remove</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="wishlist-item" data-category="furniture" data-price="120" data-date="2024-01-09">
+            <div class="item-image">
+                <div class="item-emoji">🛏️</div>
+                <div class="item-badge">Furniture</div>
+            </div>
+            <div class="item-content">
+                <h3 class="item-title">IKEA Desk Lamp</h3>
+                <p class="item-description">Modern LED desk lamp with adjustable brightness</p>
+                <div class="item-meta">
+                    <span class="item-price">$120</span>
+                    <span class="item-condition">Very Good</span>
+                </div>
+                <div class="item-actions">
+                    <button class="btn btn-primary btn-sm">View Details</button>
+                    <button class="btn btn-outline btn-sm remove-btn">Remove</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="wishlist-item" data-category="clothing" data-price="18" data-date="2024-01-08">
+            <div class="item-image">
+                <div class="item-emoji">👟</div>
+                <div class="item-badge">Clothing</div>
+            </div>
+            <div class="item-content">
+                <h3 class="item-title">Nike Air Force 1</h3>
+                <p class="item-description">White sneakers, size 9, worn twice</p>
+                <div class="item-meta">
+                    <span class="item-price">$18</span>
+                    <span class="item-condition">Like New</span>
+                </div>
+                <div class="item-actions">
+                    <button class="btn btn-primary btn-sm">View Details</button>
+                    <button class="btn btn-outline btn-sm remove-btn">Remove</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="wishlist-item" data-category="textbooks" data-price="55" data-date="2024-01-07">
+            <div class="item-image">
+                <div class="item-emoji">📊</div>
+                <div class="item-badge">Textbook</div>
+            </div>
+            <div class="item-content">
+                <h3 class="item-title">Statistics and Data Analysis</h3>
+                <p class="item-description">Advanced statistics textbook with practice problems</p>
+                <div class="item-meta">
+                    <span class="item-price">$55</span>
+                    <span class="item-condition">Good</span>
+                </div>
+                <div class="item-actions">
+                    <button class="btn btn-primary btn-sm">View Details</button>
+                    <button class="btn btn-outline btn-sm remove-btn">Remove</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="wishlist-item" data-category="electronics" data-price="40" data-date="2024-01-06">
+            <div class="item-image">
+                <div class="item-emoji">📱</div>
+                <div class="item-badge">Electronics</div>
+            </div>
+            <div class="item-content">
+                <h3 class="item-title">iPhone 12 Case</h3>
+                <p class="item-description">Clear protective case with MagSafe compatibility</p>
+                <div class="item-meta">
+                    <span class="item-price">$40</span>
+                    <span class="item-condition">New</span>
+                </div>
+                <div class="item-actions">
+                    <button class="btn btn-primary btn-sm">View Details</button>
+                    <button class="btn btn-outline btn-sm remove-btn">Remove</button>
+                </div>
+            </div>
+        </div>
+            </div>
+
+            <!-- Empty State -->
+            <div class="empty-state" id="emptyState" style="display: none;">
+                <div class="empty-icon">❤️</div>
+                <h3 class="empty-title">Your wishlist is empty</h3>
+                <p class="empty-description">Start exploring and save items you love!</p>
+                <button class="btn btn-primary" onclick="window.location.href='/'">Browse Items</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Toast Notification -->
+<div class="toast" id="toast">
+    <span id="toast-message"></span>
+</div>
+
+<script src="/static/js/index.js"></script>
+<script src="/static/js/wishlist.js"></script>
+</body>
+</html>
