@@ -4,7 +4,14 @@ let profileData = {
     lastName: '',
     email: '',
     username: '',
-    joinDate: ''
+    joinDate: '',
+    socialLinks: {
+        instagram: '',
+        linkedin: ''
+    },
+    verification: {
+        email: false
+    }
 };
 
 // Initialize profile on page load
@@ -20,7 +27,14 @@ function loadProfileData() {
         lastName: localStorage.getItem('lastName') || '',
         email: localStorage.getItem('rememberedEmail') || localStorage.getItem('userEmail') || '',
         username: localStorage.getItem('username') || '',
-        joinDate: localStorage.getItem('joinDate') || new Date().toLocaleDateString()
+        joinDate: localStorage.getItem('joinDate') || new Date().toLocaleDateString(),
+        socialLinks: {
+            instagram: localStorage.getItem('social_instagram') || '',
+            linkedin: localStorage.getItem('social_linkedin') || ''
+        },
+        verification: {
+            email: localStorage.getItem('verified_email') === 'true' || false
+        }
     };
 
     // Generate username from email if not exists
@@ -58,6 +72,15 @@ function populateProfile() {
 
     // Generate avatar initials
     generateAvatarInitials(fullName, profileData.username);
+    
+    // Update verification badges
+    updateVerificationBadges();
+    
+    // Update social links
+    updateSocialLinks();
+    
+    // Update review status
+    updateReviewStatus();
 }
 
 // Generate avatar initials
@@ -88,6 +111,11 @@ function toggleEditMode() {
         document.getElementById('edit-first-name').value = profileData.firstName;
         document.getElementById('edit-last-name').value = profileData.lastName;
         document.getElementById('edit-email').value = profileData.email;
+        document.getElementById('edit-instagram').value = profileData.socialLinks.instagram;
+        document.getElementById('edit-linkedin').value = profileData.socialLinks.linkedin;
+        
+        // Update verification button state
+        updateVerificationButton();
     }
 }
 
@@ -104,12 +132,23 @@ function saveProfile() {
     const newData = {
         firstName: document.getElementById('edit-first-name').value.trim(),
         lastName: document.getElementById('edit-last-name').value.trim(),
-        email: document.getElementById('edit-email').value.trim()
+        email: document.getElementById('edit-email').value.trim(),
+        socialLinks: {
+            instagram: document.getElementById('edit-instagram').value.trim(),
+            linkedin: document.getElementById('edit-linkedin').value.trim()
+        }
     };
 
     // Validate email
     if (newData.email && !isValidEmail(newData.email)) {
         showToast('Please enter a valid email address', 'error');
+        return;
+    }
+
+    // Validate social links
+    const socialValidation = validateSocialLinks(newData.socialLinks);
+    if (!socialValidation.valid) {
+        showToast(socialValidation.message, 'error');
         return;
     }
 
@@ -119,6 +158,7 @@ function saveProfile() {
     if (newData.email) {
         profileData.email = newData.email;
     }
+    profileData.socialLinks = newData.socialLinks;
 
     // Update username if email changed
     if (newData.email && newData.email !== profileData.email) {
@@ -130,9 +170,12 @@ function saveProfile() {
     localStorage.setItem('lastName', profileData.lastName);
     localStorage.setItem('userEmail', profileData.email);
     localStorage.setItem('username', profileData.username);
+    localStorage.setItem('social_instagram', profileData.socialLinks.instagram);
+    localStorage.setItem('social_linkedin', profileData.socialLinks.linkedin);
 
     // Update UI
     populateProfile();
+    updateReviewStatus();
     closeEditModal();
     showToast('Profile updated successfully!', 'success');
 }
@@ -141,6 +184,183 @@ function saveProfile() {
 function isValidEmail(email) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
+}
+
+// Validate social links
+function validateSocialLinks(socialLinks) {
+    const urlPatterns = {
+        instagram: /^https?:\/\/(www\.)?instagram\.com\/[\w\.]+\/?$/,
+        linkedin: /^https?:\/\/(www\.)?linkedin\.com\/in\/[\w\-]+\/?$/
+    };
+
+    for (const [platform, url] of Object.entries(socialLinks)) {
+        if (url && !urlPatterns[platform].test(url)) {
+            return {
+                valid: false,
+                message: `Please enter a valid ${platform} URL`
+            };
+        }
+    }
+
+    return { valid: true };
+}
+
+// Update verification badges
+function updateVerificationBadges() {
+    const emailBadge = document.getElementById('email-badge');
+    
+    if (emailBadge) {
+        // Remove all verification classes first
+        emailBadge.classList.remove('verified', 'not-verified');
+        
+        if (profileData.verification.email) {
+            emailBadge.classList.add('verified');
+            // Update icon and text for verified state
+            const icon = emailBadge.querySelector('.badge-icon');
+            const text = emailBadge.querySelector('.badge-text');
+            icon.textContent = '✓';
+            text.textContent = 'Email Verified';
+        } else {
+            emailBadge.classList.add('not-verified');
+            // Update icon and text for not verified state
+            const icon = emailBadge.querySelector('.badge-icon');
+            const text = emailBadge.querySelector('.badge-text');
+            icon.textContent = '✗';
+            text.textContent = 'Email Not Verified';
+        }
+    }
+}
+
+// Update social links
+function updateSocialLinks() {
+    const socialLinks = {
+        instagram: document.getElementById('instagram-link'),
+        linkedin: document.getElementById('linkedin-link')
+    };
+
+    Object.entries(socialLinks).forEach(([platform, element]) => {
+        if (element) {
+            const url = profileData.socialLinks[platform];
+            if (url) {
+                element.href = url;
+                element.classList.add('has-link');
+                element.target = '_blank';
+                element.rel = 'noopener noreferrer';
+            } else {
+                element.href = '#';
+                element.classList.remove('has-link');
+                element.onclick = (e) => {
+                    e.preventDefault();
+                    showToast(`Add your ${platform} link in profile settings`, 'info');
+                };
+            }
+        }
+    });
+}
+
+// Verification functions
+function verifyEmail() {
+    if (profileData.verification.email) {
+        // If already verified, show option to unverify (for demo purposes)
+        profileData.verification.email = false;
+        localStorage.setItem('verified_email', 'false');
+        updateVerificationBadges();
+        updateVerificationButton();
+        showToast('Email verification removed', 'info');
+    } else {
+        // Simulate email verification process
+        showToast('Verification email sent! Check your inbox.', 'success');
+        
+        // Simulate successful verification after 3 seconds
+        setTimeout(() => {
+            profileData.verification.email = true;
+            localStorage.setItem('verified_email', 'true');
+            updateVerificationBadges();
+            updateVerificationButton();
+            showToast('Email verified successfully!', 'success');
+        }, 3000);
+    }
+}
+
+
+// Update verification button text and state
+function updateVerificationButton() {
+    const verifyBtn = document.getElementById('verify-email-btn');
+    if (verifyBtn) {
+        if (profileData.verification.email) {
+            verifyBtn.textContent = 'Unverify Email';
+            verifyBtn.classList.add('btn-secondary');
+        } else {
+            verifyBtn.textContent = 'Verify Email';
+            verifyBtn.classList.remove('btn-secondary');
+        }
+    }
+}
+
+// Update review status
+function updateReviewStatus() {
+    // Calculate profile completion percentage
+    let completionPercentage = 0;
+    let completedItems = 0;
+    let totalItems = 4; // email, social links, profile info, verification
+    
+    // Check email
+    if (profileData.email) completedItems++;
+    
+    // Check social links
+    const hasSocialLinks = Object.values(profileData.socialLinks).some(link => link.trim() !== '');
+    if (hasSocialLinks) completedItems++;
+    
+    // Check profile info
+    if (profileData.firstName && profileData.lastName) completedItems++;
+    
+    // Check verification
+    if (profileData.verification.email) completedItems++;
+    
+    completionPercentage = Math.round((completedItems / totalItems) * 100);
+    
+    // Update progress bar
+    const progressFill = document.getElementById('review-progress');
+    if (progressFill) {
+        progressFill.style.width = `${completionPercentage}%`;
+    }
+    
+    // Update progress text
+    const progressText = document.querySelector('.progress-text');
+    if (progressText) {
+        if (completionPercentage === 100) {
+            progressText.textContent = 'Profile complete! You can now receive reviews.';
+        } else {
+            progressText.textContent = `Complete your profile to get reviews (${completionPercentage}%)`;
+        }
+    }
+    
+    // Update review badge based on completion
+    const reviewBadge = document.getElementById('review-badge');
+    const reviewIcon = reviewBadge?.querySelector('.review-icon');
+    const reviewText = reviewBadge?.querySelector('.review-text');
+    
+    if (reviewBadge && reviewIcon && reviewText) {
+        if (completionPercentage === 100) {
+            reviewBadge.style.background = 'rgba(16, 185, 129, 0.1)';
+            reviewBadge.style.borderColor = '#10b981';
+            reviewBadge.style.color = '#10b981';
+            reviewIcon.textContent = '✓';
+            reviewText.textContent = 'Verified';
+        } else if (completionPercentage >= 75) {
+            reviewBadge.style.background = 'rgba(59, 130, 246, 0.1)';
+            reviewBadge.style.borderColor = '#3b82f6';
+            reviewBadge.style.color = '#3b82f6';
+            reviewIcon.textContent = '⭐';
+            reviewText.textContent = 'Almost Ready';
+        } else {
+            reviewBadge.style.background = 'rgba(255, 193, 7, 0.1)';
+            reviewBadge.style.borderColor = '#ffc107';
+            reviewBadge.style.color = '#ffc107';
+            reviewIcon.textContent = '⭐';
+            reviewText.textContent = 'New User';
+        }
+    }
 }
 
 // Show coming soon message

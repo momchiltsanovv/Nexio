@@ -25,10 +25,13 @@
     <div class="content">
         <div class="hero-header">
             <div class="hero-content">
-                <h1 class="hero-title">Ready to explore, <span id="profile-first-name">Student</span>? 🚀</h1>
-                <p class="hero-subtitle">Here is your profile overview</p>
+                <h1 class="hero-title">Welcome back, <span id="profile-first-name">Student</span></h1>
+                <p class="hero-subtitle">Manage your account and explore the marketplace</p>
             </div>
-            <span class="nexio-text">nexio</span>
+            <div class="brand-section">
+                <span class="nexio-text">nexio</span>
+                <p class="brand-tagline">Student Marketplace</p>
+            </div>
         </div>
     </div>
 </section>
@@ -39,8 +42,38 @@
         <h2 class="profile-name" id="profile-full-name">Student</h2>
         <p class="profile-email" id="profile-email">student@example.edu</p>
         <div class="profile-meta">
-            <span id="profile-username">@student</span>
-            <span id="profile-joined">Member</span>
+            <div class="meta-item">
+                <span class="meta-label">Username</span>
+                <span class="meta-value" id="profile-username">@student</span>
+            </div>
+            <div class="meta-item">
+                <span class="meta-label">Member since</span>
+                <span class="meta-value" id="profile-joined">January 2024</span>
+            </div>
+        </div>
+        
+        <!-- Verification Badges -->
+        <div class="verification-section">
+            <div class="verification-badges">
+                <div class="verification-badge" id="email-badge">
+                    <span class="badge-icon">✗</span>
+                    <span class="badge-text">Email Not Verified</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Social Links -->
+        <div class="social-links-section">
+            <div class="social-links">
+                <a href="#" class="social-link" id="instagram-link" title="Instagram">
+                    <div class="social-logo instagram-logo"></div>
+                    <span class="social-text">Instagram</span>
+                </a>
+                <a href="#" class="social-link" id="linkedin-link" title="LinkedIn">
+                    <div class="social-logo linkedin-logo"></div>
+                    <span class="social-text">LinkedIn</span>
+                </a>
+            </div>
         </div>
         <div class="profile-actions">
             <button class="btn btn-primary" onclick="window.location.href='/'">Browse Marketplace</button>
@@ -48,62 +81,81 @@
             <button class="btn" onclick="window.location.href='/login'">Logout</button>
         </div>
     </div>
+    
+    <!-- Review Status Section -->
+    <div class="review-status-section">
+        <div class="review-status-card">
+            <div class="review-header">
+                <h4 class="review-title">Review Status</h4>
+                <div class="review-badge" id="review-badge">
+                    <span class="review-icon">⭐</span>
+                    <span class="review-text">New User</span>
+                </div>
+            </div>
+            <div class="review-stats">
+                <div class="review-stat">
+                    <span class="stat-label">Rating</span>
+                    <span class="stat-value" id="user-rating">-</span>
+                </div>
+                <div class="review-stat">
+                    <span class="stat-label">Reviews</span>
+                    <span class="stat-value" id="review-count">0</span>
+                </div>
+            </div>
+            <div class="review-progress">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="review-progress" style="width: 0%"></div>
+                </div>
+                <span class="progress-text">Complete your profile to get reviews</span>
+            </div>
+        </div>
+    </div>
 </div>
 
 <div class="content">
-    <h3 class="section-title">Quick Actions</h3>
+    <div class="section-header">
+        <h3 class="section-title">Quick Actions</h3>
+        <p class="section-description">Access your most important features</p>
+    </div>
     <div class="quick-actions">
         <div class="action-card" onclick="window.location.href='/'">
-            <span class="action-icon">🛍️</span>
-            <h4>Browse Items</h4>
-            <p>Find textbooks, electronics, and more</p>
+            <div class="action-icon-wrapper">
+                <span class="action-icon">🛍️</span>
+            </div>
+            <div class="action-content">
+                <h4>Browse Items</h4>
+                <p>Find textbooks, electronics, and more</p>
+            </div>
         </div>
         <div class="action-card" onclick="showComingSoon('Sell Items')">
-            <span class="action-icon">💰</span>
-            <h4>Sell Items</h4>
-            <p>List your items for sale</p>
+            <div class="action-icon-wrapper">
+                <span class="action-icon">💰</span>
+            </div>
+            <div class="action-content">
+                <h4>Sell Items</h4>
+                <p>List your items for sale</p>
+            </div>
         </div>
         <div class="action-card" onclick="showComingSoon('Messages')">
-            <span class="action-icon">💬</span>
-            <h4>Messages</h4>
-            <p>Chat with buyers and sellers</p>
+            <div class="action-icon-wrapper">
+                <span class="action-icon">💬</span>
+            </div>
+            <div class="action-content">
+                <h4>Messages</h4>
+                <p>Chat with buyers and sellers</p>
+            </div>
         </div>
         <div class="action-card" onclick="showComingSoon('Wishlist')">
-            <span class="action-icon">❤️</span>
-            <h4>Wishlist</h4>
-            <p>Save items you want to buy</p>
+            <div class="action-icon-wrapper">
+                <span class="action-icon">❤️</span>
+            </div>
+            <div class="action-content">
+                <h4>Wishlist</h4>
+                <p>Save items you want to buy</p>
+            </div>
         </div>
     </div>
 
-    <h3 class="section-title">Your Recent Activity</h3>
-    <div class="activity-section">
-        <div class="empty-state">
-            <span class="empty-icon">📋</span>
-            <h4>No recent activity yet</h4>
-            <p>Start by browsing items or listing something for sale.</p>
-            <button class="btn btn-primary" onclick="window.location.href='/'">Get Started</button>
-        </div>
-    </div>
-
-    <h3 class="section-title">Account Statistics</h3>
-    <div class="stats-grid">
-        <div class="stat-card">
-            <h4>Items Listed</h4>
-            <span class="stat-number">0</span>
-        </div>
-        <div class="stat-card">
-            <h4>Items Sold</h4>
-            <span class="stat-number">0</span>
-        </div>
-        <div class="stat-card">
-            <h4>Items Bought</h4>
-            <span class="stat-number">0</span>
-        </div>
-        <div class="stat-card">
-            <h4>Rating</h4>
-            <span class="stat-number">⭐ New</span>
-        </div>
-    </div>
 </div>
 
 <!-- Edit Profile Modal -->
@@ -114,18 +166,44 @@
             <button class="close-btn" onclick="closeEditModal()">&times;</button>
         </div>
         <div class="modal-content">
-            <div class="form-group">
-                <label for="edit-first-name">First Name</label>
-                <input type="text" id="edit-first-name" class="form-input">
+            <div class="form-section">
+                <h4 class="form-section-title">Basic Information</h4>
+                <div class="form-group">
+                    <label for="edit-first-name">First Name</label>
+                    <input type="text" id="edit-first-name" class="form-input">
+                </div>
+                <div class="form-group">
+                    <label for="edit-last-name">Last Name</label>
+                    <input type="text" id="edit-last-name" class="form-input">
+                </div>
+                <div class="form-group">
+                    <label for="edit-email">Email</label>
+                    <input type="email" id="edit-email" class="form-input">
+                </div>
             </div>
-            <div class="form-group">
-                <label for="edit-last-name">Last Name</label>
-                <input type="text" id="edit-last-name" class="form-input">
+            
+            <div class="form-section">
+                <h4 class="form-section-title">Social Links</h4>
+                <div class="form-group">
+                    <label for="edit-instagram">Instagram</label>
+                    <input type="url" id="edit-instagram" class="form-input" placeholder="https://instagram.com/username">
+                </div>
+                <div class="form-group">
+                    <label for="edit-linkedin">LinkedIn</label>
+                    <input type="url" id="edit-linkedin" class="form-input" placeholder="https://linkedin.com/in/username">
+                </div>
             </div>
-            <div class="form-group">
-                <label for="edit-email">Email</label>
-                <input type="email" id="edit-email" class="form-input">
+            
+            <div class="form-section">
+                <h4 class="form-section-title">Verification</h4>
+                <div class="verification-options">
+                    <div class="verification-option">
+                        <span class="verification-label">Email Address</span>
+                        <button class="btn btn-sm" onclick="verifyEmail()" id="verify-email-btn">Verify Email</button>
+                    </div>
+                </div>
             </div>
+            
             <div class="modal-actions">
                 <button class="btn" onclick="closeEditModal()">Cancel</button>
                 <button class="btn btn-primary" onclick="saveProfile()">Save Changes</button>

@@ -51,9 +51,4 @@ public class User {
     @UpdateTimestamp
     private LocalDateTime updatedOn;
 
-    @Column
-    @OneToMany(mappedBy = "owner",
-               fetch = FetchType.EAGER)
-    private Set<Item> items;
-
 }

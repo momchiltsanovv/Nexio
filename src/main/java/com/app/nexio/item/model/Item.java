@@ -39,6 +39,6 @@ public class Item {
     @Column(nullable = false)
     private Category category;
 
-    @ManyToOne
+    @OneToOne
     private User owner;
 }
