@@ -31,51 +31,14 @@ document.addEventListener('DOMContentLoaded', () => {
     initializeUniversityDropdown();
 });
 
-// University Custom Select Functionality
+// University Select Functionality
 function initializeUniversityDropdown() {
-    const universitySelectButton = document.getElementById('universitySelectButton');
-    const universitySelectDropdown = document.getElementById('universitySelectDropdown');
-    const universitySelectedText = document.getElementById('universitySelectedText');
-    const universitySelectOptions = document.querySelectorAll('#universitySelectDropdown .select-option');
-    const universityHiddenInput = document.getElementById('register-university');
+    const universitySelect = document.getElementById('register-university');
 
-    if (universitySelectButton && universitySelectDropdown) {
-        universitySelectButton.addEventListener('click', () => {
-            universitySelectButton.classList.toggle('active');
-            universitySelectDropdown.classList.toggle('active');
-        });
-
-        // Close dropdown when clicking outside
-        document.addEventListener('click', (e) => {
-            if (!universitySelectButton.contains(e.target) && !universitySelectDropdown.contains(e.target)) {
-                universitySelectButton.classList.remove('active');
-                universitySelectDropdown.classList.remove('active');
-            }
-        });
-
-        universitySelectOptions.forEach(option => {
-            option.addEventListener('click', () => {
-                const value = option.dataset.value;
-                const text = option.textContent;
-
-                // Update selected option
-                universitySelectOptions.forEach(opt => opt.classList.remove('selected'));
-                option.classList.add('selected');
-
-                // Update button text and remove placeholder class
-                universitySelectedText.textContent = text;
-                universitySelectedText.classList.remove('placeholder');
-
-                // Update hidden input value
-                if (universityHiddenInput) {
-                    universityHiddenInput.value = value;
-                }
-
-                // Close dropdown
-                universitySelectButton.classList.remove('active');
-                universitySelectDropdown.classList.remove('active');
-            });
-        });
+    if (universitySelect) {
+        // The select element handles everything automatically
+        // No additional JavaScript needed for basic functionality
+        console.log('University select initialized');
     }
 }
 
@@ -366,19 +329,11 @@ function handleFormSubmission(button, formType) {
         // Reset form
         if (form) {
             form.reset();
-            // Reset university dropdown
-            const universitySelectedText = document.getElementById('universitySelectedText');
-            const universityHiddenInput = document.getElementById('register-university');
-            const universitySelectOptions = document.querySelectorAll('#universitySelectDropdown .select-option');
-
-            if (universitySelectedText) {
-                universitySelectedText.textContent = 'Select your university';
-                universitySelectedText.classList.add('placeholder');
+            // Reset university select to default option
+            const universitySelect = document.getElementById('register-university');
+            if (universitySelect) {
+                universitySelect.selectedIndex = 0; // Select the placeholder option
             }
-            if (universityHiddenInput) {
-                universityHiddenInput.value = '';
-            }
-            universitySelectOptions.forEach(opt => opt.classList.remove('selected'));
         }
     }, 800);
 }

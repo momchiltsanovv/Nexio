@@ -135,7 +135,15 @@ body {
     height: 70px;
 }
 
+.nav-logo {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+}
+
 .nav-logo h2 {
+    line-height: 1;
     font-family: var(--font-family-display);
     color: white;
     font-size: var(--font-size-4xl);
@@ -198,25 +206,13 @@ body {
     gap: 12px;
 }
 
+
 .nav-actions .btn {
     padding: 8px 16px;
     font-size: 13px;
     font-weight: 500;
 }
 
-.nav-toggle {
-    display: none;
-    flex-direction: column;
-    cursor: pointer;
-    gap: 4px;
-}
-
-.nav-toggle span {
-    width: 24px;
-    height: 2px;
-    background: white;
-    transition: all 0.3s ease;
-}
 
 /* Buttons */
 .btn {
@@ -1718,9 +1714,6 @@ body {
         display: none;
     }
 
-    .nav-toggle {
-        display: flex;
-    }
 
     .hero {
         height: 100vh;
@@ -2789,5 +2782,326 @@ body.modal-open .footer {
     .hero {
         background: white !important;
         color: black !important;
+    }
+}
+
+/* Navigation Subtitle */
+.nav-subtitle {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 10px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: none;
+}
+
+/* Navigation Options Button */
+.nav-options-btn {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.nav-options-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.3);
+    transform: translateY(-1px);
+}
+
+.nav-options-btn:active {
+    transform: translateY(0);
+}
+
+/* Navigation Options Dropdown */
+.nav-options-dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 20px;
+    background: rgba(33, 35, 70, 0.98);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    min-width: 280px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+    z-index: 1001;
+}
+
+.nav-options-dropdown.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.nav-options-content {
+    padding: 20px;
+}
+
+.nav-options-section {
+    margin-bottom: 20px;
+}
+
+.nav-options-section:last-child {
+    margin-bottom: 0;
+}
+
+.nav-options-section h4 {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 0 0 12px 0;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.nav-option-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.nav-option-link:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    transform: translateX(4px);
+}
+
+.nav-option-link svg {
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+}
+
+.nav-option-link:hover svg {
+    opacity: 1;
+}
+
+/* Mobile Navigation Options */
+@media (max-width: 768px) {
+    .nav-subtitle {
+        display: block;
+    }
+    
+    .nav-options-btn {
+        width: 36px;
+        height: 36px;
+        margin-left: 8px;
+    }
+    
+    .nav-options-dropdown {
+        display: block;
+        right: 10px;
+        min-width: 260px;
+        top: 100%;
+    }
+    
+    .nav-options-content {
+        padding: 16px;
+    }
+    
+    .nav-option-link {
+        padding: 8px 10px;
+        font-size: 13px;
+    }
+    
+    /* Mobile layout with only options button */
+    .nav-options-btn {
+        display: flex;
+        order: 2;
+    }
+    
+    .nav-actions {
+        display: none;
+    }
+    
+    .nav-menu {
+        display: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .nav-options-btn {
+        width: 32px;
+        height: 32px;
+    }
+    
+    .nav-options-dropdown {
+        display: block;
+        right: 8px;
+        min-width: 240px;
+    }
+    
+    .nav-options-content {
+        padding: 12px;
+    }
+    
+    .nav-option-link {
+        padding: 6px 8px;
+        font-size: 12px;
+    }
+    
+    .nav-actions {
+        display: none;
+    }
+}
+
+/* Filter Select Styles */
+.filter-select {
+    width: 100%;
+    padding: 8px 12px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    color: white;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23ffffff' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+    background-position: right 8px center;
+    background-repeat: no-repeat;
+    background-size: 16px;
+    padding-right: 32px;
+}
+
+.filter-select:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.filter-select:focus {
+    outline: none;
+    border-color: rgba(255, 255, 255, 0.4);
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1);
+}
+
+.filter-select option {
+    background: rgba(33, 35, 70, 0.98);
+    color: white;
+    padding: 8px;
+}
+
+/* Filter Section Mobile Styles */
+@media (max-width: 768px) {
+    .advanced-filters {
+        padding: 16px;
+        margin: 0 16px;
+    }
+    
+    .filter-row {
+        flex-direction: column;
+        gap: 16px;
+    }
+    
+    .filter-group {
+        width: 100%;
+    }
+    
+    .filter-label {
+        font-size: 14px;
+        margin-bottom: 8px;
+        color: rgba(255, 255, 255, 0.9);
+    }
+    
+    .filter-select {
+        width: 100%;
+        padding: 12px 16px;
+        font-size: 16px; /* Prevents zoom on iOS */
+        background: rgba(255, 255, 255, 0.15);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        border-radius: 12px;
+    }
+    
+    .price-range {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        width: 100%;
+    }
+    
+    .price-input {
+        flex: 1;
+        padding: 12px 16px;
+        background: rgba(255, 255, 255, 0.15);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        border-radius: 12px;
+        color: white;
+        font-size: 16px; /* Prevents zoom on iOS */
+        text-align: center;
+    }
+    
+    .price-input::placeholder {
+        color: rgba(255, 255, 255, 0.6);
+    }
+    
+    .price-range span {
+        color: rgba(255, 255, 255, 0.7);
+        font-weight: 500;
+        font-size: 18px;
+    }
+    
+    .filter-actions {
+        flex-direction: column;
+        gap: 12px;
+        margin-top: 20px;
+    }
+    
+    .btn-clear, .btn-apply {
+        width: 100%;
+        padding: 14px 20px;
+        font-size: 16px;
+        border-radius: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .advanced-filters {
+        padding: 12px;
+        margin: 0 8px;
+    }
+    
+    .filter-row {
+        gap: 12px;
+    }
+    
+    .filter-select {
+        padding: 10px 14px;
+        font-size: 15px;
+    }
+    
+    .price-input {
+        padding: 10px 14px;
+        font-size: 15px;
+    }
+    
+    .btn-clear, .btn-apply {
+        padding: 12px 16px;
+        font-size: 15px;
     }
 }

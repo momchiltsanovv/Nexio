@@ -474,9 +474,16 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Add typing effect to hero title with minimal delay
+    // Add typing effect to hero title with minimal delay (disabled on mobile)
     const heroTitle = document.querySelector('.hero-title');
     if (heroTitle) {
+        const isMobile = window.innerWidth <= 768;
+        
+        if (isMobile) {
+            // On mobile, just show the text immediately without typing effect
+            return;
+        }
+        
         const text = heroTitle.innerHTML;
         heroTitle.innerHTML = '';
         let i = 0;

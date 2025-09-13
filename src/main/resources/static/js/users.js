@@ -85,46 +85,13 @@ const users = [
 let filteredUsers = [...users];
 let currentSort = 'newest';
 
-// Custom Select Functionality
-const selectButton = document.getElementById('selectButton');
-const selectDropdown = document.getElementById('selectDropdown');
-const selectedText = document.getElementById('selectedText');
-const selectOptions = document.querySelectorAll('.select-option');
+// Standard Select Functionality
+const sortSelect = document.getElementById('sortSelect');
 
-selectButton.addEventListener('click', () => {
-    selectButton.classList.toggle('active');
-    selectDropdown.classList.toggle('active');
-});
-
-// Close dropdown when clicking outside
-document.addEventListener('click', (e) => {
-    if (!selectButton.contains(e.target) && !selectDropdown.contains(e.target)) {
-        selectButton.classList.remove('active');
-        selectDropdown.classList.remove('active');
-    }
-});
-
-selectOptions.forEach(option => {
-    option.addEventListener('click', () => {
-        const value = option.dataset.value;
-        const text = option.textContent;
-
-        // Update selected option
-        selectOptions.forEach(opt => opt.classList.remove('selected'));
-        option.classList.add('selected');
-
-        // Update button text
-        selectedText.textContent = text;
-
-        // Close dropdown
-        selectButton.classList.remove('active');
-        selectDropdown.classList.remove('active');
-
-        // Update sort
-        currentSort = value;
-        sortUsers();
-        renderUsers();
-    });
+sortSelect.addEventListener('change', () => {
+    currentSort = sortSelect.value;
+    sortUsers();
+    renderUsers();
 });
 
 function formatDate(dateString) {

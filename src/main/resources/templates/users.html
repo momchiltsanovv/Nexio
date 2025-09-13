@@ -22,21 +22,13 @@
             </div>
             <div class="sort-container">
                 <span class="sort-label">Sort by:</span>
-                <div class="custom-select">
-                    <button class="select-button" id="selectButton">
-                        <span id="selectedText">Newest</span>
-                        <svg class="select-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                        </svg>
-                    </button>
-                    <div class="select-dropdown" id="selectDropdown">
-                        <div class="select-option selected" data-value="newest">Newest</div>
-                        <div class="select-option" data-value="oldest">Oldest</div>
-                        <div class="select-option" data-value="name">Name</div>
-                        <div class="select-option" data-value="username">Username</div>
-                        <div class="select-option" data-value="email">Email</div>
-                    </div>
-                </div>
+                <select class="sort-select" id="sortSelect">
+                    <option value="newest">Newest</option>
+                    <option value="oldest">Oldest</option>
+                    <option value="name">Name</option>
+                    <option value="username">Username</option>
+                    <option value="email">Email</option>
+                </select>
             </div>
         </div>
     </div>

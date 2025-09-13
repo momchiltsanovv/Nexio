@@ -482,134 +482,25 @@ body {
     box-shadow: 0 0 0 3px rgba(206, 58, 129, 0.2);
 }
 
-/* Custom University Dropdown Styling */
-.custom-select {
-    position: relative;
-    width: 100%;
-}
-
-.select-button {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    padding: 0.75rem 1rem;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    border-radius: 0.8rem;
-    color: #ffffff;
-    font-size: 1rem;
-    font-weight: 500;
+/* Standard University Select Styling */
+.university-select {
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='rgba(255,255,255,0.7)' stroke-width='2'%3e%3cpath stroke-linecap='round' stroke-linejoin='round' d='M19 9l-7 7-7-7'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 16px;
+    padding-right: 40px;
     cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    backdrop-filter: blur(10px);
-    height: 46px;
-    text-align: left;
 }
 
-.select-button:hover {
-    border-color: rgba(255, 255, 255, 0.4);
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.1) 100%);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.select-button.active {
-    border-color: #CE3A81;
-    box-shadow: 0 0 0 3px rgba(206, 58, 129, 0.2);
-    background: rgba(255, 255, 255, 0.15);
-}
-
-.select-button .placeholder {
-    color: rgba(255, 255, 255, 0.6);
-}
-
-.select-arrow {
-    width: 16px;
-    height: 16px;
-    transition: transform 0.3s ease;
-    color: rgba(255, 255, 255, 0.7);
-    flex-shrink: 0;
-}
-
-.select-button.active .select-arrow {
-    transform: rotate(180deg);
-    color: #CE3A81;
-}
-
-.select-dropdown {
-    position: absolute;
-    top: calc(100% + 8px);
-    left: 0;
-    right: 0;
+.university-select option {
     background: #2D2D41;
-    border: 2px solid rgba(255, 255, 255, 0.2);
-    border-radius: 0.8rem;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-    backdrop-filter: blur(20px);
-    z-index: 1000;
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(-10px);
-    transition: all 0.3s ease;
-    max-height: 200px;
-    overflow-y: auto;
-}
-
-.select-dropdown.active {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-}
-
-.select-option {
-    padding: 0.75rem 1rem;
-    color: rgba(255, 255, 255, 0.8);
-    font-size: 1rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.select-option:last-child {
-    border-bottom: none;
-}
-
-.select-option:hover {
-    background: rgba(255, 255, 255, 0.1);
     color: #ffffff;
+    padding: 8px;
 }
 
-.select-option.selected {
-    background: linear-gradient(135deg, #CE3A81 0%, #A855F7 100%);
-    color: #ffffff;
-}
-
-.select-option:first-child {
-    border-radius: 0.6rem 0.6rem 0 0;
-}
-
-.select-option:last-child {
-    border-radius: 0 0 0.6rem 0.6rem;
-}
-
-/* Enhanced scrollbar for dropdown */
-.select-dropdown::-webkit-scrollbar {
-    width: 6px;
-}
-
-.select-dropdown::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 3px;
-}
-
-.select-dropdown::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.3);
-    border-radius: 3px;
-}
-
-.select-dropdown::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 255, 255, 0.4);
+.university-select option:disabled {
+    color: rgba(255, 255, 255, 0.6);
 }
 
 .password-container {

@@ -127,6 +127,13 @@ body {
     height: 80px;
 }
 
+.nav-logo {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+}
+
 .nav-logo h2 {
     font-family: "cooper-black-std", serif;
     font-size: 28px;
@@ -134,7 +141,21 @@ body {
     color: white;
     margin: 0;
     letter-spacing: -0.02em;
+    line-height: 1;
 }
+
+.nav-subtitle {
+    display: none;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1;
+}
+
 
 .nav-menu {
     display: flex;
@@ -194,19 +215,109 @@ body {
     height: 20px;
 }
 
-.nav-toggle {
+
+/* Navigation Options Button */
+.nav-options-btn {
     display: none;
-    flex-direction: column;
-    gap: 4px;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    color: white;
     cursor: pointer;
-    padding: 8px;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
 }
 
-.nav-toggle span {
-    width: 24px;
-    height: 2px;
-    background: white;
+.nav-options-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.3);
+    transform: translateY(-1px);
+}
+
+.nav-options-btn:active {
+    transform: translateY(0);
+}
+
+/* Navigation Options Dropdown */
+.nav-options-dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 20px;
+    background: rgba(33, 35, 70, 0.98);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    min-width: 280px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
     transition: all 0.3s ease;
+    z-index: 1001;
+}
+
+.nav-options-dropdown.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.nav-options-content {
+    padding: 20px;
+}
+
+.nav-options-section {
+    margin-bottom: 20px;
+}
+
+.nav-options-section:last-child {
+    margin-bottom: 0;
+}
+
+.nav-options-section h4 {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 0 0 12px 0;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.nav-option-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.nav-option-link:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    transform: translateX(4px);
+}
+
+.nav-option-link svg {
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+}
+
+.nav-option-link:hover svg {
+    opacity: 1;
 }
 
 /* Wishlist Hero Section */
@@ -411,18 +522,18 @@ body {
 
 .stats-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 24px;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 16px;
 }
 
 .stat-card {
     background: var(--surface-elevated);
     backdrop-filter: blur(20px);
-    border-radius: var(--radius-lg);
-    padding: 24px;
+    border-radius: var(--radius-md);
+    padding: 16px;
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 12px;
     box-shadow: var(--shadow);
     border: 1px solid var(--border);
     transition: all 0.3s ease;
@@ -435,9 +546,9 @@ body {
 }
 
 .stat-icon {
-    font-size: 32px;
-    width: 60px;
-    height: 60px;
+    font-size: 24px;
+    width: 45px;
+    height: 45px;
     background: linear-gradient(135deg, var(--secondary-color), var(--accent-color));
     border-radius: 50%;
     display: flex;
@@ -451,16 +562,16 @@ body {
 }
 
 .stat-number {
-    font-size: 28px;
+    font-size: 22px;
     font-weight: 700;
     color: white;
-    margin: 0 0 4px;
+    margin: 0 0 2px;
     font-family: "cooper-black-std", serif;
 }
 
 .stat-label {
     color: var(--text-light);
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 500;
     margin: 0;
 }
@@ -782,8 +893,9 @@ body {
 .item-price {
     font-size: 20px;
     font-weight: 700;
-    color: var(--secondary-color);
+    color: #ffffff;
     font-family: "cooper-black-std", serif;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 .item-condition {
@@ -855,16 +967,31 @@ body {
 }
 
 .btn-outline:hover {
-    background: var(--surface-hover);
+    background: #ef4444;
     border-color: #ef4444;
-    color: #ef4444;
-    box-shadow: var(--shadow);
+    color: white;
+    box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
     transform: translateY(-1px);
 }
 
 .btn-sm {
     padding: 8px 12px;
     font-size: 11px;
+}
+
+.remove-btn {
+    background: var(--surface);
+    color: white;
+    border: none;
+    backdrop-filter: blur(10px);
+}
+
+.remove-btn:hover {
+    background: #ef4444;
+    border-color: #ef4444;
+    color: white;
+    box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
+    transform: translateY(-1px);
 }
 
 /* Empty State */
@@ -933,20 +1060,79 @@ body {
 
 /* Mobile Responsiveness */
 @media (max-width: 768px) {
-    .nav-menu {
-        display: none;
+    /* Disable most animations and effects on mobile */
+    * {
+        transition: none !important;
+        animation: none !important;
     }
-
-    .nav-toggle {
-        display: flex;
+    
+    .reveal, .reveal-left, .reveal-right, .reveal-scale {
+        opacity: 1 !important;
+        transform: none !important;
     }
+    
 
     .nav-actions {
         gap: 8px;
     }
+    
+    .nav-logo h2 {
+        font-size: 24px;
+    }
+    
+    .nav-subtitle {
+        display: block;
+        font-size: 10px;
+        letter-spacing: 1px;
+    }
+    
+    
+    .nav-options-btn {
+        width: 36px;
+        height: 36px;
+        margin-left: 8px;
+    }
+    
+    .nav-options-dropdown {
+        display: block;
+        right: 10px;
+        min-width: 260px;
+        top: 100%;
+    }
+    
+    .nav-options-content {
+        padding: 16px;
+    }
+    
+    .nav-option-link {
+        padding: 8px 10px;
+        font-size: 13px;
+    }
+    
+    /* Ensure navbar branding is visible on mobile */
+    .nav-logo {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1px;
+    }
+    
+    /* Mobile layout with only options button */
+    .nav-options-btn {
+        display: flex;
+        order: 2;
+    }
+    
+    .nav-actions {
+        display: none;
+    }
+    
+    .nav-menu {
+        display: none;
+    }
 
     .wishlist-hero {
-        padding: 100px 0 40px;
+        padding: 140px 0 40px;
     }
 
     .hero-header {
@@ -962,17 +1148,7 @@ body {
     }
 
     .brand-section {
-        order: 1;
-        align-items: center;
-        text-align: center;
-    }
-
-    .nexio-text {
-        font-size: 48px;
-    }
-
-    .brand-tagline {
-        font-size: 12px;
+        display: none;
     }
 
     .hero-title {
@@ -1006,22 +1182,29 @@ body {
     }
 
     .stats-grid {
-        grid-template-columns: 1fr;
-        gap: 16px;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
     }
 
     .stat-card {
-        padding: 20px;
+        padding: 12px;
+        flex-direction: column;
+        text-align: center;
+        gap: 8px;
     }
 
     .stat-icon {
-        width: 50px;
-        height: 50px;
-        font-size: 24px;
+        width: 35px;
+        height: 35px;
+        font-size: 18px;
     }
 
     .stat-number {
-        font-size: 24px;
+        font-size: 18px;
+    }
+
+    .stat-label {
+        font-size: 11px;
     }
 
     .controls-section {
@@ -1080,6 +1263,35 @@ body {
         width: 100%;
         justify-content: center;
     }
+    
+    /* Disable hover effects on mobile */
+    .wishlist-item:hover {
+        transform: none !important;
+        box-shadow: var(--shadow) !important;
+        background: var(--surface-elevated) !important;
+        border-color: var(--border) !important;
+    }
+    
+    .stat-card:hover {
+        transform: none !important;
+        box-shadow: var(--shadow) !important;
+        background: var(--surface-elevated) !important;
+    }
+    
+    .btn:hover, .action-btn:hover, .filter-btn:hover {
+        transform: none !important;
+        box-shadow: none !important;
+    }
+    
+    .btn-icon:hover {
+        transform: none !important;
+    }
+    
+    /* Remove backdrop blur on mobile for better performance */
+    .navbar, .wishlist-header, .stats-section, .controls-section, .wishlist-item {
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+    }
 
     .empty-state {
         padding: 60px 20px;
@@ -1109,20 +1321,59 @@ body {
 }
 
 @media (max-width: 480px) {
+    /* Further reduce effects on very small screens */
+    .wishlist-item::before {
+        display: none !important;
+    }
+    
+    .action-btn::before, .btn::before, .filter-btn::before {
+        display: none !important;
+    }
+    
+    .nav-logo h2 {
+        font-size: 22px;
+    }
+    
+    .nav-subtitle {
+        display: block;
+        font-size: 9px;
+    }
+    
+    
+    .nav-options-btn {
+        width: 32px;
+        height: 32px;
+    }
+    
+    .nav-options-dropdown {
+        display: block;
+        right: 8px;
+        min-width: 240px;
+    }
+    
+    .nav-options-content {
+        padding: 12px;
+    }
+    
+    .nav-option-link {
+        padding: 6px 8px;
+        font-size: 12px;
+    }
+    
+    .nav-actions {
+        display: none;
+    }
+
     .wishlist-hero {
-        padding: 80px 0 30px;
+        padding: 120px 0 30px;
     }
 
     .hero-header {
         gap: 24px;
     }
 
-    .nexio-text {
-        font-size: 40px;
-    }
-
-    .brand-tagline {
-        font-size: 11px;
+    .brand-section {
+        display: none;
     }
 
     .hero-title {
@@ -1150,24 +1401,30 @@ body {
         font-size: 14px;
     }
 
+    .stats-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+
     .stat-card {
-        padding: 16px;
+        padding: 10px;
         flex-direction: column;
         text-align: center;
+        gap: 6px;
     }
 
     .stat-icon {
-        width: 40px;
-        height: 40px;
-        font-size: 20px;
+        width: 30px;
+        height: 30px;
+        font-size: 16px;
     }
 
     .stat-number {
-        font-size: 20px;
+        font-size: 16px;
     }
 
     .stat-label {
-        font-size: 12px;
+        font-size: 10px;
     }
 
     .controls-section {

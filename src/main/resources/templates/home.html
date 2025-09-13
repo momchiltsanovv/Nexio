@@ -15,34 +15,79 @@
     <!-- Navigation -->
     <nav class="navbar">
         <div class="nav-container">
-            <div class="nav-logo">
-                <h2>nexio</h2>
-            </div>
-            <div class="nav-menu" id="navMenu">
-                <a href="#home" class="nav-link">Home</a>
-                <a href="#features" class="nav-link">Features</a>
-                <a href="#categories" class="nav-link">Categories</a>
-                <a href="#about" class="nav-link">About</a>
-            </div>
-            <div class="nav-actions">
-                <button class="btn btn-icon" id="wishlistBtn" title="Wishlist">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+        <div class="nav-logo">
+            <h2>nexio</h2>
+            <span class="nav-subtitle">Student Marketplace</span>
+        </div>
+        <div class="nav-menu" id="navMenu">
+            <a href="/" class="nav-link">Home</a>
+            <a href="/profile" class="nav-link">Account</a>
+            <a href="/info" class="nav-link">About Us</a>
+        </div>
+        <button class="nav-options-btn" id="navOptionsBtn" title="Navigation Options">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="3" y1="6" x2="21" y2="6"/>
+                <line x1="3" y1="12" x2="21" y2="12"/>
+                <line x1="3" y1="18" x2="21" y2="18"/>
+            </svg>
+        </button>
+        <div class="nav-actions">
+            <button class="btn btn-icon" id="wishlistBtn" title="My Wishlist">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                </svg>
+            </button>
+            <button class="btn btn-icon" id="profileBtn" title="Profile">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                    <circle cx="12" cy="7" r="4"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+    
+    <!-- Navigation Options Dropdown -->
+    <div class="nav-options-dropdown" id="navOptionsDropdown">
+        <div class="nav-options-content">
+            <div class="nav-options-section">
+                <h4>Browse</h4>
+                <a href="/" class="nav-option-link">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                        <polyline points="9,22 9,12 15,12 15,22"/>
                     </svg>
-                </button>
-                <button class="btn btn-icon" id="profileBtn" title="Profile">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    Home
+                </a>
+            </div>
+            <div class="nav-options-section">
+                <h4>Account</h4>
+                <a href="/profile" class="nav-option-link">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
                         <circle cx="12" cy="7" r="4"/>
                     </svg>
-                </button>
+                    My Profile
+                </a>
+                <a href="/wishlist" class="nav-option-link">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                    </svg>
+                    My Wishlist
+                </a>
             </div>
-            <div class="nav-toggle" id="navToggle">
-                <span></span>
-                <span></span>
-                <span></span>
+            <div class="nav-options-section">
+                <h4>About</h4>
+                <a href="/info" class="nav-option-link">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+                        <line x1="12" y1="17" x2="12.01" y2="17"/>
+                    </svg>
+                    About Us
+                </a>
             </div>
         </div>
+    </div>
     </nav>
 
     <!-- Search and Filter Section -->
@@ -63,58 +108,42 @@
                 </button>
             </div>
             
-            <!-- Quick Filter Buttons -->
-            <div class="quick-filters" id="quickFilters">
-                <button class="quick-filter-btn active" data-filter="all">All Items</button>
-                <button class="quick-filter-btn" data-filter="textbooks">📚 Textbooks</button>
-                <button class="quick-filter-btn" data-filter="electronics">💻 Electronics</button>
-                <button class="quick-filter-btn" data-filter="furniture">🪑 Furniture</button>
-                <button class="quick-filter-btn" data-filter="clothing">👕 Clothing</button>
-                <button class="quick-filter-btn" data-filter="sports">⚽ Sports</button>
-                <button class="quick-filter-btn" data-filter="under-50">Under $50</button>
-                <button class="quick-filter-btn" data-filter="new-items">New Items</button>
-            </div>
 
             <div class="advanced-filters" id="advancedFilters">
                 <div class="filter-row">
                     <div class="filter-group">
                         <label class="filter-label">Category</label>
-                        <div class="custom-select" id="categorySelect">
-                            <button type="button" class="select-button">
-                                <span class="select-text">All Categories</span>
-                                <svg class="select-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <polyline points="6,9 12,15 18,9"></polyline>
-                                </svg>
-                            </button>
-                            <div class="select-dropdown">
-                                <div class="select-option selected" data-value="">All Categories</div>
-                                <div class="select-option" data-value="textbooks">Textbooks</div>
-                                <div class="select-option" data-value="electronics">Electronics</div>
-                                <div class="select-option" data-value="furniture">Furniture</div>
-                                <div class="select-option" data-value="clothing">Clothing</div>
-                                <div class="select-option" data-value="sports">Sports</div>
-                                <div class="select-option" data-value="other">Other</div>
-                            </div>
-                        </div>
+                        <select class="filter-select" id="categorySelect">
+                            <option value="">All Categories</option>
+                            <option value="textbooks">Textbooks</option>
+                            <option value="electronics">Electronics</option>
+                            <option value="furniture">Furniture</option>
+                            <option value="clothing">Clothing</option>
+                            <option value="sports">Sports</option>
+                            <option value="other">Other</option>
+                        </select>
                     </div>
                     <div class="filter-group">
                         <label class="filter-label">Condition</label>
-                        <div class="custom-select" id="conditionSelect">
-                            <button type="button" class="select-button">
-                                <span class="select-text">All Conditions</span>
-                                <svg class="select-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <polyline points="6,9 12,15 18,9"></polyline>
-                                </svg>
-                            </button>
-                            <div class="select-dropdown">
-                                <div class="select-option selected" data-value="">All Conditions</div>
-                                <div class="select-option" data-value="new">New</div>
-                                <div class="select-option" data-value="like-new">Like New</div>
-                                <div class="select-option" data-value="good">Good</div>
-                                <div class="select-option" data-value="fair">Fair</div>
-                            </div>
-                        </div>
+                        <select class="filter-select" id="conditionSelect">
+                            <option value="">All Conditions</option>
+                            <option value="new">New</option>
+                            <option value="like-new">Like New</option>
+                            <option value="good">Good</option>
+                            <option value="fair">Fair</option>
+                        </select>
                     </div>
+                    <div class="filter-group">
+                        <label class="filter-label">Location</label>
+                        <select class="filter-select" id="locationSelect">
+                            <option value="">All Locations</option>
+                            <option value="campus">On Campus</option>
+                            <option value="nearby">Nearby</option>
+                            <option value="shipping">Shipping Available</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="filter-row">
                     <div class="filter-group">
                         <label class="filter-label">Price Range</label>
                         <div class="price-range">
@@ -123,57 +152,14 @@
                             <input type="number" class="price-input" id="maxPrice" placeholder="Max" min="0">
                         </div>
                     </div>
-                </div>
-                <div class="filter-row">
                     <div class="filter-group">
                         <label class="filter-label">Sort By</label>
-                        <div class="custom-select" id="sortSelect">
-                            <button type="button" class="select-button">
-                                <span class="select-text">Newest First</span>
-                                <svg class="select-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <polyline points="6,9 12,15 18,9"></polyline>
-                                </svg>
-                            </button>
-                            <div class="select-dropdown">
-                                <div class="select-option selected" data-value="newest">Newest First</div>
-                                <div class="select-option" data-value="price-low">Price: Low to High</div>
-                                <div class="select-option" data-value="price-high">Price: High to Low</div>
-                                <div class="select-option" data-value="popular">Most Popular</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="filter-group">
-                        <label class="filter-label">Location</label>
-                        <div class="custom-select" id="locationSelect">
-                            <button type="button" class="select-button">
-                                <span class="select-text">All Locations</span>
-                                <svg class="select-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <polyline points="6,9 12,15 18,9"></polyline>
-                                </svg>
-                            </button>
-                            <div class="select-dropdown">
-                                <div class="select-option selected" data-value="">All Locations</div>
-                                <div class="select-option" data-value="campus">On Campus</div>
-                                <div class="select-option" data-value="nearby">Nearby</div>
-                                <div class="select-option" data-value="shipping">Shipping Available</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="filter-group">
-                        <label class="filter-label">Availability</label>
-                        <div class="custom-select" id="availabilitySelect">
-                            <button type="button" class="select-button">
-                                <span class="select-text">All Items</span>
-                                <svg class="select-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <polyline points="6,9 12,15 18,9"></polyline>
-                                </svg>
-                            </button>
-                            <div class="select-dropdown">
-                                <div class="select-option selected" data-value="">All Items</div>
-                                <div class="select-option" data-value="available">Available Now</div>
-                                <div class="select-option" data-value="reserved">Reserved</div>
-                            </div>
-                        </div>
+                        <select class="filter-select" id="sortSelect">
+                            <option value="newest">Newest First</option>
+                            <option value="price-low">Price: Low to High</option>
+                            <option value="price-high">Price: High to Low</option>
+                            <option value="popular">Most Popular</option>
+                        </select>
                     </div>
                 </div>
                 <div class="filter-actions">

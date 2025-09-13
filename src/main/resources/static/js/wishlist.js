@@ -171,6 +171,33 @@ function getSampleWishlistData() {
 
 // Set up event listeners
 function setupEventListeners() {
+    
+    // Navigation options dropdown toggle
+    const navOptionsBtn = document.getElementById('navOptionsBtn');
+    const navOptionsDropdown = document.getElementById('navOptionsDropdown');
+    
+    if (navOptionsBtn && navOptionsDropdown) {
+        navOptionsBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            navOptionsDropdown.classList.toggle('active');
+        });
+        
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!navOptionsBtn.contains(e.target) && !navOptionsDropdown.contains(e.target)) {
+                navOptionsDropdown.classList.remove('active');
+            }
+        });
+        
+        // Close dropdown when clicking on a link
+        const navOptionLinks = navOptionsDropdown.querySelectorAll('.nav-option-link');
+        navOptionLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                navOptionsDropdown.classList.remove('active');
+            });
+        });
+    }
+    
     // Filter buttons
     const filterButtons = document.querySelectorAll('.filter-btn');
     filterButtons.forEach(btn => {
