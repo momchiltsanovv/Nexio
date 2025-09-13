@@ -16,6 +16,34 @@ let profileData = {
 
 // Initialize profile on page load
 document.addEventListener('DOMContentLoaded', function() {
+    // Navigation Options Button functionality
+    const navOptionsBtn = document.getElementById('navOptionsBtn');
+    const navOptionsDropdown = document.getElementById('navOptionsDropdown');
+    
+    if (navOptionsBtn && navOptionsDropdown) {
+        // Toggle dropdown on button click
+        navOptionsBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            navOptionsDropdown.classList.toggle('active');
+        });
+        
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!navOptionsBtn.contains(e.target) && !navOptionsDropdown.contains(e.target)) {
+                navOptionsDropdown.classList.remove('active');
+            }
+        });
+        
+        // Close dropdown when clicking on links
+        const navOptionLinks = navOptionsDropdown.querySelectorAll('.nav-option-link');
+        navOptionLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                navOptionsDropdown.classList.remove('active');
+            });
+        });
+    }
+
     loadProfileData();
     populateProfile();
 });
@@ -509,6 +537,31 @@ document.addEventListener('DOMContentLoaded', function() {
             input.addEventListener('input', saveDraft);
         }
     });
+});
+
+// Navbar scroll effect
+let ticking = false;
+const navbar = document.querySelector('.navbar');
+
+function updateNavbar() {
+    if (window.scrollY > 100) {
+        navbar.style.background = 'rgba(33, 35, 70, 0.98)';
+        navbar.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.3)';
+        navbar.classList.add('scrolled');
+    } else {
+        navbar.style.background = 'rgba(33, 35, 70, 0.95)';
+        navbar.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.2)';
+        navbar.classList.remove('scrolled');
+    }
+    ticking = false;
+}
+
+// Override the global scroll handler
+window.addEventListener('scroll', () => {
+    if (!ticking) {
+        requestAnimationFrame(updateNavbar);
+        ticking = true;
+    }
 });
 
 console.log('Profile page loaded successfully!');

@@ -12,6 +12,19 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body class="estore-home">
+    <!-- Particle Background -->
+    <div class="particle-background">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+    </div>
+
     <!-- Navigation -->
     <nav class="navbar">
         <div class="nav-container">
@@ -21,7 +34,7 @@
         </div>
         <div class="nav-menu" id="navMenu">
             <a href="/" class="nav-link">Home</a>
-            <a href="/profile" class="nav-link">Account</a>
+            <a href="/post-item" class="nav-link">Post Item</a>
             <a href="/info" class="nav-link">About Us</a>
         </div>
         <button class="nav-options-btn" id="navOptionsBtn" title="Navigation Options">
@@ -37,7 +50,7 @@
                     <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
                 </svg>
             </button>
-            <button class="btn btn-icon" id="profileBtn" title="Profile">
+            <button class="btn btn-icon" id="profileBtn" title="My Account">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
                     <circle cx="12" cy="7" r="4"/>
@@ -61,6 +74,14 @@
             </div>
             <div class="nav-options-section">
                 <h4>Account</h4>
+                <a href="/post-item" class="nav-option-link">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
+                        <polyline points="17,21 17,13 7,13 7,21"/>
+                        <polyline points="7,3 7,8 15,8"/>
+                    </svg>
+                    Post Item
+                </a>
                 <a href="/profile" class="nav-option-link">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
@@ -170,217 +191,213 @@
         </div>
     </section>
 
-    <!-- Main Showcase Section -->
-    <section class="showcase-section">
-        <div class="showcase-container">
-            <!-- Product Slider -->
-            <div class="product-slider">
-                <div class="slider-main">
-                    <div class="slider-overlay">
-                        <div class="overlay-title">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
-                            </svg>
-                            Complete your dorm with essential furniture
-                        </div>
-                        <div class="overlay-text">
-                            Find everything you need for your university life - from textbooks to electronics, all from fellow students.
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="slider-nav">
-                    <div class="slider-product">
-                        <div class="product-thumb">🪑</div>
-                        <div class="product-info">
-                            <h4>Study Chair</h4>
-                            <p>Comfortable ergonomic chair</p>
-                        </div>
-                    </div>
-                    <div class="slider-controls">
-                        <button class="slider-arrow">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <polyline points="15,18 9,12 15,6"/>
-                            </svg>
-                        </button>
-                        <span class="slider-counter">1/5</span>
-                        <button class="slider-arrow">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <polyline points="9,18 15,12 9,6"/>
-                            </svg>
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Featured Product -->
-            <div class="featured-product">
-                <div class="product-image">
-                    <div class="color-swatches">
-                        <div class="color-swatch color-grey active"></div>
-                        <div class="color-swatch color-brown"></div>
-                        <div class="color-swatch color-light-grey"></div>
-                    </div>
-                    <div style="font-size: 48px;">💻</div>
-                </div>
-                <div class="product-details">
-                    <h3>MacBook Pro 13" M2 Chip</h3>
-                    <div class="product-store">by Apple Store</div>
-                    <button class="add-to-cart">
-                        <span class="price">$1,299.00</span>
-                        <span>Add to Cart</span>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </section>
 
     <!-- Popular Products Section -->
     <section class="popular-section">
         <div class="popular-container">
             <div class="section-header">
-                <h2 class="section-title">Popular products</h2>
+                <h2 class="section-title">Posted products</h2>
             </div>
 
             <div class="products-grid">
                 <div class="product-card" data-category="electronics" data-condition="new" data-location="campus" data-availability="available">
-                    <div class="product-image-container">
+                    <div class="item-image">
+                        <div class="item-emoji">💻</div>
+                        <div class="item-badge">Electronics</div>
                         <div class="wishlist-icon">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
                             </svg>
                         </div>
-                        <div style="font-size: 48px;">💻</div>
                     </div>
-                    <div class="product-price">$1,299.00</div>
-                    <div class="product-name">MacBook Pro 13" M2 Chip</div>
-                    <div class="product-brand">Apple</div>
+                    <div class="item-content">
+                        <h3 class="item-title">MacBook Pro 13" M2 Chip</h3>
+                        <p class="item-description">2022 MacBook Pro with M2 chip, 8GB RAM, 256GB SSD</p>
+                        <div class="item-meta">
+                            <span class="item-price">$1,299.00</span>
+                            <span class="item-condition">New</span>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="product-card" data-category="electronics" data-condition="like-new" data-location="nearby" data-availability="available">
-                    <div class="product-image-container">
+                    <div class="item-image">
+                        <div class="item-emoji">📱</div>
+                        <div class="item-badge">Electronics</div>
                         <div class="wishlist-icon active">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                                 <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
                             </svg>
                         </div>
-                        <div style="font-size: 48px;">📱</div>
                     </div>
-                    <div class="product-price">$999.00</div>
-                    <div class="product-name">iPhone 14 Pro</div>
-                    <div class="product-brand">Apple</div>
+                    <div class="item-content">
+                        <h3 class="item-title">iPhone 14 Pro</h3>
+                        <p class="item-description">Latest iPhone with Pro camera system and A16 Bionic chip</p>
+                        <div class="item-meta">
+                            <span class="item-price">$999.00</span>
+                            <span class="item-condition">Like New</span>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="product-card" data-category="electronics" data-condition="new" data-location="campus" data-availability="available">
-                    <div class="product-image-container">
+                    <div class="item-image">
+                        <div class="item-emoji">🎧</div>
+                        <div class="item-badge">Electronics</div>
                         <div class="wishlist-icon">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
                             </svg>
                         </div>
-                        <div style="font-size: 48px;">🎧</div>
                     </div>
-                    <div class="product-price">$249.00</div>
-                    <div class="product-name">AirPods Pro 2nd Gen</div>
-                    <div class="product-brand">Apple</div>
+                    <div class="item-content">
+                        <h3 class="item-title">AirPods Pro 2nd Gen</h3>
+                        <p class="item-description">Wireless earbuds with active noise cancellation and spatial audio</p>
+                        <div class="item-meta">
+                            <span class="item-price">$249.00</span>
+                            <span class="item-condition">New</span>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="product-card" data-category="textbooks" data-condition="good" data-location="campus" data-availability="available">
-                    <div class="product-image-container">
+                    <div class="item-image">
+                        <div class="item-emoji">📚</div>
+                        <div class="item-badge">Textbook</div>
                         <div class="wishlist-icon">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
                             </svg>
                         </div>
-                        <div style="font-size: 48px;">📚</div>
                     </div>
-                    <div class="product-price">$89.50</div>
-                    <div class="product-name">Calculus Textbook</div>
-                    <div class="product-brand">Pearson</div>
+                    <div class="item-content">
+                        <h3 class="item-title">Calculus Textbook</h3>
+                        <p class="item-description">Used textbook in good condition, 8th edition by Pearson</p>
+                        <div class="item-meta">
+                            <span class="item-price">$89.50</span>
+                            <span class="item-condition">Good</span>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="product-card" data-category="electronics" data-condition="fair" data-location="shipping" data-availability="reserved">
-                    <div class="product-image-container">
+                    <div class="item-image">
+                        <div class="item-emoji">🎧</div>
+                        <div class="item-badge">Electronics</div>
                         <div class="wishlist-icon active">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                                 <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
                             </svg>
                         </div>
-                        <div style="font-size: 48px;">🎧</div>
                     </div>
-                    <div class="product-price">$684.60</div>
-                    <div class="product-name">Buds 4 Lite Black</div>
-                    <div class="product-brand">Xiaomi</div>
+                    <div class="item-content">
+                        <h3 class="item-title">Buds 4 Lite Black</h3>
+                        <p class="item-description">Wireless earbuds with noise cancellation, black color</p>
+                        <div class="item-meta">
+                            <span class="item-price">$684.60</span>
+                            <span class="item-condition">Fair</span>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="product-card" data-category="electronics" data-condition="like-new" data-location="nearby" data-availability="available">
-                    <div class="product-image-container">
+                    <div class="item-image">
+                        <div class="item-emoji">🎮</div>
+                        <div class="item-badge">Electronics</div>
                         <div class="wishlist-icon active">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                                 <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
                             </svg>
                         </div>
-                        <div style="font-size: 48px;">🎮</div>
                     </div>
-                    <div class="product-price">$684.60</div>
-                    <div class="product-name">PlayStation 5 825GB</div>
-                    <div class="product-brand">Sony</div>
+                    <div class="item-content">
+                        <h3 class="item-title">PlayStation 5 825GB</h3>
+                        <p class="item-description">Next-gen gaming console with 825GB SSD storage</p>
+                        <div class="item-meta">
+                            <span class="item-price">$684.60</span>
+                            <span class="item-condition">Like New</span>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="product-card" data-category="electronics" data-condition="good" data-location="campus" data-availability="available">
-                    <div class="product-image-container">
+                    <div class="item-image">
+                        <div class="item-emoji">⌚</div>
+                        <div class="item-badge">Electronics</div>
                         <div class="wishlist-icon">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
                             </svg>
                         </div>
-                        <div style="font-size: 48px;">⌚</div>
                     </div>
-                    <div class="product-price">$168.50</div>
-                    <div class="product-name">Galaxy Watch4 40mm</div>
-                    <div class="product-brand">Samsung</div>
+                    <div class="item-content">
+                        <h3 class="item-title">Galaxy Watch4 40mm</h3>
+                        <p class="item-description">Smartwatch with health monitoring and fitness tracking</p>
+                        <div class="item-meta">
+                            <span class="item-price">$168.50</span>
+                            <span class="item-condition">Good</span>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="product-card" data-category="furniture" data-condition="like-new" data-location="campus" data-availability="available">
-                    <div class="product-image-container">
+                    <div class="item-image">
+                        <div class="item-emoji">🪑</div>
+                        <div class="item-badge">Furniture</div>
                         <div class="wishlist-icon">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
                             </svg>
                         </div>
-                        <div style="font-size: 48px;">🪑</div>
                     </div>
-                    <div class="product-price">$45.00</div>
-                    <div class="product-name">Office Chair</div>
-                    <div class="product-brand">IKEA</div>
+                    <div class="item-content">
+                        <h3 class="item-title">Office Chair</h3>
+                        <p class="item-description">Ergonomic office chair with adjustable height and lumbar support</p>
+                        <div class="item-meta">
+                            <span class="item-price">$45.00</span>
+                            <span class="item-condition">Like New</span>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="product-card" data-category="clothing" data-condition="new" data-location="nearby" data-availability="available">
-                    <div class="product-image-container">
+                    <div class="item-image">
+                        <div class="item-emoji">👕</div>
+                        <div class="item-badge">Clothing</div>
                         <div class="wishlist-icon">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
                             </svg>
                         </div>
-                        <div style="font-size: 48px;">👕</div>
                     </div>
-                    <div class="product-price">$25.00</div>
-                    <div class="product-name">University Hoodie</div>
-                    <div class="product-brand">Nike</div>
+                    <div class="item-content">
+                        <h3 class="item-title">University Hoodie</h3>
+                        <p class="item-description">Official university hoodie, comfortable and warm</p>
+                        <div class="item-meta">
+                            <span class="item-price">$25.00</span>
+                            <span class="item-condition">New</span>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="product-card" data-category="sports" data-condition="good" data-location="campus" data-availability="available">
-                    <div class="product-image-container">
+                    <div class="item-image">
+                        <div class="item-emoji">⚽</div>
+                        <div class="item-badge">Sports</div>
                         <div class="wishlist-icon">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
                             </svg>
                         </div>
-                        <div style="font-size: 48px;">⚽</div>
                     </div>
-                    <div class="product-price">$15.00</div>
-                    <div class="product-name">Soccer Ball</div>
-                    <div class="product-brand">Adidas</div>
+                    <div class="item-content">
+                        <h3 class="item-title">Soccer Ball</h3>
+                        <p class="item-description">Professional soccer ball, size 5, used for training</p>
+                        <div class="item-meta">
+                            <span class="item-price">$15.00</span>
+                            <span class="item-condition">Good</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

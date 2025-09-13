@@ -207,16 +207,18 @@ document.addEventListener('DOMContentLoaded', function() {
                 grid-column: 1 / -1;
                 text-align: center;
                 padding: 60px 20px;
-                color: var(--text-muted);
+                color: #ffffff;
                 font-size: 18px;
-                background: var(--surface-light);
+                background: var(--surface-elevated);
+                backdrop-filter: blur(20px);
                 border-radius: var(--radius-xl);
-                border: 1px solid var(--border-light);
+                border: 1px solid var(--border);
+                box-shadow: var(--shadow);
             `;
             noResultsMsg.innerHTML = `
                 <div style="font-size: 48px; margin-bottom: 16px;">🔍</div>
-                <h3 style="margin: 0 0 8px 0; color: var(--text-dark);">No results found</h3>
-                <p style="margin: 0;">No products match "${searchTerm}". Try a different search term.</p>
+                <h3 style="margin: 0 0 8px 0; color: #ffffff; font-weight: 700;">No results found</h3>
+                <p style="margin: 0; color: rgba(255, 255, 255, 0.8);">No products match "${searchTerm}". Try a different search term.</p>
             `;
             if (productsGrid) {
                 productsGrid.appendChild(noResultsMsg);

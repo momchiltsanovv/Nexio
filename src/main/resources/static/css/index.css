@@ -26,6 +26,7 @@
     --background: linear-gradient(135deg, #212346 0%, #212346 50%, #CE3A81 100%);
     --surface: rgba(255, 255, 255, 0.05);
     --surface-hover: rgba(255, 255, 255, 0.08);
+    --surface-elevated: rgba(255, 255, 255, 0.08);
     --surface-light: #ffffff;
     --surface-light-hover: #f8fafc;
     
@@ -128,7 +129,7 @@ body {
 .nav-container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 20px;
+    padding: 0 24px;
     display: flex;
     align-items: center;
     justify-content: space-between;

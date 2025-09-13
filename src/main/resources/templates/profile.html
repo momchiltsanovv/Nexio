@@ -4,8 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nexio - Profile</title>
+    <link rel="stylesheet" href="/static/css/index.css">
     <link rel="stylesheet" href="/static/css/profile.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://use.typekit.net/rau1mwa.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
 <!-- Particle Background -->
@@ -20,6 +24,82 @@
     <div class="particle"></div>
     <div class="particle"></div>
 </div>
+<nav class="navbar">
+    <div class="nav-container">
+        <div class="nav-logo">
+            <h2>nexio</h2>
+            <span class="nav-subtitle">Student Marketplace</span>
+        </div>
+        <div class="nav-menu" id="navMenu">
+            <a href="/" class="nav-link">Home</a>
+            <a href="/profile" class="nav-link">Account</a>
+            <a href="/info" class="nav-link">About Us</a>
+        </div>
+        <button class="nav-options-btn" id="navOptionsBtn" title="Navigation Options">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="3" y1="6" x2="21" y2="6"/>
+                <line x1="3" y1="12" x2="21" y2="12"/>
+                <line x1="3" y1="18" x2="21" y2="18"/>
+            </svg>
+        </button>
+        <div class="nav-actions">
+            <button class="btn btn-icon" id="wishlistBtn" title="My Wishlist">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                </svg>
+            </button>
+            <button class="btn btn-icon" id="profileBtn" title="My Account">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                    <circle cx="12" cy="7" r="4"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+    
+    <!-- Navigation Options Dropdown -->
+    <div class="nav-options-dropdown" id="navOptionsDropdown">
+        <div class="nav-options-content">
+            <div class="nav-options-section">
+                <h4>Browse</h4>
+                <a href="/" class="nav-option-link">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                        <polyline points="9,22 9,12 15,12 15,22"/>
+                    </svg>
+                    Home
+                </a>
+            </div>
+            <div class="nav-options-section">
+                <h4>Account</h4>
+                <a href="/profile" class="nav-option-link">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                        <circle cx="12" cy="7" r="4"/>
+                    </svg>
+                    My Profile
+                </a>
+                <a href="/wishlist" class="nav-option-link">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                    </svg>
+                    My Wishlist
+                </a>
+            </div>
+            <div class="nav-options-section">
+                <h4>About</h4>
+                <a href="/info" class="nav-option-link">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+                        <line x1="12" y1="17" x2="12.01" y2="17"/>
+                    </svg>
+                    About Us
+                </a>
+            </div>
+        </div>
+    </div>
+</nav>
 
 <section class="profile-hero">
     <div class="content">
@@ -76,9 +156,25 @@
             </div>
         </div>
         <div class="profile-actions">
-            <button class="btn btn-primary" onclick="window.location.href='/'">Browse Marketplace</button>
-            <button class="btn" onclick="toggleEditMode()">Edit Profile</button>
-            <button class="btn" onclick="window.location.href='/login'">Logout</button>
+            <button class="btn-icon" onclick="window.location.href='/'" title="Browse Marketplace">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                    <polyline points="9,22 9,12 15,12 15,22"/>
+                </svg>
+            </button>
+            <button class="btn-icon" onclick="toggleEditMode()" title="Edit Profile">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                </svg>
+            </button>
+            <button class="btn-icon" onclick="window.location.href='/login'" title="Logout">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                    <polyline points="16,17 21,12 16,7"/>
+                    <line x1="21" y1="12" x2="9" y2="12"/>
+                </svg>
+            </button>
         </div>
     </div>
     
@@ -205,8 +301,17 @@
             </div>
             
             <div class="modal-actions">
-                <button class="btn" onclick="closeEditModal()">Cancel</button>
-                <button class="btn btn-primary" onclick="saveProfile()">Save Changes</button>
+                <button class="btn-icon" onclick="closeEditModal()" title="Cancel">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"/>
+                        <line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                </button>
+                <button class="btn-icon" onclick="saveProfile()" title="Save Changes">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="20,6 9,17 4,12"/>
+                    </svg>
+                </button>
             </div>
         </div>
     </div>
