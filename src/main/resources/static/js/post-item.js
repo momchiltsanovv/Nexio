@@ -292,17 +292,28 @@ function showFieldError(field, message) {
     const errorDiv = document.createElement('div');
     errorDiv.className = 'field-error';
     errorDiv.textContent = message;
-    errorDiv.style.color = 'var(--error-color)';
-    errorDiv.style.fontSize = '12px';
-    errorDiv.style.marginTop = '4px';
     
-    field.parentNode.appendChild(errorDiv);
+    // Special handling for price field which has a nested structure
+    if (field.name === 'price' && field.parentNode.classList.contains('price-input-group')) {
+        // Insert error after the price input group, not inside it
+        field.parentNode.parentNode.insertBefore(errorDiv, field.parentNode.nextSibling);
+    } else {
+        // Insert the error message after the field but within the form group
+        field.parentNode.insertBefore(errorDiv, field.nextSibling);
+    }
 }
 
 function clearFieldError(field) {
     field.style.borderColor = '';
     
-    const existingError = field.parentNode.querySelector('.field-error');
+    // Special handling for price field which has a nested structure
+    let searchContainer = field.parentNode;
+    if (field.name === 'price' && field.parentNode.classList.contains('price-input-group')) {
+        // Search in the form group (parent of price-input-group) for the error
+        searchContainer = field.parentNode.parentNode;
+    }
+    
+    const existingError = searchContainer.querySelector('.field-error');
     if (existingError) {
         existingError.remove();
     }

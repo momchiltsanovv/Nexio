@@ -10,6 +10,7 @@
     --secondary-color: #CE3A81;
     --accent-color: #A855F7;
     --highlight-color: #CE3A81;
+    --error-color: #ff4757;
     --text-primary: #ffffff;
     --text-secondary: rgba(255, 255, 255, 0.9);
     --text-light: rgba(255, 255, 255, 0.8);
@@ -420,6 +421,7 @@ body {
     display: flex;
     flex-direction: column;
     gap: 8px;
+    position: relative;
 }
 
 .form-label {
@@ -460,6 +462,17 @@ body {
 .form-textarea {
     resize: vertical;
     min-height: 100px;
+}
+
+/* Field Error Styling */
+.field-error {
+    color: var(--error-color) !important;
+    font-size: 12px !important;
+    font-weight: 500;
+    margin-top: 4px !important;
+    display: block;
+    width: 100%;
+    line-height: 1.4;
 }
 
 .price-input-group {
