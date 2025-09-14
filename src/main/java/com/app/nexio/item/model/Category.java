@@ -1,9 +1,11 @@
 package com.app.nexio.item.model;
 
 public enum Category {
+    TEXTBOOKS,
     ELECTRONICS,
-    FASHION,
-    HOME,
-    BOOKS,
+    FURNITURE,
+    CLOTHING,
+    SPORTS,
+    ACCESSORIES,
     SERVICES
 }

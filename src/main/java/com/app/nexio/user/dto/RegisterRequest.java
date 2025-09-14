@@ -16,9 +16,19 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class RegisterRequest {
 
-    @Size(min = 6, message = "Username must be at least 6 characters")
-    @NotBlank(message = "Username is required")
-    private String username;
+    @NotBlank(message = "First name is required")
+    private String firstName;
+
+    @NotBlank(message = "Last name is required")
+    private String lastName;
+
+    @Email(message = "please provide a valid email address")
+    @NotBlank(message = "email is required")
+    private String email;
+
+    @NotBlank(message = "required to select university")
+    //TODO validate university with custom @validator
+    private String university;
 
     @Pattern(regexp = "^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>/?])(?=.*[a-zA-Z]).{8,}$",
              message = "Password must contains at least 1 upper case letter, " +
@@ -27,15 +37,7 @@ public class RegisterRequest {
                      "and 8 minimum length")
     private String password;
 
-    @Email(message = "please provide a valid email address")
-    @NotBlank(message = "email is required")
-    private String email;
 
-    @NotBlank(message = "First name is required")
-    private String firstName;
-
-    @NotBlank(message = "Last name is required")
-    private String lastName;
 
 
 }

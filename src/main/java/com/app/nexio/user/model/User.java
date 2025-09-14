@@ -25,16 +25,21 @@ public class User {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Column(nullable = false, unique = true)
-    private String username;
-
     @Column(nullable = false)
     private String firstName;
 
     @Column(nullable = false)
     private String lastName;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private UserRole role;
+
+    @Basic(fetch = FetchType.LAZY)
     private String profilePicture;
+
+    @Column(nullable = false)
+    private String university;
 
     @Column(unique = true,
             nullable = false)
@@ -43,11 +48,12 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false)
+    @Column(nullable = false,
+            updatable = false)
     @CreationTimestamp
     private LocalDateTime createdOn;
 
-    @Column()
+    @Column
     @UpdateTimestamp
     private LocalDateTime updatedOn;
 
