@@ -57,18 +57,10 @@ function updateParallax() {
     ticking = false;
 }
 
-// Navbar background change
+// Navbar background change - removed to prevent white background
 function updateNavbar() {
-    const navbar = document.querySelector('.navbar');
-    if (navbar) {
-        if (window.scrollY > 100) {
-            navbar.style.background = 'rgba(33, 35, 70, 0.98)';
-            navbar.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.3)';
-        } else {
-            navbar.style.background = 'rgba(33, 35, 70, 0.95)';
-            navbar.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.2)';
-        }
-    }
+    // Navbar background change disabled to prevent white background issues
+    // The navbar will maintain its original styling defined in CSS
 }
 
 window.addEventListener('scroll', () => {

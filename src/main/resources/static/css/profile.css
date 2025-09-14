@@ -1263,7 +1263,7 @@ body {
     }
 
     .profile-hero {
-        padding: 80px 20px 40px;
+        padding: 140px 20px 40px;
     }
 
     .hero-header {
@@ -1279,9 +1279,7 @@ body {
     }
 
     .brand-section {
-        order: 1;
-        align-items: center;
-        text-align: center;
+        display: none;
     }
 
     .nexio-text {
@@ -1444,7 +1442,7 @@ body {
 
 @media (max-width: 480px) {
     .profile-hero {
-        padding: 60px 16px 30px;
+        padding: 120px 16px 30px;
     }
 
     .hero-header {

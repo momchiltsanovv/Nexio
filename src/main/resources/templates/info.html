@@ -4,10 +4,100 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nexio - About Us & FAQ</title>
+    <link rel="stylesheet" href="/static/css/index.css">
     <link rel="stylesheet" href="/static/css/info.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://use.typekit.net/rau1mwa.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
+<!-- Navigation -->
+<nav class="navbar">
+    <div class="nav-container">
+        <div class="nav-logo">
+            <h2>nexio</h2>
+            <span class="nav-subtitle">Student Marketplace</span>
+        </div>
+        <div class="nav-menu" id="navMenu">
+            <a href="/" class="nav-link">Home</a>
+            <a href="/post-item" class="nav-link">Post Item</a>
+            <a href="/info" class="nav-link">About Us</a>
+        </div>
+        <button class="nav-options-btn" id="navOptionsBtn" title="Navigation Options">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="3" y1="6" x2="21" y2="6"/>
+                <line x1="3" y1="12" x2="21" y2="12"/>
+                <line x1="3" y1="18" x2="21" y2="18"/>
+            </svg>
+        </button>
+        <div class="nav-actions">
+            <button class="btn btn-icon" id="wishlistBtn" title="My Wishlist">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                </svg>
+            </button>
+            <button class="btn btn-icon" id="profileBtn" title="My Account">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                    <circle cx="12" cy="7" r="4"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+    
+    <!-- Navigation Options Dropdown -->
+    <div class="nav-options-dropdown" id="navOptionsDropdown">
+        <div class="nav-options-content">
+            <div class="nav-options-section">
+                <h4>Browse</h4>
+                <a href="/" class="nav-option-link">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                        <polyline points="9,22 9,12 15,12 15,22"/>
+                    </svg>
+                    Home
+                </a>
+            </div>
+            <div class="nav-options-section">
+                <h4>Actions</h4>
+                <a href="/post-item" class="nav-option-link">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
+                        <polyline points="17,21 17,13 7,13 7,21"/>
+                        <polyline points="7,3 7,8 15,8"/>
+                    </svg>
+                    Post Item
+                </a>
+                <a href="/profile" class="nav-option-link">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                        <circle cx="12" cy="7" r="4"/>
+                    </svg>
+                    My Profile
+                </a>
+                <a href="/wishlist" class="nav-option-link">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                    </svg>
+                    My Wishlist
+                </a>
+            </div>
+            <div class="nav-options-section">
+                <h4>About</h4>
+                <a href="/info" class="nav-option-link">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+                        <line x1="12" y1="17" x2="12.01" y2="17"/>
+                    </svg>
+                    About Us
+                </a>
+            </div>
+        </div>
+    </div>
+</nav>
+
 <!-- Hero Section with Background Image -->
 <section class="hero-section">
     <div class="hero-overlay">
@@ -229,6 +319,54 @@
     </div>
 </div>
 
+<script src="/static/js/index.js"></script>
+<script>
+// Mobile Navigation Dropdown functionality for info page
+document.addEventListener('DOMContentLoaded', function() {
+    // Navigation Options Button functionality
+    const navOptionsBtn = document.getElementById('navOptionsBtn');
+    const navOptionsDropdown = document.getElementById('navOptionsDropdown');
+    const wishlistBtn = document.getElementById('wishlistBtn');
+    const profileBtn = document.getElementById('profileBtn');
+    
+    if (navOptionsBtn && navOptionsDropdown) {
+        // Toggle dropdown on button click
+        navOptionsBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            navOptionsDropdown.classList.toggle('active');
+        });
+        
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!navOptionsBtn.contains(e.target) && !navOptionsDropdown.contains(e.target)) {
+                navOptionsDropdown.classList.remove('active');
+            }
+        });
+        
+        // Close dropdown when clicking on links
+        const navOptionLinks = navOptionsDropdown.querySelectorAll('.nav-option-link');
+        navOptionLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                navOptionsDropdown.classList.remove('active');
+            });
+        });
+    }
+    
+    // Navigation button handlers
+    if (wishlistBtn) {
+        wishlistBtn.addEventListener('click', function() {
+            window.location.href = '/wishlist';
+        });
+    }
+
+    if (profileBtn) {
+        profileBtn.addEventListener('click', function() {
+            window.location.href = '/profile';
+        });
+    }
+});
+</script>
 <script src="/static/js/info.js"></script>
 </body>
 </html>
