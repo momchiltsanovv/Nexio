@@ -310,7 +310,10 @@ document.addEventListener('DOMContentLoaded', function() {
     // Wishlist functionality
     const wishlistIcons = document.querySelectorAll('.wishlist-icon');
     wishlistIcons.forEach(icon => {
-        icon.addEventListener('click', function() {
+        icon.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation(); // Prevent card click from triggering
+            
             this.classList.toggle('active');
             
             if (this.classList.contains('active')) {
@@ -320,6 +323,43 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
+
+    // Product card click functionality
+    const productCards = document.querySelectorAll('.product-card');
+    productCards.forEach(card => {
+        card.addEventListener('click', function(e) {
+            // Don't navigate if wishlist icon was clicked
+            if (e.target.closest('.wishlist-icon')) {
+                return;
+            }
+            
+            // Get product details for navigation
+            const productTitle = this.querySelector('.item-title')?.textContent || 'Unknown Item';
+            const productCategory = this.getAttribute('data-category') || 'electronics';
+            
+            // For now, simulate navigation with a placeholder item ID
+            // In a real app, you'd get the actual item ID from the card data
+            const itemId = generatePlaceholderItemId(productTitle, productCategory);
+            
+            console.log(`Navigating to item: ${productTitle} (ID: ${itemId})`);
+            
+            // Navigate to item view page
+            window.location.href = `/item/${itemId}`;
+        });
+        
+        // Add hover effect to indicate clickability
+        card.style.cursor = 'pointer';
+    });
+
+    // Generate a placeholder item ID based on product info
+    function generatePlaceholderItemId(title, category) {
+        // Create a simple hash-like ID for demo purposes
+        // In production, this would come from your database
+        const cleanTitle = title.toLowerCase().replace(/[^a-z0-9]/g, '');
+        const categoryPrefix = category.slice(0, 3);
+        const hash = cleanTitle.slice(0, 8);
+        return `${categoryPrefix}-${hash}-${Math.random().toString(36).substr(2, 4)}`;
+    }
 
     // Slider functionality
     const sliderArrows = document.querySelectorAll('.slider-arrow');

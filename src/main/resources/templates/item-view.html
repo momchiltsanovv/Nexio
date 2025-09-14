@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${item != null ? item.name + ' - Nexio' : 'Item Not Found - Nexio'}">Nexio - Item View</title>
+    <link rel="stylesheet" href="/static/css/index.css">
+    <link rel="stylesheet" href="/static/css/item-view.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://use.typekit.net/rau1mwa.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Particle Background -->
+    <div class="particle-background">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h2>nexio</h2>
+                <span class="nav-subtitle">Student Marketplace</span>
+            </div>
+            <div class="nav-menu" id="navMenu">
+                <a href="/" class="nav-link">Home</a>
+                <a href="/post-item" class="nav-link">Post Item</a>
+                <a href="/messages" class="nav-link">Messages</a>
+                <a href="/info" class="nav-link">About Us</a>
+            </div>
+            <button class="nav-options-btn" id="navOptionsBtn" title="Navigation Options">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="3" y1="6" x2="21" y2="6"/>
+                    <line x1="3" y1="12" x2="21" y2="12"/>
+                    <line x1="3" y1="18" x2="21" y2="18"/>
+                </svg>
+            </button>
+            <div class="nav-actions">
+                <button class="btn btn-icon" id="wishlistBtn" title="My Wishlist">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                    </svg>
+                </button>
+                <button class="btn btn-icon" id="profileBtn" title="My Account">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                        <circle cx="12" cy="7" r="4"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Navigation Options Dropdown -->
+        <div class="nav-options-dropdown" id="navOptionsDropdown">
+            <div class="nav-options-content">
+                <div class="nav-options-section">
+                    <h4>Browse</h4>
+                    <a href="/" class="nav-option-link">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                            <polyline points="9,22 9,12 15,12 15,22"/>
+                        </svg>
+                        Home
+                    </a>
+                </div>
+                <div class="nav-options-section">
+                    <h4>Account</h4>
+                    <a href="/post-item" class="nav-option-link">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
+                            <polyline points="17,21 17,13 7,13 7,21"/>
+                            <polyline points="7,3 7,8 15,8"/>
+                        </svg>
+                        Post Item
+                    </a>
+                    <a href="/profile" class="nav-option-link">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                            <circle cx="12" cy="7" r="4"/>
+                        </svg>
+                        My Profile
+                    </a>
+                    <a href="/wishlist" class="nav-option-link">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                        </svg>
+                        My Wishlist
+                    </a>
+                    <a href="/messages" class="nav-option-link">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                        </svg>
+                        Messages
+                    </a>
+                </div>
+                <div class="nav-options-section">
+                    <h4>About</h4>
+                    <a href="/info" class="nav-option-link">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+                            <line x1="12" y1="17" x2="12.01" y2="17"/>
+                        </svg>
+                        About Us
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Back to Browse Section -->
+    <section class="back-section">
+        <div class="back-container">
+            <a href="/" class="back-link">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M19 12H5M12 19l-7-7 7-7"/>
+                </svg>
+                Back to Browse
+            </a>
+        </div>
+    </section>
+
+    <!-- Item Details Section -->
+    <section class="item-details-section" th:if="${item != null}">
+        <div class="item-details-container">
+            
+            <!-- Image Gallery -->
+            <div class="image-gallery">
+                <div class="main-image">
+                    <div class="item-image-placeholder">
+                        <div class="item-emoji" th:text="${item.category == T(com.app.nexio.item.model.Category).ELECTRONICS ? '💻' : 
+                                                         item.category == T(com.app.nexio.item.model.Category).FASHION ? '👕' :
+                                                         item.category == T(com.app.nexio.item.model.Category).HOME ? '🪑' :
+                                                         item.category == T(com.app.nexio.item.model.Category).BOOKS ? '📚' :
+                                                         item.category == T(com.app.nexio.item.model.Category).SERVICES ? '🔧' : '📦'}">💻</div>
+                        <div class="wishlist-btn" id="wishlistBtn">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                <div class="image-thumbnails">
+                    <div class="thumbnail active">
+                        <div class="thumbnail-emoji" th:text="${item.category == T(com.app.nexio.item.model.Category).ELECTRONICS ? '💻' : 
+                                                              item.category == T(com.app.nexio.item.model.Category).FASHION ? '👕' :
+                                                              item.category == T(com.app.nexio.item.model.Category).HOME ? '🪑' :
+                                                              item.category == T(com.app.nexio.item.model.Category).BOOKS ? '📚' :
+                                                              item.category == T(com.app.nexio.item.model.Category).SERVICES ? '🔧' : '📦'}">💻</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item Information -->
+            <div class="item-info">
+                <div class="item-header">
+                    <div class="item-badge" th:text="${#strings.capitalize(#strings.replace(item.category, '_', ' '))}">Electronics</div>
+                    <h1 class="item-title" th:text="${item.name}">MacBook Pro 13" M2 Chip</h1>
+                    <div class="item-meta">
+                        <span class="item-price" th:text="'$' + ${#numbers.formatDecimal(item.price, 0, 2)}">$1,299.00</span>
+                        <span class="item-condition" th:text="${#strings.capitalize(#strings.replace(item.condition, '_', ' '))}">New</span>
+                    </div>
+                </div>
+
+                <div class="item-description">
+                    <h3>Description</h3>
+                    <p th:text="${item.description}">2022 MacBook Pro with M2 chip, 8GB RAM, 256GB SSD. Perfect for students and professionals. Includes original box, charger, and documentation.</p>
+                </div>
+
+                <div class="item-details">
+                    <h3>Item Details</h3>
+                    <div class="details-grid">
+                        <div class="detail-item">
+                            <span class="detail-label">Category:</span>
+                            <span class="detail-value" th:text="${#strings.capitalize(#strings.replace(item.category, '_', ' '))}">Electronics</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Condition:</span>
+                            <span class="detail-value" th:text="${#strings.capitalize(#strings.replace(item.condition, '_', ' '))}">New</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Seller:</span>
+                            <span class="detail-value" th:text="${item.owner != null ? item.owner.firstName + ' ' + item.owner.lastName : 'Unknown'}">John Doe</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Location:</span>
+                            <span class="detail-value">On Campus</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="item-actions">
+                    <button class="btn btn-primary btn-contact">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                        </svg>
+                        Contact Seller
+                    </button>
+                    <button class="btn btn-secondary btn-wishlist" id="addToWishlistBtn">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                        </svg>
+                        Add to Wishlist
+                    </button>
+                    <button class="btn btn-outline btn-share" id="shareBtn">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/>
+                            <polyline points="16,6 12,2 8,6"/>
+                            <line x1="12" y1="2" x2="12" y2="15"/>
+                        </svg>
+                        Share
+                    </button>
+                </div>
+
+                <div class="safety-tips">
+                    <h4>Safety Tips</h4>
+                    <ul>
+                        <li>Meet in public, safe locations</li>
+                        <li>Inspect the item before purchasing</li>
+                        <li>Use secure payment methods</li>
+                        <li>Trust your instincts</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Error Section (if item not found) -->
+    <section class="error-section" th:if="${item == null}">
+        <div class="error-container">
+            <div class="error-content">
+                <div class="error-icon">😔</div>
+                <h1 class="error-title">Item Not Found</h1>
+                <p class="error-message">Sorry, the item you're looking for doesn't exist or has been removed.</p>
+                <a href="/" class="btn btn-primary">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                        <polyline points="9,22 9,12 15,12 15,22"/>
+                    </svg>
+                    Back to Home
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <span id="toast-message"></span>
+    </div>
+
+    <script src="/static/js/item-view.js"></script>
+</body>
+</html>
