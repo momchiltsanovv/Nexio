@@ -1,13 +1,4 @@
-// Mobile Navigation Toggle
-const navToggle = document.getElementById('navToggle');
-const navMenu = document.getElementById('navMenu');
-
-if (navToggle && navMenu) {
-    navToggle.addEventListener('click', () => {
-        navMenu.classList.toggle('active');
-        navToggle.classList.toggle('active');
-    });
-}
+// Mobile Navigation Toggle - now handled by nav-options-btn
 
 // Smooth Scrolling for Navigation Links
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -203,32 +194,70 @@ if (heroStats) {
 
 // Button Click Handlers
 document.addEventListener('DOMContentLoaded', () => {
-    // Sign In Button - redirect to log in tab
+    // Sign In Button - redirect to login page
     const signInBtn = document.getElementById('signInBtn');
     if (signInBtn) {
         signInBtn.addEventListener('click', (e) => {
             e.preventDefault();
             console.log('Redirecting to login...');
-            window.location.href = '/login?tab=login';
+            window.location.href = '/login';
         });
     }
 
-    // Get Started Button - redirect to sign up tab
-    const getStartedBtn = document.getElementById('getStartedBtn');
-    if (getStartedBtn) {
-        getStartedBtn.addEventListener('click', (e) => {
+    // Wishlist Button - redirect to wishlist page
+    const wishlistBtn = document.getElementById('wishlistBtn');
+    if (wishlistBtn) {
+        wishlistBtn.addEventListener('click', (e) => {
             e.preventDefault();
-            console.log('Redirecting to sign-up...');
-            window.location.href = '/login?tab=register';
+            console.log('Redirecting to wishlist...');
+            window.location.href = '/wishlist';
         });
     }
 
-    // Log In Button
-    const loginBtn = document.getElementById('loginBtn');
-    if (loginBtn) {
-        loginBtn.addEventListener('click', (e) => {
+    // Profile Button - redirect to profile page
+    const profileBtn = document.getElementById('profileBtn');
+    if (profileBtn) {
+        profileBtn.addEventListener('click', (e) => {
             e.preventDefault();
-            // Redirect to login page
+            console.log('Redirecting to profile...');
+            window.location.href = '/profile';
+        });
+    }
+
+    // Navigation Options Button functionality
+    const navOptionsBtn = document.getElementById('navOptionsBtn');
+    const navOptionsDropdown = document.getElementById('navOptionsDropdown');
+    
+    if (navOptionsBtn && navOptionsDropdown) {
+        // Toggle dropdown on button click
+        navOptionsBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            navOptionsDropdown.classList.toggle('active');
+        });
+        
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!navOptionsBtn.contains(e.target) && !navOptionsDropdown.contains(e.target)) {
+                navOptionsDropdown.classList.remove('active');
+            }
+        });
+        
+        // Close dropdown when clicking on links
+        const navOptionLinks = navOptionsDropdown.querySelectorAll('.nav-option-link');
+        navOptionLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                navOptionsDropdown.classList.remove('active');
+            });
+        });
+    }
+
+    // Sign In link in dropdown
+    const signInLink = document.getElementById('signInLink');
+    if (signInLink) {
+        signInLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            console.log('Redirecting to login from dropdown...');
             window.location.href = '/login';
         });
     }
@@ -383,20 +412,8 @@ const throttle = (func, limit) => {
     }
 };
 
-// Apply throttling to scroll events
-window.addEventListener('scroll', throttle(() => {
-    // Navbar background change
-    const navbar = document.querySelector('.navbar');
-    if (navbar) {
-        if (window.scrollY > 100) {
-            navbar.style.background = 'rgba(255, 255, 255, 0.98)';
-            navbar.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.1)';
-        } else {
-            navbar.style.background = 'rgba(255, 255, 255, 0.95)';
-            navbar.style.boxShadow = 'none';
-        }
-    }
-}, 16));
+// Apply throttling to scroll events - navbar background change removed to prevent white background issues
+// The navbar will maintain its original styling defined in CSS
 
 // Interactive features
 document.addEventListener('DOMContentLoaded', () => {
@@ -616,17 +633,27 @@ function checkLoginStatus() {
     const isLoggedIn = document.cookie.includes('JSESSIONID') || localStorage.getItem('isLoggedIn');
     
     const signInBtn = document.getElementById('signInBtn');
-    const getStartedBtn = document.getElementById('getStartedBtn');
-    const loginBtn = document.getElementById('loginBtn');
+    const wishlistBtn = document.getElementById('wishlistBtn');
+    const profileBtn = document.getElementById('profileBtn');
+    const actionsSection = document.getElementById('actionsSection');
+    const authSection = document.getElementById('authSection');
+    
+    // Initialize buttons to be hidden first
+    if (wishlistBtn) wishlistBtn.style.display = 'none';
+    if (profileBtn) profileBtn.style.display = 'none';
+    if (signInBtn) signInBtn.style.display = 'none';
     
     if (isLoggedIn) {
-        if (signInBtn) signInBtn.style.display = 'none';
-        if (getStartedBtn) getStartedBtn.style.display = 'none';
-        if (loginBtn) loginBtn.style.display = 'none';
+        // Show user action buttons and actions section in dropdown
+        if (wishlistBtn) wishlistBtn.style.display = 'inline-flex';
+        if (profileBtn) profileBtn.style.display = 'inline-flex';
+        if (actionsSection) actionsSection.style.display = 'block';
+        if (authSection) authSection.style.display = 'none';
     } else {
+        // Show sign in button and auth section in dropdown
         if (signInBtn) signInBtn.style.display = 'inline-flex';
-        if (getStartedBtn) getStartedBtn.style.display = 'inline-flex';
-        if (loginBtn) loginBtn.style.display = 'inline-flex';
+        if (actionsSection) actionsSection.style.display = 'none';
+        if (authSection) authSection.style.display = 'block';
     }
 }
 
