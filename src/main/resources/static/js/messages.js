@@ -11,6 +11,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const navOptionsDropdown = document.getElementById('navOptionsDropdown');
     const wishlistBtn = document.getElementById('wishlistBtn');
     const profileBtn = document.getElementById('profileBtn');
+    const mobileChatListBtn = document.getElementById('mobileChatListBtn');
+    const chatListSidebar = document.querySelector('.chat-list-sidebar');
 
     // State
     let currentChatId = null;
@@ -98,6 +100,9 @@ document.addEventListener('DOMContentLoaded', function() {
         chatSearchInput.addEventListener('input', handleSearch);
         
         
+        // Mobile chat list toggle
+        mobileChatListBtn.addEventListener('click', toggleMobileChatList);
+        
         // Navigation
         navOptionsBtn.addEventListener('click', toggleNavOptions);
         wishlistBtn.addEventListener('click', () => window.location.href = '/wishlist');
@@ -138,6 +143,11 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Clear unread count
         clearUnreadCount(chatId);
+        
+        // Close mobile chat list if open
+        if (window.innerWidth <= 768) {
+            chatListSidebar.classList.remove('open');
+        }
         
         // Focus input
         messageInput.focus();
@@ -339,9 +349,21 @@ document.addEventListener('DOMContentLoaded', function() {
         navOptionsDropdown.classList.toggle('active');
     }
 
+    function toggleMobileChatList() {
+        chatListSidebar.classList.toggle('open');
+    }
+
     function handleOutsideClick(e) {
+        // Close nav options dropdown
         if (!navOptionsDropdown.contains(e.target) && !navOptionsBtn.contains(e.target)) {
             navOptionsDropdown.classList.remove('active');
+        }
+        
+        // Close mobile chat list if clicking outside (mobile only)
+        if (window.innerWidth <= 768) {
+            if (!chatListSidebar.contains(e.target) && !mobileChatListBtn.contains(e.target)) {
+                chatListSidebar.classList.remove('open');
+            }
         }
     }
 
