@@ -26,6 +26,9 @@ public class User {
     private UUID id;
 
     @Column(nullable = false)
+    private String username;
+
+    @Column(nullable = false)
     private String firstName;
 
     @Column(nullable = false)
@@ -36,8 +39,8 @@ public class User {
             length = 20)
     private UserRole role;
 
-    @Basic(fetch = FetchType.LAZY)
-    private String profilePicture;
+    @Column(columnDefinition = "TEXT")
+    private String profilePictureURL;
 
     @Column(nullable = false)
     private String university;
