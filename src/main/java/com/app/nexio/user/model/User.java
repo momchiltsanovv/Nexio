@@ -1,15 +1,10 @@
 package com.app.nexio.user.model;
 
-import com.app.nexio.item.model.Item;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Set;
 import java.util.UUID;
 
 @Getter
@@ -39,7 +34,7 @@ public class User {
             length = 20)
     private UserRole role;
 
-    private boolean isActive;
+    private boolean active;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)

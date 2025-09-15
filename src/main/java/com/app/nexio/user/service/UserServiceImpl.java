@@ -1,7 +1,7 @@
 package com.app.nexio.user.service;
 
 import com.app.nexio.exception.UsernameTakenException;
-import com.app.nexio.user.dto.RegisterRequest;
+import com.app.nexio.user.dto.RegisterRequestDto;
 import com.app.nexio.user.model.User;
 import com.app.nexio.user.property.UserProperties;
 import com.app.nexio.user.repository.UserRepository;
@@ -32,11 +32,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public User register(RegisterRequest registerRequest) {
-        Optional<User> optionalUser = userRepository.findByUsername(registerRequest.getUsername());
+    public User register(RegisterRequestDto registerRequest) {
+        Optional<User> optionalUser = userRepository.findByUsername(registerRequest.username());
 
         if (optionalUser.isPresent()) {
-            throw new UsernameTakenException("Username %s is already taken".formatted(registerRequest.getUsername()));
+            throw new UsernameTakenException("Username %s is already taken".formatted(registerRequest.username()));
         }
 
         User user = userRepository.save(buildUserFromRequest(registerRequest));
@@ -47,21 +47,21 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     }
 
-    private User buildUserFromRequest(RegisterRequest registerRequest) {
+    private User buildUserFromRequest(RegisterRequestDto registerRequest) {
         return User.builder()
-                   .username(registerRequest.getUsername())
-                   .firstName(registerRequest.getFirstName())
-                   .lastName(registerRequest.getLastName())
+                   .username(registerRequest.username())
+                   .firstName(registerRequest.firstName())
+                   .lastName(registerRequest.lastName())
                    .role(userProperties.getUserRole())
-                   .isActive(userProperties.isActiveByDefault())
-                   .university(registerRequest.getUniversity())
-                   .email(registerRequest.getEmail())
+                   .active(userProperties.isActiveByDefault())
+                   .university(registerRequest.university())
+                   .email(registerRequest.email())
                    .password(getEncodedPassword(registerRequest))
                    .build();
     }
-    
-    private String getEncodedPassword(RegisterRequest registerRequest) {
-        return passwordEncoder.encode(registerRequest.getPassword());
+
+    private String getEncodedPassword(RegisterRequestDto registerRequest) {
+        return passwordEncoder.encode(registerRequest.password());
     }
 
 

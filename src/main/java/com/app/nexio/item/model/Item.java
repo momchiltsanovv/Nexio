@@ -23,7 +23,7 @@ public class Item {
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false, precision = 2)
+    @Column(nullable = false)
     private BigDecimal price;
 
     @Enumerated(EnumType.STRING)
