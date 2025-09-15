@@ -4,6 +4,8 @@ let profileData = {
     lastName: '',
     email: '',
     username: '',
+    major: '',
+    graduationYear: '',
     joinDate: '',
     socialLinks: {
         instagram: '',
@@ -46,7 +48,44 @@ document.addEventListener('DOMContentLoaded', function() {
 
     loadProfileData();
     populateProfile();
+    setupEditModal();
 });
+
+// Setup edit modal event listeners
+function setupEditModal() {
+    const modal = document.getElementById('editProfileModal');
+    const form = document.getElementById('editProfileForm');
+    const closeBtn = document.getElementById('closeEditModal');
+    const cancelBtn = document.getElementById('cancelEdit');
+    
+    if (form) {
+        form.addEventListener('submit', handleEditFormSubmit);
+    }
+    
+    if (closeBtn) {
+        closeBtn.addEventListener('click', closeEditModal);
+    }
+    
+    if (cancelBtn) {
+        cancelBtn.addEventListener('click', closeEditModal);
+    }
+    
+    // Close modal when clicking outside
+    if (modal) {
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                closeEditModal();
+            }
+        });
+    }
+    
+    // Close modal with Escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && modal && modal.classList.contains('active')) {
+            closeEditModal();
+        }
+    });
+}
 
 // Load profile data from localStorage
 function loadProfileData() {
@@ -55,6 +94,8 @@ function loadProfileData() {
         lastName: localStorage.getItem('lastName') || '',
         email: localStorage.getItem('rememberedEmail') || localStorage.getItem('userEmail') || '',
         username: localStorage.getItem('username') || '',
+        major: localStorage.getItem('major') || 'Computer Science',
+        graduationYear: localStorage.getItem('graduationYear') || '2025',
         joinDate: localStorage.getItem('joinDate') || new Date().toLocaleDateString(),
         socialLinks: {
             instagram: localStorage.getItem('social_instagram') || '',
@@ -88,6 +129,8 @@ function populateProfile() {
         'profile-full-name': fullName,
         'profile-email': displayEmail,
         'profile-username': `@${profileData.username}`,
+        'profile-major': profileData.major,
+        'profile-graduation': profileData.graduationYear,
         'profile-joined': `Joined ${profileData.joinDate}`
     };
 
@@ -129,84 +172,6 @@ function generateAvatarInitials(fullName, username) {
     }
 }
 
-// Toggle edit mode
-function toggleEditMode() {
-    const modal = document.getElementById('edit-modal');
-    if (modal) {
-        modal.classList.add('show');
-
-        // Populate edit form with current data
-        document.getElementById('edit-first-name').value = profileData.firstName;
-        document.getElementById('edit-last-name').value = profileData.lastName;
-        document.getElementById('edit-email').value = profileData.email;
-        document.getElementById('edit-instagram').value = profileData.socialLinks.instagram;
-        document.getElementById('edit-linkedin').value = profileData.socialLinks.linkedin;
-        
-        // Update verification button state
-        updateVerificationButton();
-    }
-}
-
-// Close edit modal
-function closeEditModal() {
-    const modal = document.getElementById('edit-modal');
-    if (modal) {
-        modal.classList.remove('show');
-    }
-}
-
-// Save profile changes
-function saveProfile() {
-    const newData = {
-        firstName: document.getElementById('edit-first-name').value.trim(),
-        lastName: document.getElementById('edit-last-name').value.trim(),
-        email: document.getElementById('edit-email').value.trim(),
-        socialLinks: {
-            instagram: document.getElementById('edit-instagram').value.trim(),
-            linkedin: document.getElementById('edit-linkedin').value.trim()
-        }
-    };
-
-    // Validate email
-    if (newData.email && !isValidEmail(newData.email)) {
-        showToast('Please enter a valid email address', 'error');
-        return;
-    }
-
-    // Validate social links
-    const socialValidation = validateSocialLinks(newData.socialLinks);
-    if (!socialValidation.valid) {
-        showToast(socialValidation.message, 'error');
-        return;
-    }
-
-    // Update profile data
-    profileData.firstName = newData.firstName;
-    profileData.lastName = newData.lastName;
-    if (newData.email) {
-        profileData.email = newData.email;
-    }
-    profileData.socialLinks = newData.socialLinks;
-
-    // Update username if email changed
-    if (newData.email && newData.email !== profileData.email) {
-        profileData.username = newData.email.split('@')[0];
-    }
-
-    // Save to localStorage
-    localStorage.setItem('firstName', profileData.firstName);
-    localStorage.setItem('lastName', profileData.lastName);
-    localStorage.setItem('userEmail', profileData.email);
-    localStorage.setItem('username', profileData.username);
-    localStorage.setItem('social_instagram', profileData.socialLinks.instagram);
-    localStorage.setItem('social_linkedin', profileData.socialLinks.linkedin);
-
-    // Update UI
-    populateProfile();
-    updateReviewStatus();
-    closeEditModal();
-    showToast('Profile updated successfully!', 'success');
-}
 
 // Email validation
 function isValidEmail(email) {
@@ -421,28 +386,6 @@ function showToast(message, type = 'info') {
     }
 }
 
-// Close modal when clicking outside
-document.addEventListener('click', function(event) {
-    const modal = document.getElementById('edit-modal');
-    if (event.target === modal) {
-        closeEditModal();
-    }
-});
-
-// Handle escape key to close modal
-document.addEventListener('keydown', function(event) {
-    if (event.key === 'Escape') {
-        closeEditModal();
-    }
-});
-
-// Handle form submission in modal
-document.addEventListener('keydown', function(event) {
-    if (event.key === 'Enter' && document.getElementById('edit-modal').classList.contains('show')) {
-        event.preventDefault();
-        saveProfile();
-    }
-});
 
 // Smooth scroll for internal links
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -475,69 +418,6 @@ function simulateApiCall(callback, delay = 1000) {
     setTimeout(callback, delay);
 }
 
-// Enhanced save profile with loading state
-function saveProfileWithLoading() {
-    const saveBtn = document.querySelector('.modal-actions .btn-primary');
-    const removeLoading = addLoadingState(saveBtn, 'Saving...');
-
-    simulateApiCall(() => {
-        saveProfile();
-        removeLoading();
-    }, 800);
-}
-
-// Update the save button onclick
-document.addEventListener('DOMContentLoaded', function() {
-    const saveBtn = document.querySelector('.modal-actions .btn-primary');
-    if (saveBtn) {
-        saveBtn.onclick = saveProfileWithLoading;
-    }
-});
-
-// Auto-save draft changes
-let draftTimer;
-function saveDraft() {
-    clearTimeout(draftTimer);
-    draftTimer = setTimeout(() => {
-        const draftData = {
-            firstName: document.getElementById('edit-first-name')?.value || '',
-            lastName: document.getElementById('edit-last-name')?.value || '',
-            email: document.getElementById('edit-email')?.value || ''
-        };
-        localStorage.setItem('profileDraft', JSON.stringify(draftData));
-    }, 1000);
-}
-
-// Load draft on modal open
-function loadDraft() {
-    const draft = localStorage.getItem('profileDraft');
-    if (draft) {
-        try {
-            const draftData = JSON.parse(draft);
-            if (draftData.firstName) document.getElementById('edit-first-name').value = draftData.firstName;
-            if (draftData.lastName) document.getElementById('edit-last-name').value = draftData.lastName;
-            if (draftData.email) document.getElementById('edit-email').value = draftData.email;
-        } catch (e) {
-            console.log('Error loading draft:', e);
-        }
-    }
-}
-
-// Clear draft after successful save
-function clearDraft() {
-    localStorage.removeItem('profileDraft');
-}
-
-// Add input listeners for draft saving
-document.addEventListener('DOMContentLoaded', function() {
-    const inputs = ['edit-first-name', 'edit-last-name', 'edit-email'];
-    inputs.forEach(id => {
-        const input = document.getElementById(id);
-        if (input) {
-            input.addEventListener('input', saveDraft);
-        }
-    });
-});
 
 // Navbar scroll effect
 let ticking = false;
@@ -563,5 +443,124 @@ window.addEventListener('scroll', () => {
         ticking = true;
     }
 });
+
+// Edit Profile Modal Functions
+function openEditModal() {
+    const modal = document.getElementById('editProfileModal');
+    if (modal) {
+        // Populate form with current data
+        populateEditForm();
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden'; // Prevent background scrolling
+    }
+}
+
+function closeEditModal() {
+    const modal = document.getElementById('editProfileModal');
+    if (modal) {
+        modal.classList.remove('active');
+        document.body.style.overflow = ''; // Restore scrolling
+    }
+}
+
+function populateEditForm() {
+    // Populate form fields with current profile data
+    const form = document.getElementById('editProfileForm');
+    if (form) {
+        form.elements.firstName.value = profileData.firstName || '';
+        form.elements.lastName.value = profileData.lastName || '';
+        form.elements.instagram.value = profileData.socialLinks.instagram || '';
+        form.elements.linkedin.value = profileData.socialLinks.linkedin || '';
+        form.elements.major.value = profileData.major || '';
+        form.elements.graduationYear.value = profileData.graduationYear || '';
+    }
+}
+
+function handleEditFormSubmit(event) {
+    event.preventDefault();
+    
+    const form = event.target;
+    const formData = new FormData(form);
+    
+    // Validate form data
+    const firstName = formData.get('firstName').trim();
+    const lastName = formData.get('lastName').trim();
+    const instagram = formData.get('instagram').trim();
+    const linkedin = formData.get('linkedin').trim();
+    const major = formData.get('major').trim();
+    const graduationYear = formData.get('graduationYear');
+    
+    // Basic validation
+    if (!firstName || !lastName) {
+        showToast('First name and last name are required', 'error');
+        return;
+    }
+    
+    // Validate social links if provided
+    const socialLinks = { instagram, linkedin };
+    const validation = validateSocialLinks(socialLinks);
+    if (!validation.valid) {
+        showToast(validation.message, 'error');
+        return;
+    }
+    
+    // Validate graduation year
+    if (graduationYear) {
+        const year = parseInt(graduationYear);
+        const currentYear = new Date().getFullYear();
+        if (year < 2020 || year > currentYear + 10) {
+            showToast('Please enter a valid graduation year', 'error');
+            return;
+        }
+    }
+    
+    // Update profile data
+    updateProfileData({
+        firstName,
+        lastName,
+        instagram,
+        linkedin,
+        major,
+        graduationYear: graduationYear ? parseInt(graduationYear) : null
+    });
+    
+    // Close modal
+    closeEditModal();
+    
+    // Show success message
+    showToast('Profile updated successfully!', 'success');
+}
+
+function updateProfileData(newData) {
+    // Update profileData object
+    profileData.firstName = newData.firstName;
+    profileData.lastName = newData.lastName;
+    profileData.socialLinks.instagram = newData.instagram;
+    profileData.socialLinks.linkedin = newData.linkedin;
+    profileData.major = newData.major;
+    profileData.graduationYear = newData.graduationYear;
+    
+    // Save to localStorage
+    localStorage.setItem('firstName', newData.firstName);
+    localStorage.setItem('lastName', newData.lastName);
+    localStorage.setItem('social_instagram', newData.instagram);
+    localStorage.setItem('social_linkedin', newData.linkedin);
+    localStorage.setItem('major', newData.major);
+    if (newData.graduationYear) {
+        localStorage.setItem('graduationYear', newData.graduationYear.toString());
+    }
+    
+    // Update UI
+    populateProfile();
+}
+
+// Toggle edit mode function (called by the Edit Profile button)
+function toggleEditMode() {
+    openEditModal();
+}
+
+// Make functions globally accessible
+window.verifyEmail = verifyEmail;
+window.toggleEditMode = toggleEditMode;
 
 console.log('Profile page loaded successfully!');

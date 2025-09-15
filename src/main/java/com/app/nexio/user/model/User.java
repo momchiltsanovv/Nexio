@@ -39,11 +39,12 @@ public class User {
             length = 20)
     private UserRole role;
 
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private University university;
+
     @Column(columnDefinition = "TEXT")
     private String profilePictureURL;
-
-    @Column(nullable = false)
-    private String university;
 
     @Column(unique = true,
             nullable = false)
