@@ -18,7 +18,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 80px 2rem 2rem;
+    padding: 80px 2rem 3rem;
     position: relative;
     overflow: hidden;
 }
@@ -92,8 +92,8 @@ body {
     overflow: visible;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    min-height: 800px;
-    max-height: 850px;
+    min-height: 750px;
+    max-height: calc(100vh - 120px);
     max-width: 1400px;
     position: relative;
     z-index: 3;
@@ -377,6 +377,7 @@ body {
     margin-right: -0.5rem;
     scroll-behavior: smooth;
     min-height: 0;
+    max-height: calc(100vh - 220px);
 }
 
 /* Enhanced scrollbar styling */
@@ -409,8 +410,8 @@ body {
 .form {
     display: flex;
     flex-direction: column;
-    gap: 1.2rem;
-    padding-bottom: 1.5rem;
+    gap: 1rem;
+    padding-bottom: 1rem;
     max-width: 400px;
     margin: 0 auto;
     width: 100%;
@@ -1194,6 +1195,21 @@ body {
     .form-scroll-wrapper {
         scrollbar-color: rgba(255, 255, 255, 0.3) rgba(255, 255, 255, 0.05);
     }
+
+    /* Auth navigation mobile styling */
+    .auth-navigation {
+        margin-top: 1.2rem;
+        padding: 0.8rem 0;
+    }
+
+    .auth-nav-text {
+        font-size: 0.9rem;
+    }
+
+    .auth-nav-link {
+        font-size: 0.9rem;
+        padding: 0.3rem 0.5rem;
+    }
 }
 
 @media (max-width: 480px) {
@@ -1272,6 +1288,21 @@ body {
         max-height: calc(85vh - 180px);
     }
 
+    /* Auth navigation for small screens */
+    .auth-navigation {
+        margin-top: 1rem;
+        padding: 0.6rem 0;
+    }
+
+    .auth-nav-text {
+        font-size: 0.85rem;
+    }
+
+    .auth-nav-link {
+        font-size: 0.85rem;
+        padding: 0.25rem 0.4rem;
+    }
+
     /* Small screen dropdown adjustments */
     .select-button {
         height: 42px;
@@ -1317,6 +1348,21 @@ body {
         max-height: calc(80vh - 160px);
     }
 
+    /* Auth navigation for very small screens */
+    .auth-navigation {
+        margin-top: 0.8rem;
+        padding: 0.5rem 0;
+    }
+
+    .auth-nav-text {
+        font-size: 0.8rem;
+    }
+
+    .auth-nav-link {
+        font-size: 0.8rem;
+        padding: 0.2rem 0.3rem;
+    }
+
     /* Very small screen dropdown adjustments */
     .select-button {
         height: 40px;
@@ -1332,6 +1378,57 @@ body {
         padding: 0.4rem 0.7rem;
         font-size: 0.8rem;
     }
+}
+
+/* Auth Navigation Styling */
+.auth-navigation {
+    text-align: center;
+    margin-top: 1rem;
+    padding: 0.8rem 0;
+}
+
+.auth-nav-text {
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: 400;
+}
+
+.auth-nav-link {
+    color: #CE3A81;
+    text-decoration: none;
+    font-weight: 600;
+    margin-left: 0.3rem;
+    padding: 0.2rem 0.4rem;
+    border-radius: 0.25rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    display: inline-block;
+}
+
+.auth-nav-link::before {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(135deg, #CE3A81 0%, #A855F7 100%);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translateX(-50%);
+}
+
+.auth-nav-link:hover {
+    color: rgba(206, 58, 129, 0.9);
+    background: rgba(206, 58, 129, 0.1);
+    transform: translateY(-1px);
+}
+
+.auth-nav-link:hover::before {
+    width: 100%;
+}
+
+.auth-nav-link:active {
+    transform: translateY(0);
 }
 
 /* Responsive breakpoints for header */

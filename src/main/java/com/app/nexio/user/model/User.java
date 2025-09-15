@@ -32,7 +32,8 @@ public class User {
     private String lastName;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(nullable = false,
+            length = 20)
     private UserRole role;
 
     @Basic(fetch = FetchType.LAZY)
@@ -56,5 +57,7 @@ public class User {
     @Column
     @UpdateTimestamp
     private LocalDateTime updatedOn;
+
+
 
 }

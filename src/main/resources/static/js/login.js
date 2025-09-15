@@ -1,19 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Check URL parameters to determine which tab to show
-    const urlParams = new URLSearchParams(window.location.search);
-    const tab = urlParams.get('tab');
-
-    if (tab === 'login') {
-        switchToTab('login');
-    } else if (tab === 'register') {
-        switchToTab('register');
-    }
-
     // Check if user should be remembered
     checkRememberMe();
-
-    // Initialize tab switching functionality
-    initializeTabSwitching();
 
     // Initialize form handlers
     initializeFormHandlers();
@@ -26,70 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initialize other buttons
     initializeOtherButtons();
-
-    // Initialize university dropdown
-    initializeUniversityDropdown();
 });
-
-// University Select Functionality
-function initializeUniversityDropdown() {
-    const universitySelect = document.getElementById('register-university');
-
-    if (universitySelect) {
-        // The select element handles everything automatically
-        // No additional JavaScript needed for basic functionality
-        console.log('University select initialized');
-    }
-}
-
-// Tab switching functionality
-function initializeTabSwitching() {
-    const tabButtons = document.querySelectorAll('.tab-button');
-    const tabSlider = document.querySelector('.tab-slider');
-    const registerContainer = document.getElementById('register-container');
-    const loginContainer = document.getElementById('login-container');
-
-    tabButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            const targetTab = button.dataset.tab;
-
-            // Don't do anything if clicking the already active tab
-            if (button.classList.contains('active')) return;
-
-            // Update active tab button
-            tabButtons.forEach(btn => btn.classList.remove('active'));
-            button.classList.add('active');
-
-            // Move slider
-            if (targetTab === 'login') {
-                tabSlider.classList.add('login-active');
-            } else {
-                tabSlider.classList.remove('login-active');
-            }
-
-            // Switch form containers with animation
-            const currentContainer = document.querySelector('.form-container.active');
-            const targetContainer = targetTab === 'login' ? loginContainer : registerContainer;
-
-            if (currentContainer !== targetContainer) {
-                // Start exit animation for current container
-                currentContainer.classList.remove('active');
-                currentContainer.classList.add(targetTab === 'login' ? 'slide-out-left' : 'slide-out-right');
-
-                // After animation, show new container
-                setTimeout(() => {
-                    targetContainer.classList.add('active');
-                    targetContainer.classList.remove('slide-out-left', 'slide-out-right');
-
-                    // Clean up previous container
-                    setTimeout(() => {
-                        currentContainer.classList.remove('slide-out-left', 'slide-out-right');
-                    }, 100);
-                }, 250);
-            }
-        });
-    });
-}
 
 // Password visibility toggle
 function initializePasswordToggles() {
@@ -151,111 +75,40 @@ function initializeFormHandlers() {
     if (loginForm && loginSubmit) {
         loginForm.addEventListener('submit', (e) => {
             e.preventDefault();
-            if (validateForm(loginForm, 'login')) {
-                handleFormSubmission(loginSubmit, 'login');
-            }
-        });
-    }
-
-    // Register form
-    const registerForm = document.getElementById('register-form');
-    const registerSubmit = document.getElementById('register-submit');
-
-    if (registerForm && registerSubmit) {
-        registerForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            if (validateForm(registerForm, 'register')) {
-                handleFormSubmission(registerSubmit, 'register');
+            if (validateForm(loginForm)) {
+                handleFormSubmission(loginSubmit);
             }
         });
     }
 }
 
 // Form validation function
-function validateForm(form, formType) {
-    if (formType === 'register') {
-        // Get university value from hidden input
-        const universityValue = document.getElementById('register-university')?.value;
+function validateForm(form) {
+    // Check required fields for login
+    const email = document.getElementById('login-email')?.value?.trim();
+    const password = document.getElementById('login-password')?.value;
 
-        // Check required fields for registration
-        const firstName = document.getElementById('register-first-name')?.value?.trim();
-        const lastName = document.getElementById('register-last-name')?.value?.trim();
-        const email = document.getElementById('register-email')?.value?.trim();
-        const password = document.getElementById('register-password')?.value;
-        const termsChecked = document.getElementById('terms')?.checked;
+    if (!email) {
+        showToast('Please enter your email', 'error');
+        return false;
+    }
 
-        // Validate each field
-        if (!firstName) {
-            showToast('Please fill in your first name', 'error');
-            return false;
-        }
+    if (!password) {
+        showToast('Please enter your password', 'error');
+        return false;
+    }
 
-        if (!lastName) {
-            showToast('Please fill in your last name', 'error');
-            return false;
-        }
-
-        if (!email) {
-            showToast('Please fill in your email', 'error');
-            return false;
-        }
-
-        if (!universityValue) {
-            showToast('Please select your university', 'error');
-            return false;
-        }
-
-        if (!password) {
-            showToast('Please fill in your password', 'error');
-            return false;
-        }
-
-        // Check terms checkbox
-        if (!termsChecked) {
-            showToast('Please agree to the Terms & Conditions', 'error');
-            return false;
-        }
-
-        // Basic email validation
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(email)) {
-            showToast('Please enter a valid email address', 'error');
-            return false;
-        }
-
-        // Password length validation
-        if (password.length < 6) {
-            showToast('Password must be at least 6 characters long', 'error');
-            return false;
-        }
-
-    } else if (formType === 'login') {
-        // Check required fields for login
-        const email = document.getElementById('login-email')?.value?.trim();
-        const password = document.getElementById('login-password')?.value;
-
-        if (!email) {
-            showToast('Please enter your email', 'error');
-            return false;
-        }
-
-        if (!password) {
-            showToast('Please enter your password', 'error');
-            return false;
-        }
-
-        // Basic email validation
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(email)) {
-            showToast('Please enter a valid email address', 'error');
-            return false;
-        }
+    // Basic email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        showToast('Please enter a valid email address', 'error');
+        return false;
     }
 
     return true;
 }
 
-function handleFormSubmission(button, formType) {
+function handleFormSubmission(button) {
     // Show loading state
     button.classList.add('loading');
     button.disabled = true;
@@ -264,18 +117,16 @@ function handleFormSubmission(button, formType) {
     const form = button.closest('form');
 
     // Handle remember me functionality for login
-    if (formType === 'login') {
-        const rememberMe = document.getElementById('remember-me')?.checked;
-        const email = document.getElementById('login-email')?.value;
+    const rememberMe = document.getElementById('remember-me')?.checked;
+    const email = document.getElementById('login-email')?.value;
 
-        if (rememberMe && email) {
-            localStorage.setItem('rememberMe', 'true');
-            localStorage.setItem('rememberedEmail', email);
-            console.log('Remember me enabled for 30 days');
-        } else {
-            localStorage.removeItem('rememberMe');
-            localStorage.removeItem('rememberedEmail');
-        }
+    if (rememberMe && email) {
+        localStorage.setItem('rememberMe', 'true');
+        localStorage.setItem('rememberedEmail', email);
+        console.log('Remember me enabled for 30 days');
+    } else {
+        localStorage.removeItem('rememberMe');
+        localStorage.removeItem('rememberedEmail');
     }
 
     // Simulate form submission (replace with actual API call)
@@ -285,55 +136,24 @@ function handleFormSubmission(button, formType) {
         button.disabled = false;
 
         // Show success message
-        showToast(`${formType === 'login' ? 'Login' : 'Registration'} successful!`, 'success');
+        showToast('Login successful!', 'success');
 
         // Save user data to localStorage (for demo purposes)
         try {
-            if (formType === 'login') {
-                const email = document.getElementById('login-email')?.value;
-                if (email) localStorage.setItem('email', email);
-            } else if (formType === 'register') {
-                // Save all registration data including university
-                const email = document.getElementById('register-email')?.value;
-                const firstName = document.getElementById('register-first-name')?.value;
-                const lastName = document.getElementById('register-last-name')?.value;
-                const university = document.getElementById('register-university')?.value;
-
-                if (email) localStorage.setItem('email', email);
-                if (firstName) localStorage.setItem('firstName', firstName);
-                if (lastName) localStorage.setItem('lastName', lastName);
-                if (university) localStorage.setItem('university', university);
-
-                // Log registration data for debugging
-                console.log('Registration data saved:', {
-                    email: email,
-                    firstName: firstName,
-                    lastName: lastName,
-                    university: university
-                });
-            }
+            const email = document.getElementById('login-email')?.value;
+            if (email) localStorage.setItem('email', email);
         } catch (e) {
             console.error('Error saving form data:', e);
         }
 
         // Redirect after successful submission
         setTimeout(() => {
-            if (formType === 'login') {
-                window.location.href = '/profile';
-            } else {
-                // For registration, you might want to redirect to a welcome page or login
-                window.location.href = '/profile';
-            }
+            window.location.href = '/profile';
         }, 1500);
 
         // Reset form
         if (form) {
             form.reset();
-            // Reset university select to default option
-            const universitySelect = document.getElementById('register-university');
-            if (universitySelect) {
-                universitySelect.selectedIndex = 0; // Select the placeholder option
-            }
         }
     }, 800);
 }
@@ -357,8 +177,6 @@ function checkRememberMe() {
 // Social authentication buttons
 function initializeSocialButtons() {
     const socialButtons = [
-        { id: 'google-register', message: 'Google Sign-Up coming soon!' },
-        { id: 'apple-register', message: 'Apple Sign-Up coming soon!' },
         { id: 'google-login', message: 'Google Sign-In coming soon!' },
         { id: 'apple-login', message: 'Apple Sign-In coming soon!' }
     ];
@@ -373,7 +191,7 @@ function initializeSocialButtons() {
     });
 }
 
-// Other buttons (forgot password, terms links)
+// Other buttons (forgot password)
 function initializeOtherButtons() {
     // Forgot password
     const forgotPasswordBtn = document.querySelector('.forgot-password');
@@ -381,39 +199,5 @@ function initializeOtherButtons() {
         forgotPasswordBtn.addEventListener('click', () => {
             showToast('Password reset link sent to your email!', 'success');
         });
-    }
-
-    // Terms links
-    document.querySelectorAll('.terms-link').forEach(link => {
-        link.addEventListener('click', (e) => {
-            e.preventDefault();
-            showToast('Terms and policies page coming soon!', 'success');
-        });
-    });
-}
-
-function switchToTab(tabName) {
-    const tabButtons = document.querySelectorAll('.tab-button');
-    const formContainers = document.querySelectorAll('.form-container');
-    const tabSlider = document.querySelector('.tab-slider');
-
-    // Remove active class from all tabs and containers
-    tabButtons.forEach(btn => btn.classList.remove('active'));
-    formContainers.forEach(container => container.classList.remove('active'));
-
-    // Add active class to selected tab
-    const selectedTab = document.querySelector(`[data-tab="${tabName}"]`);
-    const selectedContainer = document.getElementById(`${tabName}-container`);
-
-    if (selectedTab && selectedContainer) {
-        selectedTab.classList.add('active');
-        selectedContainer.classList.add('active');
-
-        // Move slider - using CSS classes instead of direct style manipulation
-        if (tabName === 'login') {
-            tabSlider.classList.add('login-active');
-        } else {
-            tabSlider.classList.remove('login-active');
-        }
     }
 }
