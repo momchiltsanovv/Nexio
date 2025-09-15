@@ -59,7 +59,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                    .password(getEncodedPassword(registerRequest))
                    .build();
     }
-
+    
     private String getEncodedPassword(RegisterRequest registerRequest) {
         return passwordEncoder.encode(registerRequest.getPassword());
     }
