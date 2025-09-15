@@ -204,6 +204,16 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Sign Up Button - redirect to register page
+    const signUpBtn = document.getElementById('signUpBtn');
+    if (signUpBtn) {
+        signUpBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            console.log('Redirecting to register...');
+            window.location.href = '/register';
+        });
+    }
+
     // Wishlist Button - redirect to wishlist page
     const wishlistBtn = document.getElementById('wishlistBtn');
     if (wishlistBtn) {
@@ -633,6 +643,7 @@ function checkLoginStatus() {
     const isLoggedIn = document.cookie.includes('JSESSIONID') || localStorage.getItem('isLoggedIn');
     
     const signInBtn = document.getElementById('signInBtn');
+    const signUpBtn = document.getElementById('signUpBtn');
     const wishlistBtn = document.getElementById('wishlistBtn');
     const profileBtn = document.getElementById('profileBtn');
     const actionsSection = document.getElementById('actionsSection');
@@ -642,6 +653,7 @@ function checkLoginStatus() {
     if (wishlistBtn) wishlistBtn.style.display = 'none';
     if (profileBtn) profileBtn.style.display = 'none';
     if (signInBtn) signInBtn.style.display = 'none';
+    if (signUpBtn) signUpBtn.style.display = 'none';
     
     if (isLoggedIn) {
         // Show user action buttons and actions section in dropdown
@@ -650,8 +662,9 @@ function checkLoginStatus() {
         if (actionsSection) actionsSection.style.display = 'block';
         if (authSection) authSection.style.display = 'none';
     } else {
-        // Show sign in button and auth section in dropdown
+        // Show sign in and sign up buttons and auth section in dropdown
         if (signInBtn) signInBtn.style.display = 'inline-flex';
+        if (signUpBtn) signUpBtn.style.display = 'inline-flex';
         if (actionsSection) actionsSection.style.display = 'none';
         if (authSection) authSection.style.display = 'block';
     }
@@ -938,17 +951,19 @@ const cardData = {
             'Secure transaction monitoring'
         ]
     },
-    'Photo Recognition': {
+    'Smart Price Predictor': {
         icon: `<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
-            <circle cx="12" cy="13" r="4"/>
+            <path d="M12 2L2 7v10c0 5.55 3.84 9.74 9 11 5.16-1.26 9-5.45 9-11V7l-10-5z"/>
+            <path d="m8 11 2 2 4-4"/>
         </svg>`,
-        description: 'Take a photo of any item and our AI will automatically detect the category, condition, and suggest details. Smart selling made simple.',
+        description: 'Get AI-powered pricing suggestions based on market data, similar items, and demand patterns. Our intelligent system analyzes your item details to recommend the optimal price for quick sales.',
         features: [
-            'AI-powered image analysis',
-            'Automatic category detection',
-            'Smart condition assessment',
-            'Instant listing suggestions'
+            'Market-based price analysis',
+            'Similar item comparison',
+            'Demand pattern recognition',
+            'Seasonal pricing adjustments',
+            'Category-specific recommendations',
+            'Auto-categorization suggestions'
         ]
     },
     'Electronics': {
@@ -999,6 +1014,30 @@ const cardData = {
             'Team sports gear',
             'Athletic wear',
             'Outdoor equipment'
+        ]
+    },
+    'Sports & Recreation': {
+        icon: '⚽',
+        description: 'Sports equipment, gym gear, recreational items, and athletic wear for active students.',
+        features: [
+            'Gym and fitness equipment',
+            'Team sports gear',
+            'Athletic and casual wear',
+            'Outdoor recreation equipment',
+            'Exercise accessories',
+            'Gaming and entertainment'
+        ]
+    },
+    'Services': {
+        icon: '🛠️',
+        description: 'Student services including tutoring, repairs, delivery, and academic assistance.',
+        features: [
+            'Tutoring and academic help',
+            'Device repairs and tech support',
+            'Delivery and transportation',
+            'Photography and design',
+            'Event planning assistance',
+            'Personal services'
         ]
     },
     'Dorm Supplies': {
