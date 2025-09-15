@@ -198,6 +198,26 @@ function setupEventListeners() {
         });
     }
     
+    // Wishlist Button - redirect to wishlist page
+    const wishlistBtn = document.getElementById('wishlistBtn');
+    if (wishlistBtn) {
+        wishlistBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            console.log('Redirecting to wishlist...');
+            window.location.href = '/wishlist';
+        });
+    }
+    
+    // Profile Button - redirect to profile page
+    const profileBtn = document.getElementById('profileBtn');
+    if (profileBtn) {
+        profileBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            console.log('Redirecting to profile...');
+            window.location.href = '/profile';
+        });
+    }
+    
     // Filter buttons
     const filterButtons = document.querySelectorAll('.filter-btn');
     filterButtons.forEach(btn => {

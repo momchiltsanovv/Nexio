@@ -214,110 +214,14 @@ body {
     height: 20px;
 }
 
+/* Navigation styling is now handled by home.css */
 
-/* Navigation Options Button */
-.nav-options-btn {
-    display: none;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 8px;
-    color: white;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+/* Override button border radius for wishlist page */
+.estore-home .nav-actions .btn-icon {
+    border-radius: 8px !important;
 }
 
-.nav-options-btn:hover {
-    background: rgba(255, 255, 255, 0.2);
-    border-color: rgba(255, 255, 255, 0.3);
-    transform: translateY(-1px);
-}
 
-.nav-options-btn:active {
-    transform: translateY(0);
-}
-
-/* Navigation Options Dropdown */
-.nav-options-dropdown {
-    display: none;
-    position: absolute;
-    top: 100%;
-    right: 20px;
-    background: rgba(33, 35, 70, 0.98);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 12px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-    min-width: 280px;
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(-10px);
-    transition: all 0.3s ease;
-    z-index: 1001;
-}
-
-.nav-options-dropdown.active {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-}
-
-.nav-options-content {
-    padding: 20px;
-}
-
-.nav-options-section {
-    margin-bottom: 20px;
-}
-
-.nav-options-section:last-child {
-    margin-bottom: 0;
-}
-
-.nav-options-section h4 {
-    color: rgba(255, 255, 255, 0.6);
-    font-size: 11px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin: 0 0 12px 0;
-    padding-bottom: 8px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.nav-option-link {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 10px 12px;
-    color: white;
-    text-decoration: none;
-    border-radius: 8px;
-    transition: all 0.2s ease;
-    font-size: 14px;
-    font-weight: 500;
-}
-
-.nav-option-link:hover {
-    background: rgba(255, 255, 255, 0.1);
-    color: white;
-    transform: translateX(4px);
-}
-
-.nav-option-link svg {
-    opacity: 0.7;
-    transition: opacity 0.2s ease;
-}
-
-.nav-option-link:hover svg {
-    opacity: 1;
-}
 
 /* Wishlist Hero Section */
 .wishlist-hero {
@@ -1122,7 +1026,8 @@ body {
     }
     
     .nav-actions {
-        display: none;
+        display: flex;
+        gap: 8px;
     }
     
     .nav-menu {
@@ -1359,7 +1264,8 @@ body {
     }
     
     .nav-actions {
-        display: none;
+        display: flex;
+        gap: 8px;
     }
 
     .wishlist-hero {
