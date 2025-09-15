@@ -39,6 +39,8 @@ public class User {
             length = 20)
     private UserRole role;
 
+    private boolean isActive;
+
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private University university;
