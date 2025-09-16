@@ -2,10 +2,13 @@ package com.app.nexio.item.model;
 
 
 import com.app.nexio.user.model.User;
-import com.app.nexio.wishlist.model.WishlistItem;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.UUID;
 
@@ -44,8 +47,10 @@ public class Item {
     @OneToOne
     private User owner;
 
-    @OneToMany(mappedBy = "item",
-               cascade = CascadeType.ALL,
-               orphanRemoval = true)
-    private Set<WishlistItem> wishlistItems;
+    @CreationTimestamp
+    private LocalDateTime createdOn;
+
+    @UpdateTimestamp
+    private LocalDateTime updatedOn;
+
 }

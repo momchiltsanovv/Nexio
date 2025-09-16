@@ -1,7 +1,6 @@
 package com.app.nexio.wishlist.model;
 
 import com.app.nexio.item.model.Item;
-import com.app.nexio.user.model.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,23 +12,20 @@ import java.util.UUID;
 @Getter
 @Setter
 @Entity
-@Table(name = "wishlist_items",
-       uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "item_id"}))
+@Table(name = "wishlist_items")
 public class WishlistItem {
+
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @ManyToOne
-    @JoinColumn(nullable = false)
-    private User user;
-
-    @ManyToOne
-    @JoinColumn(nullable = false)
+    // Many users can add the same item to their wishlist
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "item_id",
+                nullable = false)
     private Item item;
 
     @CreationTimestamp
-    private LocalDateTime addedAt;
-    private String notes;
-
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime addedOn;
 }

@@ -1,6 +1,7 @@
 package com.app.nexio.user.model;
 
-import com.app.nexio.wishlist.model.WishlistItem;
+import com.app.nexio.item.model.Item;
+import com.app.nexio.wishlist.model.Wishlist;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -53,10 +54,14 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    @OneToMany(mappedBy = "user",
-               cascade = CascadeType.ALL,
-               orphanRemoval = true)
-    private Set<WishlistItem> wishlistItems;
+
+    // One user can have only one wishlist
+    @OneToOne(cascade = CascadeType.ALL,
+              orphanRemoval = true,
+              fetch = FetchType.LAZY)
+    @JoinColumn(name = "wishlist_id")
+    private Wishlist wishlist;
+
 
     @Column(nullable = false,
             updatable = false)
