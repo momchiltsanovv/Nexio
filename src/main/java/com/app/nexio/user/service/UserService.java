@@ -1,13 +1,13 @@
 package com.app.nexio.user.service;
 
-import com.app.nexio.user.dto.RegisterRequestDto;
+import com.app.nexio.user.dto.RegisterRequest;
 import com.app.nexio.user.model.User;
 
 import java.util.UUID;
 
 public interface UserService {
 
-    User register(RegisterRequestDto registerRequest);
+    User register(RegisterRequest registerRequest);
 
     void switchStatus(UUID userId);
 

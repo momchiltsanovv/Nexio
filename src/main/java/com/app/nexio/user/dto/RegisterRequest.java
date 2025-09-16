@@ -5,11 +5,9 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
-import jakarta.websocket.server.ServerEndpoint;
-import lombok.*;
 
 
-public record RegisterRequestDto(
+public record RegisterRequest(
         @NotBlank(message = "First name is required")
         String firstName,
 

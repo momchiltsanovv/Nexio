@@ -1,7 +1,9 @@
 package com.app.nexio.user.service;
 
 import com.app.nexio.exception.UsernameTakenException;
-import com.app.nexio.user.dto.RegisterRequestDto;
+import com.app.nexio.exception.IncorrectUsernameOrPasswordException;
+import com.app.nexio.user.dto.LoginRequest;
+import com.app.nexio.user.dto.RegisterRequest;
 import com.app.nexio.user.model.User;
 import com.app.nexio.user.property.UserProperties;
 import com.app.nexio.user.repository.UserRepository;
@@ -20,6 +22,9 @@ import java.util.UUID;
 @Service
 public class UserServiceImpl implements UserService, UserDetailsService {
 
+    public static final String USER_REGISTERED_SUCCESSFULLY = "User registered successfully";
+    public static final String USERNAME_ALREADY_TAKEN = "Username %s is already taken";
+    public static final String INVALID_USERNAME_OR_PASSWORD = "Invalid username or password";
     private final UserRepository userRepository;
     private final UserProperties userProperties;
     private final PasswordEncoder passwordEncoder;
@@ -31,23 +36,41 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         this.passwordEncoder = passwordEncoder;
     }
 
+    public User login(LoginRequest loginRequest) {
+        Optional<User> optionalUser = userRepository.findByUsernameOrEmail(loginRequest.usernameOrEmail());
+
+        if (optionalUser.isEmpty()) {
+            throw new IncorrectUsernameOrPasswordException(INVALID_USERNAME_OR_PASSWORD);
+        }
+
+        String rawPassword = loginRequest.password();
+        String hashedPassword = optionalUser.get().getPassword();
+
+        if(!passwordEncoder.matches(rawPassword, hashedPassword)) {
+            throw new IncorrectUsernameOrPasswordException(INVALID_USERNAME_OR_PASSWORD);
+        }
+
+        return optionalUser.get();
+    }
+
+
     @Override
-    public User register(RegisterRequestDto registerRequest) {
+    public User register(RegisterRequest registerRequest) {
         Optional<User> optionalUser = userRepository.findByUsername(registerRequest.username());
 
         if (optionalUser.isPresent()) {
-            throw new UsernameTakenException("Username %s is already taken".formatted(registerRequest.username()));
+            throw new UsernameTakenException(USERNAME_ALREADY_TAKEN.formatted(registerRequest.username()));
         }
 
-        User user = userRepository.save(buildUserFromRequest(registerRequest));
+        User user = userRepository.save(initializeUserFromRequest(registerRequest));
 
-        log.info("User registered successfully");
+        log.info(USER_REGISTERED_SUCCESSFULLY);
 
         return user;
 
     }
 
-    private User buildUserFromRequest(RegisterRequestDto registerRequest) {
+    private User initializeUserFromRequest(RegisterRequest registerRequest) {
         return User.builder()
                    .username(registerRequest.username())
                    .firstName(registerRequest.firstName())
@@ -60,7 +83,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                    .build();
     }
 
-    private String getEncodedPassword(RegisterRequestDto registerRequest) {
+    private String getEncodedPassword(RegisterRequest registerRequest) {
         return passwordEncoder.encode(registerRequest.password());
     }
 

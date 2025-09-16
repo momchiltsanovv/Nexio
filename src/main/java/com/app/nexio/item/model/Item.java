@@ -2,9 +2,11 @@ package com.app.nexio.item.model;
 
 
 import com.app.nexio.user.model.User;
+import com.app.nexio.wishlist.model.WishlistItem;
 import jakarta.persistence.*;
 import lombok.*;
 import java.math.BigDecimal;
+import java.util.Set;
 import java.util.UUID;
 
 @Getter
@@ -41,4 +43,9 @@ public class Item {
 
     @OneToOne
     private User owner;
+
+    @OneToMany(mappedBy = "item",
+               cascade = CascadeType.ALL,
+               orphanRemoval = true)
+    private Set<WishlistItem> wishlistItems;
 }

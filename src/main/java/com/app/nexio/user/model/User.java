@@ -1,10 +1,13 @@
 package com.app.nexio.user.model;
 
+import com.app.nexio.wishlist.model.WishlistItem;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+
 import java.time.LocalDateTime;
+import java.util.Set;
 import java.util.UUID;
 
 @Getter
@@ -50,6 +53,11 @@ public class User {
     @Column(nullable = false)
     private String password;
 
+    @OneToMany(mappedBy = "user",
+               cascade = CascadeType.ALL,
+               orphanRemoval = true)
+    private Set<WishlistItem> wishlistItems;
+
     @Column(nullable = false,
             updatable = false)
     @CreationTimestamp
@@ -58,7 +66,6 @@ public class User {
     @Column
     @UpdateTimestamp
     private LocalDateTime updatedOn;
-
 
 
 }
