@@ -14,6 +14,7 @@ public class ItemServiceImpl implements ItemService {
     @Override // will get user from security context -> no need for second parameter User
     public void postItem(PostItemRequest postItemRequest) {
         Item item = initializeItemFromRequest(postItemRequest);
+//        item.setOwner(); //TODO get user from security later
 
 
     }
