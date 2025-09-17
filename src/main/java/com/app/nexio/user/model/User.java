@@ -1,6 +1,5 @@
 package com.app.nexio.user.model;
 
-import com.app.nexio.item.model.Item;
 import com.app.nexio.wishlist.model.Wishlist;
 import jakarta.persistence.*;
 import lombok.*;
@@ -8,7 +7,6 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
-import java.util.Set;
 import java.util.UUID;
 
 @Getter
@@ -37,6 +35,17 @@ public class User {
     @Column(nullable = false,
             length = 20)
     private UserRole role;
+
+    @Column(columnDefinition = "TEXT")
+    private String major;
+
+    @Column(columnDefinition = "TEXT")
+    private String instagramURL;
+
+    @Column(columnDefinition = "TEXT")
+    private String linkedinURL;
+
+    private Integer graduationYear;
 
     private boolean active;
 

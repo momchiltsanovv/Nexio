@@ -2,9 +2,11 @@ package com.app.nexio.user.service;
 
 import com.app.nexio.exception.UsernameTakenException;
 import com.app.nexio.exception.IncorrectUsernameOrPasswordException;
+import com.app.nexio.user.dto.EditRequest;
 import com.app.nexio.user.dto.LoginRequest;
 import com.app.nexio.user.dto.RegisterRequest;
 import com.app.nexio.user.model.User;
+import com.app.nexio.user.model.UserRole;
 import com.app.nexio.user.property.UserProperties;
 import com.app.nexio.user.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +27,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public static final String USER_REGISTERED_SUCCESSFULLY = "User registered successfully";
     public static final String USERNAME_ALREADY_TAKEN = "Username %s is already taken";
     public static final String INVALID_USERNAME_OR_PASSWORD = "Invalid username or password";
+    public static final UserRole ADMIN = UserRole.ADMIN;
+    public static final UserRole USER = UserRole.USER;
+    private static final String USER_LOGIN_SUCCESSFULLY = "User logged in successfully";
     private final UserRepository userRepository;
+    private static final String USER_UPDATED_SUCCESSFULLY = "User info updated successfully ";
     private final UserProperties userProperties;
     private final PasswordEncoder passwordEncoder;
 
@@ -46,9 +52,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         String rawPassword = loginRequest.password();
         String hashedPassword = optionalUser.get().getPassword();
 
-        if(!passwordEncoder.matches(rawPassword, hashedPassword)) {
+        if (!passwordEncoder.matches(rawPassword, hashedPassword)) {
             throw new IncorrectUsernameOrPasswordException(INVALID_USERNAME_OR_PASSWORD);
         }
+
+        log.info(USER_LOGIN_SUCCESSFULLY);
 
         return optionalUser.get();
     }
@@ -90,16 +98,32 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public void switchStatus(UUID userId) {
-
+        User user = userRepository.getUserById(userId);
+        user.setActive(!user.isActive());
+        userRepository.save(user);
     }
 
     @Override
     public void switchRole(UUID userId) {
-
+        User user = userRepository.getUserById(userId);
+        user.setRole(user.getRole() == ADMIN ? USER : ADMIN);
+        userRepository.save(user);
     }
 
     @Override
-    public void editUserDetails() {
+    public void editUserDetails(UUID userid, EditRequest editRequest) {
+        User user = userRepository.getUserById(userid);
+
+        user.setFirstName(editRequest.firstName());
+        user.setLastName(editRequest.lastName());
+        user.setInstagramURL(editRequest.instagramURL());
+        user.setLinkedinURL(editRequest.linkedinURL());
+        user.setMajor(editRequest.major());
+        user.setGraduationYear(editRequest.graduationYear());
+
+        userRepository.save(user);
+
+        log.info(USER_UPDATED_SUCCESSFULLY);
 
     }
 
