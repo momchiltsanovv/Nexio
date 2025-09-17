@@ -14,6 +14,6 @@ public interface UserService {
 
     void switchRole(UUID userId);
 
-    void editUserDetails(UUID userid, EditRequest editRequest);//Todo figure out parameters
+    void editUserDetails(UUID userid, EditRequest editRequest);
 
 }

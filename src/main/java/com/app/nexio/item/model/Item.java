@@ -9,6 +9,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Getter
@@ -42,6 +43,15 @@ public class Item {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Category category;
+
+    @Column(nullable = false)
+    private Location location;
+
+    @ElementCollection
+    @CollectionTable(name = "item_images", joinColumns = @JoinColumn(name = "item_id"))
+    @Column(name = "image_url", columnDefinition = "TEXT")
+    @Singular
+    private List<String> imageURLs;
 
     @OneToOne
     private User owner;
