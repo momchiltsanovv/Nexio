@@ -2,6 +2,7 @@ package com.app.nexio.item.dto;
 
 import com.app.nexio.item.model.Category;
 import com.app.nexio.item.model.ItemCondition;
+import com.app.nexio.item.model.Location;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -30,7 +31,7 @@ public record PostItemRequest(
         Category category,
 
         @NotBlank(message = "Location is required")
-        String location,
+        Location location,
 
         @Size(max = 5, message = "Maximum 5 images allowed")
         List<String> imageURLs
