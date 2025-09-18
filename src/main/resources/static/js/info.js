@@ -317,4 +317,50 @@ document.addEventListener('keydown', (e) => {
     }
 });
 
+// Mobile Navigation Dropdown functionality for info page
+document.addEventListener('DOMContentLoaded', function() {
+    // Navigation Options Button functionality
+    const navOptionsBtn = document.getElementById('navOptionsBtn');
+    const navOptionsDropdown = document.getElementById('navOptionsDropdown');
+    const wishlistBtn = document.getElementById('wishlistBtn');
+    const profileBtn = document.getElementById('profileBtn');
+    
+    if (navOptionsBtn && navOptionsDropdown) {
+        // Toggle dropdown on button click
+        navOptionsBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            navOptionsDropdown.classList.toggle('active');
+        });
+        
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!navOptionsBtn.contains(e.target) && !navOptionsDropdown.contains(e.target)) {
+                navOptionsDropdown.classList.remove('active');
+            }
+        });
+        
+        // Close dropdown when clicking on links
+        const navOptionLinks = navOptionsDropdown.querySelectorAll('.nav-option-link');
+        navOptionLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                navOptionsDropdown.classList.remove('active');
+            });
+        });
+    }
+    
+    // Navigation button handlers
+    if (wishlistBtn) {
+        wishlistBtn.addEventListener('click', function() {
+            window.location.href = '/wishlist';
+        });
+    }
+
+    if (profileBtn) {
+        profileBtn.addEventListener('click', function() {
+            window.location.href = '/profile';
+        });
+    }
+});
+
 console.log('Info page loaded successfully!');

@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+<head >
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nexio - About Us & FAQ</title>
-    <link rel="stylesheet" href="/static/css/index.css">
-    <link rel="stylesheet" href="/static/css/info.css">
+    <link rel="stylesheet" href="/css/index.css">
+    <link rel="stylesheet" href="/css/info.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://use.typekit.net/rau1mwa.css">
@@ -178,7 +178,7 @@
             <div class="team-grid">
                 <div class="team-member">
                     <div class="member-avatar">
-                        <img src="/static/images/team/momchil.jpeg" alt="Momchil Tsanov" class="member-image">
+                        <img src="/images/team/momchil.jpeg" alt="Momchil Tsanov" class="member-image">
                     </div>
                     <h3>Momchil Tsanov</h3>
                     <p>Co-Founder & CEO</p>
@@ -187,18 +187,18 @@
 
                 <div class="team-member">
                     <div class="member-avatar">
-                        <img src="/static/images/team/daria.jpg" alt="Daria Dian" class="member-image">
+                        <img src="/images/team/teya.jpg" alt="Teya Simova" class="member-image">
                     </div>
-                    <h3>Daria Dian</h3>
-                    <p>Marketing Specialist</p>
+                    <h3>Teya Simova</h3>
+                    <p>Public Relations Specialist</p>
                     <span>New Bulgarian University</span>
                 </div>
                 <div class="team-member">
                     <div class="member-avatar">
-                        <img src="/static/images/team/teya.jpg" alt="Teya Simova" class="member-image">
+                        <img src="/images/team/daria.jpg" alt="Daria Dian" class="member-image">
                     </div>
-                    <h3>Teya Simova</h3>
-                    <p>Public Relations Specialist</p>
+                    <h3>Daria Dian</h3>
+                    <p>Marketing Specialist</p>
                     <span>New Bulgarian University</span>
                 </div>
             </div>
@@ -306,7 +306,7 @@
 
 <!-- Back to Home Button -->
 <div class="back-home">
-    <button class="btn btn-primary" onclick="window.location.href='/'">
+    <button class="btn btn-primary" >
         ← Back to Marketplace
     </button>
 </div>
@@ -372,67 +372,19 @@
 
 <!-- Card Modal -->
 <div id="cardModal" class="modal-overlay">
-    <div class="modal">
+    <div class="modal-content">
+        <button class="modal-close" aria-label="Close modal">&times;</button>
         <div class="modal-header">
-            <div id="modalIcon" class="modal-icon"></div>
-            <h2 id="modalTitle" class="modal-title"></h2>
-            <button class="modal-close" onclick="closeModal()">×</button>
+            <div class="modal-icon" id="modalIcon"></div>
+            <h2 id="modalTitle"></h2>
         </div>
-        <div class="modal-content">
-            <p id="modalDescription" class="modal-description"></p>
-            <div id="modalFeatures" class="modal-features"></div>
+        <div class="modal-body">
+            <p id="modalDescription"></p>
+            <div class="modal-features" id="modalFeatures"></div>
         </div>
     </div>
 </div>
 
-<script src="/static/js/index.js"></script>
-<script>
-// Mobile Navigation Dropdown functionality for info page
-document.addEventListener('DOMContentLoaded', function() {
-    // Navigation Options Button functionality
-    const navOptionsBtn = document.getElementById('navOptionsBtn');
-    const navOptionsDropdown = document.getElementById('navOptionsDropdown');
-    const wishlistBtn = document.getElementById('wishlistBtn');
-    const profileBtn = document.getElementById('profileBtn');
-    
-    if (navOptionsBtn && navOptionsDropdown) {
-        // Toggle dropdown on button click
-        navOptionsBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            navOptionsDropdown.classList.toggle('active');
-        });
-        
-        // Close dropdown when clicking outside
-        document.addEventListener('click', function(e) {
-            if (!navOptionsBtn.contains(e.target) && !navOptionsDropdown.contains(e.target)) {
-                navOptionsDropdown.classList.remove('active');
-            }
-        });
-        
-        // Close dropdown when clicking on links
-        const navOptionLinks = navOptionsDropdown.querySelectorAll('.nav-option-link');
-        navOptionLinks.forEach(link => {
-            link.addEventListener('click', function() {
-                navOptionsDropdown.classList.remove('active');
-            });
-        });
-    }
-    
-    // Navigation button handlers
-    if (wishlistBtn) {
-        wishlistBtn.addEventListener('click', function() {
-            window.location.href = '/wishlist';
-        });
-    }
-
-    if (profileBtn) {
-        profileBtn.addEventListener('click', function() {
-            window.location.href = '/profile';
-        });
-    }
-});
-</script>
-<script src="/static/js/info.js"></script>
+<script src="/js/info.js"></script>
 </body>
 </html>

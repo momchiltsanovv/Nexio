@@ -3,10 +3,7 @@ package com.app.nexio.item.dto;
 import com.app.nexio.item.model.Category;
 import com.app.nexio.item.model.ItemCondition;
 import com.app.nexio.item.model.Location;
-import jakarta.validation.constraints.DecimalMin;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -17,14 +14,14 @@ public record PostItemRequest(
         String name,
 
         @NotNull(message = "Price is required")
-        @DecimalMin(value = "0.01", message = "Price must be greater than 0")
+        @Positive(message = "Price must be positive number")
         BigDecimal price,
 
         @NotNull(message = "Item condition is required")
         ItemCondition condition,
 
         @NotBlank(message = "Description is required")
-        @Size(min = 10, max = 1000, message = "Description must be between 10 and 1000 characters")
+        @Size(min = 10, message = "Description must be at least 10 characters")
         String description,
 
         @NotNull(message = "Category is required")
