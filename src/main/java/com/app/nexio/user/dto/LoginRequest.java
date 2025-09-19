@@ -2,7 +2,9 @@ package com.app.nexio.user.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
+import lombok.Builder;
 
+@Builder
 public record LoginRequest(
         @NotBlank(message = "Username is required")
         String usernameOrEmail,

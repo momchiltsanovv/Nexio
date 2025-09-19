@@ -44,7 +44,7 @@ public class Item {
     @Column(nullable = false)
     private Category category;
 
-    @Column(nullable = false)
+    @Column()
     private Location location;
 
     @ElementCollection

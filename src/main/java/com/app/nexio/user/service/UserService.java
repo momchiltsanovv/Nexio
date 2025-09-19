@@ -4,6 +4,7 @@ import com.app.nexio.user.dto.EditRequest;
 import com.app.nexio.user.dto.RegisterRequest;
 import com.app.nexio.user.model.User;
 
+import java.util.List;
 import java.util.UUID;
 
 public interface UserService {
@@ -18,4 +19,5 @@ public interface UserService {
 
     User getById(UUID userId);
 
+    List<User> getAllUsers();
 }

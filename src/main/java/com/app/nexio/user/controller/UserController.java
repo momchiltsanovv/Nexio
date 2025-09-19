@@ -2,11 +2,13 @@ package com.app.nexio.user.controller;
 
 import com.app.nexio.user.model.User;
 import com.app.nexio.user.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 
@@ -16,6 +18,7 @@ public class UserController {
 
     private final UserService userService;
 
+    @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
     }
@@ -23,7 +26,9 @@ public class UserController {
 
     @GetMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public String getUsersPage() {
+    public String getUsersPage(Model model) {
+        List<User> users = userService.getAllUsers();
+        model.addAllAttributes(users);
         return "users";
     }
 
@@ -59,7 +64,7 @@ public class UserController {
         // 3. Delete the user account
         // 4. Invalidate the session
         
-        return "redirect:/logout";
+        return "index";
     }
 
 
