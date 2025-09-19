@@ -16,4 +16,6 @@ public interface UserService {
 
     void editUserDetails(UUID userid, EditRequest editRequest);
 
+    User getById(UUID userId);
+
 }

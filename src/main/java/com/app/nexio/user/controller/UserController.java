@@ -1,21 +1,68 @@
 package com.app.nexio.user.controller;
 
+import com.app.nexio.user.model.User;
+import com.app.nexio.user.service.UserService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 
 @Controller
-@RequestMapping()
+@RequestMapping("/users")
 public class UserController {
 
-    @GetMapping("/profile")
-    public String getProfilePage(){
-        return "profile";
+    private final UserService userService;
+
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
 
-    @GetMapping("/users")
+
+    @GetMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public String getUsersPage() {
         return "users";
     }
+
+    @GetMapping("/{id}")// see another users profile
+    public String getUserProfilePage(@PathVariable UUID id,
+                                     Model model) {
+        User user = userService.getById(id);
+        model.addAttribute("user", user);
+
+        return "user-profile-view";
+    }
+
+    @GetMapping("/profile") // get current users profile
+    public String getMyProfile() {
+
+        return "profile";
+    }
+
+    @PutMapping("/profile") // update current user profile
+    public String updateProfile(){
+
+
+        return "profile";
+    }
+
+    @DeleteMapping("/delete")//user delete its account
+    public String deleteUser() {
+        // Get current authenticated user
+        // For now, we'll implement a simple logout and redirect
+        // In a real implementation, you would:
+        // 1. Get the current user from SecurityContext
+        // 2. Delete all user-related data (items, wishlist, messages, etc.)
+        // 3. Delete the user account
+        // 4. Invalidate the session
+        
+        return "redirect:/logout";
+    }
+
+
+
+
 }

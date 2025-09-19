@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nexio - Profile</title>
+    <title>Nexio - User Profile</title>
     <link rel="stylesheet" href="/css/index.css">
-    <link rel="stylesheet" href="/css/profile.css">
+    <link rel="stylesheet" href="/css/user-profile-view.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://use.typekit.net/rau1mwa.css">
@@ -120,8 +120,8 @@
     <div class="content">
         <div class="hero-header">
             <div class="hero-content">
-                <h1 class="hero-title">Welcome back, <span id="profile-first-name">Student</span></h1>
-                <p class="hero-subtitle">Manage your account and explore the marketplace</p>
+                <h1 class="hero-title"><span th:text="${user.firstName}">User</span>'s Profile</h1>
+                <p class="hero-subtitle">View their items and connect with them</p>
             </div>
             <div class="brand-section">
                 <span class="nexio-text">nexio</span>
@@ -132,75 +132,55 @@
 </section>
 
 <div class="profile-card">
-    <div class="avatar" id="avatar-initials">S</div>
+    <div class="avatar" th:text="${#strings.substring(user.firstName, 0, 1) + #strings.substring(user.lastName, 0, 1)}">U</div>
     <div class="profile-info">
-        <h2 class="profile-name" id="profile-full-name">Student</h2>
-        <p class="profile-email" id="profile-email">student@example.edu</p>
+        <h2 class="profile-name" th:text="${user.firstName + ' ' + user.lastName}">User Name</h2>
+        <p class="profile-email" th:text="${user.email}">user@example.edu</p>
         <div class="profile-meta">
             <div class="meta-item">
                 <span class="meta-label">Username</span>
-                <span class="meta-value" id="profile-username">@student</span>
+                <span class="meta-value" th:text="'@' + ${user.username}">@username</span>
             </div>
-            <div class="meta-item">
+            <div class="meta-item" th:if="${user.major}">
                 <span class="meta-label">Major</span>
-                <span class="meta-value" id="profile-major">Computer Science</span>
+                <span class="meta-value" th:text="${user.major}">Computer Science</span>
             </div>
-            <div class="meta-item">
+            <div class="meta-item" th:if="${user.graduationYear}">
                 <span class="meta-label">Graduation Year</span>
-                <span class="meta-value" id="profile-graduation">2025</span>
+                <span class="meta-value" th:text="${user.graduationYear}">2025</span>
             </div>
             <div class="meta-item">
                 <span class="meta-label">Member since</span>
-                <span class="meta-value" id="profile-joined">January 2024</span>
-            </div>
-        </div>
-        
-        <!-- Verification Badges -->
-        <div class="verification-section">
-            <div class="verification-badges">
-                <div class="verification-badge" id="email-badge">
-                    <span class="badge-icon">✗</span>
-                    <span class="badge-text">Email Not Verified</span>
-                </div>
+                <span class="meta-value" th:text="${#temporals.format(user.createdOn, 'MMMM yyyy')}">January 2024</span>
             </div>
         </div>
         
         <!-- Social Links -->
-        <div class="social-links-section">
+        <div class="social-links-section" th:if="${user.instagramURL or user.linkedinURL}">
             <div class="social-links">
-                <a href="#" class="social-link" id="instagram-link" title="Instagram">
+                <a th:if="${user.instagramURL}" th:href="${user.instagramURL}" class="social-link has-link" target="_blank" rel="noopener noreferrer" title="Instagram">
                     <div class="social-logo instagram-logo"></div>
                     <span class="social-text">Instagram</span>
                 </a>
-                <a href="#" class="social-link" id="linkedin-link" title="LinkedIn">
+                <a th:if="${user.linkedinURL}" th:href="${user.linkedinURL}" class="social-link has-link" target="_blank" rel="noopener noreferrer" title="LinkedIn">
                     <div class="social-logo linkedin-logo"></div>
                     <span class="social-text">LinkedIn</span>
                 </a>
             </div>
         </div>
+        
         <div class="profile-actions">
-            <button class="btn btn-primary" onclick="toggleEditMode()">
+            <button class="btn btn-primary" onclick="sendMessage()">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
-                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
                 </svg>
-                Edit Profile
+                Send Message
             </button>
-            <form th:action="@{/logout}" method="post" style="display: inline;">
-                <button type="submit" class="btn btn-secondary">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
-                        <polyline points="16,17 21,12 16,7"/>
-                        <line x1="21" y1="12" x2="9" y2="12"/>
-                    </svg>
-                    Logout
-                </button>
-            </form>
-            <button class="btn btn-danger" onclick="showDeleteAccountModal()">
+            <button class="btn btn-secondary" onclick="goBack()">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                    <path d="M19 12H5M12 19l-7-7 7-7"/>
                 </svg>
-                Delete Account
+                Go Back
             </button>
         </div>
     </div>
@@ -209,40 +189,40 @@
     <div class="review-status-section">
         <div class="review-status-card">
             <div class="review-header">
-                <h4 class="review-title">Review Status</h4>
-                <div class="review-badge" id="review-badge">
+                <h4 class="review-title">User Rating</h4>
+                <div class="review-badge">
                     <span class="review-icon">⭐</span>
-                    <span class="review-text">New User</span>
+                    <span class="review-text">Active User</span>
                 </div>
             </div>
             <div class="review-stats">
                 <div class="review-stat">
                     <span class="stat-label">Rating</span>
-                    <span class="stat-value" id="user-rating">-</span>
+                    <span class="stat-value">-</span>
                 </div>
                 <div class="review-stat">
                     <span class="stat-label">Reviews</span>
-                    <span class="stat-value" id="review-count">0</span>
+                    <span class="stat-value">0</span>
                 </div>
             </div>
             <div class="review-progress">
                 <div class="progress-bar">
-                    <div class="progress-fill" id="review-progress" style="width: 0%"></div>
+                    <div class="progress-fill" style="width: 100%"></div>
                 </div>
-                <span class="progress-text">Complete your profile to get reviews</span>
+                <span class="progress-text">This user is active on the platform</span>
             </div>
         </div>
     </div>
 </div>
 
-<!-- My Posted Items Section -->
+<!-- User's Posted Items Section -->
 <div class="posted-items-section">
     <div class="section-header">
-        <h3 class="section-title">My Posted Items</h3>
-        <p class="section-description">Manage your item listings</p>
+        <h3 class="section-title" th:text="${user.firstName + '''s Items'}">User's Items</h3>
+        <p class="section-description">Items posted by this user</p>
     </div>
     
-    <div class="items-container" id="postedItemsContainer">
+    <div class="items-container" id="userItemsContainer">
         <!-- Items will be loaded here dynamically -->
         <div class="no-items-message" id="noItemsMessage" style="display: none;">
             <div class="no-items-icon">
@@ -253,13 +233,7 @@
                 </svg>
             </div>
             <h4>No items posted yet</h4>
-            <p>Start selling by posting your first item!</p>
-            <a href="/post-item" class="btn btn-primary">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M12 5v14M5 12h14"/>
-                </svg>
-                Post Item
-            </a>
+            <p>This user hasn't posted any items yet.</p>
         </div>
         
         <!-- Sample item card (will be replaced with dynamic content) -->
@@ -273,19 +247,6 @@
             <div class="item-content">
                 <div class="item-header">
                     <h4 class="item-title">Item Title</h4>
-                    <div class="item-actions">
-                        <button class="action-btn edit-btn" title="Edit Item">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
-                                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
-                            </svg>
-                        </button>
-                        <button class="action-btn delete-btn" title="Delete Item">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
-                            </svg>
-                        </button>
-                    </div>
                 </div>
                 <p class="item-description">Item description goes here...</p>
                 <div class="item-meta">
@@ -316,114 +277,11 @@
     </div>
 </div>
 
-<!-- Edit Profile Modal -->
-<div class="modal-overlay" id="editProfileModal">
-    <div class="modal-container">
-        <div class="modal-header">
-            <h3 class="modal-title">Edit Profile</h3>
-            <button class="modal-close" id="closeEditModal">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <line x1="18" y1="6" x2="6" y2="18"/>
-                    <line x1="6" y1="6" x2="18" y2="18"/>
-                </svg>
-            </button>
-        </div>
-        
-        <form class="modal-form" id="editProfileForm">
-            <div class="form-group">
-                <label for="editFirstName" class="form-label">First Name</label>
-                <input type="text" id="editFirstName" name="firstName" class="form-input" required>
-            </div>
-            
-            <div class="form-group">
-                <label for="editLastName" class="form-label">Last Name</label>
-                <input type="text" id="editLastName" name="lastName" class="form-input" required>
-            </div>
-            
-            <div class="form-group">
-                <label for="editInstagram" class="form-label">Instagram URL</label>
-                <input type="url" id="editInstagram" name="instagram" class="form-input" placeholder="https://instagram.com/username">
-            </div>
-            
-            <div class="form-group">
-                <label for="editLinkedin" class="form-label">LinkedIn URL</label>
-                <input type="url" id="editLinkedin" name="linkedin" class="form-input" placeholder="https://linkedin.com/in/username">
-            </div>
-            
-            <div class="form-group">
-                <label for="editMajor" class="form-label">Major</label>
-                <input type="text" id="editMajor" name="major" class="form-input" placeholder="e.g., Computer Science">
-            </div>
-            
-            <div class="form-group">
-                <label for="editGraduationYear" class="form-label">Graduation Year</label>
-                <input type="number" id="editGraduationYear" name="graduationYear" class="form-input" min="2020" max="2030" placeholder="2025">
-            </div>
-            
-            <div class="modal-actions">
-                <button type="button" class="btn btn-secondary" id="cancelEdit">Cancel</button>
-                <button type="submit" class="btn btn-primary" id="saveEdit">Save Changes</button>
-            </div>
-        </form>
-    </div>
-</div>
-
-<!-- Delete Account Confirmation Modal -->
-<div class="modal-overlay" id="deleteAccountModal">
-    <div class="modal-container">
-        <div class="modal-header">
-            <h3 class="modal-title">Delete Account</h3>
-            <button class="modal-close" id="closeDeleteModal">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <line x1="18" y1="6" x2="6" y2="18"/>
-                    <line x1="6" y1="6" x2="18" y2="18"/>
-                </svg>
-            </button>
-        </div>
-        
-        <div class="modal-form">
-            <div class="delete-warning">
-                <div class="warning-icon">
-                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M12 9v4M12 17h.01M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"/>
-                    </svg>
-                </div>
-                <h4 class="warning-title">Are you sure you want to delete your account?</h4>
-                <p class="warning-description">
-                    This action cannot be undone. This will permanently delete your account and remove all your data from our servers, including:
-                </p>
-                <ul class="warning-list">
-                    <li>Your profile information</li>
-                    <li>All your posted items</li>
-                    <li>Your wishlist</li>
-                    <li>Your messages and conversations</li>
-                    <li>All associated data</li>
-                </ul>
-            </div>
-            
-            <div class="form-group">
-                <label for="confirmDelete" class="form-label">Type "DELETE" to confirm</label>
-                <input type="text" id="confirmDelete" class="form-input" placeholder="Type DELETE to confirm" required>
-            </div>
-            
-            <div class="modal-actions">
-                <button type="button" class="btn btn-secondary" id="cancelDelete">Cancel</button>
-                <button type="button" class="btn btn-danger" id="confirmDeleteBtn" disabled>
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
-                    </svg>
-                    Delete Account
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-
 <!-- Toast Notification -->
 <div class="toast" id="toast">
     <span id="toast-message"></span>
 </div>
 
-<script src="/js/profile.js"></script>
+<script src="/js/user-profile-view.js"></script>
 </body>
 </html>

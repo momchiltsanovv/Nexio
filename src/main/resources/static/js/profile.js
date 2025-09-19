@@ -49,6 +49,7 @@ document.addEventListener('DOMContentLoaded', function() {
     loadProfileData();
     populateProfile();
     setupEditModal();
+    setupDeleteAccountModal();
 });
 
 // Setup edit modal event listeners
@@ -559,8 +560,139 @@ function toggleEditMode() {
     openEditModal();
 }
 
+// Setup delete account modal event listeners
+function setupDeleteAccountModal() {
+    const modal = document.getElementById('deleteAccountModal');
+    const closeBtn = document.getElementById('closeDeleteModal');
+    const cancelBtn = document.getElementById('cancelDelete');
+    const confirmBtn = document.getElementById('confirmDeleteBtn');
+    const confirmInput = document.getElementById('confirmDelete');
+    
+    if (closeBtn) {
+        closeBtn.addEventListener('click', closeDeleteAccountModal);
+    }
+    
+    if (cancelBtn) {
+        cancelBtn.addEventListener('click', closeDeleteAccountModal);
+    }
+    
+    if (confirmBtn) {
+        confirmBtn.addEventListener('click', handleDeleteAccount);
+    }
+    
+    if (confirmInput) {
+        confirmInput.addEventListener('input', function() {
+            const isConfirmed = this.value.trim().toUpperCase() === 'DELETE';
+            confirmBtn.disabled = !isConfirmed;
+        });
+    }
+    
+    // Close modal when clicking outside
+    if (modal) {
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                closeDeleteAccountModal();
+            }
+        });
+    }
+    
+    // Close modal with Escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && modal && modal.classList.contains('active')) {
+            closeDeleteAccountModal();
+        }
+    });
+}
+
+// Show delete account modal
+function showDeleteAccountModal() {
+    const modal = document.getElementById('deleteAccountModal');
+    const confirmInput = document.getElementById('confirmDelete');
+    const confirmBtn = document.getElementById('confirmDeleteBtn');
+    
+    if (modal) {
+        // Reset form
+        if (confirmInput) {
+            confirmInput.value = '';
+        }
+        if (confirmBtn) {
+            confirmBtn.disabled = true;
+        }
+        
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden'; // Prevent background scrolling
+    }
+}
+
+// Close delete account modal
+function closeDeleteAccountModal() {
+    const modal = document.getElementById('deleteAccountModal');
+    if (modal) {
+        modal.classList.remove('active');
+        document.body.style.overflow = ''; // Restore scrolling
+    }
+}
+
+// Handle delete account confirmation
+function handleDeleteAccount() {
+    const confirmInput = document.getElementById('confirmDelete');
+    const confirmBtn = document.getElementById('confirmDeleteBtn');
+    
+    if (!confirmInput || confirmInput.value.trim().toUpperCase() !== 'DELETE') {
+        showToast('Please type "DELETE" to confirm', 'error');
+        return;
+    }
+    
+    // Add loading state
+    const removeLoading = addLoadingState(confirmBtn, 'Deleting...');
+    
+    // Make API call to delete account
+    fetch('/users/delete', {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest'
+        }
+    })
+    .then(response => {
+        removeLoading();
+        
+        if (response.ok) {
+            // Clear all user data from localStorage
+            const keysToRemove = [
+                'firstName', 'lastName', 'email', 'username', 'major', 'graduationYear',
+                'joinDate', 'social_instagram', 'social_linkedin', 'verified_email',
+                'rememberedEmail', 'userEmail'
+            ];
+            
+            keysToRemove.forEach(key => {
+                localStorage.removeItem(key);
+            });
+            
+            // Close modal
+            closeDeleteAccountModal();
+            
+            // Show success message
+            showToast('Account deleted successfully. Redirecting...', 'success');
+            
+            // Redirect to home page after a short delay
+            setTimeout(() => {
+                window.location.href = '/';
+            }, 2000);
+        } else {
+            throw new Error('Failed to delete account');
+        }
+    })
+    .catch(error => {
+        removeLoading();
+        console.error('Error deleting account:', error);
+        showToast('Failed to delete account. Please try again.', 'error');
+    });
+}
+
 // Make functions globally accessible
 window.verifyEmail = verifyEmail;
 window.toggleEditMode = toggleEditMode;
+window.showDeleteAccountModal = showDeleteAccountModal;
 
 console.log('Profile page loaded successfully!');
