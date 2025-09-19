@@ -1,6 +1,7 @@
 package com.app.nexio.user.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 
@@ -8,4 +9,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping()
 public class UserController {
 
- }
+    @GetMapping("/profile")
+    public String getProfilePage(){
+        return "profile";
+    }
+
+    @GetMapping("/users")
+    public String getUsersPage() {
+        return "users";
+    }
+}

@@ -44,17 +44,17 @@
             </svg>
         </button>
         <div class="nav-actions">
-            <button class="btn btn-icon" id="wishlistBtn" title="My Wishlist">
+            <a href="/wishlist" class="btn btn-icon" id="wishlistBtn" title="My Wishlist">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
                 </svg>
-            </button>
-            <button class="btn btn-icon" id="profileBtn" title="My Account">
+            </a>
+            <a href="/profile" class="btn btn-icon" id="profileBtn" title="My Account">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
                     <circle cx="12" cy="7" r="4"/>
                 </svg>
-            </button>
+            </a>
         </div>
     </div>
     
@@ -219,51 +219,6 @@
     </div>
 </div>
 
-<div class="content">
-    <div class="section-header">
-        <h3 class="section-title">Quick Actions</h3>
-        <p class="section-description">Access your most important features</p>
-    </div>
-    <div class="quick-actions">
-        <div class="action-card" onclick="window.location.href='/'">
-            <div class="action-icon-wrapper">
-                <span class="action-icon">🛍️</span>
-            </div>
-            <div class="action-content">
-                <h4>Browse Items</h4>
-                <p>Find textbooks, electronics, and more</p>
-            </div>
-        </div>
-        <div class="action-card" onclick="showComingSoon('Sell Items')">
-            <div class="action-icon-wrapper">
-                <span class="action-icon">💰</span>
-            </div>
-            <div class="action-content">
-                <h4>Sell Items</h4>
-                <p>List your items for sale</p>
-            </div>
-        </div>
-        <div class="action-card" onclick="window.location.href='/messages'">
-            <div class="action-icon-wrapper">
-                <span class="action-icon">💬</span>
-            </div>
-            <div class="action-content">
-                <h4>Messages</h4>
-                <p>Chat with buyers and sellers</p>
-            </div>
-        </div>
-        <div class="action-card" onclick="showComingSoon('Wishlist')">
-            <div class="action-icon-wrapper">
-                <span class="action-icon">❤️</span>
-            </div>
-            <div class="action-content">
-                <h4>Wishlist</h4>
-                <p>Save items you want to buy</p>
-            </div>
-        </div>
-    </div>
-
-</div>
 
 
 <!-- Edit Profile Modal -->
