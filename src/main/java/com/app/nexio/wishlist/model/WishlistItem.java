@@ -13,7 +13,7 @@ import java.util.UUID;
 @Setter
 @Entity
 @Table(name = "wishlist_items")
-public class WishlistItem {
+public class WishlistItem { // entity to link items to wishlists
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

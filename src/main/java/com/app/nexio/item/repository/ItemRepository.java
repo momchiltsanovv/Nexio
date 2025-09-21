@@ -2,7 +2,6 @@ package com.app.nexio.item.repository;
 
 import com.app.nexio.item.model.Item;
 import com.app.nexio.user.model.User;
-import jdk.jfr.Registered;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

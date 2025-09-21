@@ -9,6 +9,8 @@ import com.app.nexio.user.model.User;
 import com.app.nexio.user.model.UserRole;
 import com.app.nexio.user.property.UserProperties;
 import com.app.nexio.user.repository.UserRepository;
+import com.app.nexio.wishlist.service.WishlistService;
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -35,12 +37,14 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private static final String USER_UPDATED_SUCCESSFULLY = "User info updated successfully ";
     private final UserProperties userProperties;
     private final PasswordEncoder passwordEncoder;
+    private final WishlistService wishlistService;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, UserProperties userProperties, PasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserRepository userRepository, UserProperties userProperties, PasswordEncoder passwordEncoder, WishlistService wishlistService) {
         this.userRepository = userRepository;
         this.userProperties = userProperties;
         this.passwordEncoder = passwordEncoder;
+        this.wishlistService = wishlistService;
     }
 
     public User login(LoginRequest loginRequest) {
@@ -64,6 +68,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
 
     @Override
+    @Transactional
     public User register(RegisterRequest registerRequest) {
         Optional<User> optionalUser = userRepository.findByUsername(registerRequest.username());
 
@@ -72,6 +77,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         }
 
         User user = userRepository.save(initializeUserFromRequest(registerRequest));
+        wishlistService.initializeWishlist(user);
 
         log.info(USER_REGISTERED_SUCCESSFULLY);
 
@@ -142,4 +148,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return null;
     }
+
+
+
 }

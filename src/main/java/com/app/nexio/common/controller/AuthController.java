@@ -20,8 +20,7 @@ public class AuthController {
 
     @GetMapping("/register")
     public String getRegisterPage(Model model) {
-
-        model.addAttribute("registerRequest", RegisterRequest);
+//        model.addAttribute("registerRequest", RegisterRequest);
         return "register";
     }
 

@@ -22,7 +22,7 @@ public class Wishlist {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    //one item can have many items in the wishlist (wishlist items)
+    //one wishlist can have many items in the wishlist (wishlist items)
     @OneToMany(cascade = CascadeType.ALL,
                orphanRemoval = true,
                fetch = FetchType.LAZY)
