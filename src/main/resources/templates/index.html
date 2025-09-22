@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexio - Student Marketplace</title>
+    <link rel="stylesheet" th:href="@{/css/index.css}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <th:block th:replace="fragments/background :: background-styles"></th:block>
+</head>
+<body>
+    <th:block th:replace="fragments/background :: background-elements"></th:block>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h2>Nexio</h2>
+                <span class="logo-subtitle">Student Marketplace</span>
+            </div>
+            <div class="nav-links">
+                <a href="/home" class="nav-link">Browse</a>
+                <a href="/users" class="nav-link">Community</a>
+                <a href="/info" class="nav-link">About</a>
+                <a href="/login" class="nav-link login-btn">Login</a>
+                <a href="/register" class="nav-link signup-btn">Sign Up</a>
+            </div>
+            <div class="mobile-menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    The Student Marketplace<br>
+                    <span class="gradient-text">Made by Students</span>
+                </h1>
+                <p class="hero-description">
+                    Buy, sell, and trade with fellow students from top Bulgarian universities. 
+                    From textbooks to electronics, find everything you need for student life.
+                </p>
+                <div class="hero-buttons">
+                    <a href="/register" class="btn btn-primary">
+                        <i class="fas fa-rocket"></i>
+                        Get Started
+                    </a>
+                    <a href="/home" class="btn btn-secondary">
+                        <i class="fas fa-search"></i>
+                        Browse Items
+                    </a>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat">
+                        <span class="stat-number">1000+</span>
+                        <span class="stat-label">Items Listed</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">500+</span>
+                        <span class="stat-label">Students</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">6</span>
+                        <span class="stat-label">Universities</span>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-image">
+                <img th:src="@{/images/buy-and-sell.png}" alt="Student marketplace illustration">
+                <div class="floating-card card-1">
+                    <i class="fas fa-book"></i>
+                    <span>Textbooks</span>
+                </div>
+                <div class="floating-card card-2">
+                    <i class="fas fa-laptop"></i>
+                    <span>Electronics</span>
+                </div>
+                <div class="floating-card card-3">
+                    <i class="fas fa-chair"></i>
+                    <span>Furniture</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories Section -->
+    <section class="categories">
+        <div class="container">
+            <h2 class="section-title">Popular Categories</h2>
+            <p class="section-subtitle">Find exactly what you're looking for</p>
+            <div class="categories-grid">
+                <div class="category-card" data-category="TEXTBOOKS">
+                    <div class="category-icon">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <h3>Textbooks</h3>
+                    <p>Academic books and study materials</p>
+                </div>
+                <div class="category-card" data-category="ELECTRONICS">
+                    <div class="category-icon">
+                        <i class="fas fa-laptop"></i>
+                    </div>
+                    <h3>Electronics</h3>
+                    <p>Laptops, phones, and gadgets</p>
+                </div>
+                <div class="category-card" data-category="FURNITURE">
+                    <div class="category-icon">
+                        <i class="fas fa-chair"></i>
+                    </div>
+                    <h3>Furniture</h3>
+                    <p>Dorm and apartment essentials</p>
+                </div>
+                <div class="category-card" data-category="CLOTHING">
+                    <div class="category-icon">
+                        <i class="fas fa-tshirt"></i>
+                    </div>
+                    <h3>Clothing</h3>
+                    <p>Fashion and accessories</p>
+                </div>
+                <div class="category-card" data-category="SPORTS">
+                    <div class="category-icon">
+                        <i class="fas fa-dumbbell"></i>
+                    </div>
+                    <h3>Sports</h3>
+                    <p>Sports equipment and gear</p>
+                </div>
+                <div class="category-card" data-category="SERVICES">
+                    <div class="category-icon">
+                        <i class="fas fa-handshake"></i>
+                    </div>
+                    <h3>Services</h3>
+                    <p>Tutoring and student services</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <div class="features-content">
+                <div class="features-text">
+                    <h2 class="section-title">Why Choose Nexio?</h2>
+                    <div class="feature-list">
+                        <div class="feature-item">
+                            <div class="feature-icon">
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h3>Safe & Secure</h3>
+                                <p>Verified student accounts from trusted universities</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h3>Student Community</h3>
+                                <p>Connect with students from your university and beyond</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">
+                                <i class="fas fa-heart"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h3>Wishlist System</h3>
+                                <p>Save items you love and get notified of similar listings</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">
+                                <i class="fas fa-mobile-alt"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h3>Mobile Friendly</h3>
+                                <p>Browse and sell on the go with our responsive design</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="features-image">
+                    <img th:src="@{/images/made-by-students.png}" alt="Made by students">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Universities Section -->
+    <section class="universities">
+        <div class="container">
+            <h2 class="section-title">Supported Universities</h2>
+            <p class="section-subtitle">Join students from leading Bulgarian universities</p>
+            <div class="universities-grid">
+                <div class="university-card">
+                    <h3>NBU</h3>
+                    <p>New Bulgarian University</p>
+                </div>
+                <div class="university-card">
+                    <h3>MU Sofia</h3>
+                    <p>Medical University of Sofia</p>
+                </div>
+                <div class="university-card">
+                    <h3>Sofia University</h3>
+                    <p>St. Kliment Ohridski</p>
+                </div>
+                <div class="university-card">
+                    <h3>TU Sofia</h3>
+                    <p>Technical University</p>
+                </div>
+                <div class="university-card">
+                    <h3>UNWE</h3>
+                    <p>University of National and World Economy</p>
+                </div>
+                <div class="university-card">
+                    <h3>UACEG</h3>
+                    <p>University of Architecture, Civil Engineering and Geodesy</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Ready to Start Trading?</h2>
+                <p>Join thousands of students buying and selling on Nexio</p>
+                <div class="cta-buttons">
+                    <a href="/register" class="btn btn-primary">
+                        <i class="fas fa-user-plus"></i>
+                        Create Account
+                    </a>
+                    <a href="/items/post" class="btn btn-outline">
+                        <i class="fas fa-plus"></i>
+                        List an Item
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Nexio</h3>
+                    <p>The student marketplace made by students, for students.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Marketplace</h4>
+                    <ul>
+                        <li><a href="/home">Browse Items</a></li>
+                        <li><a href="/items/post">Sell Item</a></li>
+                        <li><a href="/users">Community</a></li>
+                        <li><a href="/wishlist">Wishlist</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="/info">About Us</a></li>
+                        <li><a href="/terms">Terms of Service</a></li>
+                        <li><a href="/messages">Contact</a></li>
+                        <li><a href="#help">Help Center</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Account</h4>
+                    <ul>
+                        <li><a href="/login">Login</a></li>
+                        <li><a href="/register">Sign Up</a></li>
+                        <li><a href="/profile">Profile</a></li>
+                        <li><a href="#settings">Settings</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Nexio. Made with ❤️ by students, for students.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script th:src="@{/js/index.js}"></script>
+</body>
+</html>

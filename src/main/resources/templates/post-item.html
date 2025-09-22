@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post Item - Nexio</title>
+    <link rel="stylesheet" href="/css/home.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <th:block th:replace="fragments/background :: background-styles"></th:block>
+    <style>
+        .post-wrapper{max-width:960px;margin:100px auto 40px;padding:20px}
+        .post-card{background:#fff;border:1px solid #e0e0e0;border-radius:12px;box-shadow:0 2px 10px rgba(0,0,0,.05)}
+        .post-header{padding:20px 24px;border-bottom:1px solid #eee;display:flex;align-items:center;gap:10px}
+        .post-header h1{font-size:22px;margin:0}
+        .post-body{padding:24px;display:grid;grid-template-columns:1fr 340px;gap:24px}
+        .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+        .form-grid .full{grid-column:1/-1}
+        .field{display:flex;flex-direction:column;gap:6px}
+        .field label{font-weight:600;font-size:14px;color:#333}
+        .field input,.field select,.field textarea{padding:12px 14px;border:1px solid #ddd;border-radius:10px;font-size:14px}
+        .field textarea{min-height:140px;resize:vertical}
+        .help{font-size:12px;color:#888}
+        .images-card{background:#fafbff;border:1px dashed #cfd4e7;border-radius:12px;padding:16px}
+        .images-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:10px}
+        .img-slot{position:relative;height:100px;border:1px dashed #d9ddea;border-radius:10px;background:#fff;display:flex;align-items:center;justify-content:center;color:#999}
+        .img-slot input{position:absolute;inset:0;opacity:0;cursor:pointer}
+        .sidebar{display:flex;flex-direction:column;gap:16px}
+        .price-row{display:flex;gap:10px}
+        .actions{display:flex;gap:10px}
+        .btn{display:inline-flex;align-items:center;gap:8px;padding:12px 16px;border-radius:10px;border:1px solid #ddd;background:#fff;cursor:pointer}
+        .btn-primary{background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:#fff;border:none}
+        .btn-primary:hover{filter:brightness(0.98)}
+        @media(max-width:1024px){.post-body{grid-template-columns:1fr}}
+    </style>
+</head>
+<body>
+    <th:block th:replace="fragments/background :: background-elements"></th:block>
+    
+    <div class="post-wrapper">
+        <div class="post-card">
+            <div class="post-header">
+                <i class="fas fa-plus-circle" style="color:#667eea"></i>
+                <h1>Post a new item</h1>
+            </div>
+            <form action="/items" method="post">
+                <div class="post-body">
+                    <div class="left">
+                        <div class="form-grid">
+                            <div class="field full">
+                                <label for="name">Title</label>
+                                <input id="name" name="name" type="text" placeholder="e.g., MacBook Pro 13 M1" required>
+                            </div>
+
+                            <div class="field">
+                                <label for="category">Category</label>
+                                <select id="category" name="category" required>
+                                    <option value="">Select category</option>
+                                    <option value="TEXTBOOKS">Textbooks</option>
+                                    <option value="ELECTRONICS">Electronics</option>
+                                    <option value="FURNITURE">Furniture</option>
+                                    <option value="CLOTHING">Clothing</option>
+                                    <option value="SPORTS">Sports</option>
+                                    <option value="ACCESSORIES">Accessories</option>
+                                    <option value="SERVICES">Services</option>
+                                </select>
+                            </div>
+
+                            <div class="field">
+                                <label for="condition">Condition</label>
+                                <select id="condition" name="condition" required>
+                                    <option value="">Select condition</option>
+                                    <option value="NEW">New</option>
+                                    <option value="LIKE_NEW">Like New</option>
+                                    <option value="GOOD">Good</option>
+                                    <option value="FAIR">Fair</option>
+                                    <option value="POOR">Poor</option>
+                                    <option value="REFURBISHED">Refurbished</option>
+                                </select>
+                            </div>
+
+                            <div class="field">
+                                <label for="location">Location</label>
+                                <select id="location" name="location" required>
+                                    <option value="">Select location</option>
+                                    <option value="CAMPUS">Campus</option>
+                                    <option value="NEARBY">Nearby</option>
+                                    <option value="SHIPPING">Shipping</option>
+                                </select>
+                            </div>
+
+                            <div class="field">
+                                <label for="price">Price (лв)</label>
+                                <input id="price" name="price" type="number" min="0" step="0.01" placeholder="0.00" required>
+                            </div>
+
+                            <div class="field full">
+                                <label for="description">Description</label>
+                                <textarea id="description" name="description" placeholder="Describe the item, condition, and any details buyers should know." required></textarea>
+                                <div class="help">Min 10 characters. No personal contact details.</div>
+                            </div>
+
+                            <div class="field full">
+                                <label>Photos</label>
+                                <div class="images-card">
+                                    <div class="images-grid">
+                                        <div class="img-slot">
+                                            <i class="fas fa-image"></i>
+                                            <input type="file" accept="image/*">
+                                        </div>
+                                        <div class="img-slot">
+                                            <i class="fas fa-image"></i>
+                                            <input type="file" accept="image/*">
+                                        </div>
+                                        <div class="img-slot">
+                                            <i class="fas fa-image"></i>
+                                            <input type="file" accept="image/*">
+                                        </div>
+                                        <div class="img-slot">
+                                            <i class="fas fa-image"></i>
+                                            <input type="file" accept="image/*">
+                                        </div>
+                                        <div class="img-slot">
+                                            <i class="fas fa-image"></i>
+                                            <input type="file" accept="image/*">
+                                        </div>
+                                    </div>
+                                    <div class="help">Up to 5 images. Paste URLs below if you prefer.</div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="sidebar">
+                        <div class="field">
+                            <label>Negotiable</label>
+                            <select>
+                                <option>No</option>
+                                <option>Yes</option>
+                            </select>
+                        </div>
+                        <div class="actions">
+                            <button type="submit" class="btn btn-primary"><i class="fas fa-paper-plane"></i> Post Item</button>
+                            <a href="/home" class="btn"><i class="fas fa-times"></i> Cancel</a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
+

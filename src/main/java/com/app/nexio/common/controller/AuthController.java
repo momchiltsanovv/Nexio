@@ -31,4 +31,10 @@ public class AuthController {
 
         return "redirect:/login";
     }
+
+    @GetMapping("/login")
+    public String getLoginPage(Model model) {
+        //        model.addAttribute("registerRequest", RegisterRequest);
+        return "login";
+    }
 }

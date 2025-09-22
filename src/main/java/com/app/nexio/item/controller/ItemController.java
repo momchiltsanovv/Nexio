@@ -43,6 +43,12 @@ public class ItemController {
         return "edit-item";
     }
 
+    @GetMapping("/post") // get post item form
+    public String getPostItemPage() {
+
+        return "post-item";
+    }
+
     @DeleteMapping("/{id}/delete") //Delete item
     public String deleteItem(@PathVariable UUID id) {
 

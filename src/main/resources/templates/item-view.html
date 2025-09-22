@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${item.name} + ' - Nexio'">Item Details - Nexio</title>
+    <link rel="stylesheet" th:href="@{/css/home.css}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <th:block th:replace="fragments/background :: background-styles"></th:block>
+    <style>
+        .item-view-wrapper { max-width: 1200px; margin: 100px auto 40px; padding: 0 20px; }
+        
+        .item-container { display: grid; grid-template-columns: 1fr 400px; gap: 30px; }
+        
+        /* Left side - Images and Details */
+        .item-main { display: flex; flex-direction: column; gap: 20px; }
+        
+        .item-images { position: relative; }
+        .main-image { width: 100%; height: 400px; object-fit: cover; border-radius: 12px; background: #f8f9fa; }
+        .image-placeholder { width: 100%; height: 400px; background: #f8f9fa; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #999; font-size: 18px; }
+        .image-thumbnails { display: flex; gap: 8px; margin-top: 12px; overflow-x: auto; }
+        .thumbnail { width: 80px; height: 80px; object-fit: cover; border-radius: 8px; cursor: pointer; border: 2px solid transparent; transition: all 0.3s ease; }
+        .thumbnail:hover, .thumbnail.active { border-color: #667eea; }
+        
+        .item-details { background: white; border-radius: 12px; padding: 24px; box-shadow: 0 2px 10px rgba(0,0,0,.05); }
+        .item-title { font-size: 24px; font-weight: 700; color: #1a1a1a; margin: 0 0 8px; }
+        .item-price { font-size: 28px; font-weight: 700; color: #667eea; margin: 0 0 16px; }
+        .item-meta { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 20px; }
+        .meta-badge { padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+        .meta-badge.category { background: #eef0ff; color: #5a6fd8; }
+        .meta-badge.condition { background: #e9f6eb; color: #2e7d32; }
+        .meta-badge.location { background: #fff3e0; color: #f57c00; }
+        .item-description { color: #444; line-height: 1.6; margin-bottom: 20px; }
+        
+        /* Right side - Seller Info and Actions */
+        .item-sidebar { display: flex; flex-direction: column; gap: 20px; }
+        
+        .seller-card { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 2px 10px rgba(0,0,0,.05); }
+        .seller-header { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+        .seller-avatar { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; background: #f0f2f8; }
+        .seller-info h3 { font-size: 16px; font-weight: 600; margin: 0 0 4px; }
+        .seller-info p { color: #666; font-size: 14px; margin: 0; }
+        .seller-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+        .stat-item { text-align: center; padding: 8px; background: #f8f9fa; border-radius: 8px; }
+        .stat-number { font-size: 18px; font-weight: 700; color: #1a1a1a; }
+        .stat-label { font-size: 12px; color: #666; }
+        .seller-actions { display: flex; flex-direction: column; gap: 8px; }
+        .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 16px; border-radius: 8px; border: none; font-size: 14px; font-weight: 500; cursor: pointer; text-decoration: none; transition: all 0.3s ease; }
+        .btn-primary { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
+        .btn-primary:hover { background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%); transform: translateY(-1px); }
+        .btn-secondary { background: #f8f9fa; color: #666; border: 1px solid #e0e0e0; }
+        .btn-secondary:hover { background: #e9ecef; color: #495057; }
+        .btn-outline { background: transparent; color: #667eea; border: 1px solid #667eea; }
+        .btn-outline:hover { background: #667eea; color: white; }
+        
+        .action-card { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 2px 10px rgba(0,0,0,.05); }
+        .action-title { font-size: 16px; font-weight: 600; margin: 0 0 16px; }
+        .action-buttons { display: flex; flex-direction: column; gap: 8px; }
+        
+        .item-info { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 2px 10px rgba(0,0,0,.05); }
+        .info-title { font-size: 16px; font-weight: 600; margin: 0 0 16px; }
+        .info-list { display: flex; flex-direction: column; gap: 8px; }
+        .info-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #f0f0f0; }
+        .info-item:last-child { border-bottom: none; }
+        .info-label { color: #666; font-size: 14px; }
+        .info-value { color: #1a1a1a; font-weight: 500; font-size: 14px; }
+        
+        .back-link { display: inline-flex; align-items: center; gap: 8px; color: #667eea; text-decoration: none; font-weight: 500; margin-bottom: 20px; }
+        .back-link:hover { color: #5a6fd8; }
+        
+        @media (max-width: 768px) {
+            .item-container { grid-template-columns: 1fr; }
+            .item-sidebar { order: -1; }
+            .main-image { height: 300px; }
+            .image-placeholder { height: 300px; }
+        }
+    </style>
+</head>
+<body>
+    <th:block th:replace="fragments/background :: background-elements"></th:block>
+    
+    <div th:replace="fragments/navbar :: navbar('home')"></div>
+
+    <div class="item-view-wrapper">
+        <a href="/home" class="back-link">
+            <i class="fas fa-arrow-left"></i>
+            Back to Browse
+        </a>
+        
+        <div class="item-container">
+            <!-- Left side - Images and Details -->
+            <div class="item-main">
+                <!-- Images -->
+                <div class="item-images">
+                    <div th:if="${item.imageURLs != null and !item.imageURLs.isEmpty()}">
+                        <img th:src="${item.imageURLs[0]}" th:alt="${item.name}" class="main-image" id="mainImage">
+                        <div class="image-thumbnails" th:if="${item.imageURLs.size() > 1}">
+                            <img th:each="image, iterStat : ${item.imageURLs}" 
+                                 th:src="${image}" 
+                                 th:alt="${item.name}" 
+                                 class="thumbnail" 
+                                 th:classappend="${iterStat.first} ? 'active' : ''"
+                                 th:onclick="'changeMainImage(\'' + ${image} + '\', this)'">
+                        </div>
+                    </div>
+                    <div th:unless="${item.imageURLs != null and !item.imageURLs.isEmpty()}" class="image-placeholder">
+                        <i class="fas fa-image"></i>
+                        <span>No Image Available</span>
+                    </div>
+                </div>
+                
+                <!-- Item Details -->
+                <div class="item-details">
+                    <h1 class="item-title" th:text="${item.name}">Item Name</h1>
+                    <div class="item-price" th:text="'$' + ${#numbers.formatDecimal(item.price, 1, 2)}">$0.00</div>
+                    
+                    <div class="item-meta">
+                        <span class="meta-badge category" th:text="${item.category}">Category</span>
+                        <span class="meta-badge condition" th:text="${item.condition}">Condition</span>
+                        <span class="meta-badge location" th:text="${item.location}">Location</span>
+                    </div>
+                    
+                    <div class="item-description" th:text="${item.description}">
+                        Item description goes here. This is a detailed description of the item, its features, condition, and any other relevant information that buyers should know.
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Right side - Seller Info and Actions -->
+            <div class="item-sidebar">
+                <!-- Seller Information -->
+                <div class="seller-card">
+                    <div class="seller-header">
+                        <img th:src="${item.owner?.profilePictureUrl}" 
+                             th:alt="${item.owner?.username}" 
+                             class="seller-avatar"
+                             th:onerror="this.src='https://via.placeholder.com/50x50/667eea/ffffff?text=' + ${item.owner?.username?.substring(0,1)}">
+                        <div class="seller-info">
+                            <h3 th:text="${item.owner?.username}">Seller Name</h3>
+                            <p th:text="${item.owner?.university}">University</p>
+                        </div>
+                    </div>
+                    
+                    <div class="seller-stats">
+                        <div class="stat-item">
+                            <div class="stat-number">4.8</div>
+                            <div class="stat-label">Rating</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">23</div>
+                            <div class="stat-label">Items Sold</div>
+                        </div>
+                    </div>
+                    
+                    <div class="seller-actions">
+                        <a href="#" class="btn btn-outline">
+                            <i class="fas fa-user"></i>
+                            View Profile
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Action Buttons -->
+                <div class="action-card">
+                    <h3 class="action-title">Interested in this item?</h3>
+                    <div class="action-buttons">
+                        <button class="btn btn-primary">
+                            <i class="fas fa-message"></i>
+                            Contact Seller
+                        </button>
+                        <button class="btn btn-secondary">
+                            <i class="fas fa-heart"></i>
+                            Add to Wishlist
+                        </button>
+                        <button class="btn btn-secondary">
+                            <i class="fas fa-share"></i>
+                            Share Item
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Item Information -->
+                <div class="item-info">
+                    <h3 class="info-title">Item Information</h3>
+                    <div class="info-list">
+                        <div class="info-item">
+                            <span class="info-label">Category</span>
+                            <span class="info-value" th:text="${item.category}">Electronics</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Condition</span>
+                            <span class="info-value" th:text="${item.condition}">Good</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Location</span>
+                            <span class="info-value" th:text="${item.location}">Campus</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Listed</span>
+                            <span class="info-value" th:text="${#temporals.format(item.createdOn, 'MMM dd, yyyy')}">Jan 15, 2024</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Last Updated</span>
+                            <span class="info-value" th:text="${#temporals.format(item.updatedOn, 'MMM dd, yyyy')}">Jan 15, 2024</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script th:replace="fragments/navbar-script :: navbar-script"></script>
+    <script>
+        function changeMainImage(imageSrc, thumbnail) {
+            // Update main image
+            document.getElementById('mainImage').src = imageSrc;
+            
+            // Update active thumbnail
+            document.querySelectorAll('.thumbnail').forEach(thumb => {
+                thumb.classList.remove('active');
+            });
+            thumbnail.classList.add('active');
+        }
+        
+        // Add to wishlist functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const wishlistBtn = document.querySelector('.btn-secondary');
+            if (wishlistBtn && wishlistBtn.textContent.includes('Wishlist')) {
+                wishlistBtn.addEventListener('click', function() {
+                    // Toggle wishlist state
+                    const isInWishlist = this.classList.contains('active');
+                    if (isInWishlist) {
+                        this.classList.remove('active');
+                        this.innerHTML = '<i class="fas fa-heart"></i> Add to Wishlist';
+                    } else {
+                        this.classList.add('active');
+                        this.innerHTML = '<i class="fas fa-heart"></i> In Wishlist';
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

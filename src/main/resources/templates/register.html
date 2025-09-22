@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - Nexio</title>
+    <link rel="stylesheet" href="/css/home.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <th:block th:replace="fragments/background :: background-styles"></th:block>
+    <style>
+        .register-wrapper { display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 20px; }
+        .register-container { display: grid; grid-template-columns: 1fr 1fr; max-width: 1000px; width: 100%; background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1); }
+        
+        /* Left side - branding */
+        .register-brand { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 40px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; color: white; }
+        .brand-logo h2 { font-size: 32px; font-weight: 700; margin: 0 0 8px; }
+        .brand-subtitle { font-size: 14px; opacity: 0.9; margin-bottom: 30px; }
+        .brand-features { display: flex; flex-direction: column; gap: 20px; }
+        .brand-feature { display: flex; align-items: center; gap: 12px; }
+        .brand-feature i { width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; background: rgba(255, 255, 255, 0.2); border-radius: 50%; }
+        
+        /* Right side - form */
+        .register-form { padding: 40px; }
+        .form-header { text-align: center; margin-bottom: 30px; }
+        .form-header h1 { font-size: 28px; font-weight: 700; color: #1a1a1a; margin: 0 0 8px; }
+        .form-header p { color: #666; margin: 0; }
+        
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .form-grid .full { grid-column: 1 / -1; }
+        .field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
+        .field label { font-weight: 600; font-size: 14px; color: #333; }
+        .field input, .field select { padding: 14px 16px; border: 2px solid #e0e0e0; border-radius: 12px; font-size: 14px; transition: all 0.3s ease; }
+        .field input:focus, .field select:focus { outline: none; border-color: #667eea; box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1); }
+        .field .help { font-size: 12px; color: #666; margin-top: 4px; }
+        .field .error { font-size: 12px; color: #dc3545; margin-top: 4px; }
+        
+        .password-requirements { background: #f8f9fa; border: 1px solid #e9ecef; border-radius: 8px; padding: 12px; margin-top: 8px; }
+        .password-requirements h4 { font-size: 12px; margin: 0 0 6px; color: #495057; }
+        .password-requirements ul { margin: 0; padding-left: 16px; font-size: 11px; color: #6c757d; }
+        .password-requirements li { margin: 2px 0; }
+        
+        .submit-btn { width: 100%; padding: 16px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 12px; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; margin-top: 8px; }
+        .submit-btn:hover { background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%); transform: translateY(-2px); box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3); }
+        .submit-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+        
+        .form-footer { text-align: center; margin-top: 24px; padding-top: 20px; border-top: 1px solid #eee; }
+        .form-footer a { color: #667eea; text-decoration: none; font-weight: 500; }
+        .form-footer a:hover { text-decoration: underline; }
+        
+        @media (max-width: 768px) { 
+            .register-container { grid-template-columns: 1fr; max-width: 480px; }
+            .register-brand { padding: 30px 20px; }
+            .register-form { padding: 30px 20px; }
+            .form-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <th:block th:replace="fragments/background :: background-elements"></th:block>
+    
+    <div class="register-wrapper">
+        <div class="register-container">
+            <!-- Left Side - Branding -->
+            <div class="register-brand">
+                <div class="brand-logo">
+                    <h2>Nexio</h2>
+                    <p class="brand-subtitle">Student Marketplace</p>
+                </div>
+                
+                <div class="brand-features">
+                    <div class="brand-feature">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>Verified student community</span>
+                    </div>
+                    <div class="brand-feature">
+                        <i class="fas fa-users"></i>
+                        <span>Connect with peers</span>
+                    </div>
+                    <div class="brand-feature">
+                        <i class="fas fa-heart"></i>
+                        <span>Safe & trusted platform</span>
+                    </div>
+                    <div class="brand-feature">
+                        <i class="fas fa-graduation-cap"></i>
+                        <span>Made by students, for students</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Right Side - Registration Form -->
+            <div class="register-form">
+                <div class="form-header">
+                    <h1>Create Account</h1>
+                    <p>Join the student marketplace community</p>
+                </div>
+                
+                <form action="/auth/register" method="post">
+                    <div class="form-grid">
+                        <div class="field">
+                            <label for="firstName">First Name *</label>
+                            <input type="text" id="firstName" name="firstName" required>
+                        </div>
+                        
+                        <div class="field">
+                            <label for="lastName">Last Name *</label>
+                            <input type="text" id="lastName" name="lastName" required>
+                        </div>
+                        
+                        <div class="field full">
+                            <label for="username">Username *</label>
+                            <input type="text" id="username" name="username" placeholder="Choose a unique username" required>
+                            <div class="help">Minimum 3 characters. This will be your public display name.</div>
+                        </div>
+                        
+                        <div class="field full">
+                            <label for="email">University Email *</label>
+                            <input type="email" id="email" name="email" placeholder="your.email@university.edu" required>
+                            <div class="help">Use your official university email address for verification</div>
+                        </div>
+                        
+                        <div class="field full">
+                            <label for="university">University *</label>
+                            <select id="university" name="university" required>
+                                <option value="">Select your university</option>
+                                <option value="NEW_BULGARIAN_UNIVERSITY">New Bulgarian University</option>
+                                <option value="MEDICAL_UNIVERSITY_OF_SOFIA">Medical University of Sofia</option>
+                                <option value="SOFIA_UNIVERSITY_ST_KLIMENT_OHRIDSKI">Sofia University St. Kliment Ohridski</option>
+                                <option value="TECHNICAL_UNIVERSITY_OF_SOFIA">Technical University of Sofia</option>
+                                <option value="UNIVERSITY_OF_NATIONAL_AND_WORLD_ECONOMY">University of National and World Economy</option>
+                                <option value="UNIVERSITY_OF_ARCHITECTURE_CIVIL_ENG_AND_GEODESY">University of Architecture, Civil Engineering and Geodesy</option>
+                            </select>
+                        </div>
+                        
+                        <div class="field full">
+                            <label for="password">Password *</label>
+                            <input type="password" id="password" name="password" required>
+                            <div class="password-requirements">
+                                <h4>Password must contain:</h4>
+                                <ul>
+                                    <li>At least 8 characters</li>
+                                    <li>At least 1 uppercase letter</li>
+                                    <li>At least 1 number</li>
+                                    <li>At least 1 special character (!@#$%^&*)</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="field full">
+                            <label for="confirmPassword">Confirm Password *</label>
+                            <input type="password" id="confirmPassword" name="confirmPassword" required>
+                            <div class="help">Re-enter your password to confirm</div>
+                            <div class="error" id="passwordMismatch" style="display: none;">Passwords do not match</div>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn" id="submitBtn">
+                        <i class="fas fa-user-plus"></i>
+                        Create Account
+                    </button>
+                    
+                    <div class="form-footer">
+                        <p>Already have an account? <a href="/login">Sign in here</a></p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Password confirmation validation
+        document.addEventListener('DOMContentLoaded', function() {
+            const password = document.getElementById('password');
+            const confirmPassword = document.getElementById('confirmPassword');
+            const submitBtn = document.getElementById('submitBtn');
+            const passwordMismatch = document.getElementById('passwordMismatch');
+            
+            function validatePasswords() {
+                if (confirmPassword.value && password.value !== confirmPassword.value) {
+                    passwordMismatch.style.display = 'block';
+                    confirmPassword.style.borderColor = '#dc3545';
+                    submitBtn.disabled = true;
+                } else {
+                    passwordMismatch.style.display = 'none';
+                    confirmPassword.style.borderColor = '#e0e0e0';
+                    submitBtn.disabled = false;
+                }
+            }
+            
+            password.addEventListener('input', validatePasswords);
+            confirmPassword.addEventListener('input', validatePasswords);
+            
+            // Real-time password strength indicator
+            password.addEventListener('input', function() {
+                const value = this.value;
+                const requirements = document.querySelectorAll('.password-requirements li');
+                
+                // Check each requirement
+                const hasLength = value.length >= 8;
+                const hasUpper = /[A-Z]/.test(value);
+                const hasNumber = /[0-9]/.test(value);
+                const hasSpecial = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>/?]/.test(value);
+                
+                requirements[0].style.color = hasLength ? '#28a745' : '#6c757d';
+                requirements[1].style.color = hasUpper ? '#28a745' : '#6c757d';
+                requirements[2].style.color = hasNumber ? '#28a745' : '#6c757d';
+                requirements[3].style.color = hasSpecial ? '#28a745' : '#6c757d';
+                
+                // Update border color
+                if (hasLength && hasUpper && hasNumber && hasSpecial) {
+                    this.style.borderColor = '#28a745';
+                } else if (value.length > 0) {
+                    this.style.borderColor = '#ffc107';
+                } else {
+                    this.style.borderColor = '#e0e0e0';
+                }
+            });
+            
+            // Email validation for university domains
+            const email = document.getElementById('email');
+            email.addEventListener('blur', function() {
+                const value = this.value.toLowerCase();
+                const validDomains = [
+                    'nbu.bg', 'mu-sofia.bg', 'uni-sofia.bg', 'tu-sofia.bg', 
+                    'unwe.bg', 'uacg.bg', 'student.nbu.bg'
+                ];
+                
+                if (value && !validDomains.some(domain => value.endsWith('@' + domain))) {
+                    this.style.borderColor = '#ffc107';
+                    this.insertAdjacentHTML('afterend', '<div class="warning" style="font-size: 12px; color: #856404; margin-top: 4px;">Please use your official university email address</div>');
+                } else {
+                    this.style.borderColor = '#28a745';
+                    const warning = this.parentNode.querySelector('.warning');
+                    if (warning) warning.remove();
+                }
+            });
+            
+            // Form submission handling
+            const form = document.querySelector('form');
+            form.addEventListener('submit', function(e) {
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating Account...';
+                submitBtn.disabled = true;
+            });
+        });
+    </script>
+</body>
+</html>

@@ -20,6 +20,16 @@ public class HomeController {
 
         return "home";
     }
+    @GetMapping("/info")
+    public String getInfoPage() {
+
+        return "info";
+    }
+
+    @GetMapping("/register")
+    public String getRegisterPageAlias() {
+        return "redirect:/auth/register";
+    }
 
 
 

@@ -47,13 +47,13 @@ public class UserController {
         return "profile";
     }
 
-    @PutMapping("/profile") // update current user profile
-    public String updateProfile(){
-
-
-        return "profile";
+    @GetMapping("/profile/edit") // get edit profile form
+    public String getEditProfilePage(Model model) {
+       
+        return "edit-profile";
     }
 
+    
     @DeleteMapping("/delete")//user delete its account
     public String deleteUser() {
         // Get current authenticated user

@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Nexio</title>
+    <link rel="stylesheet" th:href="@{/css/home.css}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <th:block th:replace="fragments/background :: background-styles"></th:block>
+    <style>
+        .info-wrapper { max-width: 1100px; margin: 100px auto 40px; padding: 0 20px }
+
+        /* Slide tabs */
+        .tab-switch { position: sticky; top: 70px; z-index: 5; margin-bottom: 14px }
+        .segmented { display:inline-flex; background:#f0f2f8; border:1px solid #e0e3f2; border-radius:12px; overflow:hidden }
+        .segmented button { padding:10px 16px; border:none; background:transparent; font-weight:600; color:#444; cursor:pointer }
+        .segmented button.active { background:#fff; color:#667eea; border:1px solid #dfe3fb; margin:-1px; border-radius:10px }
+
+        /* Panels */
+        .panels { position: relative }
+        .panel { transition: transform .25s ease, opacity .25s ease; will-change: transform, opacity }
+        .panel.hidden { position: absolute; inset: 0 auto auto 0; width:100%; opacity:0; transform: translateX(20px); pointer-events:none }
+        .panel.visible { opacity:1; transform: translateX(0) }
+
+        /* Hero */
+        .hero { background: linear-gradient(135deg,#f5f7ff 0%,#eef0ff 100%); border: 1px solid #e6e9f5; border-radius: 16px; padding: 28px 28px; display: grid; grid-template-columns: 1.3fr 1fr; gap: 20px; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,.04); margin-bottom: 22px }
+        .hero h1 { font-size: 28px; margin: 0 0 8px 0 }
+        .hero p { color:#555; margin: 0 }
+        .hero-card { background:#fff; border:1px solid #e6e9f5; border-radius:12px; padding:14px; display:flex; gap:10px; align-items:center; justify-content:center }
+
+        /* Two-column content cards */
+        .section { background:#fff; border:1px solid #e0e0e0; border-radius:12px; box-shadow:0 2px 10px rgba(0,0,0,.05); padding:0; margin-bottom:20px; overflow:hidden }
+        .section-inner { display:grid; grid-template-columns: 1.2fr 1fr; gap:0 }
+        .section .text { padding:24px }
+        .section h2 { font-size:22px; margin:0 0 12px 0 }
+        .section p { color:#444; line-height:1.7; margin:8px 0 }
+        .section .side { background:#fafbff; border-left:1px solid #e6e9f5; padding:20px; display:grid; gap:12px }
+
+        /* Feature list (vertical cards) */
+        .features-list { display:grid; grid-template-columns: 1fr; gap:12px }
+        .feature-row { background:#fff; border:1px solid #e6e9f5; border-radius:12px; padding:14px; display:flex; gap:12px; align-items:flex-start }
+        .feature-icon { width:36px; height:36px; display:flex; align-items:center; justify-content:center; border-radius:10px; background:#eef0ff; font-size:18px }
+
+        /* Team as horizontal cards */
+        .team-list { display:grid; grid-template-columns: 1fr; gap:12px }
+        .team-card { display:flex; gap:14px; align-items:center; border:1px solid #e6e9f5; background:#fff; border-radius:12px; padding:14px }
+        .member-avatar { width:72px; height:72px; border-radius:50%; overflow:hidden; border:1px solid #e6e9f5; background:#f4f6fb }
+        .member-image { width:100%; height:100%; object-fit:cover }
+
+        /* FAQ stacked simple list */
+        .faq-grid { display:grid; grid-template-columns: 1fr; gap:12px }
+        .faq-item { border:none; border-radius:0; background:transparent }
+        .faq-question { width:100%; text-align:left; background:transparent; border:none; padding:0; display:block; font-weight:800; color:#1a1a1a; cursor:default; font-size:18px; line-height:1.4 }
+        .faq-answer { display:block; padding:4px 0 0 0; color:#555; border-top:none; font-size:14px; line-height:1.7 }
+        .faq-icon { display:none !important }
+        .faq-item + .faq-item { margin-top:8px }
+
+        @media (max-width: 900px) { .hero { grid-template-columns: 1fr } .section-inner { grid-template-columns: 1fr } .faq-grid { grid-template-columns: 1fr } }
+    </style>
+</head>
+<body>
+    <th:block th:replace="fragments/background :: background-elements"></th:block>
+    
+    <div th:replace="fragments/navbar :: navbar('about')"></div>
+
+    <div class="info-wrapper" id="infoWrapper" data-active="about">
+        <div class="tab-switch">
+            <div class="segmented" role="tablist">
+                <button id="tabAbout" class="active" role="tab" aria-controls="aboutPanel" aria-selected="true">About Us</button>
+                <button id="tabFaq" role="tab" aria-controls="faqPanel" aria-selected="false">FAQ</button>
+            </div>
+        </div>
+
+        <div class="panels">
+        <!-- ABOUT PANEL -->
+        <div id="aboutPanel" class="panel visible about-group">
+        <!-- Hero -->
+        <div class="hero">
+            <div>
+                <h1>About Nexio</h1>
+                <p>Made by students, for students. Building a safer, local, and sustainable marketplace.</p>
+            </div>
+            <div class="hero-card">
+                <i class="fas fa-users" style="color:#667eea"></i>
+                <div>
+                    <strong>Trusted Student Community</strong>
+                    <div style="color:#666; font-size:13px">Verified by university emails</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Our Story + Why different in split layout -->
+        <div class="section">
+            <div class="section-inner">
+                <div class="text">
+                    <h2>Our Story</h2>
+                    <p>Nexio is a marketplace built with students in mind. Founded in 2024 by four university students, we saw an opportunity to make student life more convenient and sustainable. In our neighborhoods, we noticed many items that might be discarded as useless—but we recognized their value.</p>
+                    <p>Alongside this, we, and many other students, had frustrating experiences with traditional platforms, facing scams, unreliable sellers, and unexpected long-distance trips for disappointing purchases.</p>
+                    <p>Nexio was created to solve these problems by providing a dedicated platform that ensures transactions are safe, verified, and rooted within the student community.</p>
+                </div>
+                <div class="side">
+                    <h3 style="margin:0 0 6px 0">What Makes Us Different</h3>
+                    <div class="features-list">
+                        <div class="feature-row">
+                            <div class="feature-icon">🎓</div>
+                            <div>
+                                <strong>Student-Verified</strong>
+                                <div style="color:#555">All users verified through university email addresses</div>
+                            </div>
+                        </div>
+                        <div class="feature-row">
+                            <div class="feature-icon">🔒</div>
+                            <div>
+                                <strong>Secure Transactions</strong>
+                                <div style="color:#555">Safe and reliable peer-to-peer marketplace</div>
+                            </div>
+                        </div>
+                        <div class="feature-row">
+                            <div class="feature-icon">🌱</div>
+                            <div>
+                                <strong>Sustainable</strong>
+                                <div style="color:#555">Giving new life to items that might be discarded</div>
+                            </div>
+                        </div>
+                        <div class="feature-row">
+                            <div class="feature-icon">📍</div>
+                            <div>
+                                <strong>Local Community</strong>
+                                <div style="color:#555">Connect with students in your area</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Team as horizontal cards -->
+        <div class="section">
+            <div class="text">
+                <h2>Meet Our Team</h2>
+                <div class="team-list">
+                    <div class="team-card">
+                        <div class="member-avatar"><img src="/images/team/momchil.jpeg" alt="Momchil Tsanov" class="member-image"></div>
+                        <div>
+                            <strong>Momchil Tsanov</strong>
+                            <div style="color:#666">Co-Founder & CEO</div>
+                            <span style="color:#555">Computer Science, New Bulgarian University</span>
+                        </div>
+                    </div>
+                    <div class="team-card">
+                        <div class="member-avatar"><img src="/images/team/teya.jpg" alt="Teya Simova" class="member-image"></div>
+                        <div>
+                            <strong>Teya Simova</strong>
+                            <div style="color:#666">Public Relations Specialist</div>
+                            <span style="color:#555">New Bulgarian University</span>
+                        </div>
+                    </div>
+                    <div class="team-card">
+                        <div class="member-avatar"><img src="/images/team/daria.jpg" alt="Daria Dian" class="member-image"></div>
+                        <div>
+                            <strong>Daria Dian</strong>
+                            <div style="color:#666">Marketing Specialist</div>
+                            <span style="color:#555">New Bulgarian University</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        </div> <!-- /aboutPanel -->
+
+        <!-- FAQ PANEL -->
+        <div id="faqPanel" class="panel hidden faq-group">
+        <div class="section">
+            <div class="text">
+                <h2>FAQ</h2>
+                <div class="faq-grid">
+                    <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        <span>How do I get started on Nexio?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Getting started is easy! Simply sign up with your university email address, verify your account, and you're ready to start buying and selling. Your university email ensures you're part of a trusted student community.</p>
+                    </div>
+                    </div>
+
+                    <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Is Nexio only for students?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Yes, Nexio is exclusively designed for university students. All users must verify their accounts using a valid university email address to ensure a safe and trusted community.</p>
+                    </div>
+                    </div>
+
+                    <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        <span>How do payments work?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Currently, payments are handled directly between buyers and sellers. We recommend meeting in safe, public locations on campus for exchanges. We're working on integrated payment solutions for future updates.</p>
+                    </div>
+                    </div>
+
+                    <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        <span>What can I sell on Nexio?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>You can sell textbooks, electronics, furniture, clothing, and other student-relevant items. We prohibit illegal items, dangerous goods, and items that violate university policies.</p>
+                    </div>
+                    </div>
+
+                    <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        <span>How do I report a problem?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>If you encounter any issues, you can report them through our contact form or email us directly at support@nexio.com. We take all reports seriously and respond within 24 hours.</p>
+                    </div>
+                    </div>
+
+                    <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Is there a fee to use Nexio?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Nexio is completely free to use! There are no listing fees, transaction fees, or membership costs. We believe in keeping student-to-student commerce accessible.</p>
+                    </div>
+                    </div>
+
+                    <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        <span>How do I stay safe while using Nexio?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Always meet in public, well-lit areas on campus. Bring a friend when possible. Trust your instincts—if something feels off, don't proceed. Report suspicious behavior immediately.</p>
+                    </div>
+                    </div>
+
+                    <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Can I use Nexio on mobile?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Yes! Nexio is fully responsive and works great on mobile devices. We're also working on dedicated mobile apps for iOS and Android—stay tuned!</p>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div> <!-- /faqPanel -->
+        </div> <!-- /panels -->
+    </div>
+
+    <script th:inline="javascript">
+        function toggleFAQ(btn){
+            const item = btn.parentElement;
+            item.classList.toggle('open');
+        }
+        (function(){
+            const aboutBtn = document.getElementById('tabAbout');
+            const faqBtn = document.getElementById('tabFaq');
+            const aboutPanel = document.getElementById('aboutPanel');
+            const faqPanel = document.getElementById('faqPanel');
+            function activate(which){
+                if(which === 'about'){
+                    aboutBtn.classList.add('active'); faqBtn.classList.remove('active');
+                    aboutPanel.classList.remove('hidden'); aboutPanel.classList.add('visible');
+                    faqPanel.classList.remove('visible'); faqPanel.classList.add('hidden');
+                } else {
+                    faqBtn.classList.add('active'); aboutBtn.classList.remove('active');
+                    faqPanel.classList.remove('hidden'); faqPanel.classList.add('visible');
+                    aboutPanel.classList.remove('visible'); aboutPanel.classList.add('hidden');
+                }
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+            aboutBtn.addEventListener('click', ()=>activate('about'));
+            faqBtn.addEventListener('click', ()=>activate('faq'));
+        })();
+    </script>
+
+    <div th:replace="fragments/navbar-script :: navbar-script"></div>
+</body>
+</html>
+

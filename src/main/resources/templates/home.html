@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browse Items - Nexio</title>
+    <link rel="stylesheet" th:href="@{/css/home.css}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <th:block th:replace="fragments/background :: background-styles"></th:block>
+</head>
+<body>
+    <th:block th:replace="fragments/background :: background-elements"></th:block>
+    
+    <div th:replace="fragments/navbar :: navbar('browse')"></div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Filters Sidebar -->
+        <aside class="filters-sidebar" id="filtersSidebar">
+            <div class="filters-header">
+                <h3>
+                    <i class="fas fa-filter"></i>
+                    Filters
+                </h3>
+                <button class="clear-filters" id="clearFilters">Clear All</button>
+            </div>
+
+            <!-- Category Filter -->
+            <div class="filter-section">
+                <h4>Category</h4>
+                <div class="filter-options two-col">
+                    <label class="filter-option">
+                        <input type="checkbox" name="category" value="TEXTBOOKS">
+                        <span class="checkmark"></span>
+                        <i class="fas fa-book"></i>
+                        Textbooks
+                        <span class="count">(45)</span>
+                    </label>
+                    <label class="filter-option">
+                        <input type="checkbox" name="category" value="ELECTRONICS">
+                        <span class="checkmark"></span>
+                        <i class="fas fa-laptop"></i>
+                        Electronics
+                        <span class="count">(32)</span>
+                    </label>
+                    <label class="filter-option">
+                        <input type="checkbox" name="category" value="FURNITURE">
+                        <span class="checkmark"></span>
+                        <i class="fas fa-chair"></i>
+                        Furniture
+                        <span class="count">(18)</span>
+                    </label>
+                    <label class="filter-option">
+                        <input type="checkbox" name="category" value="CLOTHING">
+                        <span class="checkmark"></span>
+                        <i class="fas fa-tshirt"></i>
+                        Clothing
+                        <span class="count">(27)</span>
+                    </label>
+                    <label class="filter-option">
+                        <input type="checkbox" name="category" value="SPORTS">
+                        <span class="checkmark"></span>
+                        <i class="fas fa-dumbbell"></i>
+                        Sports
+                        <span class="count">(15)</span>
+                    </label>
+                    <label class="filter-option">
+                        <input type="checkbox" name="category" value="ACCESSORIES">
+                        <span class="checkmark"></span>
+                        <i class="fas fa-gem"></i>
+                        Accessories
+                        <span class="count">(12)</span>
+                    </label>
+                    <label class="filter-option">
+                        <input type="checkbox" name="category" value="SERVICES">
+                        <span class="checkmark"></span>
+                        <i class="fas fa-handshake"></i>
+                        Services
+                        <span class="count">(8)</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Price Filter -->
+            <div class="filter-section">
+                <h4>Price Range</h4>
+                <div class="price-range">
+                    <div class="price-inputs">
+                        <input type="number" id="minPrice" placeholder="Min" min="0">
+                        <span>-</span>
+                        <input type="number" id="maxPrice" placeholder="Max" min="0">
+                        <span>лв</span>
+                    </div>
+                    <div class="price-slider">
+                        <input type="range" id="priceRange" min="0" max="1000" value="500">
+                        <div class="price-labels">
+                            <span>0 лв</span>
+                            <span>1000+ лв</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Condition Filter (matches ItemCondition enum) -->
+            <div class="filter-section">
+                <h4>Condition</h4>
+                <div class="filter-options two-col">
+                    <label class="filter-option">
+                        <input type="radio" name="condition" value="NEW">
+                        <span class="radiomark"></span>
+                        <i class="fas fa-star"></i>
+                        New
+                    </label>
+                    <label class="filter-option">
+                        <input type="radio" name="condition" value="LIKE_NEW">
+                        <span class="radiomark"></span>
+                        <i class="fas fa-star-half-alt"></i>
+                        Like New
+                    </label>
+                    <label class="filter-option">
+                        <input type="radio" name="condition" value="GOOD">
+                        <span class="radiomark"></span>
+                        <i class="fas fa-thumbs-up"></i>
+                        Good
+                    </label>
+                    <label class="filter-option">
+                        <input type="radio" name="condition" value="FAIR">
+                        <span class="radiomark"></span>
+                        <i class="fas fa-minus-circle"></i>
+                        Fair
+                    </label>
+                    <label class="filter-option">
+                        <input type="radio" name="condition" value="POOR">
+                        <span class="radiomark"></span>
+                        <i class="fas fa-exclamation-circle"></i>
+                        Poor
+                    </label>
+                    <label class="filter-option">
+                        <input type="radio" name="condition" value="REFURBISHED">
+                        <span class="radiomark"></span>
+                        <i class="fas fa-tools"></i>
+                        Refurbished
+                    </label>
+                </div>
+            </div>
+
+            
+
+            <!-- Location Filter -->
+            <div class="filter-section">
+                <h4>Location</h4>
+                <select id="locationFilter" class="location-select">
+                    <option value="">All Locations</option>
+                    <option value="CAMPUS">Campus</option>
+                    <option value="NEARBY">Nearby</option>
+                    <option value="SHIPPING">Shipping</option>
+                </select>
+            </div>
+        </aside>
+
+        <!-- Content Area -->
+        <div class="content-area">
+            <!-- Header with sorting and view options -->
+            <div class="content-header">
+                <div class="results-info">
+                    <h2>Browse Items</h2>
+                    <p class="results-count">Showing <span id="resultsCount">157</span> items</p>
+                </div>
+                
+                <div class="header-controls">
+                    <div class="sort-options">
+                        <label for="sortSelect">Sort by:</label>
+                        <select id="sortSelect">
+                            <option value="newest">Newest First</option>
+                            <option value="oldest">Oldest First</option>
+                            <option value="price-low">Price: Low to High</option>
+                            <option value="price-high">Price: High to Low</option>
+                            <option value="popular">Most Popular</option>
+                        </select>
+                    </div>
+                    
+                    
+                    
+                    
+                </div>
+            </div>
+
+            <!-- Active Filters -->
+            <div class="active-filters" id="activeFilters">
+                <!-- Active filters will be dynamically inserted here -->
+            </div>
+
+            <!-- Items Grid -->
+            <div class="items-container" id="itemsContainer">
+                <div class="items-grid" id="itemsGrid">
+                    <!-- Sample Items - In real app, these would be populated by Thymeleaf -->
+                    
+                    <!-- Item Card 1 -->
+                    <div class="item-card" data-category="TEXTBOOKS" data-price="45" data-condition="GOOD">
+                        <div class="item-image">
+                            <img src="https://via.placeholder.com/300x200/667eea/ffffff?text=Calculus+Book" alt="Calculus Textbook">
+                            <div class="item-badges">
+                                <span class="condition-badge good">Good</span>
+                            </div>
+                            <button class="wishlist-btn" data-item-id="1">
+                                <i class="far fa-heart"></i>
+                            </button>
+                        </div>
+                        <div class="item-content">
+                            <div class="item-category">
+                                <i class="fas fa-book"></i>
+                                Textbooks
+                            </div>
+                            <h3 class="item-title">Calculus: Early Transcendentals</h3>
+                            <p class="item-description">8th Edition by James Stewart. Great condition with minimal highlighting.</p>
+                            <div class="item-details">
+                                <div class="item-price">45 лв</div>
+                                <div class="item-location">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    Studentski Grad
+                                </div>
+                            </div>
+                            <div class="item-seller">
+                                <img src="https://via.placeholder.com/30x30/764ba2/ffffff?text=A" alt="Seller" class="seller-avatar">
+                                <span class="seller-name">Alex Petrov</span>
+                                <span class="seller-uni">NBU</span>
+                            </div>
+                            <div class="item-actions">
+                                <button class="btn btn-primary" onclick="viewItem('1')">
+                                    <i class="fas fa-eye"></i>
+                                    View Details
+                                </button>
+                                <button class="btn btn-secondary" onclick="contactSeller('1')">
+                                    <i class="fas fa-envelope"></i>
+                                    Contact
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Item Card 2 -->
+                    <div class="item-card" data-category="ELECTRONICS" data-price="800" data-condition="LIKE_NEW">
+                        <div class="item-image">
+                            <img src="https://via.placeholder.com/300x200/667eea/ffffff?text=MacBook" alt="MacBook Pro">
+                            <div class="item-badges">
+                                <span class="condition-badge like-new">Like New</span>
+                                <span class="featured-badge">Featured</span>
+                            </div>
+                            <button class="wishlist-btn active" data-item-id="2">
+                                <i class="fas fa-heart"></i>
+                            </button>
+                        </div>
+                        <div class="item-content">
+                            <div class="item-category">
+                                <i class="fas fa-laptop"></i>
+                                Electronics
+                            </div>
+                            <h3 class="item-title">MacBook Pro 13" M1</h3>
+                            <p class="item-description">2021 model, 8GB RAM, 256GB SSD. Barely used, still under warranty.</p>
+                            <div class="item-details">
+                                <div class="item-price">800 лв</div>
+                                <div class="item-location">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    Sofia Center
+                                </div>
+                            </div>
+                            <div class="item-seller">
+                                <img src="https://via.placeholder.com/30x30/764ba2/ffffff?text=M" alt="Seller" class="seller-avatar">
+                                <span class="seller-name">Maria Ivanova</span>
+                                <span class="seller-uni">Sofia University</span>
+                            </div>
+                            <div class="item-actions">
+                                <button class="btn btn-primary" onclick="viewItem('2')">
+                                    <i class="fas fa-eye"></i>
+                                    View Details
+                                </button>
+                                <button class="btn btn-secondary" onclick="contactSeller('2')">
+                                    <i class="fas fa-envelope"></i>
+                                    Contact
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Item Card 3 -->
+                    <div class="item-card" data-category="FURNITURE" data-price="120" data-condition="GOOD">
+                        <div class="item-image">
+                            <img src="https://via.placeholder.com/300x200/667eea/ffffff?text=Desk+Chair" alt="Office Chair">
+                            <div class="item-badges">
+                                <span class="condition-badge good">Good</span>
+                            </div>
+                            <button class="wishlist-btn" data-item-id="3">
+                                <i class="far fa-heart"></i>
+                            </button>
+                        </div>
+                        <div class="item-content">
+                            <div class="item-category">
+                                <i class="fas fa-chair"></i>
+                                Furniture
+                            </div>
+                            <h3 class="item-title">Ergonomic Office Chair</h3>
+                            <p class="item-description">Comfortable office chair with lumbar support. Perfect for studying.</p>
+                            <div class="item-details">
+                                <div class="item-price">120 лв</div>
+                                <div class="item-location">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    Mladost
+                                </div>
+                            </div>
+                            <div class="item-seller">
+                                <img src="https://via.placeholder.com/30x30/764ba2/ffffff?text=D" alt="Seller" class="seller-avatar">
+                                <span class="seller-name">Dimitar Georgiev</span>
+                                <span class="seller-uni">TU Sofia</span>
+                            </div>
+                            <div class="item-actions">
+                                <button class="btn btn-primary" onclick="viewItem('3')">
+                                    <i class="fas fa-eye"></i>
+                                    View Details
+                                </button>
+                                <button class="btn btn-secondary" onclick="contactSeller('3')">
+                                    <i class="fas fa-envelope"></i>
+                                    Contact
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Item Card 4 -->
+                    <div class="item-card" data-category="CLOTHING" data-price="25" data-condition="NEW">
+                        <div class="item-image">
+                            <img src="https://via.placeholder.com/300x200/667eea/ffffff?text=Jacket" alt="Winter Jacket">
+                            <div class="item-badges">
+                                <span class="condition-badge new">New</span>
+                            </div>
+                            <button class="wishlist-btn" data-item-id="4">
+                                <i class="far fa-heart"></i>
+                            </button>
+                        </div>
+                        <div class="item-content">
+                            <div class="item-category">
+                                <i class="fas fa-tshirt"></i>
+                                Clothing
+                            </div>
+                            <h3 class="item-title">Winter Jacket - Size M</h3>
+                            <p class="item-description">Brand new winter jacket, never worn. Still has tags attached.</p>
+                            <div class="item-details">
+                                <div class="item-price">25 лв</div>
+                                <div class="item-location">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    Lozenets
+                                </div>
+                            </div>
+                            <div class="item-seller">
+                                <img src="https://via.placeholder.com/30x30/764ba2/ffffff?text=S" alt="Seller" class="seller-avatar">
+                                <span class="seller-name">Stefan Todorov</span>
+                                <span class="seller-uni">UNWE</span>
+                            </div>
+                            <div class="item-actions">
+                                <button class="btn btn-primary" onclick="viewItem('4')">
+                                    <i class="fas fa-eye"></i>
+                                    View Details
+                                </button>
+                                <button class="btn btn-secondary" onclick="contactSeller('4')">
+                                    <i class="fas fa-envelope"></i>
+                                    Contact
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- More items would be added here -->
+                </div>
+
+                <!-- Loading indicator -->
+                <div class="loading-indicator" id="loadingIndicator" style="display: none;">
+                    <div class="spinner"></div>
+                    <p>Loading more items...</p>
+                </div>
+
+                <!-- No results message -->
+                <div class="no-results" id="noResults" style="display: none;">
+                    <div class="no-results-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <h3>No items found</h3>
+                    <p>Try adjusting your filters or search terms</p>
+                    <button class="btn btn-primary" onclick="clearAllFilters()">
+                        Clear Filters
+                    </button>
+                </div>
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination" id="pagination">
+                <button class="page-btn prev" disabled>
+                    <i class="fas fa-chevron-left"></i>
+                    Previous
+                </button>
+                <div class="page-numbers">
+                    <button class="page-number active">1</button>
+                    <button class="page-number">2</button>
+                    <button class="page-number">3</button>
+                    <span class="page-ellipsis">...</span>
+                    <button class="page-number">10</button>
+                </div>
+                <button class="page-btn next">
+                    Next
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+    </main>
+
+    
+
+    <script th:src="@{/js/home.js}"></script>
+    <div th:replace="fragments/navbar-script :: navbar-script"></div>
+</body>
+</html>
