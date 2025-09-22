@@ -25,11 +25,11 @@ public class UserController {
 
 
     @GetMapping
-    @PreAuthorize("hasRole('ADMIN')")
+//    @PreAuthorize("hasRole('ADMIN')")
     public String getUsersPage(Model model) {
         List<User> users = userService.getAllUsers();
         model.addAllAttributes(users);
-        return "users";
+        return "admin-users";
     }
 
     @GetMapping("/{id}")// see another users profile
