@@ -90,8 +90,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                    .username(registerRequest.username())
                    .firstName(registerRequest.firstName())
                    .lastName(registerRequest.lastName())
-                   .role(userProperties.getUserRole())
-                   .active(userProperties.isActiveByDefault())
+//                   .role(userProperties.getUserRole())//TODO fix with new config
+//                   .active(userProperties.isActiveByDefault())
                    .university(registerRequest.university())
                    .email(registerRequest.email())
                    .password(getEncodedPassword(registerRequest))

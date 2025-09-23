@@ -56,8 +56,7 @@ public class User {
     @Column(columnDefinition = "TEXT")
     private String profilePictureURL;
 
-    @Column(unique = true,
-            nullable = false)
+    @Column(unique = true)
     private String email;
 
     @Column(nullable = false)

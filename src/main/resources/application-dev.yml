@@ -23,11 +23,10 @@ spring:
     exclude: org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
 
 # User properties
-domain:
-  user:
-    properties:
-      user-role: USER
-      active-by-default: true
+users:
+  defaultUser:
+    user-role: USER
+    active-by-default: true
 
 # Logging Levels
 logging:
