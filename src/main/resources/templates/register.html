@@ -3,18 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign Up - Nexio</title>
+    <title>Sign Up - nexio</title>
     <link rel="stylesheet" href="/css/home.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <th:block th:replace="fragments/background :: background-styles"></th:block>
     <style>
         .register-wrapper { display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 20px; }
-        .register-container { display: grid; grid-template-columns: 1fr 1fr; max-width: 1000px; width: 100%; background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1); }
+        .register-container { display: grid; grid-template-columns: 1fr 1fr; max-width: 1000px; width: 100%; background: #f8f9fa; border-radius: 20px; overflow: hidden; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1); }
         
         /* Left side - branding */
-        .register-brand { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 40px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; color: white; }
-        .brand-logo h2 { font-size: 32px; font-weight: 700; margin: 0 0 8px; }
+        .register-brand { background: linear-gradient(135deg, #212346 0%, #CE3A81 100%); padding: 40px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; color: white; }
+        .brand-logo h2 { font-family: 'CooperBlack', serif; font-size: 36px; font-weight: normal; margin: 0 0 8px; }
         .brand-subtitle { font-size: 14px; opacity: 0.9; margin-bottom: 30px; }
         .brand-features { display: flex; flex-direction: column; gap: 20px; }
         .brand-feature { display: flex; align-items: center; gap: 12px; }
@@ -31,7 +31,7 @@
         .field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
         .field label { font-weight: 600; font-size: 14px; color: #333; }
         .field input, .field select { padding: 14px 16px; border: 2px solid #e0e0e0; border-radius: 12px; font-size: 14px; transition: all 0.3s ease; }
-        .field input:focus, .field select:focus { outline: none; border-color: #667eea; box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1); }
+        .field input:focus, .field select:focus { outline: none; border-color: #212346; box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1); }
         .field .help { font-size: 12px; color: #666; margin-top: 4px; }
         .field .error { font-size: 12px; color: #dc3545; margin-top: 4px; }
         
@@ -40,12 +40,12 @@
         .password-requirements ul { margin: 0; padding-left: 16px; font-size: 11px; color: #6c757d; }
         .password-requirements li { margin: 2px 0; }
         
-        .submit-btn { width: 100%; padding: 16px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 12px; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; margin-top: 8px; }
-        .submit-btn:hover { background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%); transform: translateY(-2px); box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3); }
+        .submit-btn { width: 100%; padding: 16px; background: linear-gradient(135deg, #212346 0%, #CE3A81 100%); color: white; border: none; border-radius: 12px; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; margin-top: 8px; }
+        .submit-btn:hover { transform: translateY(-2px); }
         .submit-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
         
         .form-footer { text-align: center; margin-top: 24px; padding-top: 20px; border-top: 1px solid #eee; }
-        .form-footer a { color: #667eea; text-decoration: none; font-weight: 500; }
+        .form-footer a { color: #212346; text-decoration: none; font-weight: 500; }
         .form-footer a:hover { text-decoration: underline; }
         
         @media (max-width: 768px) { 
@@ -64,7 +64,7 @@
             <!-- Left Side - Branding -->
             <div class="register-brand">
                 <div class="brand-logo">
-                    <h2>Nexio</h2>
+                    <h2>nexio</h2>
                     <p class="brand-subtitle">Student Marketplace</p>
                 </div>
                 
@@ -160,7 +160,7 @@
                     </button>
                     
                     <div class="form-footer">
-                        <p>Already have an account? <a href="/login">Sign in here</a></p>
+                        <p>Already have an account? <a href="/auth/login">Sign in here</a></p>
                     </div>
                 </form>
             </div>

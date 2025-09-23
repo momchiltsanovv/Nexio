@@ -3,105 +3,20 @@
 <head>
     <th:block th:fragment="background-styles">
         <style>
-            body { 
-                background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%); 
+            html, body { 
+                background: linear-gradient(135deg, #212346 0%, #212346 50%, #CE3A81 100%); 
                 min-height: 100vh; 
                 position: relative;
                 overflow-x: hidden;
+                margin: 0;
+                padding: 0;
             }
             
-            /* Animated background elements */
-            body::before {
-                content: '';
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background: 
-                    radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
-                    radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
-                    radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.2) 0%, transparent 50%);
-                animation: backgroundShift 20s ease-in-out infinite;
-                z-index: -1;
-            }
-            
-            /* Floating geometric shapes */
-            .bg-shape {
-                position: fixed;
-                border-radius: 50%;
-                background: rgba(255, 255, 255, 0.1);
-                animation: float 15s ease-in-out infinite;
-                z-index: -1;
-            }
-            
-            .bg-shape:nth-child(1) {
-                width: 80px;
-                height: 80px;
-                top: 20%;
-                left: 10%;
-                animation-delay: 0s;
-            }
-            
-            .bg-shape:nth-child(2) {
-                width: 120px;
-                height: 120px;
-                top: 60%;
-                right: 15%;
-                animation-delay: 5s;
-            }
-            
-            .bg-shape:nth-child(3) {
-                width: 60px;
-                height: 60px;
-                top: 80%;
-                left: 20%;
-                animation-delay: 10s;
-            }
-            
-            .bg-shape:nth-child(4) {
-                width: 100px;
-                height: 100px;
-                top: 10%;
-                right: 30%;
-                animation-delay: 7s;
-            }
-            
-            /* Animated dots pattern */
-            .bg-dots {
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background-image: 
-                    radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.1) 2px, transparent 2px),
-                    radial-gradient(circle at 75% 75%, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
-                background-size: 50px 50px, 30px 30px;
-                animation: dotsMove 25s linear infinite;
-                z-index: -1;
-            }
-            
-            @keyframes backgroundShift {
-                0%, 100% { transform: translateX(0) translateY(0) rotate(0deg); }
-                33% { transform: translateX(30px) translateY(-30px) rotate(120deg); }
-                66% { transform: translateX(-20px) translateY(20px) rotate(240deg); }
-            }
-            
-            @keyframes dotsMove {
-                0% { transform: translateX(0) translateY(0); }
-                100% { transform: translateX(50px) translateY(50px); }
-            }
         </style>
     </th:block>
     
     <th:block th:fragment="background-elements">
-        <!-- Animated background elements -->
-        <div class="bg-dots"></div>
-        <div class="bg-shape"></div>
-        <div class="bg-shape"></div>
-        <div class="bg-shape"></div>
-        <div class="bg-shape"></div>
+        <!-- Static background - no animated elements -->
     </th:block>
 </head>
 </html>

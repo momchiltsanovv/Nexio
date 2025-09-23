@@ -3,27 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign In - Nexio</title>
+    <title>Sign In - nexio</title>
     <link rel="stylesheet" href="/css/home.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <th:block th:replace="fragments/background :: background-styles"></th:block>
     <style>
         .login-wrapper { display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 20px; }
-        .login-container { display: grid; grid-template-columns: 1fr 1fr; max-width: 900px; width: 100%; background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1); }
+        .login-container { display: grid; grid-template-columns: 1fr 1fr; max-width: 900px; width: 100%; background: #f8f9fa; border-radius: 20px; overflow: hidden; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1); }
         
         /* Left side - branding */
-        .login-brand { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 40px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; color: white; position: relative; overflow: hidden; }
-        .login-brand::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="25" cy="25" r="2" fill="white" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="white" opacity="0.1"/></svg>'); animation: float 20s ease-in-out infinite; }
+        .login-brand { background: linear-gradient(135deg, #212346 0%, #CE3A81 100%); padding: 40px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; color: white; position: relative; overflow: hidden; }
         .brand-content { position: relative; z-index: 1; }
-        .brand-logo h2 { font-size: 36px; font-weight: 700; margin: 0 0 8px; }
+        .brand-logo h2 { font-family: 'CooperBlack', serif; font-size: 40px; font-weight: normal; margin: 0 0 8px; }
         .brand-subtitle { font-size: 16px; opacity: 0.9; margin-bottom: 30px; }
         .brand-stats { display: flex; flex-direction: column; gap: 16px; margin-top: 30px; }
         .stat-item { display: flex; align-items: center; gap: 12px; }
-        .stat-icon { width: 40px; height: 40px; background: rgba(255, 255, 255, 0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+        .stat-icon { width: 45px; height: 45px; background: rgba(255, 255, 255, 0.25); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; color: white; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); }
         .stat-text { text-align: left; }
-        .stat-number { font-size: 18px; font-weight: 700; }
-        .stat-label { font-size: 12px; opacity: 0.8; }
+        .stat-number { font-size: 22px; font-weight: 800; color: #B53678; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3); }
+        .stat-label { font-size: 14px; color: white; opacity: 0.9; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
         
         /* Right side - form */
         .login-form { padding: 40px; display: flex; flex-direction: column; justify-content: center; }
@@ -34,28 +33,27 @@
         .field { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
         .field label { font-weight: 600; font-size: 14px; color: #333; }
         .field input { padding: 16px 18px; border: 2px solid #e0e0e0; border-radius: 12px; font-size: 16px; transition: all 0.3s ease; }
-        .field input:focus { outline: none; border-color: #667eea; box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1); }
+        .field input:focus { outline: none; border-color: #212346; box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1); }
         .field .help { font-size: 12px; color: #666; margin-top: 4px; }
         .field .error { font-size: 12px; color: #dc3545; margin-top: 4px; }
         
         .form-options { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
         .remember-me { display: flex; align-items: center; gap: 8px; font-size: 14px; color: #666; }
         .remember-me input { margin: 0; }
-        .forgot-password { color: #667eea; text-decoration: none; font-size: 14px; }
+        .forgot-password { color: #212346; text-decoration: none; font-size: 14px; }
         .forgot-password:hover { text-decoration: underline; }
         
-        .submit-btn { width: 100%; padding: 16px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 12px; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; }
-        .submit-btn:hover { background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%); transform: translateY(-2px); box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3); }
+        .submit-btn { width: 100%; padding: 16px; background: linear-gradient(135deg, #212346 0%, #CE3A81 100%); color: white; border: none; border-radius: 12px; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; }
+        .submit-btn:hover { transform: translateY(-2px); }
         .submit-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
         
         .form-footer { text-align: center; margin-top: 24px; padding-top: 20px; border-top: 1px solid #eee; }
-        .form-footer a { color: #667eea; text-decoration: none; font-weight: 500; }
+        .form-footer a { color: #212346; text-decoration: none; font-weight: 500; }
         .form-footer a:hover { text-decoration: underline; }
         
         .back-home { position: absolute; top: 20px; left: 20px; color: white; text-decoration: none; display: flex; align-items: center; gap: 8px; font-size: 14px; opacity: 0.9; }
         .back-home:hover { opacity: 1; }
         
-        @keyframes float { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(180deg); } }
         
         @media (max-width: 768px) { 
             .login-container { grid-template-columns: 1fr; max-width: 420px; }
@@ -79,7 +77,7 @@
                 <div class="brand-content">
                     <div class="brand-logo">
                         <h2>Welcome Back</h2>
-                        <p class="brand-subtitle">Sign in to your Nexio account</p>
+                        <p class="brand-subtitle">Sign in to your nexio account</p>
                     </div>
                     
                     <div class="brand-stats">

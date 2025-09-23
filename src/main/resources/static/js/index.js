@@ -1,7 +1,7 @@
 // DOM Content Loaded
 document.addEventListener('DOMContentLoaded', function() {
     initializeNavbar();
-    initializeCategoryCards();
+    // initializeCategoryCards();
     initializeScrollAnimations();
     initializeMobileMenu();
     initializeHeroAnimations();
@@ -77,26 +77,7 @@ function initializeCategoryCards() {
     const categoryCards = document.querySelectorAll('.category-card');
     
     categoryCards.forEach(card => {
-        card.addEventListener('click', function() {
-            const category = this.dataset.category;
-            
-            // Add click animation
-            this.style.transform = 'scale(0.95)';
-            setTimeout(() => {
-                this.style.transform = 'translateY(-5px)';
-            }, 150);
-            
-            // Navigate to home page with category filter
-            if (category) {
-                // In a real application, you would navigate with the category parameter
-                // For now, we'll just redirect to home
-                setTimeout(() => {
-                    window.location.href = `/home?category=${category}`;
-                }, 300);
-            }
-        });
-
-        // Add hover sound effect (optional)
+        // Add hover effects for visual appeal (no click functionality)
         card.addEventListener('mouseenter', function() {
             this.style.transform = 'translateY(-5px) scale(1.02)';
         });
@@ -212,17 +193,6 @@ function initializeHeroAnimations() {
         statsObserver.observe(stat);
     });
 
-    // Parallax effect for floating cards
-    window.addEventListener('scroll', function() {
-        const scrolled = window.pageYOffset;
-        const parallaxElements = document.querySelectorAll('.floating-card');
-        const speed = 0.5;
-
-        parallaxElements.forEach(element => {
-            const yPos = -(scrolled * speed);
-            element.style.transform = `translateY(${yPos}px)`;
-        });
-    });
 }
 
 // Smooth scrolling for anchor links
@@ -302,7 +272,7 @@ function addGlobalStyles() {
                 top: 70px;
                 left: 0;
                 width: 100%;
-                background: white;
+                background: #f8f9fa;
                 flex-direction: column;
                 padding: 20px;
                 box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
@@ -324,9 +294,6 @@ function addGlobalStyles() {
             }
         }
         
-        .floating-card {
-            transition: transform 0.3s ease;
-        }
         
         .btn {
             transition: all 0.3s ease;
@@ -350,5 +317,5 @@ document.querySelectorAll('img').forEach(img => {
 });
 
 // Console welcome message
-console.log('%cWelcome to Nexio! 🎓', 'color: #667eea; font-size: 20px; font-weight: bold;');
-console.log('%cMade by students, for students', 'color: #764ba2; font-size: 14px;');
+console.log('%cWelcome to Nexio! 🎓', 'color: #212346; font-size: 20px; font-weight: bold;');
+console.log('%cMade by students, for students', 'color: #CE3A81; font-size: 14px;');

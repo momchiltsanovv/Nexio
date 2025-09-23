@@ -91,7 +91,7 @@
         
         .conversation-item.active {
             background-color: #e3f2fd;
-            border-right: 3px solid #667eea;
+            border-right: 3px solid #212346;
         }
         
         .conversation-header {
@@ -143,7 +143,7 @@
             position: absolute;
             top: 15px;
             right: 15px;
-            background: #667eea;
+            background: #212346;
             color: white;
             border-radius: 50%;
             width: 20px;
@@ -244,7 +244,7 @@
         }
         
         .message.sent .message-bubble {
-            background: #667eea;
+            background: #212346;
             color: white;
             border-bottom-right-radius: 4px;
         }
@@ -285,12 +285,12 @@
         
         .message-input:focus {
             outline: none;
-            border-color: #667eea;
+            border-color: #212346;
             box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
         
         .send-button {
-            background: #667eea;
+            background: #212346;
             border: none;
             border-radius: 50%;
             width: 45px;
@@ -398,7 +398,7 @@
             background: none;
             border: none;
             font-size: 18px;
-            color: #667eea;
+            color: #212346;
             cursor: pointer;
         }
         
@@ -410,6 +410,7 @@
     </style>
 </head>
 <body>
+    <th:block th:replace="fragments/background :: background-elements"></th:block>
     <!-- Navigation -->
     <th:block th:replace="fragments/navbar :: navbar('messages')"></th:block>
 
