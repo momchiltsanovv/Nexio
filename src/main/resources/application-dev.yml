@@ -25,8 +25,14 @@ spring:
 # User properties
 users:
   defaultUser:
+    username: momobace
+    password: 12345
     user-role: USER
     active-by-default: true
+    email: momchil395@gmail.com
+    first-name: Momchil
+    last-name: Tsanov
+    university: NEW_BULGARIAN_UNIVERSITY
 
 # Logging Levels
 logging:

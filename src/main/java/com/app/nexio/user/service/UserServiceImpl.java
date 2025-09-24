@@ -1,5 +1,6 @@
 package com.app.nexio.user.service;
 
+import com.app.nexio.exception.UserDoesNotExistException;
 import com.app.nexio.exception.UsernameTakenException;
 import com.app.nexio.exception.IncorrectUsernameOrPasswordException;
 import com.app.nexio.user.dto.EditRequest;
@@ -90,8 +91,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                    .username(registerRequest.username())
                    .firstName(registerRequest.firstName())
                    .lastName(registerRequest.lastName())
-//                   .role(userProperties.getUserRole())//TODO fix with new config
-//                   .active(userProperties.isActiveByDefault())
+                   .role(userProperties.getDefaultUser().getUserRole())//TODO fix with new config
+                   .activeAccount(userProperties.getDefaultUser().isActiveByDefault())
                    .university(registerRequest.university())
                    .email(registerRequest.email())
                    .password(getEncodedPassword(registerRequest))
@@ -106,7 +107,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public void switchStatus(UUID userId) {
         User user = userRepository.getUserById(userId);
-        user.setActive(!user.isActive());
+        user.setActiveAccount(!user.isActiveAccount());
         userRepository.save(user);
     }
 
@@ -142,6 +143,17 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public List<User> getAllUsers() {
         return userRepository.findAll();
+    }
+
+    @Override
+    public List<User> getAll() {
+        return userRepository.getAll();
+    }
+
+    @Override
+    public User getByUsername(String username) {
+        return userRepository.findByUsername(username)
+                             .orElseThrow(() -> new UserDoesNotExistException("User with username: %s does not exist".formatted(username)));
     }
 
     @Override

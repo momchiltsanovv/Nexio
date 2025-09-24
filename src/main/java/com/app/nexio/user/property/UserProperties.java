@@ -1,5 +1,6 @@
 package com.app.nexio.user.property;
 
+import com.app.nexio.user.model.University;
 import com.app.nexio.user.model.UserRole;
 import lombok.Data;
 import lombok.Getter;
@@ -16,10 +17,16 @@ public class UserProperties {
     private DefaultUser defaultUser;
 
     @Data
-    static class DefaultUser {
+     public static class DefaultUser {
 
         private UserRole userRole;
         private boolean activeByDefault;
+        private String firstName;
+        private String lastName;
+        private String email;
+        private University university;
+        private String username;
+        private String password;
     }
 
 }

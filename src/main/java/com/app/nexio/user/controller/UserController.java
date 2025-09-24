@@ -1,6 +1,7 @@
 package com.app.nexio.user.controller;
 
 import com.app.nexio.user.model.User;
+import com.app.nexio.user.property.UserProperties;
 import com.app.nexio.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -17,10 +18,12 @@ import java.util.UUID;
 public class UserController {
 
     private final UserService userService;
+    private final UserProperties userProperties;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, UserProperties userProperties) {
         this.userService = userService;
+        this.userProperties = userProperties;
     }
 
 
@@ -41,8 +44,11 @@ public class UserController {
         return "user-profile-view";
     }
 
-    @GetMapping("/profile") // get current users profile
-    public String getMyProfile() {
+    @GetMapping("/profile")
+    public String getMyProfile(Model model) {
+
+        User user = userService.getByUsername(userProperties.getDefaultUser().getUsername());
+        model.addAttribute(user);
 
         return "profile";
     }
@@ -56,13 +62,7 @@ public class UserController {
     
     @DeleteMapping("/delete")//user delete its account
     public String deleteUser() {
-        // Get current authenticated user
-        // For now, we'll implement a simple logout and redirect
-        // In a real implementation, you would:
-        // 1. Get the current user from SecurityContext
-        // 2. Delete all user-related data (items, wishlist, messages, etc.)
-        // 3. Delete the user account
-        // 4. Invalidate the session
+
         
         return "index";
     }

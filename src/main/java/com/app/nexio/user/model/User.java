@@ -47,7 +47,7 @@ public class User {
 
     private Integer graduationYear;
 
-    private boolean active;
+    private boolean activeAccount;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
@@ -56,7 +56,9 @@ public class User {
     @Column(columnDefinition = "TEXT")
     private String profilePictureURL;
 
-    @Column(unique = true)
+    @Column(unique = true,
+            nullable = false,
+            updatable = false)
     private String email;
 
     @Column(nullable = false)
@@ -71,8 +73,7 @@ public class User {
     private Wishlist wishlist;
 
 
-    @Column(nullable = false,
-            updatable = false)
+    @Column(updatable = false)
     @CreationTimestamp
     private LocalDateTime createdOn;
 
