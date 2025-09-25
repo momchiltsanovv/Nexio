@@ -86,9 +86,9 @@ function initializeFilterListeners() {
     });
 
     // Condition filters
-    document.querySelectorAll('input[name="condition"]').forEach(radio => {
-        radio.addEventListener('change', function() {
-            updateConditionFilter(this.value);
+    document.querySelectorAll('input[name="condition"]').forEach(checkbox => {
+        checkbox.addEventListener('change', function() {
+            updateConditionFilter(this.value, this.checked);
         });
     });
 
@@ -97,7 +97,6 @@ function initializeFilterListeners() {
     // Price filters
     document.getElementById('minPrice').addEventListener('input', debounce(updatePriceFilter, 500));
     document.getElementById('maxPrice').addEventListener('input', debounce(updatePriceFilter, 500));
-    document.getElementById('priceRange').addEventListener('input', updatePriceRange);
 
     // Location filter
     document.getElementById('locationFilter').addEventListener('change', function() {
@@ -300,8 +299,15 @@ function updateCategoryFilter(category, checked) {
     updateURL();
 }
 
-function updateConditionFilter(condition) {
-    currentFilters.conditions = [condition];
+function updateConditionFilter(condition, isChecked) {
+    if (isChecked) {
+        if (!currentFilters.conditions.includes(condition)) {
+            currentFilters.conditions.push(condition);
+        }
+    } else {
+        currentFilters.conditions = currentFilters.conditions.filter(c => c !== condition);
+    }
+
     currentPage = 1;
     loadItems();
     updateActiveFilters();
@@ -323,16 +329,6 @@ function updatePriceFilter() {
     updateURL();
 }
 
-function updatePriceRange() {
-    const value = document.getElementById('priceRange').value;
-    currentFilters.maxPrice = parseFloat(value);
-    document.getElementById('maxPrice').value = value;
-
-    currentPage = 1;
-    loadItems();
-    updateActiveFilters();
-    updateURL();
-}
 
 function updateLocationFilter(location) {
     currentFilters.location = location;
@@ -584,8 +580,8 @@ function removeFilter(type, value) {
             document.querySelector(`input[name="category"][value="${value}"]`).checked = false;
             break;
         case 'condition':
-            currentFilters.conditions = [];
-            document.querySelectorAll('input[name="condition"]').forEach(radio => radio.checked = false);
+            currentFilters.conditions = currentFilters.conditions.filter(c => c !== value);
+            document.querySelector(`input[name="condition"][value="${value}"]`).checked = false;
             break;
         case 'university':
             currentFilters.universities = currentFilters.universities.filter(u => u !== value);
@@ -596,7 +592,6 @@ function removeFilter(type, value) {
             currentFilters.maxPrice = null;
             document.getElementById('minPrice').value = '';
             document.getElementById('maxPrice').value = '';
-            document.getElementById('priceRange').value = '500';
             break;
         case 'location':
             currentFilters.location = '';
@@ -630,7 +625,6 @@ function clearAllFilters() {
     document.querySelectorAll('input[type="radio"]').forEach(radio => radio.checked = false);
     document.getElementById('minPrice').value = '';
     document.getElementById('maxPrice').value = '';
-    document.getElementById('priceRange').value = '500';
     document.getElementById('locationFilter').value = '';
 
     currentPage = 1;
@@ -760,6 +754,14 @@ function loadFiltersFromURL() {
         currentFilters.categories = params.get('categories').split(',');
         currentFilters.categories.forEach(category => {
             const checkbox = document.querySelector(`input[name="category"][value="${category}"]`);
+            if (checkbox) checkbox.checked = true;
+        });
+    }
+
+    if (params.has('conditions')) {
+        currentFilters.conditions = params.get('conditions').split(',');
+        currentFilters.conditions.forEach(condition => {
+            const checkbox = document.querySelector(`input[name="condition"][value="${condition}"]`);
             if (checkbox) checkbox.checked = true;
         });
     }

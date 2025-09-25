@@ -593,10 +593,10 @@ body {
 
 /* Filters Sidebar */
 .filters-sidebar {
-    width: 320px;
+    width: 450px;
     background: #ffffff;
     border-radius: 16px;
-    padding: 30px;
+    padding: 40px;
     height: fit-content;
     position: sticky;
     top: 100px;
@@ -640,8 +640,8 @@ body {
 }
 
 .filter-section {
-    margin-bottom: 18px;
-    padding-bottom: 14px;
+    margin-bottom: 25px;
+    padding-bottom: 20px;
     border-bottom: 1px dashed #e6e8f0;
 }
 
@@ -685,7 +685,7 @@ body {
 .filter-options {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 12px;
 }
 
 .filter-option {
@@ -797,32 +797,6 @@ body {
     font-size: 13px;
 }
 
-.price-slider { margin-top: 10px; }
-
-.price-slider input[type="range"] {
-    width: 100%;
-    -webkit-appearance: none;
-    height: 4px;
-    background: #e0e0e0;
-    border-radius: 2px;
-    outline: none;
-}
-
-.price-slider input[type="range"]::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    width: 16px;
-    height: 16px;
-    background: linear-gradient(135deg, #212346 0%, #CE3A81 100%);
-    border-radius: 50%;
-    cursor: pointer;
-}
-
-.price-labels {
-    display: flex;
-    justify-content: space-between;
-    font-size: 12px;
-    color: #999;
-}
 
 .location-select {
     width: 100%;
@@ -1338,19 +1312,29 @@ body {
 /* footer buttons removed */
 
 /* Responsive Design */
-@media (max-width: 1024px) {
+@media (max-width: 1300px) {
     .main-content {
         padding: 15px;
         gap: 20px;
     }
 
     .filters-sidebar {
-        width: 250px;
+        width: 400px;
+    }
+
+    .content-layout {
+        grid-template-columns: 400px 1fr;
     }
 
     .items-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: 20px;
+    }
+}
+
+@media (max-width: 1024px) {
+    .content-layout {
+        grid-template-columns: 1fr;
     }
 }
 
@@ -1575,7 +1559,7 @@ body {
 /* Content Layout */
 .content-layout {
     display: grid;
-    grid-template-columns: 320px 1fr;
+    grid-template-columns: 450px 1fr;
     gap: 40px;
     align-items: start;
     margin-top: 20px;
