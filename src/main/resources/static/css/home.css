@@ -129,29 +129,29 @@ body {
     .mobile-menu-toggle {
         display: block;
     }
-    
+
     .nav-center {
         display: none;
     }
-    
+
     .nav-right {
         gap: 15px;
         min-width: auto;
     }
-    
+
     .nav-left {
         min-width: auto;
     }
-    
+
     .mobile-search {
         padding: 15px 20px;
         border-bottom: 1px solid #e0e0e0;
     }
-    
+
     .mobile-search .search-container {
         max-width: 100%;
     }
-    
+
     .nav-links {
         position: fixed;
         top: 70px;
@@ -165,18 +165,18 @@ body {
         transition: transform 0.3s ease;
         z-index: 999;
     }
-    
+
     .nav-links.mobile-active {
         transform: translateX(0);
     }
-    
+
     .nav-link {
         padding: 15px 0;
         border-bottom: 1px solid #eee;
         width: 100%;
         text-align: center;
     }
-    
+
     .nav-link:last-child {
         border-bottom: none;
     }
@@ -1343,11 +1343,11 @@ body {
         padding: 15px;
         gap: 20px;
     }
-    
+
     .filters-sidebar {
         width: 250px;
     }
-    
+
     .items-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: 20px;
@@ -1358,11 +1358,11 @@ body {
     .nav-menu {
         display: none;
     }
-    
+
     .btn-text {
         display: none;
     }
-    
+
     .user-name {
         display: none;
     }
@@ -1373,19 +1373,19 @@ body {
         padding: 0 15px;
         gap: 15px;
     }
-    
+
     .nav-left {
         gap: 20px;
     }
-    
+
     .nav-center {
         display: none;
     }
-    
+
     .nav-right {
         display: none;
     }
-    
+
     .mobile-menu-toggle {
         display: block;
     }
@@ -1397,7 +1397,7 @@ body {
         padding: 15px;
         gap: 20px;
     }
-    
+
     /* Show filters on mobile: full width above items */
     .filters-sidebar {
         display: block;
@@ -1406,29 +1406,29 @@ body {
         top: auto;
         margin: 0 0 15px 0;
     }
-    
+
     .content-header {
         flex-direction: column;
         gap: 15px;
         align-items: stretch;
     }
-    
+
     .header-controls {
         justify-content: space-between;
         flex-wrap: wrap;
         gap: 10px;
     }
-    
+
     .items-grid {
         grid-template-columns: 1fr;
         gap: 15px;
     }
-    
+
     .pagination {
         flex-wrap: wrap;
         gap: 5px;
     }
-    
+
     .page-numbers {
         order: 2;
         width: 100%;
@@ -1440,23 +1440,23 @@ body {
     .nav-container {
         padding: 0 10px;
     }
-    
+
     .main-content {
         padding: 10px;
     }
-    
+
     .content-header {
         padding: 15px;
     }
-    
+
     .item-content {
         padding: 15px;
     }
-    
+
     .item-actions {
         flex-direction: column;
     }
-    
+
     .btn {
         flex: none;
     }

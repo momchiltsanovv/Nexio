@@ -50,28 +50,28 @@ function initializeEventListeners() {
     // Search functionality
     searchInput.addEventListener('input', debounce(handleSearch, 300));
     document.getElementById('searchBtn').addEventListener('click', handleSearch);
-    
+
     // Sort functionality
     sortSelect.addEventListener('change', handleSort);
-    
+
     // Filter functionality
     initializeFilterListeners();
     initializeFilterCollapsibles();
-    
+
     // Force list view styling and skip toggle
     itemsGrid.classList.add('list-view');
-    
+
     // Pagination
     initializePagination();
-    
+
     // Clear filters
     document.getElementById('clearFilters').addEventListener('click', clearAllFilters);
-    
+
     // Mobile filters removed (filters always visible)
-    
+
     // Navigation functionality
     initializeNavigation();
-    
+
     // Wishlist functionality
     initializeWishlistButtons();
 }
@@ -84,21 +84,21 @@ function initializeFilterListeners() {
             updateCategoryFilter(this.value, this.checked);
         });
     });
-    
+
     // Condition filters
     document.querySelectorAll('input[name="condition"]').forEach(radio => {
         radio.addEventListener('change', function() {
             updateConditionFilter(this.value);
         });
     });
-    
+
     // University filters removed
-    
+
     // Price filters
     document.getElementById('minPrice').addEventListener('input', debounce(updatePriceFilter, 500));
     document.getElementById('maxPrice').addEventListener('input', debounce(updatePriceFilter, 500));
     document.getElementById('priceRange').addEventListener('input', updatePriceRange);
-    
+
     // Location filter
     document.getElementById('locationFilter').addEventListener('change', function() {
         updateLocationFilter(this.value);
@@ -156,7 +156,7 @@ function initializePagination() {
             }
         });
     });
-    
+
     document.querySelectorAll('.page-number').forEach(btn => {
         btn.addEventListener('click', function() {
             const page = parseInt(this.textContent);
@@ -174,14 +174,14 @@ function initializeNavigation() {
     const userDropdownBtn = document.getElementById('userDropdownBtn');
     const userDropdown = document.querySelector('.user-dropdown');
     const userDropdownMenu = document.getElementById('userDropdownMenu');
-    
+
     if (userDropdownBtn && userDropdown) {
         userDropdownBtn.addEventListener('click', function(e) {
             e.preventDefault();
             e.stopPropagation();
             userDropdown.classList.toggle('open');
         });
-        
+
         // Close dropdown when clicking outside
         document.addEventListener('click', function(e) {
             if (!userDropdown.contains(e.target)) {
@@ -189,17 +189,17 @@ function initializeNavigation() {
             }
         });
     }
-    
+
     // Mobile menu
     const mobileMenuToggle = document.getElementById('mobileMenuToggle');
     const mobileMenu = document.getElementById('mobileMenu');
-    
+
     if (mobileMenuToggle && mobileMenu) {
         mobileMenuToggle.addEventListener('click', function(e) {
             e.preventDefault();
             e.stopPropagation();
             mobileMenu.classList.toggle('open');
-            
+
             // Toggle hamburger icon
             const icon = this.querySelector('i');
             if (mobileMenu.classList.contains('open')) {
@@ -210,7 +210,7 @@ function initializeNavigation() {
                 icon.classList.add('fa-bars');
             }
         });
-        
+
         // Close mobile menu when clicking outside
         document.addEventListener('click', function(e) {
             if (!mobileMenu.contains(e.target) && !mobileMenuToggle.contains(e.target)) {
@@ -220,7 +220,7 @@ function initializeNavigation() {
                 icon.classList.add('fa-bars');
             }
         });
-        
+
         // Close mobile menu when clicking on a link
         const mobileNavLinks = mobileMenu.querySelectorAll('.mobile-nav-link');
         mobileNavLinks.forEach(link => {
@@ -250,21 +250,21 @@ function initializeMobileFilters() {
     // Clone desktop filters to mobile
     const desktopFilters = document.querySelector('.filters-sidebar').innerHTML;
     document.querySelector('.mobile-filters-body').innerHTML = desktopFilters;
-    
+
     // Re-initialize listeners for mobile filters
     initializeMobileFilterListeners();
 }
 
 function initializeMobileFilterListeners() {
     const mobileFiltersBody = document.querySelector('.mobile-filters-body');
-    
+
     // Category filters
     mobileFiltersBody.querySelectorAll('input[name="category"]').forEach(checkbox => {
         checkbox.addEventListener('change', function() {
             updateCategoryFilter(this.value, this.checked);
         });
     });
-    
+
     // Similar for other filters... (university removed)
 }
 
@@ -293,7 +293,7 @@ function updateCategoryFilter(category, checked) {
     } else {
         currentFilters.categories = currentFilters.categories.filter(c => c !== category);
     }
-    
+
     currentPage = 1;
     loadItems();
     updateActiveFilters();
@@ -313,10 +313,10 @@ function updateConditionFilter(condition) {
 function updatePriceFilter() {
     const minPrice = document.getElementById('minPrice').value;
     const maxPrice = document.getElementById('maxPrice').value;
-    
+
     currentFilters.minPrice = minPrice ? parseFloat(minPrice) : null;
     currentFilters.maxPrice = maxPrice ? parseFloat(maxPrice) : null;
-    
+
     currentPage = 1;
     loadItems();
     updateActiveFilters();
@@ -327,7 +327,7 @@ function updatePriceRange() {
     const value = document.getElementById('priceRange').value;
     currentFilters.maxPrice = parseFloat(value);
     document.getElementById('maxPrice').value = value;
-    
+
     currentPage = 1;
     loadItems();
     updateActiveFilters();
@@ -348,19 +348,19 @@ function toggleView() {}
 // Load items (this would typically fetch from server)
 function loadItems() {
     showLoading(true);
-    
+
     // Simulate API call
     setTimeout(() => {
         const filteredItems = filterItems(getSampleItems());
         const sortedItems = sortItems(filteredItems);
         const paginatedItems = paginateItems(sortedItems);
-        
+
         displayItems(paginatedItems);
         updatePagination();
         updateResultsCount(filteredItems.length);
-        
+
         showLoading(false);
-        
+
         if (filteredItems.length === 0) {
             showNoResults(true);
         } else {
@@ -380,37 +380,37 @@ function filterItems(items) {
                 return false;
             }
         }
-        
+
         // Category filter
         if (currentFilters.categories.length > 0) {
             if (!currentFilters.categories.includes(item.category)) {
                 return false;
             }
         }
-        
+
         // Condition filter
         if (currentFilters.conditions.length > 0) {
             if (!currentFilters.conditions.includes(item.condition)) {
                 return false;
             }
         }
-        
+
         // university filter removed
-        
+
         // Price filter
         if (currentFilters.minPrice !== null && item.price < currentFilters.minPrice) {
             return false;
         }
-        
+
         if (currentFilters.maxPrice !== null && item.price > currentFilters.maxPrice) {
             return false;
         }
-        
+
         // Location filter
         if (currentFilters.location && item.location !== currentFilters.location) {
             return false;
         }
-        
+
         return true;
     });
 }
@@ -418,7 +418,7 @@ function filterItems(items) {
 // Sort items
 function sortItems(items) {
     const sortedItems = [...items];
-    
+
     switch (currentFilters.sort) {
         case 'newest':
             return sortedItems.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
@@ -449,10 +449,10 @@ function displayItems(items) {
         itemsGrid.innerHTML = '';
         return;
     }
-    
+
     const itemsHTML = items.map(item => createItemHTML(item)).join('');
     itemsGrid.innerHTML = itemsHTML;
-    
+
     // Re-initialize wishlist buttons for new items
     initializeWishlistButtons();
 }
@@ -461,7 +461,7 @@ function displayItems(items) {
 function createItemHTML(item) {
     const conditionClass = item.condition.toLowerCase().replace('_', '-');
     const categoryIcon = getCategoryIcon(item.category);
-    
+
     return `
         <div class="item-card" data-category="${item.category}" data-price="${item.price}" data-condition="${item.condition}">
             <div class="item-image">
@@ -511,7 +511,7 @@ function createItemHTML(item) {
 // Update active filters display
 function updateActiveFilters() {
     const filters = [];
-    
+
     if (currentFilters.search) {
         filters.push({
             type: 'search',
@@ -519,7 +519,7 @@ function updateActiveFilters() {
             value: currentFilters.search
         });
     }
-    
+
     currentFilters.categories.forEach(category => {
         filters.push({
             type: 'category',
@@ -527,7 +527,7 @@ function updateActiveFilters() {
             value: category
         });
     });
-    
+
     currentFilters.conditions.forEach(condition => {
         filters.push({
             type: 'condition',
@@ -535,9 +535,9 @@ function updateActiveFilters() {
             value: condition
         });
     });
-    
+
     // university filter badges removed
-    
+
     if (currentFilters.minPrice !== null || currentFilters.maxPrice !== null) {
         let priceLabel = '';
         if (currentFilters.minPrice !== null && currentFilters.maxPrice !== null) {
@@ -553,7 +553,7 @@ function updateActiveFilters() {
             value: 'price'
         });
     }
-    
+
     if (currentFilters.location) {
         filters.push({
             type: 'location',
@@ -561,14 +561,14 @@ function updateActiveFilters() {
             value: currentFilters.location
         });
     }
-    
+
     const filtersHTML = filters.map(filter => `
         <div class="active-filter">
             ${filter.label}
             <span class="remove" onclick="removeFilter('${filter.type}', '${filter.value}')">&times;</span>
         </div>
     `).join('');
-    
+
     activeFilters.innerHTML = filtersHTML;
 }
 
@@ -603,7 +603,7 @@ function removeFilter(type, value) {
             document.getElementById('locationFilter').value = '';
             break;
     }
-    
+
     currentPage = 1;
     loadItems();
     updateActiveFilters();
@@ -622,7 +622,7 @@ function clearAllFilters() {
         location: '',
         sort: 'newest'
     };
-    
+
     // Reset form elements
     searchInput.value = '';
     sortSelect.value = 'newest';
@@ -632,7 +632,7 @@ function clearAllFilters() {
     document.getElementById('maxPrice').value = '';
     document.getElementById('priceRange').value = '500';
     document.getElementById('locationFilter').value = '';
-    
+
     currentPage = 1;
     loadItems();
     updateActiveFilters();
@@ -645,7 +645,7 @@ function clearAllFilters() {
 function toggleWishlist(itemId, button) {
     button.classList.toggle('active');
     const icon = button.querySelector('i');
-    
+
     if (button.classList.contains('active')) {
         icon.classList.remove('far');
         icon.classList.add('fas');
@@ -671,39 +671,39 @@ function contactSeller(itemId) {
 // Update pagination
 function updatePagination() {
     const totalPages = Math.ceil(totalItems / itemsPerPage);
-    
+
     // Update prev/next buttons
     const prevBtn = document.querySelector('.page-btn.prev');
     const nextBtn = document.querySelector('.page-btn.next');
-    
+
     prevBtn.disabled = currentPage <= 1;
     nextBtn.disabled = currentPage >= totalPages;
-    
+
     // Update page numbers
     const pageNumbers = document.querySelector('.page-numbers');
     let pagesHTML = '';
-    
+
     const startPage = Math.max(1, currentPage - 2);
     const endPage = Math.min(totalPages, currentPage + 2);
-    
+
     if (startPage > 1) {
         pagesHTML += `<button class="page-number" onclick="goToPage(1)">1</button>`;
         if (startPage > 2) {
             pagesHTML += `<span class="page-ellipsis">...</span>`;
         }
     }
-    
+
     for (let i = startPage; i <= endPage; i++) {
         pagesHTML += `<button class="page-number ${i === currentPage ? 'active' : ''}" onclick="goToPage(${i})">${i}</button>`;
     }
-    
+
     if (endPage < totalPages) {
         if (endPage < totalPages - 1) {
             pagesHTML += `<span class="page-ellipsis">...</span>`;
         }
         pagesHTML += `<button class="page-number" onclick="goToPage(${totalPages})">${totalPages}</button>`;
     }
-    
+
     pageNumbers.innerHTML = pagesHTML;
 }
 
@@ -732,7 +732,7 @@ function showNoResults(show) {
 // Update URL with current filters (for bookmarking/sharing)
 function updateURL() {
     const params = new URLSearchParams();
-    
+
     if (currentFilters.search) params.set('search', currentFilters.search);
     if (currentFilters.categories.length > 0) params.set('categories', currentFilters.categories.join(','));
     if (currentFilters.conditions.length > 0) params.set('conditions', currentFilters.conditions.join(','));
@@ -742,7 +742,7 @@ function updateURL() {
     if (currentFilters.location) params.set('location', currentFilters.location);
     if (currentFilters.sort !== 'newest') params.set('sort', currentFilters.sort);
     if (currentPage > 1) params.set('page', currentPage);
-    
+
     const newURL = `${window.location.pathname}${params.toString() ? '?' + params.toString() : ''}`;
     window.history.replaceState({}, '', newURL);
 }
@@ -750,12 +750,12 @@ function updateURL() {
 // Load filters from URL on page load
 function loadFiltersFromURL() {
     const params = new URLSearchParams(window.location.search);
-    
+
     if (params.has('search')) {
         currentFilters.search = params.get('search');
         searchInput.value = currentFilters.search;
     }
-    
+
     if (params.has('categories')) {
         currentFilters.categories = params.get('categories').split(',');
         currentFilters.categories.forEach(category => {
@@ -763,9 +763,9 @@ function loadFiltersFromURL() {
             if (checkbox) checkbox.checked = true;
         });
     }
-    
+
     // Similar for other filters...
-    
+
     if (params.has('page')) {
         currentPage = parseInt(params.get('page')) || 1;
     }

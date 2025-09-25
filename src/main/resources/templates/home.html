@@ -10,31 +10,31 @@
     <th:block th:replace="fragments/background :: background-styles"></th:block>
 </head>
 <body>
-    <th:block th:replace="fragments/background :: background-elements"></th:block>
-    
-    <div th:replace="fragments/navbar :: navbar('browse')"></div>
+<th:block th:replace="fragments/background :: background-elements"></th:block>
 
-    <!-- Main Content -->
-    <main class="main-content">
-        <!-- Content Layout -->
-        <div class="content-layout">
-            <!-- Search Section -->
-            <div class="search-section">
+<div th:replace="fragments/navbar :: navbar('browse')"></div>
+
+<!-- Main Content -->
+<main class="main-content">
+    <!-- Content Layout -->
+    <div class="content-layout">
+        <!-- Search Section -->
+        <div class="search-section">
             <div class="search-container-main">
                 <h2>Find what you're looking for</h2>
                 <p>Discover amazing items from your university community</p>
                 <div class="search-bar-main">
-                        <i class="fas fa-search search-icon-main"></i>
-                        <input type="text" id="mainSearchInput" placeholder="Search for items, books, electronics...">
-                        <button class="search-btn-main" id="mainSearchBtn">
-                            <i class="fas fa-search"></i>
-                            Search
-                        </button>
-                    </div>
+                    <i class="fas fa-search search-icon-main"></i>
+                    <input type="text" id="mainSearchInput" placeholder="Search for items, books, electronics...">
+                    <button class="search-btn-main" id="mainSearchBtn">
+                        <i class="fas fa-search"></i>
+                        Search
+                    </button>
                 </div>
             </div>
-            <!-- Filters Sidebar -->
-            <aside class="filters-sidebar" id="filtersSidebar">
+        </div>
+        <!-- Filters Sidebar -->
+        <aside class="filters-sidebar" id="filtersSidebar">
             <div class="filters-header">
                 <h3>
                     <i class="fas fa-filter"></i>
@@ -162,7 +162,7 @@
                 </div>
             </div>
 
-            
+
 
             <!-- Location Filter -->
             <div class="filter-section">
@@ -184,7 +184,7 @@
                     <h2>Browse Items</h2>
                     <p class="results-count">Showing <span id="resultsCount">157</span> items</p>
                 </div>
-                
+
                 <div class="header-controls">
                     <div class="sort-options">
                         <label for="sortSelect">Sort by:</label>
@@ -196,10 +196,10 @@
                             <option value="popular">Most Popular</option>
                         </select>
                     </div>
-                    
-                    
-                    
-                    
+
+
+
+
                 </div>
             </div>
 
@@ -212,7 +212,7 @@
             <div class="items-container" id="itemsContainer">
                 <div class="items-grid" id="itemsGrid">
                     <!-- Sample Items - In real app, these would be populated by Thymeleaf -->
-                    
+
                     <!-- Item Card 1 -->
                     <div class="item-card" data-category="TEXTBOOKS" data-price="45" data-condition="GOOD">
                         <div class="item-image">
@@ -427,12 +427,12 @@
                 </button>
             </div>
         </div>
-        </div> <!-- End content-layout -->
-    </main>
+    </div> <!-- End content-layout -->
+</main>
 
-    
 
-    <script th:src="@{/js/home.js}"></script>
-    <div th:replace="fragments/navbar-script :: navbar-script"></div>
+
+<script th:src="@{/js/home.js}"></script>
+<div th:replace="fragments/navbar-script :: navbar-script"></div>
 </body>
 </html>
