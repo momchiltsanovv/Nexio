@@ -156,46 +156,46 @@
                     <p>Join the student marketplace community</p>
                 </div>
                 
-                <form action="/auth/register" method="post">
+                <form th:action="@{/auth/register}" th:method="post" th:object="${registerRequest}">
                     <div class="form-grid">
                         <div class="field">
                             <label for="firstName">First Name *</label>
-                            <input type="text" id="firstName" name="firstName" required>
+                            <input type="text" id="firstName" name="firstName" th:field="*{firstName}" required>
+
                         </div>
                         
                         <div class="field">
                             <label for="lastName">Last Name *</label>
-                            <input type="text" id="lastName" name="lastName" required>
+                            <input type="text" id="lastName" name="lastName" th:field="*{lastName}" required>
                         </div>
                         
                         <div class="field full">
                             <label for="username">Username *</label>
-                            <input type="text" id="username" name="username" placeholder="Choose a unique username" required>
+                            <input type="text" id="username" name="username" placeholder="Choose a unique username" th:field="*{username}" required>
+                            <p class="alert-warning" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></p>
+
                             <div class="help">Minimum 3 characters. This will be your public display name.</div>
                         </div>
                         
                         <div class="field full">
                             <label for="email">University Email *</label>
-                            <input type="email" id="email" name="email" placeholder="your.email@university.edu" required>
+                            <input type="email" id="email" name="email" placeholder="your.email@university.edu" th:field="*{email}" required>
                             <div class="help">Use your official university email address for verification</div>
                         </div>
                         
                         <div class="field full">
                             <label for="university">University *</label>
                             <select id="university" name="university" required>
-                                <option value="">Select your university</option>
-                                <option value="NEW_BULGARIAN_UNIVERSITY">New Bulgarian University</option>
-                                <option value="MEDICAL_UNIVERSITY_OF_SOFIA">Medical University of Sofia</option>
-                                <option value="SOFIA_UNIVERSITY_ST_KLIMENT_OHRIDSKI">Sofia University St. Kliment Ohridski</option>
-                                <option value="TECHNICAL_UNIVERSITY_OF_SOFIA">Technical University of Sofia</option>
-                                <option value="UNIVERSITY_OF_NATIONAL_AND_WORLD_ECONOMY">University of National and World Economy</option>
-                                <option value="UNIVERSITY_OF_ARCHITECTURE_CIVIL_ENG_AND_GEODESY">University of Architecture, Civil Engineering and Geodesy</option>
+                                <option th:each="university : ${universityList}"
+                                        th:value="${university}"
+                                        th:text="${university.getDisplayName()}" >
+                                </option>
                             </select>
                         </div>
                         
                         <div class="field full">
                             <label for="password">Password *</label>
-                            <input type="password" id="password" name="password" required>
+                            <input type="password" id="password" name="password" th:field="*{password}" required>
                             <div class="password-requirements">
                                 <h4>Password must contain:</h4>
                                 <ul>
@@ -277,15 +277,6 @@
                     'nbu.bg', 'mu-sofia.bg', 'uni-sofia.bg', 'tu-sofia.bg', 
                     'unwe.bg', 'uacg.bg', 'student.nbu.bg'
                 ];
-                
-                if (value && !validDomains.some(domain => value.endsWith('@' + domain))) {
-                    this.style.borderColor = '#ffc107';
-                    this.insertAdjacentHTML('afterend', '<div class="warning" style="font-size: 12px; color: #856404; margin-top: 4px;">Please use your official university email address</div>');
-                } else {
-                    this.style.borderColor = '#28a745';
-                    const warning = this.parentNode.querySelector('.warning');
-                    if (warning) warning.remove();
-                }
             });
             
             // Form submission handling

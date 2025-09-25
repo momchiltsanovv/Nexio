@@ -1,6 +1,7 @@
 package com.app.nexio.user.service;
 
 import com.app.nexio.user.dto.EditRequest;
+import com.app.nexio.user.dto.LoginRequest;
 import com.app.nexio.user.dto.RegisterRequest;
 import com.app.nexio.user.model.User;
 import com.app.nexio.user.property.UserProperties;
@@ -25,4 +26,6 @@ public interface UserService {
     List<User> getAll();
 
     User getByUsername(String username);
+
+    User login(LoginRequest loginRequest);
 }

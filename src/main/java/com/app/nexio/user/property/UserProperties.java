@@ -21,12 +21,6 @@ public class UserProperties {
 
         private UserRole userRole;
         private boolean activeByDefault;
-        private String firstName;
-        private String lastName;
-        private String email;
-        private University university;
-        private String username;
-        private String password;
     }
 
 }

@@ -1,36 +1,38 @@
 package com.app.nexio.user.dto;
 
 import com.app.nexio.user.model.University;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
-import lombok.Builder;
+import jakarta.validation.constraints.*;
+import lombok.*;
 
 @Builder
-public record RegisterRequest(
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class RegisterRequest {
+
         @NotBlank(message = "First name is required")
-        String firstName,
+        private String firstName;
 
         @NotBlank(message = "Last name is required")
-        String lastName,
+        private String lastName;
 
         @NotBlank(message = "Username is required")
         @Size(min = 3, message = "Username must be at least 3 characters")
-        String username,
+        private String username;
 
         @Email(message = "Please provide a valid email address")
         @NotBlank(message = "Email is required")
-        String email,
+        private String email;
 
-        @NotBlank
-        University university,
+        @NotNull(message = "University is required")
+        private University university;
 
         @NotBlank(message = "Password is required")
         @Pattern(
                 regexp = "^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>/?])(?=.*[a-zA-Z]).{8,}$",
                 message = "Password must contain at least 1 uppercase letter, 1 digit, 1 special character, and be at least 8 characters long"
         )
-        String password
-) {
+        private String password;
+
 }

@@ -48,14 +48,15 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         this.wishlistService = wishlistService;
     }
 
+    @Override
     public User login(LoginRequest loginRequest) {
-        Optional<User> optionalUser = userRepository.findByUsernameOrEmail(loginRequest.usernameOrEmail());
+        Optional<User> optionalUser = userRepository.findByUsernameOrEmail(loginRequest.getUsernameOrEmail());
 
         if (optionalUser.isEmpty()) {
             throw new IncorrectUsernameOrPasswordException(INVALID_USERNAME_OR_PASSWORD);
         }
 
-        String rawPassword = loginRequest.password();
+        String rawPassword = loginRequest.getPassword();
         String hashedPassword = optionalUser.get().getPassword();
 
         if (!passwordEncoder.matches(rawPassword, hashedPassword)) {
@@ -71,10 +72,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     @Transactional
     public User register(RegisterRequest registerRequest) {
-        Optional<User> optionalUser = userRepository.findByUsername(registerRequest.username());
+        Optional<User> optionalUser = userRepository.findByUsername(registerRequest.getUsername());
 
         if (optionalUser.isPresent()) {
-            throw new UsernameTakenException(USERNAME_ALREADY_TAKEN.formatted(registerRequest.username()));
+            throw new UsernameTakenException(USERNAME_ALREADY_TAKEN.formatted(registerRequest.getUsername()));
         }
 
         User user = userRepository.save(initializeUserFromRequest(registerRequest));
@@ -88,19 +89,19 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     private User initializeUserFromRequest(RegisterRequest registerRequest) {
         return User.builder()
-                   .username(registerRequest.username())
-                   .firstName(registerRequest.firstName())
-                   .lastName(registerRequest.lastName())
+                   .username(registerRequest.getUsername())
+                   .firstName(registerRequest.getFirstName())
+                   .lastName(registerRequest.getLastName())
                    .role(userProperties.getDefaultUser().getUserRole())//TODO fix with new config
                    .activeAccount(userProperties.getDefaultUser().isActiveByDefault())
-                   .university(registerRequest.university())
-                   .email(registerRequest.email())
+                   .university(registerRequest.getUniversity())
+                   .email(registerRequest.getEmail())
                    .password(getEncodedPassword(registerRequest))
                    .build();
     }
 
     private String getEncodedPassword(RegisterRequest registerRequest) {
-        return passwordEncoder.encode(registerRequest.password());
+        return passwordEncoder.encode(registerRequest.getPassword());
     }
 
 

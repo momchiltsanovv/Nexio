@@ -47,8 +47,7 @@ public class UserController {
     @GetMapping("/profile")
     public String getMyProfile(Model model) {
 
-        User user = userService.getByUsername(userProperties.getDefaultUser().getUsername());
-        model.addAttribute(user);
+//        model.addAttribute(user);
 
         return "profile";
     }
