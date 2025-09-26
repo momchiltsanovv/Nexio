@@ -25,8 +25,8 @@ spring:
 # User properties
 users:
   defaultUser:
-    user-role: USER
-    active-by-default: true
+    userRole: USER
+    activeByDefault: true
 
 # Logging Levels
 logging:

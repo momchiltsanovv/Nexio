@@ -26,10 +26,7 @@ public class HomeController {
         return "info";
     }
 
-    @GetMapping("/register")
-    public String getRegisterPageAlias() {
-        return "redirect:/auth/register";
-    }
+
 
 
 

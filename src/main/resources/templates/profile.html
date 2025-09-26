@@ -69,15 +69,15 @@
 <div class="profile-wrapper">
     <div class="profile-grid">
         <!-- Left column: user card -->
-        <div class="card">
+        <div class="card" th:object="${user}">
             <div class="card-body">
                 <div class="user-header">
-                    <img class="avatar" th:src="${user.profilePictureURL} != null ? ${user.profilePictureURL} : '/images/defaults/default_pfp.jpg'" alt="avatar" loading="eager">
+                    <img class="avatar" th:src="*{profilePictureURL} != null ? *{profilePictureURL} : '/images/defaults/default_pfp.jpg'" alt="avatar" loading="eager">
                     <div>
-                        <div class="name" th:text="|${user.firstName} ${user.lastName}|"></div>
-                        <div class="username" th:text=" '@' + ${user.username}"></div>
+                        <div class="name" th:text="|*{firstName} *{lastName}|"></div>
+                        <div class="username" th:text=" '@' + *{username}"></div>
                         <div class="meta">
-                            <span class="badge" th:text="${user.university.getDisplayName()}"></span>
+                            <span class="badge" th:text="*{university.getDisplayName()}"></span>
                         </div>
                     </div>
                 </div>
@@ -96,17 +96,17 @@
                 <div class="section" style="margin-top:18px;">
                     <div class="section-title">About</div>
                     <div class="info-list" th:if="${user != null}">
-                        <div class="info-row" th:if="${user.major} != null">
+                        <div class="info-row" th:if="*{major} != null">
                             <i class="fas fa-graduation-cap"></i>
-                            <span th:text="${user.major}"></span>
+                            <span th:text="*{major}"></span>
                         </div>
-                        <div class="info-row" th:if="${user.graduationYear} != null">
+                        <div class="info-row" th:if="*{graduationYear} != null">
                             <i class="fas fa-calendar"></i>
-                            <span>Graduation: <span th:text="${user.graduationYear}"></span></span>
+                            <span>Graduation: <span th:text="*{graduationYear}"></span></span>
                         </div>
-                        <div class="info-row" th:if="${user.email} != null">
+                        <div class="info-row" th:if="*{email} != null">
                             <i class="fas fa-envelope"></i>
-                            <span th:text="${user.email}"></span>
+                            <span th:text="*{email}"></span>
                         </div>
                     </div>
                     <div class="info-list" th:if="${user} == null">
@@ -119,8 +119,8 @@
                 <div class="section" style="margin-top:18px;">
                     <div class="section-title">Social</div>
                     <div class="social">
-                        <a th:if="${user.instagramURL} != null" th:href="${user.instagramURL}" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                        <a th:if="${user.linkedinURL} != null" th:href="${user.linkedinURL}" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                        <a th:if="*{instagramURL} != null" th:href="*{instagramURL}" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a th:if="*{linkedinURL} != null" th:href="*{linkedinURL}" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
                     </div>
                     <div class="social" th:if="${user} == null">
                         <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>

@@ -18,10 +18,10 @@ public class RegisterRequest {
         private String lastName;
 
         @NotBlank(message = "Username is required")
-        @Size(min = 3, message = "Username must be at least 3 characters")
+        @Size(min = 3, max = 20, message = "Username must be between 3 and 20 characters")
         private String username;
 
-        @Email(message = "Please provide a valid email address")
+        @Email(message = "Please enter a valid email address")
         @NotBlank(message = "Email is required")
         private String email;
 
@@ -29,8 +29,7 @@ public class RegisterRequest {
         private University university;
 
         @NotBlank(message = "Password is required")
-        @Pattern(
-                regexp = "^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>/?])(?=.*[a-zA-Z]).{8,}$",
+        @Pattern(regexp = "^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>/?])(?=.*[a-zA-Z]).{8,}$",
                 message = "Password must contain at least 1 uppercase letter, 1 digit, 1 special character, and be at least 8 characters long"
         )
         private String password;

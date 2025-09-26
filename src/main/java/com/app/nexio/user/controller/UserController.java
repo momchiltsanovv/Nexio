@@ -1,5 +1,7 @@
 package com.app.nexio.user.controller;
 
+import com.app.nexio.item.model.Item;
+import com.app.nexio.item.service.ItemService;
 import com.app.nexio.user.model.User;
 import com.app.nexio.user.property.UserProperties;
 import com.app.nexio.user.service.UserService;
@@ -19,11 +21,13 @@ public class UserController {
 
     private final UserService userService;
     private final UserProperties userProperties;
+    private final ItemService itemService;
 
     @Autowired
-    public UserController(UserService userService, UserProperties userProperties) {
+    public UserController(UserService userService, UserProperties userProperties, ItemService itemService) {
         this.userService = userService;
         this.userProperties = userProperties;
+        this.itemService = itemService;
     }
 
 
@@ -38,16 +42,21 @@ public class UserController {
     @GetMapping("/{id}")// see another users profile
     public String getUserProfilePage(@PathVariable UUID id,
                                      Model model) {
+
         User user = userService.getById(id);
+        List<Item> usersItems = itemService.getUsersItems(user);
         model.addAttribute("user", user);
+        model.addAttribute("items", usersItems);
 
         return "user-profile-view";
     }
 
+
     @GetMapping("/profile")
     public String getMyProfile(Model model) {
 
-//        model.addAttribute(user);
+        User user = userService.getByUsername("momo2");
+        model.addAttribute(user);
 
         return "profile";
     }

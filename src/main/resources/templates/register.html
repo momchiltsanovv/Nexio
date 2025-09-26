@@ -20,6 +20,69 @@
         .brand-features { display: flex; flex-direction: column; gap: 20px; }
         .brand-feature { display: flex; align-items: center; gap: 12px; }
         .brand-feature i { width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; background: rgba(255, 255, 255, 0.2); border-radius: 50%; }
+        .alert-warning {color: #dc3545; font-size: 12px; margin-top: 4px; margin-left: 8px; display: block;}
+        
+        /* Button visual effects */
+        .btn-primary {
+            transition: all 0.3s ease;
+            position: relative;
+            background: linear-gradient(135deg, #212346 0%, #CE3A81 100%);
+            border: 2px solid transparent;
+            overflow: hidden;
+        }
+        
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, #CE3A81 0%, #212346 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .btn-primary:hover::before {
+            opacity: 1;
+        }
+        
+        .btn-primary span {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .btn-primary:active {
+            transform: scale(0.95);
+        }
+        
+        /* Sign in link effect */
+        .form-footer a {
+            background: linear-gradient(135deg, #212346 0%, #CE3A81 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .form-footer a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(135deg, #212346 0%, #CE3A81 100%);
+            transition: width 0.3s ease;
+        }
+        
+        .form-footer a:hover::after {
+            width: 100%;
+        }
+        
         
         .brand-stats { display: flex; flex-direction: column; gap: 16px; margin-top: 30px; }
         .stat-item { display: flex; align-items: center; gap: 12px; }
@@ -161,32 +224,34 @@
                         <div class="field">
                             <label for="firstName">First Name *</label>
                             <input type="text" id="firstName" name="firstName" th:field="*{firstName}" required>
+                            <p class="alert-warning" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></p>
 
                         </div>
                         
                         <div class="field">
                             <label for="lastName">Last Name *</label>
                             <input type="text" id="lastName" name="lastName" th:field="*{lastName}" required>
+                            <p class="alert-warning" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></p>
+
                         </div>
                         
                         <div class="field full">
                             <label for="username">Username *</label>
                             <input type="text" id="username" name="username" placeholder="Choose a unique username" th:field="*{username}" required>
                             <p class="alert-warning" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></p>
-
-                            <div class="help">Minimum 3 characters. This will be your public display name.</div>
                         </div>
                         
                         <div class="field full">
                             <label for="email">University Email *</label>
                             <input type="email" id="email" name="email" placeholder="your.email@university.edu" th:field="*{email}" required>
-                            <div class="help">Use your official university email address for verification</div>
+                            <p class="alert-warning" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
+
                         </div>
                         
                         <div class="field full">
                             <label for="university">University *</label>
-                            <select id="university" name="university" required>
-                                <option th:each="university : ${universityList}"
+                            <select id="university" name="university" th:field="*{university}" required>
+                                <option th:each="university : ${T(com.app.nexio.user.model.University).values()}"
                                         th:value="${university}"
                                         th:text="${university.getDisplayName()}" >
                                 </option>
@@ -196,6 +261,7 @@
                         <div class="field full">
                             <label for="password">Password *</label>
                             <input type="password" id="password" name="password" th:field="*{password}" required>
+                            <p class="alert-warning" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
                             <div class="password-requirements">
                                 <h4>Password must contain:</h4>
                                 <ul>
@@ -355,6 +421,162 @@
                 window.location.href = githubAuthUrl;
                 */
             });
+        });
+    </script>
+    
+    <!-- Enhanced client-side validation -->
+    <script>
+        // Enhanced client-side validation for registration form
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.querySelector('form');
+            const inputs = form.querySelectorAll('input[required]');
+            
+            // Real-time validation for each input
+            inputs.forEach(input => {
+                // Validate on blur (when user leaves the field)
+                input.addEventListener('blur', function() {
+                    validateField(this);
+                });
+                
+                // Clear errors on input (when user starts typing)
+                input.addEventListener('input', function() {
+                    clearFieldError(this);
+                });
+            });
+            
+            // Enhanced form submission validation
+            form.addEventListener('submit', function(e) {
+                let isValid = true;
+                
+                inputs.forEach(input => {
+                    if (!validateField(input)) {
+                        isValid = false;
+                    }
+                });
+                
+                if (!isValid) {
+                    e.preventDefault();
+                    showFormError('Please fix the errors above before submitting.');
+                }
+            });
+            
+            function validateField(field) {
+                const value = field.value.trim();
+                const fieldName = field.name;
+                let isValid = true;
+                let errorMessage = '';
+                
+                // Clear previous errors
+                clearFieldError(field);
+                
+                // Required field validation
+                if (!value) {
+                    errorMessage = getRequiredMessage(fieldName);
+                    isValid = false;
+                } else {
+                    // Field-specific validation
+                    switch (fieldName) {
+                        case 'firstName':
+                        case 'lastName':
+                            if (value.length > 50) {
+                                errorMessage = 'Name cannot exceed 50 characters';
+                                isValid = false;
+                            }
+                            break;
+                            
+                        case 'username':
+                            if (value.length < 3 || value.length > 20) {
+                                errorMessage = 'Username must be between 3 and 20 characters';
+                                isValid = false;
+                            } else if (!/^[a-zA-Z0-9_]+$/.test(value)) {
+                                errorMessage = 'Username can only contain letters, numbers, and underscores';
+                                isValid = false;
+                            }
+                            break;
+                            
+                        case 'email':
+                            if (!isValidEmail(value)) {
+                                errorMessage = 'Please enter a valid email address';
+                                isValid = false;
+                            }
+                            break;
+                            
+                        case 'password':
+                            if (!isValidPassword(value)) {
+                                errorMessage = 'Please create a password that meets the requirements';
+                                isValid = false;
+                            }
+                            break;
+                    }
+                }
+                
+                if (!isValid) {
+                    showFieldError(field, errorMessage);
+                }
+                
+                return isValid;
+            }
+            
+            function showFieldError(field, message) {
+                // Create or update error message (no red border on input)
+                let errorElement = field.parentNode.querySelector('.field-error');
+                if (!errorElement) {
+                    errorElement = document.createElement('div');
+                    errorElement.className = 'field-error alert-warning';
+                    field.parentNode.appendChild(errorElement);
+                }
+                errorElement.textContent = message;
+                errorElement.style.display = 'block';
+            }
+            
+            function clearFieldError(field) {
+                const errorElement = field.parentNode.querySelector('.field-error');
+                if (errorElement) {
+                    errorElement.style.display = 'none';
+                }
+            }
+            
+            function showFormError(message) {
+                // Remove existing form error
+                const existingError = document.querySelector('.form-error');
+                if (existingError) {
+                    existingError.remove();
+                }
+                
+                // Create new form error
+                const errorElement = document.createElement('div');
+                errorElement.className = 'form-error alert-warning';
+                errorElement.textContent = message;
+                errorElement.style.marginBottom = '20px';
+                
+                // Insert at the top of the form
+                form.insertBefore(errorElement, form.firstChild);
+                
+                // Scroll to top of form
+                form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+            
+            function getRequiredMessage(fieldName) {
+                const messages = {
+                    'firstName': 'Please enter your first name',
+                    'lastName': 'Please enter your last name',
+                    'username': 'Please choose a username',
+                    'email': 'Please enter your email address',
+                    'password': 'Please create a password'
+                };
+                return messages[fieldName] || 'This field is required';
+            }
+            
+            function isValidEmail(email) {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return emailRegex.test(email);
+            }
+            
+            function isValidPassword(password) {
+                // At least 8 characters, 1 uppercase, 1 digit, 1 special character
+                const passwordRegex = /^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>/?])(?=.*[a-zA-Z]).{8,}$/;
+                return passwordRegex.test(password);
+            }
         });
     </script>
 </body>

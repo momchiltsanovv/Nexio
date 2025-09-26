@@ -10,12 +10,12 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class LoginRequest {
-    @NotBlank(message = "Username is required")
+    @NotBlank(message = "Invalid Username or Password")
     String usernameOrEmail;
 
     @Pattern(
             regexp = "^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>/?])(?=.*[a-zA-Z]).{8,}$",
-            message = "Password must contain at least 1 uppercase letter, 1 digit, 1 special character, and be at least 8 characters long"
+            message = "Invalid Username or Password"
     )
     String password;
 }

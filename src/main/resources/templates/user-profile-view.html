@@ -9,7 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <th:block th:replace="fragments/background :: background-styles"></th:block>
     <style>
-        .profile-view-wrapper { max-width: 1200px; margin: 100px auto 40px; padding: 0 20px; }
+        .profile-view-wrapper { max-width: 1100px; margin: 100px auto 40px; padding: 0 20px; }
         
         .profile-container { display: grid; grid-template-columns: 350px 1fr; gap: 30px; }
         
@@ -17,7 +17,7 @@
         .user-sidebar { display: flex; flex-direction: column; gap: 20px; }
         
         .user-card { background: #f8f9fa; border-radius: 12px; padding: 24px; box-shadow: 0 2px 10px rgba(0,0,0,.05); text-align: center; }
-        .user-avatar { width: 120px; height: 120px; border-radius: 50%; object-fit: cover; margin: 0 auto 16px; background: #f0f2f8; border: 4px solid white; box-shadow: 0 4px 12px rgba(0,0,0,.1); }
+        .user-avatar { width: 84px; height: 84px; border-radius: 50%; object-fit: cover; margin: 0 auto 16px; background: #f0f2f8; flex-shrink: 0; }
         .user-name { font-size: 24px; font-weight: 700; color: #1a1a1a; margin: 0 0 8px; }
         .user-username { color: #212346; font-weight: 600; font-size: 16px; margin: 0 0 12px; }
         .user-university { color: #666; font-size: 14px; margin: 0 0 16px; }
@@ -26,7 +26,7 @@
         .user-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
         .stat-item { text-align: center; padding: 12px; background: #f8f9fa; border-radius: 8px; }
         .stat-number { font-size: 20px; font-weight: 700; color: #B53678; margin: 0 0 4px; }
-        .stat-label { font-size: 12px; color: white; margin: 0; }
+        .stat-label { font-size: 13px; color: #212346; margin: 0; }
         
         .user-actions { display: flex; flex-direction: column; gap: 8px; }
         .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 10px 16px; border-radius: 8px; border: none; font-size: 14px; font-weight: 500; cursor: pointer; text-decoration: none; transition: all 0.3s ease; }
@@ -80,6 +80,15 @@
         
         .member-since { color: #999; font-size: 12px; margin: 8px 0 0; }
         
+        /* Fix navbar avatar size and position to match profile page */
+        .navbar .nav-user-actions .user-avatar {
+            width: 32px !important;
+            height: 32px !important;
+            vertical-align: middle !important;
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+        
         @media (max-width: 768px) {
             .profile-container { grid-template-columns: 1fr; }
             .user-sidebar { order: -1; }
@@ -99,32 +108,26 @@
             Back to Browse
         </a>
         
-        <div class="profile-container">
+        <div class="profile-container" th:object="${user}">
             <!-- Left side - User Info -->
             <div class="user-sidebar">
                 <!-- User Card -->
-                <div class="user-card">
-                    <img th:src="${user.profilePictureURL}" 
-                         th:alt="${user.username}" 
-                         class="user-avatar"
-                         th:onerror="this.src='https://via.placeholder.com/120x120/667eea/ffffff?text=' + ${user.username?.substring(0,1)}">
-                    <h1 class="user-name" th:text="${user.firstName} + ' ' + ${user.lastName}">User Name</h1>
-                    <div class="user-username" th:text="'@' + ${user.username}">@username</div>
-                    <div class="user-university" th:text="${user.university}">University Name</div>
-                    <span class="user-role" th:text="${user.role}">STUDENT</span>
-                    
+                <div class="user-card" >
+                    <img th:src="*{profilePictureURL} != null ? *{profilePictureURL} : '/images/defaults/default_pfp.jpg'"
+                         th:alt="*{username}"
+                         class="user-avatar">
+                    <h1 class="user-name" th:text="|*{firstName} *{lastName}|">User Name</h1>
+                    <div class="user-username" th:text="'@' + *{username}">@username</div>
+                    <div class="user-university" th:text="*{university.getDisplayName()}">University Name</div>
+
                     <div class="user-stats">
                         <div class="stat-item">
-                            <div class="stat-number">12</div>
+                            <div class="stat-number" th:text="${items.size()}" >12</div>
                             <div class="stat-label">Items Listed</div>
                         </div>
                         <div class="stat-item">
                             <div class="stat-number">4.8</div>
                             <div class="stat-label">Rating</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-number">23</div>
-                            <div class="stat-label">Items Sold</div>
                         </div>
                     </div>
                     
@@ -135,40 +138,40 @@
                         </button>
                     </div>
                     
-                    <div class="member-since" th:text="'Member since ' + ${#temporals.format(user.createdOn, 'MMM yyyy')}">Member since Jan 2024</div>
+                    <div class="member-since" th:text="'Member since ' + *{#temporals.format(createdOn, 'MMM yyyy')}">Member since Jan 2024</div>
                 </div>
                 
                 <!-- User Information -->
                 <div class="user-info">
                     <h3 class="info-title">About</h3>
                     <div class="info-list">
-                        <div class="info-item" th:if="${user.major != null}">
+                        <div class="info-item" th:if="*{major != null}">
                             <i class="fas fa-graduation-cap info-icon"></i>
-                            <span class="info-text" th:text="${user.major}">Computer Science</span>
+                            <span class="info-text" th:text="*{major}">Computer Science</span>
                         </div>
-                        <div class="info-item" th:if="${user.graduationYear != null}">
+                        <div class="info-item" th:if="*{graduationYear != null}">
                             <i class="fas fa-calendar info-icon"></i>
-                            <span class="info-text" th:text="'Graduating ' + ${user.graduationYear}">Graduating 2026</span>
+                            <span class="info-text" th:text="'Graduating ' + *{graduationYear}">Graduating 2026</span>
                         </div>
                         <div class="info-item">
                             <i class="fas fa-envelope info-icon"></i>
-                            <span class="info-text" th:text="${user.email}">user@university.edu</span>
+                            <span class="info-text" th:text="*{email}">user@university.edu</span>
                         </div>
                         <div class="info-item">
                             <i class="fas fa-university info-icon"></i>
-                            <span class="info-text" th:text="${user.university}">University Name</span>
+                            <span class="info-text" th:text="*{university.getDisplayName()}">University Name</span>
                         </div>
                     </div>
                 </div>
                 
                 <!-- Social Links -->
-                <div class="social-links" th:if="${user.instagramURL != null or user.linkedinURL != null}">
+                    <div class="social-links" th:if="*{instagramURL != null or linkedinURL != null}">
                     <h3 class="social-title">Connect</h3>
                     <div class="social-list">
-                        <a th:if="${user.instagramURL != null}" th:href="${user.instagramURL}" target="_blank" class="social-link" title="Instagram">
+                        <a th:if="*{instagramURL != null}" th:href="*{instagramURL}" target="_blank" class="social-link" title="Instagram">
                             <i class="fab fa-instagram"></i>
                         </a>
-                        <a th:if="${user.linkedinURL != null}" th:href="${user.linkedinURL}" target="_blank" class="social-link" title="LinkedIn">
+                        <a th:if="*{linkedinURL != null}" th:href="*{linkedinURL}" target="_blank" class="social-link" title="LinkedIn">
                             <i class="fab fa-linkedin"></i>
                         </a>
                     </div>
@@ -179,7 +182,7 @@
             <div class="user-content">
                 <div class="content-header">
                     <div>
-                        <h2 class="content-title" th:text="${user.username} + '''s Items'">User's Items</h2>
+                        <h2 class="content-title" th:text="|*{username}'s Items|">User's Items</h2>
                         <p class="content-subtitle">Items listed by this user</p>
                     </div>
                 </div>
@@ -187,23 +190,23 @@
                 <!-- Items Grid -->
                 <div class="items-grid">
                     <!-- Sample items - in real app, these would come from the backend -->
-                    <div class="item-card" th:each="item : ${user.items}" th:if="${user.items != null and !user.items.isEmpty()}">
-                        <img th:src="${item.imageURLs != null and !item.imageURLs.isEmpty() ? item.imageURLs[0] : 'https://via.placeholder.com/280x200/667eea/ffffff?text=No+Image'}" 
-                             th:alt="${item.name}" 
+                    <div class="item-card" >
+                        <img src="https://via.placeholder.com/280x200/667eea/ffffff?text=No+Image"
+
                              class="item-image">
                         <div class="item-content">
-                            <h3 class="item-title" th:text="${item.name}">Item Name</h3>
-                            <div class="item-price" th:text="'$' + ${#numbers.formatDecimal(item.price, 1, 2)}">$0.00</div>
+                            <h3 class="item-title" >Item Name</h3>
+                            <div class="item-price">$0.00</div>
                             <div class="item-meta">
-                                <span class="meta-badge category" th:text="${item.category}">Category</span>
-                                <span class="meta-badge condition" th:text="${item.condition}">Condition</span>
+                                <span class="meta-badge category">Category</span>
+                                <span class="meta-badge condition">Condition</span>
                             </div>
-                            <p class="item-description" th:text="${#strings.abbreviate(item.description, 100)}">Item description...</p>
+                            <p class="item-description">Item description...</p>
                         </div>
                     </div>
                     
                     <!-- Empty state when no items -->
-                    <div class="empty-state" th:if="${user.items == null or user.items.isEmpty()}">
+                    <div class="empty-state">
                         <div class="empty-icon">
                             <i class="fas fa-box"></i>
                         </div>

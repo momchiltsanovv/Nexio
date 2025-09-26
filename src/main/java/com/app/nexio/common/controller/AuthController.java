@@ -27,7 +27,6 @@ public class AuthController {
     public String getRegisterPage(Model model) {
 
         model.addAttribute("registerRequest", new RegisterRequest());
-        model.addAttribute("universityList", University.values());
         return "register";
     }
 

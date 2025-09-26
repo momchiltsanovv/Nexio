@@ -996,23 +996,23 @@ body {
 }
 
 .condition-badge.new {
-    background: #2ecc71;
-    color: white;
+    background: #e9f6eb;
+    color: #2e7d32;
 }
 
 .condition-badge.like-new {
-    background: #27ae60;
-    color: white;
+    background: #e9f6eb;
+    color: #2e7d32;
 }
 
 .condition-badge.good {
-    background: #f39c12;
-    color: white;
+    background: #e9f6eb;
+    color: #2e7d32;
 }
 
 .condition-badge.fair {
-    background: #e67e22;
-    color: white;
+    background: #e9f6eb;
+    color: #2e7d32;
 }
 
 .featured-badge {
@@ -1061,12 +1061,15 @@ body {
 }
 
 .item-category {
-    display: flex;
+    display: inline-flex;
     align-items: center;
     gap: 6px;
-    color: #212346;
-    font-size: 12px;
-    font-weight: 500;
+    padding: 4px 8px;
+    background: #eef0ff;
+    color: #5a6fd8;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
