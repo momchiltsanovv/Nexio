@@ -65,13 +65,13 @@ public class ItemServiceImpl implements ItemService {
 
     private Item initializeItemFromRequest(PostItemRequest postItemRequest) {
         return Item.builder()
-                   .name(postItemRequest.name())
-                   .price(postItemRequest.price())
-                   .condition(postItemRequest.condition())
-                   .description(postItemRequest.description())
-                   .category(postItemRequest.category())
-                   .location(postItemRequest.location())
-                   .imageURLs(postItemRequest.imageURLs())
+                   .name(postItemRequest.getName())
+                   .price(postItemRequest.getPrice())
+                   .condition(postItemRequest.getCondition())
+                   .description(postItemRequest.getDescription())
+                   .category(postItemRequest.getCategory())
+                   .location(postItemRequest.getLocation())
+                   .imageURLs(postItemRequest.getImageURLs())
                    .build();
 
     }

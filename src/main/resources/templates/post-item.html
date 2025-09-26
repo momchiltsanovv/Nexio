@@ -41,31 +41,27 @@
     <th:block th:replace="fragments/navbar :: navbar('post')"></th:block>
     
     <div class="post-wrapper">
-        <div class="post-card">
+        <div class="post-card" >
             <div class="post-header">
                 <i class="fas fa-plus-circle" style="color:#212346"></i>
                 <h1>Post a new item</h1>
             </div>
-            <form action="/items" method="post">
+            <form th:action="@{/items/post}" th:method="post" th:object="${postItemRequest}">
                 <div class="post-body">
                     <div class="left">
                         <div class="form-grid">
                             <div class="field full">
                                 <label for="name">Title</label>
-                                <input id="name" name="name" type="text" placeholder="e.g., MacBook Pro 13 M1" required>
+                                <input id="name" name="name" type="text" placeholder="e.g., MacBook Pro 13 M1" th:field="*{name}" required>
                             </div>
 
                             <div class="field">
                                 <label for="category">Category</label>
                                 <select id="category" name="category" required>
-                                    <option value="">Select category</option>
-                                    <option value="TEXTBOOKS">Textbooks</option>
-                                    <option value="ELECTRONICS">Electronics</option>
-                                    <option value="FURNITURE">Furniture</option>
-                                    <option value="CLOTHING">Clothing</option>
-                                    <option value="SPORTS">Sports</option>
-                                    <option value="ACCESSORIES">Accessories</option>
-                                    <option value="SERVICES">Services</option>
+                                    <option th:each="category : ${T(com.app.nexio.item.model.Category).values()}"
+                                            th:value="${category}"
+                                    th:text="${category.getDisplayName()}">
+                                    </option>
                                 </select>
                             </div>
 
@@ -73,12 +69,9 @@
                                 <label for="condition">Condition</label>
                                 <select id="condition" name="condition" required>
                                     <option value="">Select condition</option>
-                                    <option value="NEW">New</option>
-                                    <option value="LIKE_NEW">Like New</option>
-                                    <option value="GOOD">Good</option>
-                                    <option value="FAIR">Fair</option>
-                                    <option value="POOR">Poor</option>
-                                    <option value="REFURBISHED">Refurbished</option>
+                                    <option th:each="condition : ${T(com.app.nexio.item.model.ItemCondition).values()}"
+                                            th:value="${condition}"
+                                            th:text="${condition.getDisplayName()}">
                                 </select>
                             </div>
 
@@ -86,20 +79,21 @@
                                 <label for="location">Location</label>
                                 <select id="location" name="location" required>
                                     <option value="">Select location</option>
-                                    <option value="CAMPUS">Campus</option>
-                                    <option value="NEARBY">Nearby</option>
-                                    <option value="SHIPPING">Shipping</option>
+                                    <option th:each=" location : ${T(com.app.nexio.item.model.Location).values()}"
+                                            th:value="${location}"
+                                            th:text="${location.getDisplayName()}">
+
                                 </select>
                             </div>
 
                             <div class="field">
                                 <label for="price">Price (лв)</label>
-                                <input id="price" name="price" type="number" min="0" step="0.01" placeholder="0.00" required>
+                                <input id="price" name="price" type="number" min="0" step="0.01" placeholder="0.00" th:field="*{price}" required>
                             </div>
 
                             <div class="field full">
                                 <label for="description">Description</label>
-                                <textarea id="description" name="description" placeholder="Describe the item, condition, and any details buyers should know." required></textarea>
+                                <textarea id="description" name="description" placeholder="Describe the item, condition, and any details buyers should know." th:field="*{description}" required></textarea>
                                 <div class="help">Min 10 characters. No personal contact details.</div>
                             </div>
 

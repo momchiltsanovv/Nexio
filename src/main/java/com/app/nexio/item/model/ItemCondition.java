@@ -1,11 +1,20 @@
 package com.app.nexio.item.model;
 
-public enum ItemCondition {
-    NEW,
-    LIKE_NEW,
-    GOOD,
-    FAIR,
-    POOR,
-    REFURBISHED
-}
+import lombok.Getter;
 
+@Getter
+public enum ItemCondition {
+    NEW("New"),
+    LIKE_NEW("Like New"),
+    GOOD("Good"),
+    FAIR("Fair"),
+    POOR("Poor"),
+    REFURBISHED("Refurbished");
+
+    private final String displayName;
+
+    ItemCondition(String displayName) {
+        this.displayName = displayName;
+    }
+
+}

@@ -1,11 +1,14 @@
 package com.app.nexio.item.controller;
 
 
+import com.app.nexio.item.dto.PostItemRequest;
 import com.app.nexio.item.model.Item;
 import com.app.nexio.item.service.ItemService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -44,9 +47,22 @@ public class ItemController {
     }
 
     @GetMapping("/post") // get post item form
-    public String getPostItemPage() {
+    public String getPostItemPage(Model model) {
+
+        model.addAttribute("postItemRequest", new PostItemRequest());
 
         return "post-item";
+    }
+
+    @PostMapping("/post") // get post item form
+    public String postItem(@Valid PostItemRequest postItemRequest, BindingResult bindingResult) {
+
+        if(bindingResult.hasErrors()) {
+            return "home";
+        }
+        itemService.postItem(postItemRequest);
+
+        return "home";
     }
 
     @DeleteMapping("/{id}/delete") //Delete item
