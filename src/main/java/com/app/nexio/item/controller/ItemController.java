@@ -37,6 +37,8 @@ public class ItemController {
     @GetMapping("/{id}/edit") // get edit item form
     public String getEditItemPage(@PathVariable UUID id) {
 
+        Item item = itemService.getById(id);
+
         return "edit-item";
     }
 
