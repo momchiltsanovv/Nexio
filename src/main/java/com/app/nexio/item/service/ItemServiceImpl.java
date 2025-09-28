@@ -21,10 +21,10 @@ public class ItemServiceImpl implements ItemService {
         this.itemRepository = itemRepository;
     }
 
-    @Override // will get user from security context -> no need for second parameter User
+    @Override // will get user from state context -> no need for second parameter User
     public void postItem(PostItemRequest postItemRequest) {
         Item item = initializeItemFromRequest(postItemRequest);
-        //        item.setOwner(); //TODO get user from security ?
+        //        item.setOwner(); //TODO get user from state ?
 
 
         itemRepository.save(item);

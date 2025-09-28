@@ -33,7 +33,7 @@ public class PostItemRequest {
         @NotNull(message = "Category is required")
         Category category;
 
-        @NotBlank(message = "Location is required")
+        @NotNull(message = "Location is required")
         Location location;
 
         @Size(max = 5, message = "Maximum 5 images allowed")

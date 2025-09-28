@@ -44,7 +44,8 @@ public class Item {
     @Column(nullable = false)
     private Category category;
 
-    @Column()
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private Location location;
 
     @ElementCollection
