@@ -42,7 +42,7 @@
     <th:block th:replace="fragments/background :: background-elements"></th:block>
     
     <!-- Navigation -->
-    <th:block th:replace="fragments/navbar :: navbar('post')"></th:block>
+    <th:block th:replace="fragments/navbar :: navbar(${active})"></th:block>
     
     <div class="post-wrapper">
         <div class="post-card" >

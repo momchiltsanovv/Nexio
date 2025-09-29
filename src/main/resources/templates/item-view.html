@@ -80,7 +80,7 @@
 <body>
     <th:block th:replace="fragments/background :: background-elements"></th:block>
     
-    <div th:replace="fragments/navbar :: navbar('home')"></div>
+    <div th:replace="fragments/navbar :: navbar(${active})"></div>
 
     <div class="item-view-wrapper">
         <a href="/home" class="back-link">

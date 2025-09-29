@@ -473,7 +473,7 @@
 <body>
     <th:block th:replace="fragments/background :: background-elements"></th:block>
     <!-- Navigation -->
-    <th:block th:replace="fragments/navbar :: navbar('messages')"></th:block>
+    <th:block th:replace="fragments/navbar :: navbar(${active})"></th:block>
 
     <div class="messages-wrapper">
         <div class="messages-container">

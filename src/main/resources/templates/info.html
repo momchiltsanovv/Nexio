@@ -61,7 +61,7 @@
 <body>
     <th:block th:replace="fragments/background :: background-elements"></th:block>
     
-    <div th:replace="fragments/navbar :: navbar('about')"></div>
+    <div th:replace="fragments/navbar :: navbar(${active})"></div>
 
     <div class="info-wrapper" id="infoWrapper" data-active="about">
         <div class="tab-switch">

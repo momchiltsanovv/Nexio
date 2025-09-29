@@ -3,7 +3,9 @@ package com.app.nexio.common.controller;
 import com.app.nexio.user.dto.LoginRequest;
 import com.app.nexio.user.dto.RegisterRequest;
 import com.app.nexio.user.model.University;
+import com.app.nexio.user.model.User;
 import com.app.nexio.user.service.UserService;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,32 +33,36 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ModelAndView registerNewUser(@Valid RegisterRequest registerRequest, BindingResult bindingResult) {
+    public String  registerNewUser(@Valid RegisterRequest registerRequest, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
-            return new ModelAndView("register");
+            return "register";
         }
 
         userService.register(registerRequest);
 
 
-        return new ModelAndView("redirect:/auth/login");
+        return "redirect:/auth/login";
     }
 
     @GetMapping("/login")
     public String getLoginPage(Model model) {
-                model.addAttribute("loginRequest", new LoginRequest());
+
+        model.addAttribute("loginRequest", new LoginRequest());
         return "login";
     }
 
     @PostMapping("/login")
-    public ModelAndView loginUser(@Valid LoginRequest loginRequest, BindingResult bindingResult) {
+    public String loginUser(@Valid LoginRequest loginRequest,
+                                  BindingResult bindingResult,
+                                  HttpSession session) {
 
-        if(bindingResult.hasErrors()) {
-            return new ModelAndView("/login");
+        if (bindingResult.hasErrors()) {
+            return "login";
         }
-        userService.login(loginRequest);
+        User user = userService.login(loginRequest);
+        session.setAttribute("user_id", user.getId());
 
-        return new ModelAndView("redirect:/home");
+        return "redirect:/home";
     }
 }

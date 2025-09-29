@@ -1,6 +1,7 @@
 package com.app.nexio.wishlist.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -9,7 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class WishlistController {
 
     @GetMapping("/wishlist")
-    public String getWishlistPage() {
+    public String getWishlistPage(Model model) {
+        model.addAttribute("active", "wishlist");
         return "wishlist";
     }
 }

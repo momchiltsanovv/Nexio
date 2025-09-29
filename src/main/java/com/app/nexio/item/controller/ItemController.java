@@ -27,9 +27,9 @@ public class ItemController {
     @GetMapping("/{id}")
     public String getViewItemsPage(@PathVariable UUID id,
                                    Model model) {
+        model.addAttribute("active", "home");
         Item item = itemService.getById(id);
         model.addAttribute("item", item);
-
 
         return "item-view";
     }
@@ -50,7 +50,7 @@ public class ItemController {
 
     @GetMapping("/post") // get post item form
     public String getPostItemPage(Model model) {
-
+        model.addAttribute("active", "post");
         model.addAttribute("postItemRequest", new PostItemRequest());
 
         return "post-item";

@@ -35,6 +35,7 @@ public class UserController {
 //    @PreAuthorize("hasRole('ADMIN')")
     public String getUsersPage(Model model) {
         List<User> users = userService.getAllUsers();
+        model.addAttribute("active", "community");
         model.addAllAttributes(users);
         return "admin-users";
     }
@@ -42,7 +43,7 @@ public class UserController {
     @GetMapping("/{id}")// see another users profile
     public String getUserProfilePage(@PathVariable UUID id,
                                      Model model) {
-
+        model.addAttribute("active", "community");
         User user = userService.getById(id);
         List<Item> usersItems = itemService.getUsersItems(user);
         model.addAttribute("user", user);
@@ -54,7 +55,7 @@ public class UserController {
 
     @GetMapping("/profile")
     public String getMyProfile(Model model) {
-
+        model.addAttribute("active", "profile");
         User user = userService.getByUsername("momo2");
         model.addAttribute(user);
 
