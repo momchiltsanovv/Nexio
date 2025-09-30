@@ -5,6 +5,7 @@ import com.app.nexio.item.service.ItemService;
 import com.app.nexio.user.model.User;
 import com.app.nexio.user.property.UserProperties;
 import com.app.nexio.user.service.UserService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -32,7 +33,7 @@ public class UserController {
 
 
     @GetMapping
-//    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public String getUsersPage(Model model) {
         List<User> users = userService.getAllUsers();
         model.addAttribute("active", "community");
@@ -43,7 +44,7 @@ public class UserController {
     @GetMapping("/{id}")// see another users profile
     public String getUserProfilePage(@PathVariable UUID id,
                                      Model model) {
-        model.addAttribute("active", "community");
+        model.addAttribute("active", "user-profile-view");
         User user = userService.getById(id);
         List<Item> usersItems = itemService.getUsersItems(user);
         model.addAttribute("user", user);
@@ -54,9 +55,11 @@ public class UserController {
 
 
     @GetMapping("/profile")
-    public String getMyProfile(Model model) {
+    public String getMyProfile(Model model, HttpSession session) {
         model.addAttribute("active", "profile");
-        User user = userService.getByUsername("momo2");
+
+        UUID userId = (UUID) session.getAttribute("user_id");
+        User user = userService.getById(userId);
         model.addAttribute(user);
 
         return "profile";

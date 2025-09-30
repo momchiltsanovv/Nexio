@@ -60,8 +60,8 @@ public class AuthController {
         if (bindingResult.hasErrors()) {
             return "login";
         }
-        User user = userService.login(loginRequest);
-        session.setAttribute("user_id", user.getId());
+        User loggedUser = userService.login(loginRequest);
+        session.setAttribute("user_id", loggedUser.getId());
 
         return "redirect:/home";
     }

@@ -28,16 +28,18 @@ public class HomeController {
     }
 
     @GetMapping("/home")
-    public String getHomePage(HttpSession session, Model model) {
+    public String getHomePage(Model model, HttpSession session) {
+
         UUID userId = (UUID) session.getAttribute("user_id");
         User user = userService.getById(userId);
+
         model.addAttribute("active", "home");
 
         return "home";
     }
     @GetMapping("/info")
     public String getInfoPage(Model model) {
-        model.addAttribute("active", "about");
+        model.addAttribute("active", "info");
         return "info";
     }
 
