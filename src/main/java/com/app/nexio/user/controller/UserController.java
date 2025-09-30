@@ -21,13 +21,11 @@ import java.util.UUID;
 public class UserController {
 
     private final UserService userService;
-    private final UserProperties userProperties;
     private final ItemService itemService;
 
     @Autowired
-    public UserController(UserService userService, UserProperties userProperties, ItemService itemService) {
+    public UserController(UserService userService, ItemService itemService) {
         this.userService = userService;
-        this.userProperties = userProperties;
         this.itemService = itemService;
     }
 
