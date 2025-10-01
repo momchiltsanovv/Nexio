@@ -33,7 +33,8 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public String  registerNewUser(@Valid RegisterRequest registerRequest, BindingResult bindingResult) {
+    public String  registerNewUser(@Valid RegisterRequest registerRequest,
+                                   BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
             return "register";
@@ -60,9 +61,16 @@ public class AuthController {
         if (bindingResult.hasErrors()) {
             return "login";
         }
+
         User loggedUser = userService.login(loginRequest);
         session.setAttribute("user_id", loggedUser.getId());
 
         return "redirect:/home";
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+        session.invalidate();
+        return "redirect:/";
     }
 }

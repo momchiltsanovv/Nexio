@@ -3,7 +3,8 @@ package com.app.nexio.user.service;
 import com.app.nexio.exception.UserDoesNotExistException;
 import com.app.nexio.exception.UsernameTakenException;
 import com.app.nexio.exception.IncorrectUsernameOrPasswordException;
-import com.app.nexio.user.dto.EditRequest;
+import com.app.nexio.user.dto.EditUserRequest;
+import com.app.nexio.user.dto.EditUserRequest;
 import com.app.nexio.user.dto.LoginRequest;
 import com.app.nexio.user.dto.RegisterRequest;
 import com.app.nexio.user.model.User;
@@ -123,15 +124,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public void editUserDetails(UUID userid, EditRequest editRequest) {
+    public void editUserDetails(UUID userid, EditUserRequest editRequest) {
         User user = userRepository.getUserById(userid);
 
-        user.setFirstName(editRequest.firstName());
-        user.setLastName(editRequest.lastName());
-        user.setInstagramURL(editRequest.instagramURL());
-        user.setLinkedinURL(editRequest.linkedinURL());
-        user.setMajor(editRequest.major());
-        user.setGraduationYear(editRequest.graduationYear());
+        user.setInstagramURL(editRequest.getInstagramURL());
+        user.setLinkedinURL(editRequest.getLinkedinURL());
+        user.setMajor(editRequest.getMajor());
+        user.setGraduationYear(editRequest.getGraduationYear());
 
         userRepository.save(user);
 

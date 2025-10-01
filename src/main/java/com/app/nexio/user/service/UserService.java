@@ -1,6 +1,6 @@
 package com.app.nexio.user.service;
 
-import com.app.nexio.user.dto.EditRequest;
+import com.app.nexio.user.dto.EditUserRequest;
 import com.app.nexio.user.dto.LoginRequest;
 import com.app.nexio.user.dto.RegisterRequest;
 import com.app.nexio.user.model.User;
@@ -16,7 +16,7 @@ public interface UserService {
 
     void switchRole(UUID userId);
 
-    void editUserDetails(UUID userid, EditRequest editRequest);
+    void editUserDetails(UUID userid, EditUserRequest editRequest);
 
     User getById(UUID userId);
 
