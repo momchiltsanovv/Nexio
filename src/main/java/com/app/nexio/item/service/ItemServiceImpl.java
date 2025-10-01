@@ -24,7 +24,7 @@ public class ItemServiceImpl implements ItemService {
     @Override // will get user from state context -> no need for second parameter User
     public void postItem(PostItemRequest postItemRequest) {
         Item item = initializeItemFromRequest(postItemRequest);
-        //        item.setOwner(); //TODO get user from state ?
+        //        item.setOwner(); //TODO get user from state
 
 
         itemRepository.save(item);
@@ -60,7 +60,8 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public Item getById(UUID itemId) {
-        return itemRepository.findById(itemId).orElseThrow(() -> new ItemNotFoundException("Item not found"));
+        return itemRepository.findById(itemId)
+                             .orElseThrow(() -> new ItemNotFoundException("Item not found"));
     }
 
     private Item initializeItemFromRequest(PostItemRequest postItemRequest) {

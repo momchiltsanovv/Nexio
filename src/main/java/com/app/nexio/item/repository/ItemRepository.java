@@ -15,7 +15,8 @@ import java.util.UUID;
 public interface ItemRepository extends JpaRepository<Item, UUID> {
 
     @Query("SELECT i FROM Item i WHERE i.id = :itemId AND i.owner = :owner")
-    Optional<Item> findByOwnerAndId(@Param("itemId") UUID itemId, @Param("owner") User owner);
+    Optional<Item> findByOwnerAndId(@Param("itemId") UUID itemId,
+                                    @Param("owner") User owner);
 
     List<Item> findByOwner(User owner);
 

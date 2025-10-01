@@ -41,7 +41,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private final WishlistService wishlistService;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, UserProperties userProperties, PasswordEncoder passwordEncoder, WishlistService wishlistService) {
+    public UserServiceImpl(UserRepository userRepository,
+                           UserProperties userProperties,
+                           PasswordEncoder passwordEncoder,
+                           WishlistService wishlistService) {
         this.userRepository = userRepository;
         this.userProperties = userProperties;
         this.passwordEncoder = passwordEncoder;
@@ -71,7 +74,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     @Transactional
-    public User register(RegisterRequest registerRequest) {
+    public void register(RegisterRequest registerRequest) {
         Optional<User> optionalUser = userRepository.findByUsername(registerRequest.getUsername());
 
         if (optionalUser.isPresent()) {
@@ -83,8 +86,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
         log.info(USER_REGISTERED_SUCCESSFULLY);
 
-        return user;
-
     }
 
     private User initializeUserFromRequest(RegisterRequest registerRequest) {
@@ -92,8 +93,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                    .username(registerRequest.getUsername())
                    .firstName(registerRequest.getFirstName())
                    .lastName(registerRequest.getLastName())
-                   .role(userProperties.getDefaultUser().getUserRole())//TODO fix with new config
-                   .activeAccount(userProperties.getDefaultUser().isActiveByDefault())
+                   .role(userProperties.getDefaultUser()
+                                       .getUserRole())
+                   .activeAccount(userProperties.getDefaultUser()
+                                                .isActiveByDefault())
                    .university(registerRequest.getUniversity())
                    .email(registerRequest.getEmail())
                    .password(getEncodedPassword(registerRequest))
@@ -161,7 +164,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return null;
     }
-
 
 
 }

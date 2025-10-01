@@ -12,7 +12,9 @@ public class SessionCheckInterceptor implements HandlerInterceptor {
     private final Set<String> UNAUTHENTICATED_ENDPOINTS = Set.of("/", "/login", "/register", "/info");
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+    public boolean preHandle(HttpServletRequest request,
+                             HttpServletResponse response,
+                             Object handler) throws Exception {
 
         String endpoint = request.getServletPath();
         if(UNAUTHENTICATED_ENDPOINTS.contains(endpoint)) {

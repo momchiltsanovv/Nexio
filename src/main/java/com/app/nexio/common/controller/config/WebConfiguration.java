@@ -1,4 +1,4 @@
-package com.app.nexio.config;
+package com.app.nexio.common.controller.config;
 
 import com.app.nexio.security.SessionCheckInterceptor;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
