@@ -86,12 +86,7 @@ public class UserController {
            return "profile";
        }
 
-       if(userId == null) {
-           return "login";
-       }
-
        userService.editUserDetails(userId, request);
-
 
 
        return "redirect:/users/profile";

@@ -3,13 +3,15 @@ package com.app.nexio.security;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import java.util.Set;
 
+@Component
 public class SessionCheckInterceptor implements HandlerInterceptor {
 
-    private final Set<String> UNAUTHENTICATED_ENDPOINTS = Set.of("/", "/login", "/register", "/info");
+    private final Set<String> UNAUTHENTICATED_ENDPOINTS = Set.of("/", "/auth/login", "/auth/register", "/info");
 
     @Override
     public boolean preHandle(HttpServletRequest request,
@@ -24,7 +26,7 @@ public class SessionCheckInterceptor implements HandlerInterceptor {
         HttpSession currentUserSession = request.getSession(false);
 
         if(currentUserSession == null) {
-            response.sendRedirect("/login");
+            response.sendRedirect("/auth/login");
             return false;
         }
 
