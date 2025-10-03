@@ -74,7 +74,7 @@ public class ItemServiceImpl implements ItemService {
                    .description(postItemRequest.getDescription())
                    .category(postItemRequest.getCategory())
                    .location(postItemRequest.getLocation())
-                   .imageURLs(postItemRequest.getImageURLs())
+                   .imageURLs(postItemRequest.getImageURLs())//TODO get image url from cloud
                    .build();
 
     }
