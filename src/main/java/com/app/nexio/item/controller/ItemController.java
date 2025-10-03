@@ -50,6 +50,7 @@ public class ItemController {
 
     @GetMapping("/post") // get post item form
     public String getPostItemPage(Model model) {
+
         model.addAttribute("active", "post");
         model.addAttribute("postItemRequest", new PostItemRequest());
 

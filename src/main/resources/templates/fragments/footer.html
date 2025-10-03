@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* Sticky Footer Solution */
+        html, body {
+            height: 100%;
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+        main, .main-content, .profile-wrapper, .wishlist-wrapper, .edit-wrapper {
+            flex: 1;
+        }
+        .footer {
+            margin-top: auto;
+        }
+        
+        @media (max-width: 768px) {
+            .footer-content {
+                grid-template-columns: 1fr !important;
+                gap: 30px !important;
+                text-align: center !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Footer Fragment -->
+    <footer class="footer" th:fragment="footer" style="background: #1a1a1a; color: white; padding: 60px 0 20px; width: 100%;">
+        <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
+            <div class="footer-content" style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 40px; width: 100%;">
+                <div class="footer-section" style="display: flex; flex-direction: column;">
+                    <h3 style="font-family: 'CooperBlack', serif; font-size: 1.5rem; font-weight: normal; margin-bottom: 20px; background: linear-gradient(135deg, #212346 0%, #CE3A81 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; color: transparent; display: inline-block;">nexio</h3>
+                    <p style="color: #999; line-height: 1.6; margin-bottom: 20px;">The student marketplace made by students, for students.</p>
+                    <div class="social-links" style="display: flex; gap: 15px; margin-top: auto;">
+                        <a href="https://www.instagram.com/momchiltsanov/?hl=en" style="width: 40px; height: 40px; background: #333; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; text-decoration: none; transition: all 0.3s ease;"><i class="fab fa-instagram"></i></a>
+                        <a href="https://www.linkedin.com/in/momchil-tsanov-5b91a62aa/" style="width: 40px; height: 40px; background: #333; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; text-decoration: none; transition: all 0.3s ease;"><i class="fab fa-linkedin"></i></a>
+                        <a href="https://github.com/momchiltsanovv" style="width: 40px; height: 40px; background: #333; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; text-decoration: none; transition: all 0.3s ease;"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section" style="display: flex; flex-direction: column;">
+                    <h4 style="font-size: 1.1rem; font-weight: 600; margin-bottom: 20px; color: #ccc;">Marketplace</h4>
+                    <ul style="list-style: none; margin: 0; padding: 0;">
+                        <li style="margin-bottom: 10px;"><a href="/home" style="color: #999; text-decoration: none; transition: color 0.3s ease;">Browse Items</a></li>
+                        <li style="margin-bottom: 10px;"><a href="/items/post" style="color: #999; text-decoration: none; transition: color 0.3s ease;">Sell Item</a></li>
+                        <li style="margin-bottom: 10px;"><a href="/users" style="color: #999; text-decoration: none; transition: color 0.3s ease;">Community</a></li>
+                        <li style="margin-bottom: 10px;"><a href="/wishlist" style="color: #999; text-decoration: none; transition: color 0.3s ease;">Wishlist</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section" style="display: flex; flex-direction: column;">
+                    <h4 style="font-size: 1.1rem; font-weight: 600; margin-bottom: 20px; color: #ccc;">Support</h4>
+                    <ul style="list-style: none; margin: 0; padding: 0;">
+                        <li style="margin-bottom: 10px;"><a href="/info" style="color: #999; text-decoration: none; transition: color 0.3s ease;">About Us</a></li>
+                        <li style="margin-bottom: 10px;"><a href="/terms" style="color: #999; text-decoration: none; transition: color 0.3s ease;">Terms of Service</a></li>
+                        <li style="margin-bottom: 10px;"><a href="/messages" style="color: #999; text-decoration: none; transition: color 0.3s ease;">Contact</a></li>
+                        <li style="margin-bottom: 10px;"><a href="#help" style="color: #999; text-decoration: none; transition: color 0.3s ease;">Help Center</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section" style="display: flex; flex-direction: column;">
+                    <h4 style="font-size: 1.1rem; font-weight: 600; margin-bottom: 20px; color: #ccc;">Account</h4>
+                    <ul style="list-style: none; margin: 0; padding: 0;">
+                        <li style="margin-bottom: 10px;"><a href="/auth/login" style="color: #999; text-decoration: none; transition: color 0.3s ease;">Login</a></li>
+                        <li style="margin-bottom: 10px;"><a href="/auth/register" style="color: #999; text-decoration: none; transition: color 0.3s ease;">Sign Up</a></li>
+                        <li style="margin-bottom: 10px;"><a href="/users/profile" style="color: #999; text-decoration: none; transition: color 0.3s ease;">Profile</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom" style="text-align: center; padding-top: 20px; border-top: 1px solid #333; color: #999;">
+                <p>&copy; 2025 nexio. Made with ❤️ by students, for students.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

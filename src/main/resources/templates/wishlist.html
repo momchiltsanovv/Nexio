@@ -9,6 +9,16 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <th:block th:replace="fragments/background :: background-styles"></th:block>
     <style>
+        /* Sticky Footer - Wrapper Approach */
+        .page-wrapper {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .page-content {
+            flex: 1;
+        }
+        
         .wishlist-wrapper { max-width: 1200px; margin: 100px auto 40px; padding: 0 20px; }
         .wishlist-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 30px; }
         .wishlist-title { display: flex; align-items: center; gap: 12px; }
@@ -35,8 +45,8 @@
         .item-actions { display: flex; gap: 8px; }
         .item-btn { flex: 1; padding: 8px 12px; border-radius: 6px; border: 1px solid #e0e0e0; background: #f8f9fa; color: #666; font-size: 12px; cursor: pointer; transition: all 0.3s ease; }
         .item-btn:hover { background: #f8f9fa; color: #495057; }
-        .item-btn.primary { background: #212346; color: white; border-color: #212346; }
-        .item-btn.primary:hover { background: #5a6fd8; }
+        .item-btn.primary { background: #212346; color: white; }
+        .item-btn.primary:hover { background: #CE3A81; }
         .remove-btn { position: absolute; top: 8px; right: 8px; width: 32px; height: 32px; border-radius: 50%; background: rgba(255, 255, 255, 0.9); border: 1px solid #e0e0e0; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s ease; }
         .remove-btn:hover { background: #ff4757; color: white; border-color: #ff4757; }
         
@@ -56,9 +66,11 @@
 <body>
     <th:block th:replace="fragments/background :: background-elements"></th:block>
     
-    <div th:replace="fragments/navbar :: navbar(${active})"></div>
+    <div class="page-wrapper">
+        <div th:replace="fragments/navbar :: navbar(${active})"></div>
 
-    <div class="wishlist-wrapper">
+        <div class="page-content">
+            <div class="wishlist-wrapper">
         <!-- Header -->
         <div class="wishlist-header">
             <div class="wishlist-title">
@@ -208,9 +220,12 @@
                 Browse Items
             </a>
         </div>
-    </div>
+            </div>
+        </div>
 
-    <script th:replace="fragments/navbar-script :: navbar-script"></script>
+        <script th:replace="fragments/navbar-script :: navbar-script"></script>
+        <div th:replace="fragments/footer :: footer"></div>
+    </div>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const wishlistGrid = document.getElementById('wishlistGrid');

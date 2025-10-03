@@ -8,6 +8,7 @@ import com.app.nexio.item.repository.ItemRepository;
 import com.app.nexio.user.model.User;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -21,9 +22,10 @@ public class ItemServiceImpl implements ItemService {
         this.itemRepository = itemRepository;
     }
 
-    @Override // will get user from state context -> no need for second parameter User
+    @Override
     public void postItem(PostItemRequest postItemRequest) {
         Item item = initializeItemFromRequest(postItemRequest);
+
         //        item.setOwner(); //TODO get user from state
 
 
@@ -36,13 +38,13 @@ public class ItemServiceImpl implements ItemService {
         Item item = getUserItem(itemId, currentUser);
 
         // Update item fields
-        item.setName(editItemRequest.name());
-        item.setPrice(editItemRequest.price());
-        item.setCondition(editItemRequest.condition());
-        item.setDescription(editItemRequest.description());
-        item.setCategory(editItemRequest.category());
-        item.setLocation(editItemRequest.location());
-        item.setImageURLs(editItemRequest.imageURLs());
+        item.setName(editItemRequest.getName());
+        item.setPrice(editItemRequest.getPrice());
+        item.setCondition(editItemRequest.getCondition());
+        item.setDescription(editItemRequest.getDescription());
+        item.setCategory(editItemRequest.getCategory());
+        item.setLocation(editItemRequest.getExchangeLocation());
+        item.setImageURLs(editItemRequest.getImageURLs());
 
         itemRepository.save(item);
     }

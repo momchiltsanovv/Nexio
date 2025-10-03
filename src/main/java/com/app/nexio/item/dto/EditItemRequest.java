@@ -4,33 +4,39 @@ import com.app.nexio.item.model.Category;
 import com.app.nexio.item.model.ItemCondition;
 import com.app.nexio.item.model.Location;
 import jakarta.validation.constraints.*;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.util.List;
 
-public record EditItemRequest(
-        @NotBlank(message = "Item name is required")
-        @Size(min = 2, message = "Item name must be at 2 characters")
-        String name,
+@Builder
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+public class EditItemRequest {
+    @NotBlank(message = "Item name is required")
+    @Size(min = 2, message = "Item name must be at 2 characters")
+    String name;
 
-        @NotNull(message = "Price is required")
-        @Positive(message = "Price must be positive number")
-        BigDecimal price,
+    @NotNull(message = "Price is required")
+    @Positive(message = "Price must be positive number")
+    BigDecimal price;
 
-        @NotNull(message = "Item condition is required")
-        ItemCondition condition,
+    @NotNull(message = "Item condition is required")
+    ItemCondition condition;
 
-        @NotBlank(message = "Description is required")
-        @Size(min = 10, message = "Description must be at least 10 characters")
-        String description,
+    @NotBlank(message = "Description is required")
+    @Size(min = 10, message = "Description must be at least 10 characters")
+    String description;
 
-        @NotNull(message = "Category is required")
-        Category category,
+    @NotNull(message = "Category is required")
+    Category category;
 
-        @NotBlank(message = "Location is required")
-        Location location,
+    @NotBlank(message = "Location is required")
+    Location exchangeLocation;
 
-        @Size(max = 5, message = "Maximum 5 images allowed")
-        List<String> imageURLs
-) {
+    @Size(max = 5, message = "Maximum 5 images allowed")
+    List<String> imageURLs;
+
 }

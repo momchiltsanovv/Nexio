@@ -44,7 +44,7 @@
                     From textbooks to electronics, find everything you need for student life.
                 </p>
                 <div class="hero-buttons">
-                    <a href="/register" class="btn btn-primary">
+                    <a href="/auth/register" class="btn btn-primary">
                         <i class="fas fa-rocket"></i>
                         Get Started
                     </a>
@@ -233,50 +233,7 @@
     </section>
 
     <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h3>nexio</h3>
-                    <p>The student marketplace made by students, for students.</p>
-                    <div class="social-links">
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fab fa-linkedin"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                    </div>
-                </div>
-                <div class="footer-section">
-                    <h4>Marketplace</h4>
-                    <ul>
-                        <li><a href="/home">Browse Items</a></li>
-                        <li><a href="/items/post">Sell Item</a></li>
-                        <li><a href="/users">Community</a></li>
-                        <li><a href="/wishlist">Wishlist</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h4>Support</h4>
-                    <ul>
-                        <li><a href="/info">About Us</a></li>
-                        <li><a href="/terms">Terms of Service</a></li>
-                        <li><a href="/messages">Contact</a></li>
-                        <li><a href="#help">Help Center</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h4>Account</h4>
-                    <ul>
-                        <li><a href="/auth/login">Login</a></li>
-                        <li><a href="/auth/register">Sign Up</a></li>
-                        <li><a href="/profile">Profile</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2025 nexio. Made with ❤️ by students, for students.</p>
-            </div>
-        </div>
-    </footer>
+    <div th:replace="fragments/footer :: footer"></div>
 
     <script th:src="@{/js/index.js}"></script>
 </body>
