@@ -45,6 +45,7 @@ public class UserController {
     @GetMapping("/{id}")// see another users profile
     public String getUserProfilePage(@PathVariable UUID id,
                                      Model model) {
+
         model.addAttribute("active", "user-profile-view");
         User user = userService.getById(id);
         List<Item> usersItems = itemService.getUsersItems(user);
