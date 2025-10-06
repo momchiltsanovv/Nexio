@@ -64,7 +64,9 @@ public class UserController {
             return "redirect:/auth/login";
         }
         User user = userService.getById(userId);
-        model.addAttribute(user);
+        List<Item> userItems = itemService.getUsersItems(user);
+        model.addAttribute("user", user);
+        model.addAttribute("items", userItems);
 
         return "profile";
     }

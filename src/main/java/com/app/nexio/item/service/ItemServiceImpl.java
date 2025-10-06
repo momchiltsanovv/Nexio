@@ -8,7 +8,6 @@ import com.app.nexio.item.repository.ItemRepository;
 import com.app.nexio.user.model.User;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -65,6 +64,7 @@ public class ItemServiceImpl implements ItemService {
         return itemRepository.findById(itemId)
                              .orElseThrow(() -> new ItemNotFoundException("Item not found"));
     }
+    
 
     private Item initializeItemFromRequest(PostItemRequest postItemRequest) {
         return Item.builder()

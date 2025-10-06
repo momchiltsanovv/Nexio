@@ -37,6 +37,20 @@
         .delete-btn { background: #fff5f5; color: #dc3545; border: 1px solid #f5c6cb; }
         .delete-btn:hover { background: #f8d7da; color: #721c24; }
 
+        /* Items Grid Styling */
+        .items-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+        .item-card { background: #f8f9fa; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,.05); transition: all 0.3s ease; cursor: pointer; display: block; text-decoration: none; color: inherit; }
+        .item-card:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,0,0,.1); text-decoration: none; color: inherit; }
+        .item-image { width: 100%; height: 200px; object-fit: cover; background: #f8f9fa; }
+        .item-content { padding: 16px; }
+        .item-title { font-size: 16px; font-weight: 600; color: #1a1a1a; margin: 0 0 8px; line-height: 1.4; }
+        .item-price { font-size: 18px; font-weight: 700; color: #212346; margin: 0 0 8px; }
+        .item-meta { display: flex; gap: 8px; margin-bottom: 8px; }
+        .meta-badge { padding: 4px 8px; border-radius: 12px; font-size: 11px; font-weight: 600; }
+        .meta-badge.category { background: #eef0ff; color: #5a6fd8; }
+        .meta-badge.condition { background: #e9f6eb; color: #2e7d32; }
+        .item-description { color: #666; font-size: 13px; line-height: 1.4; margin: 0; }
+
         /* Delete Modal */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); z-index: 1000; display: none; backdrop-filter: blur(5px); }
         .modal { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #f8f9fa; border-radius: 16px; padding: 0; max-width: 480px; width: 90%; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3); }
@@ -119,8 +133,8 @@
                 <div class="section" style="margin-top:18px;">
                     <div class="section-title">Social</div>
                     <div class="social">
-                        <a th:if="*{instagramURL} != null" th:href="*{instagramURL}" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                        <a th:if="*{linkedinURL} != null" th:href="*{linkedinURL}" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                        <a th:if="|*{instagramURL} != null|" th:href="*{instagramURL}" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a th:if="|*{linkedinURL} != null|" th:href="*{linkedinURL}" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
                     </div>
                     <div class="social" th:if="${user} == null">
                         <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
@@ -156,7 +170,31 @@
                 </div>
             </div>
             <div class="card-body">
-                <div class="empty">
+                <!-- Items Grid -->
+                <div class="items-grid" th:if="${items != null and !items.isEmpty()}">
+                    <a th:each="item : ${items}" th:href="@{/items/{id}(id=${item.id})/edit}" class="item-card">
+                        <img th:if="${item.imageURLs != null and !item.imageURLs.isEmpty()}" 
+                             th:src="${item.imageURLs[0]}"
+                             th:alt="${item.name}"
+                             class="item-image">
+                        <img th:unless="${item.imageURLs != null and !item.imageURLs.isEmpty()}" 
+                             th:src="@{/images/defaults/no_image.webp}"
+                             th:alt="${item.name}"
+                             class="item-image">
+                        <div class="item-content">
+                            <h3 class="item-title" th:text="${item.name}">Item Name</h3>
+                            <div class="item-price" th:text="${#numbers.formatDecimal(item.price, 1, 2)}">0.00</div>
+                            <div class="item-meta">
+                                <span class="meta-badge category" th:text="${item.category.getDisplayName()}">Category</span>
+                                <span class="meta-badge condition" th:text="${item.condition.getDisplayName()}">Condition</span>
+                            </div>
+                            <p class="item-description" th:text="${item.description}">Item description...</p>
+                        </div>
+                    </a>
+                </div>
+                
+                <!-- Empty state when no items -->
+                <div class="empty" th:if="${items == null or items.isEmpty()}">
                     <i class="fas fa-box-open" style="color:#9aa3c7"></i>
                     <div style="margin-top:8px;">No items to show yet.</div>
                 </div>

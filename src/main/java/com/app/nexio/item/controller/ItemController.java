@@ -1,9 +1,12 @@
 package com.app.nexio.item.controller;
 
 
+import com.app.nexio.item.dto.EditItemRequest;
 import com.app.nexio.item.dto.PostItemRequest;
 import com.app.nexio.item.model.Item;
 import com.app.nexio.item.service.ItemService;
+import com.app.nexio.user.model.User;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -35,9 +38,31 @@ public class ItemController {
     }
 
     @GetMapping("/{id}/edit") // get edit item form
-    public String getEditItemPage(@PathVariable UUID id) {
-
-        Item item = itemService.getById(id);
+    public String getEditItemPage(@PathVariable UUID id, Model model, HttpSession session) {
+        model.addAttribute("active", "home");
+        
+        // Get current user from session
+        User currentUser = (User) session.getAttribute("user");
+        if (currentUser == null) {
+            return "redirect:/login";
+        }
+        
+        // Get the item and verify ownership
+        Item item = itemService.getUserItem(id, currentUser);
+        
+        // Create EditItemRequest with current item data
+        EditItemRequest editItemRequest = EditItemRequest.builder()
+                .name(item.getName())
+                .price(item.getPrice())
+                .condition(item.getCondition())
+                .description(item.getDescription())
+                .category(item.getCategory())
+                .exchangeLocation(item.getLocation())
+                .imageURLs(item.getImageURLs())
+                .build();
+        
+        model.addAttribute("item", item);
+        model.addAttribute("editItemRequest", editItemRequest);
 
         return "edit-item";
     }
