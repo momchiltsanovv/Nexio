@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -220,7 +220,8 @@
             <h1>Edit Item</h1>
         </div>
 
-        <form th:action="@{'/items/' + ${item.id} + '/edit'}" th:method="put" th:object="${editItemRequest}">
+        <form th:action="@{'/items/' + ${item.id} + '/edit'}" th:method="post" th:object="${editItemRequest}">
+            <input type="hidden" name="_method" value="patch">
             <div class="post-body">
                 <div class="form-grid">
                         <div class="field full">
@@ -330,12 +331,10 @@
                             class="fas fa-trash"></i> Delete</a>
                 </div>
             </div>
-            </div>
         </form>
-    </div>
 </div>
 
-<!-- Navbar Script -->
+
 <th:block th:replace="fragments/navbar-script :: navbar-script"></th:block>
 
 <script>

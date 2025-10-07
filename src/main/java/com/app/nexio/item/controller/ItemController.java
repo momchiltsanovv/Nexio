@@ -55,7 +55,7 @@ public class ItemController {
         return "edit-item";
     }
 
-    @PostMapping("/{id}/edit") //Update item
+    @PatchMapping("/{id}/edit") //Update item
     public String updateItem(@PathVariable UUID id,
                              @Valid EditItemRequest editRequest,
                              BindingResult bindingResult,

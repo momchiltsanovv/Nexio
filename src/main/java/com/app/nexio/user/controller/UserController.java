@@ -4,12 +4,10 @@ import com.app.nexio.item.model.Item;
 import com.app.nexio.item.service.ItemService;
 import com.app.nexio.user.dto.EditUserRequest;
 import com.app.nexio.user.model.User;
-import com.app.nexio.user.property.UserProperties;
 import com.app.nexio.user.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -73,20 +71,34 @@ public class UserController {
     }
 
     @GetMapping("/profile/edit") // get edit profile form
-    public String getEditProfilePage(Model model) {
+    public String getEditProfilePage(Model model,
+                                     HttpSession session) {
+        model.addAttribute("active", "profile");
 
-        model.addAttribute("user", new EditUserRequest());
+        UUID userId = (UUID) session.getAttribute("user_id");
+        if (userId == null) {
+            return "redirect:/auth/login";
+        }
+        
+        User user = userService.getById(userId);
+        model.addAttribute("user", EditUserRequest.fromUser(user));
 
         return "edit-profile";
     }
 
-   @PostMapping("/profile/edit")
+   @PatchMapping("/profile/edit")
    public String editProfile(@Valid EditUserRequest request,
                              BindingResult bindingResult,
+                             Model model,
                              HttpSession session) {
        UUID userId = (UUID) session.getAttribute("user_id");
+       if (userId == null) {
+           return "redirect:/auth/login";
+       }
+       
        if (bindingResult.hasErrors()) {
-           return "profile";
+           model.addAttribute("active", "profile");
+           return "edit-profile";
        }
 
        userService.editUserDetails(userId, request);

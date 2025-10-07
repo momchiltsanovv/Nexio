@@ -40,6 +40,18 @@
         .btn-secondary { background: #f8f9fa; color: #666; border: 1px solid #e0e0e0; }
         .btn-secondary:hover { transform: translateY(-1px); }
         .error-message { color: #dc3545; font-size: 12px; margin-top: 4px; }
+        
+        /* Clear button styles */
+        .input-with-clear { position: relative; display: flex; align-items: center; }
+        .input-with-clear input { flex: 1; padding-right: 40px; }
+        .clear-btn { 
+            position: absolute; right: 8px; top: 50%; transform: translateY(-50%);
+            background: #f8f9fa; border: 1px solid #e0e0e0; border-radius: 50%;
+            width: 24px; height: 24px; display: flex; align-items: center; justify-content: center;
+            cursor: pointer; color: #666; font-size: 12px; transition: all 0.3s ease;
+        }
+        .clear-btn:hover { background: #dc3545; color: white; border-color: #dc3545; }
+        
         @media (max-width: 768px) { .form-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
@@ -55,7 +67,7 @@
                 <h1>Edit Profile</h1>
             </div>
             
-            <form th:action="@{/users/profile/edit}" th:method="post" th:object="${user}">
+            <form th:action="@{/users/profile/edit}" th:method="patch" th:object="${user}">
                 <div class="edit-body">
                     <!-- Avatar Section -->
                     <div class="field full">
@@ -87,28 +99,52 @@
                         <!-- Academic Information -->
                         <div class="field">
                             <label for="major">Major</label>
-                            <input type="text" id="major" th:field="*{major}" 
-                                   placeholder="e.g., Computer Science">
+                            <div class="input-with-clear">
+                                <input type="text" id="major" th:field="*{major}" 
+                                       placeholder="e.g., Computer Science">
+                                <button type="button" class="clear-btn" onclick="clearField('major')" 
+                                        th:if="${user.major != null and user.major != ''}">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
                             <div class="help-text">Your field of study</div>
                         </div>
 
                         <div class="field">
                             <label for="graduationYear">Graduation Year</label>
-                            <input type="number" id="graduationYear" th:field="*{graduationYear}" 
-                                   min="2024" max="2030" placeholder="2026">
+                            <div class="input-with-clear">
+                                <input type="number" id="graduationYear" th:field="*{graduationYear}" 
+                                       min="2024" max="2030" placeholder="2026">
+                                <button type="button" class="clear-btn" onclick="clearField('graduationYear')" 
+                                        th:if="${user.graduationYear != null}">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
                         </div>
 
                         <!-- Social Links -->
                         <div class="field">
                             <label for="instagramURL">Instagram URL</label>
-                            <input type="url" id="instagramURL" th:field="*{instagramURL}" 
-                                   placeholder="https://instagram.com/username">
+                            <div class="input-with-clear">
+                                <input type="url" id="instagramURL" th:field="*{instagramURL}" 
+                                       placeholder="https://instagram.com/username">
+                                <button type="button" class="clear-btn" onclick="clearField('instagramURL')" 
+                                        th:if="${user.instagramURL != null and user.instagramURL != ''}">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
                         </div>
 
                         <div class="field">
                             <label for="linkedinURL">LinkedIn URL</label>
-                            <input type="url" id="linkedinURL" th:field="*{linkedinURL}" 
-                                   placeholder="https://linkedin.com/in/username">
+                            <div class="input-with-clear">
+                                <input type="url" id="linkedinURL" th:field="*{linkedinURL}" 
+                                       placeholder="https://linkedin.com/in/username">
+                                <button type="button" class="clear-btn" onclick="clearField('linkedinURL')" 
+                                        th:if="${user.linkedinURL != null and user.linkedinURL != ''}">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
                         </div>
                     </div>
 
@@ -172,6 +208,21 @@
             }
         });
 
+        // Clear field functionality
+        function clearField(fieldId) {
+            const field = document.getElementById(fieldId);
+            if (field) {
+                field.value = '';
+                field.focus();
+                
+                // Hide the clear button after clearing
+                const clearBtn = field.parentElement.querySelector('.clear-btn');
+                if (clearBtn) {
+                    clearBtn.style.display = 'none';
+                }
+            }
+        }
+
         // Form validation feedback
         document.addEventListener('DOMContentLoaded', function() {
             const form = document.querySelector('form');
@@ -183,6 +234,18 @@
                         this.style.borderColor = '#dc3545';
                     } else {
                         this.style.borderColor = '#28a745';
+                    }
+                });
+                
+                // Show/hide clear button based on input content
+                input.addEventListener('input', function() {
+                    const clearBtn = this.parentElement.querySelector('.clear-btn');
+                    if (clearBtn) {
+                        if (this.value.trim() === '') {
+                            clearBtn.style.display = 'none';
+                        } else {
+                            clearBtn.style.display = 'flex';
+                        }
                     }
                 });
             });
