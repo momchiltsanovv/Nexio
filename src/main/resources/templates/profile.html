@@ -418,7 +418,6 @@
 <body>
 <th:block th:replace="fragments/background :: background-elements"></th:block>
 
-<!-- Navigation (same as home) -->
 <div th:replace="fragments/navbar :: navbar(${active})"></div>
 
 <div class="profile-wrapper">
@@ -428,7 +427,7 @@
             <div class="card-body">
                 <div class="user-header">
                     <img class="avatar"
-                         th:src="*{profilePictureURL} != null ? *{profilePictureURL} : '/images/defaults/default_pfp.jpg'"
+                         th:src="${user.profilePictureURL != null and !#strings.isEmpty(user.profilePictureURL)} ? ${user.profilePictureURL} : '/images/defaults/default_pfp.jpg'"
                          alt="avatar" loading="eager">
                     <div>
                         <div class="name" th:text="|*{firstName} *{lastName}|"></div>

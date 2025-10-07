@@ -1,4 +1,4 @@
-package com.app.nexio.common.controller.config;
+package com.app.nexio.config;
 
 import com.app.nexio.security.SessionCheckInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;

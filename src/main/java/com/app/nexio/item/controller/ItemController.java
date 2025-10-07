@@ -40,7 +40,7 @@ public class ItemController {
     public String getEditItemPage(@PathVariable UUID itemId,
                                   Model model,
                                   HttpSession session) {
-        model.addAttribute("active", "home");
+        model.addAttribute("active", "item");
 
         UUID currentUserId = (UUID) session.getAttribute("user_id");
         if (currentUserId == null) {

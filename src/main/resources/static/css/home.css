@@ -1,17 +1,11 @@
 /* Font Face Definitions */
 @font-face {
     font-family: 'CooperBlack';
-    src: url('/fonts/CooperBlack-Std.woff') format('woff');
+    src: url('static/fonts/CooperBlack-Std.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 }
 
-@font-face {
-    font-family: 'CooperBlack';
-    src: url('/fonts/CooperBlack-StdItal.woff') format('woff');
-    font-weight: normal;
-    font-style: italic;
-}
 
 /* Reset and Base Styles */
 * {
