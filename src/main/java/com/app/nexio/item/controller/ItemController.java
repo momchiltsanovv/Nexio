@@ -5,8 +5,6 @@ import com.app.nexio.item.dto.EditItemRequest;
 import com.app.nexio.item.dto.PostItemRequest;
 import com.app.nexio.item.model.Item;
 import com.app.nexio.item.service.ItemService;
-import com.app.nexio.user.model.User;
-import com.app.nexio.user.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,31 +36,41 @@ public class ItemController {
         return "item-view";
     }
 
-    @GetMapping("/{itemId}/edit") // get edit item form
+    @GetMapping("/{itemId}/edit")
     public String getEditItemPage(@PathVariable UUID itemId,
                                   Model model,
                                   HttpSession session) {
         model.addAttribute("active", "home");
-        
-        // Get current user from session
+
         UUID currentUserId = (UUID) session.getAttribute("user_id");
         if (currentUserId == null) {
             return "redirect:/login";
         }
 
-        // Get the item (simplified - no ownership check for now)
         Item item = itemService.getById(itemId);
 
         model.addAttribute("item", item);
-        model.addAttribute("editItemRequest", new EditItemRequest());
+        model.addAttribute("editItemRequest", EditItemRequest.fromItem(item));
 
         return "edit-item";
     }
 
-    @PutMapping("/{id}/edit") //Update item
-    public String updateItem(@PathVariable UUID id) {
+    @PostMapping("/{id}/edit") //Update item
+    public String updateItem(@PathVariable UUID id,
+                             @Valid EditItemRequest editRequest,
+                             BindingResult bindingResult,
+                             Model model) {
 
-        return "edit-item";
+        if (bindingResult.hasErrors()) {
+            Item item = itemService.getById(id);
+            model.addAttribute("item", item);
+            return "edit-item";
+        }
+
+        itemService.editItem(id, editRequest);
+
+
+        return "item-view" + id;
     }
 
     @GetMapping("/post") // get post item form
@@ -75,9 +83,10 @@ public class ItemController {
     }
 
     @PostMapping("/post") // get post item form
-    public String postItem(@Valid PostItemRequest postItemRequest, BindingResult bindingResult) {
+    public String postItem(@Valid PostItemRequest postItemRequest,
+                           BindingResult bindingResult) {
 
-        if(bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors()) {
             return "home";
         }
         itemService.postItem(postItemRequest);

@@ -36,15 +36,13 @@ public class ItemServiceImpl implements ItemService {
     public void editItem(UUID itemId, EditItemRequest editItemRequest) {
         Item item = getById(itemId);
 
-
-//        // Update item fields
-//        item.get().setName(editItemRequest.getName());
-//        item.get().setPrice(editItemRequest.getPrice());
-//        item.get().setCondition(editItemRequest.getCondition());
-//        item.get().setDescription(editItemRequest.getDescription());
-//        item.get().setCategory(editItemRequest.getCategory());
-//        item.get().setLocation(editItemRequest.getExchangeLocation());
-//        item.get().setImageURLs(editItemRequest.getImageURLs());
+        // Update item fields
+        item.setName(editItemRequest.getName());
+        item.setPrice(editItemRequest.getPrice());
+        item.setCondition(editItemRequest.getCondition());
+        item.setDescription(editItemRequest.getDescription());
+        item.setCategory(editItemRequest.getCategory());
+        item.setExchangeLocation(editItemRequest.getExchangeLocation());
 
         itemRepository.save(item);
     }
@@ -74,7 +72,7 @@ public class ItemServiceImpl implements ItemService {
                    .condition(postItemRequest.getCondition())
                    .description(postItemRequest.getDescription())
                    .category(postItemRequest.getCategory())
-                   .location(postItemRequest.getLocation())
+                   .exchangeLocation(postItemRequest.getExchangeLocation())
                    .imageURLs(postItemRequest.getImageURLs())//TODO get image url from cloud
                    .build();
 

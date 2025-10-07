@@ -46,7 +46,7 @@ public class Item {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Location location;
+    private Location exchangeLocation;
 
     @ElementCollection
     @CollectionTable(name = "item_images", joinColumns = @JoinColumn(name = "item_id"))

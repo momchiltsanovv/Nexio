@@ -1,6 +1,7 @@
 package com.app.nexio.item.dto;
 
 import com.app.nexio.item.model.Category;
+import com.app.nexio.item.model.Item;
 import com.app.nexio.item.model.ItemCondition;
 import com.app.nexio.item.model.Location;
 import jakarta.validation.constraints.*;
@@ -39,4 +40,15 @@ public class EditItemRequest {
     @Size(max = 5, message = "Maximum 5 images allowed")
     List<String> imageURLs;
 
+
+    public static EditItemRequest fromItem(Item item) {
+        EditItemRequest request = new EditItemRequest();
+        request.setName(item.getName());
+        request.setCategory(item.getCategory());
+        request.setCondition(item.getCondition());
+        request.setExchangeLocation(item.getExchangeLocation());
+        request.setPrice(item.getPrice());
+        request.setDescription(item.getDescription());
+        return request;
+    }
 }
