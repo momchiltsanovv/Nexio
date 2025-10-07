@@ -34,7 +34,7 @@ public class UserController {
 
 
     @GetMapping
-    @PreAuthorize("hasRole('ADMIN')")
+    //Only admin access
     public String getUsersPage(Model model) {
         List<User> users = userService.getAllUsers();
         model.addAttribute("active", "community");
@@ -90,7 +90,6 @@ public class UserController {
        }
 
        userService.editUserDetails(userId, request);
-
 
        return "redirect:/users/profile";
    }

@@ -13,7 +13,7 @@ public interface ItemService {
 
     void postItem(PostItemRequest postItemRequest);
 
-    void editItem(UUID itemId, EditItemRequest editItemRequest, User currentUser);
+    void editItem(UUID itemId, EditItemRequest editItemRequest);
 
     List<Item> getUsersItems(User currentUser);
 

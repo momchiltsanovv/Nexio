@@ -8,85 +8,428 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <th:block th:replace="fragments/background :: background-styles"></th:block>
     <style>
-        .profile-wrapper { max-width: 1100px; margin: 100px auto 40px; padding: 0 20px; }
-        .profile-grid { display: grid; grid-template-columns: 320px 1fr; gap: 24px; }
-        .card { background: #fff; border: 1px solid #e0e0e0; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,.05); }
-        .card-header { padding: 20px 24px; border-bottom: 1px solid #eee; display: flex; align-items: center; gap: 10px; }
-        .card-body { padding: 24px; }
-        .user-header { display: flex; flex-direction: column; align-items: center; gap: 16px; text-align: center; }
-        .avatar { width: 84px; height: 84px; border-radius: 50%; object-fit: cover; background: #f0f2f8; flex-shrink: 0; }
-        .name { font-size: 20px; font-weight: 700; color: #1a1a1a; }
-        .username { color: #212346; font-weight: 600; font-size: 14px; }
-        .meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; justify-content: center; }
-        .badge { font-size: 14px; padding: 6px 10px; background: #f6f7fb; border: 1px solid #e8eaf4; border-radius: 999px; }
-        .section-title { font-size: 14px; font-weight: 700; color: #444; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 10px; }
-        .info-list { display: grid; grid-template-columns: 1fr; gap: 10px; }
-        .info-row { display: flex; align-items: center; gap: 10px; color: #333; }
-        .info-row i { color: #212346; width: 16px; }
-        .social { display: flex; gap: 10px; margin-top: 8px; }
-        .social a { width: 36px; height: 36px; display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; background: #f4f6fb; color: #333; border: 1px solid #e6e9f5; text-decoration: none; }
-        .social a:hover { background: #eef0ff; color: #5a6fd8; }
-        .items-header { display:flex; justify-content: space-between; align-items:center; margin-bottom: 10px; }
-        .empty { text-align:center; color:#666; padding: 40px 10px; border: 1px dashed #e0e3f2; border-radius: 12px; }
-        .profile-actions { display: flex; flex-direction: column; gap: 10px; }
-        .action-btn { display: flex; align-items: center; gap: 8px; padding: 10px 14px; border: none; border-radius: 8px; font-size: 14px; font-weight: 500; cursor: pointer; text-decoration: none; transition: all 0.3s ease; }
-        .edit-btn { background: linear-gradient(135deg, #212346 0%, #CE3A81 100%); color: white; }
-        .edit-btn:hover { transform: translateY(-1px); }
-        .logout-btn { background: #f8f9fa; color: #666; border: 1px solid #e0e0e0; }
-        .logout-btn:hover { background: #e9ecef; color: #495057; }
-        .delete-btn { background: #fff5f5; color: #dc3545; border: 1px solid #f5c6cb; }
-        .delete-btn:hover { background: #f8d7da; color: #721c24; }
+        .profile-wrapper {
+            max-width: 1100px;
+            margin: 100px auto 40px;
+            padding: 0 20px;
+        }
+
+        .profile-grid {
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            gap: 24px;
+        }
+
+        .card {
+            background: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, .05);
+        }
+
+        .card-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-body {
+            padding: 24px;
+        }
+
+        .user-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+            text-align: center;
+        }
+
+        .avatar {
+            width: 84px;
+            height: 84px;
+            border-radius: 50%;
+            object-fit: cover;
+            background: #f0f2f8;
+            flex-shrink: 0;
+        }
+
+        .name {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1a1a1a;
+        }
+
+        .username {
+            color: #212346;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+            justify-content: center;
+        }
+
+        .badge {
+            font-size: 14px;
+            padding: 6px 10px;
+            background: #f6f7fb;
+            border: 1px solid #e8eaf4;
+            border-radius: 999px;
+        }
+
+        .section-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #444;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+            margin-bottom: 10px;
+        }
+
+        .info-list {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+        }
+
+        .info-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #333;
+        }
+
+        .info-row i {
+            color: #212346;
+            width: 16px;
+        }
+
+        .social {
+            display: flex;
+            gap: 10px;
+            margin-top: 8px;
+        }
+
+        .social a {
+            width: 36px;
+            height: 36px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: #f4f6fb;
+            color: #333;
+            border: 1px solid #e6e9f5;
+            text-decoration: none;
+        }
+
+        .social a:hover {
+            background: #eef0ff;
+            color: #5a6fd8;
+        }
+
+        .items-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .empty {
+            text-align: center;
+            color: #666;
+            padding: 40px 10px;
+            border: 1px dashed #e0e3f2;
+            border-radius: 12px;
+        }
+
+        .profile-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .action-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 14px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .edit-btn {
+            background: linear-gradient(135deg, #212346 0%, #CE3A81 100%);
+            color: white;
+        }
+
+        .edit-btn:hover {
+            transform: translateY(-1px);
+        }
+
+        .logout-btn {
+            background: #f8f9fa;
+            color: #666;
+            border: 1px solid #e0e0e0;
+        }
+
+        .logout-btn:hover {
+            background: #e9ecef;
+            color: #495057;
+        }
+
+        .delete-btn {
+            background: #fff5f5;
+            color: #dc3545;
+            border: 1px solid #f5c6cb;
+        }
+
+        .delete-btn:hover {
+            background: #f8d7da;
+            color: #721c24;
+        }
 
         /* Items Grid Styling */
-        .items-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
-        .item-card { background: #f8f9fa; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,.05); transition: all 0.3s ease; cursor: pointer; display: block; text-decoration: none; color: inherit; }
-        .item-card:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,0,0,.1); text-decoration: none; color: inherit; }
-        .item-image { width: 100%; height: 200px; object-fit: cover; background: #f8f9fa; }
-        .item-content { padding: 16px; }
-        .item-title { font-size: 16px; font-weight: 600; color: #1a1a1a; margin: 0 0 8px; line-height: 1.4; }
-        .item-price { font-size: 18px; font-weight: 700; color: #212346; margin: 0 0 8px; }
-        .item-meta { display: flex; gap: 8px; margin-bottom: 8px; }
-        .meta-badge { padding: 4px 8px; border-radius: 12px; font-size: 11px; font-weight: 600; }
-        .meta-badge.category { background: #eef0ff; color: #5a6fd8; }
-        .meta-badge.condition { background: #e9f6eb; color: #2e7d32; }
-        .item-description { color: #666; font-size: 13px; line-height: 1.4; margin: 0; }
+        .items-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .item-card {
+            background: #f8f9fa;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, .05);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            display: block;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .item-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, .1);
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .item-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            background: #f8f9fa;
+        }
+
+        .item-content {
+            padding: 16px;
+        }
+
+        .item-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin: 0 0 8px;
+            line-height: 1.4;
+        }
+
+        .item-price {
+            font-size: 18px;
+            font-weight: 700;
+            color: #212346;
+            margin: 0 0 8px;
+        }
+
+        .item-meta {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .meta-badge {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .meta-badge.category {
+            background: #eef0ff;
+            color: #5a6fd8;
+        }
+
+        .meta-badge.condition {
+            background: #e9f6eb;
+            color: #2e7d32;
+        }
+
+        .item-description {
+            color: #666;
+            font-size: 13px;
+            line-height: 1.4;
+            margin: 0;
+        }
 
         /* Delete Modal */
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); z-index: 1000; display: none; backdrop-filter: blur(5px); }
-        .modal { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #f8f9fa; border-radius: 16px; padding: 0; max-width: 480px; width: 90%; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3); }
-        .modal-header { padding: 24px 24px 16px; border-bottom: 1px solid #eee; text-align: center; }
-        .modal-icon { width: 64px; height: 64px; margin: 0 auto 16px; background: #fee; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
-        .modal-icon i { font-size: 24px; color: #dc3545; }
-        .modal-title { font-size: 20px; font-weight: 700; color: #1a1a1a; margin: 0 0 8px; }
-        .modal-subtitle { color: #666; font-size: 14px; margin: 0; }
-        .modal-body { padding: 16px 24px 24px; }
-        .warning-list { background: #fff5f5; border: 1px solid #f5c6cb; border-radius: 8px; padding: 16px; margin: 16px 0; }
-        .warning-list h4 { color: #721c24; font-size: 14px; margin: 0 0 8px; }
-        .warning-list ul { margin: 0; padding-left: 20px; color: #721c24; font-size: 13px; }
-        .warning-list li { margin: 4px 0; }
-        .modal-actions { display: flex; gap: 12px; justify-content: flex-end; }
-        .modal-btn { padding: 10px 20px; border: none; border-radius: 8px; font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.3s ease; }
-        .modal-btn-cancel { background: #f8f9fa; color: #666; border: 1px solid #e0e0e0; }
-        .modal-btn-cancel:hover { background: #e9ecef; }
-        .modal-btn-delete { background: #dc3545; color: white; }
-        .modal-btn-delete:hover { background: #c82333; }
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            display: none;
+            backdrop-filter: blur(5px);
+        }
 
-        @media (max-width: 900px) { .profile-grid { grid-template-columns: 1fr; } }
+        .modal {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #f8f9fa;
+            border-radius: 16px;
+            padding: 0;
+            max-width: 480px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-header {
+            padding: 24px 24px 16px;
+            border-bottom: 1px solid #eee;
+            text-align: center;
+        }
+
+        .modal-icon {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto 16px;
+            background: #fee;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-icon i {
+            font-size: 24px;
+            color: #dc3545;
+        }
+
+        .modal-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin: 0 0 8px;
+        }
+
+        .modal-subtitle {
+            color: #666;
+            font-size: 14px;
+            margin: 0;
+        }
+
+        .modal-body {
+            padding: 16px 24px 24px;
+        }
+
+        .warning-list {
+            background: #fff5f5;
+            border: 1px solid #f5c6cb;
+            border-radius: 8px;
+            padding: 16px;
+            margin: 16px 0;
+        }
+
+        .warning-list h4 {
+            color: #721c24;
+            font-size: 14px;
+            margin: 0 0 8px;
+        }
+
+        .warning-list ul {
+            margin: 0;
+            padding-left: 20px;
+            color: #721c24;
+            font-size: 13px;
+        }
+
+        .warning-list li {
+            margin: 4px 0;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+        }
+
+        .modal-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .modal-btn-cancel {
+            background: #f8f9fa;
+            color: #666;
+            border: 1px solid #e0e0e0;
+        }
+
+        .modal-btn-cancel:hover {
+            background: #e9ecef;
+        }
+
+        .modal-btn-delete {
+            background: #dc3545;
+            color: white;
+        }
+
+        .modal-btn-delete:hover {
+            background: #c82333;
+        }
+
+        @media (max-width: 900px) {
+            .profile-grid {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 <body>
-    <th:block th:replace="fragments/background :: background-elements"></th:block>
+<th:block th:replace="fragments/background :: background-elements"></th:block>
 
-    <!-- Navigation (same as home) -->
-    <div th:replace="fragments/navbar :: navbar(${active})"></div>
+<!-- Navigation (same as home) -->
+<div th:replace="fragments/navbar :: navbar(${active})"></div>
 
-    <div class="profile-wrapper">
+<div class="profile-wrapper">
     <div class="profile-grid">
         <!-- Left column: user card -->
         <div class="card" th:object="${user}">
             <div class="card-body">
                 <div class="user-header">
-                    <img class="avatar" th:src="*{profilePictureURL} != null ? *{profilePictureURL} : '/images/defaults/default_pfp.jpg'" alt="avatar" loading="eager">
+                    <img class="avatar"
+                         th:src="*{profilePictureURL} != null ? *{profilePictureURL} : '/images/defaults/default_pfp.jpg'"
+                         alt="avatar" loading="eager">
                     <div>
                         <div class="name" th:text="|*{firstName} *{lastName}|"></div>
                         <div class="username" th:text=" '@' + *{username}"></div>
@@ -97,7 +440,8 @@
                 </div>
 
                 <div class="user-header" th:if="${user} == null">
-                    <img class="avatar" src="https://via.placeholder.com/84x84/667eea/ffffff?text=U" alt="avatar" loading="eager">
+                    <img class="avatar" src="https://via.placeholder.com/84x84/667eea/ffffff?text=U" alt="avatar"
+                         loading="eager">
                     <div>
                         <div class="name">My Profile</div>
                         <div class="username">@username</div>
@@ -110,31 +454,33 @@
                 <div class="section" style="margin-top:18px;">
                     <div class="section-title">About</div>
                     <div class="info-list" th:if="${user != null}">
-                        <div class="info-row" th:if="*{major} != null">
+                        <div class="info-row" th:if="|*{major} != null|">
                             <i class="fas fa-graduation-cap"></i>
                             <span th:text="*{major}"></span>
                         </div>
-                        <div class="info-row" th:if="*{graduationYear} != null">
+                        <div class="info-row" th:if="|*{graduationYear} != null|">
                             <i class="fas fa-calendar"></i>
                             <span>Graduation: <span th:text="*{graduationYear}"></span></span>
                         </div>
-                        <div class="info-row" th:if="*{email} != null">
+                        <div class="info-row" th:if="|*{email} != null|">
                             <i class="fas fa-envelope"></i>
                             <span th:text="*{email}"></span>
                         </div>
                     </div>
                     <div class="info-list" th:if="${user} == null">
                         <div class="info-row"><i class="fas fa-graduation-cap"></i><span>Major</span></div>
-                        <div class="info-row" ><i class="fas fa-calendar"></i><span>Graduation: 2026</span></div>
-                        <div class="info-row" ><i class="fas fa-envelope"></i><span>email@example.com</span></div>
+                        <div class="info-row"><i class="fas fa-calendar"></i><span>Graduation: 2026</span></div>
+                        <div class="info-row"><i class="fas fa-envelope"></i><span>email@example.com</span></div>
                     </div>
                 </div>
 
                 <div class="section" style="margin-top:18px;">
                     <div class="section-title">Social</div>
                     <div class="social">
-                        <a th:if="|*{instagramURL} != null|" th:href="*{instagramURL}" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                        <a th:if="|*{linkedinURL} != null|" th:href="*{linkedinURL}" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                        <a th:if="|*{instagramURL} != null|" th:href="*{instagramURL}" target="_blank"
+                           aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a th:if="|*{linkedinURL} != null|" th:href="*{linkedinURL}" target="_blank"
+                           aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
                     </div>
                     <div class="social" th:if="${user} == null">
                         <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
@@ -172,12 +518,12 @@
             <div class="card-body">
                 <!-- Items Grid -->
                 <div class="items-grid" th:if="${items != null and !items.isEmpty()}">
-                    <a th:each="item : ${items}" th:href="@{/items/{id}(id=${item.id})/edit}" class="item-card">
-                        <img th:if="${item.imageURLs != null and !item.imageURLs.isEmpty()}" 
+                    <a th:each="item : ${items}" th:href="@{'/items/' + ${item.id} + '/edit'}" class="item-card">
+                        <img th:if="${item.imageURLs != null and !item.imageURLs.isEmpty()}"
                              th:src="${item.imageURLs[0]}"
                              th:alt="${item.name}"
                              class="item-image">
-                        <img th:unless="${item.imageURLs != null and !item.imageURLs.isEmpty()}" 
+                        <img th:unless="${item.imageURLs != null and !item.imageURLs.isEmpty()}"
                              th:src="@{/images/defaults/no_image.webp}"
                              th:alt="${item.name}"
                              class="item-image">
@@ -185,14 +531,15 @@
                             <h3 class="item-title" th:text="${item.name}">Item Name</h3>
                             <div class="item-price" th:text="${#numbers.formatDecimal(item.price, 1, 2)}">0.00</div>
                             <div class="item-meta">
-                                <span class="meta-badge category" th:text="${item.category.getDisplayName()}">Category</span>
+                                <span class="meta-badge category"
+                                      th:text="${item.category.getDisplayName()}">Category</span>
                                 <span class="meta-badge condition" th:text="${item.condition.getDisplayName()}">Condition</span>
                             </div>
                             <p class="item-description" th:text="${item.description}">Item description...</p>
                         </div>
                     </a>
                 </div>
-                
+
                 <!-- Empty state when no items -->
                 <div class="empty" th:if="${items == null or items.isEmpty()}">
                     <i class="fas fa-box-open" style="color:#9aa3c7"></i>
@@ -241,56 +588,56 @@
 </div>
 
 <script>
-function showDeleteModal() {
-    document.getElementById('deleteModal').style.display = 'block';
-    document.body.style.overflow = 'hidden'; // Prevent background scrolling
-}
+    function showDeleteModal() {
+        document.getElementById('deleteModal').style.display = 'block';
+        document.body.style.overflow = 'hidden'; // Prevent background scrolling
+    }
 
-function hideDeleteModal() {
-    document.getElementById('deleteModal').style.display = 'none';
-    document.body.style.overflow = 'auto';
-}
+    function hideDeleteModal() {
+        document.getElementById('deleteModal').style.display = 'none';
+        document.body.style.overflow = 'auto';
+    }
 
-function executeDeleteAccount() {
-    // Submit delete request
-    fetch('/users/delete', {
-        method: 'DELETE',
-        headers: {
-            'Content-Type': 'application/json',
-        }
-    }).then(response => {
-        if (response.ok) {
-            hideDeleteModal();
-            alert('Account deleted successfully');
-            window.location.href = '/';
-        } else {
+    function executeDeleteAccount() {
+        // Submit delete request
+        fetch('/users/delete', {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        }).then(response => {
+            if (response.ok) {
+                hideDeleteModal();
+                alert('Account deleted successfully');
+                window.location.href = '/';
+            } else {
+                alert('Error deleting account. Please try again.');
+            }
+        }).catch(error => {
+            console.error('Error:', error);
             alert('Error deleting account. Please try again.');
+        });
+    }
+
+    // Close modal when clicking outside
+    document.addEventListener('click', function (e) {
+        const modal = document.getElementById('deleteModal');
+        if (e.target === modal) {
+            hideDeleteModal();
         }
-    }).catch(error => {
-        console.error('Error:', error);
-        alert('Error deleting account. Please try again.');
     });
-}
 
-// Close modal when clicking outside
-document.addEventListener('click', function(e) {
-    const modal = document.getElementById('deleteModal');
-    if (e.target === modal) {
-        hideDeleteModal();
-    }
-});
-
-// Close modal with Escape key
-document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') {
-        hideDeleteModal();
-    }
-});
+    // Close modal with Escape key
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') {
+            hideDeleteModal();
+        }
+    });
 </script>
 
-    </div>
+</div>
 
-    <div th:replace="fragments/navbar-script :: navbar-script"></div>
+<div th:replace="fragments/navbar-script :: navbar-script"></div>
 </body>
 </html>
 

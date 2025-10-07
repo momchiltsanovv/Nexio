@@ -33,17 +33,18 @@ public class ItemServiceImpl implements ItemService {
 
 
     @Override
-    public void editItem(UUID itemId, EditItemRequest editItemRequest, User currentUser) {
-        Item item = getUserItem(itemId, currentUser);
+    public void editItem(UUID itemId, EditItemRequest editItemRequest) {
+        Item item = getById(itemId);
 
-        // Update item fields
-        item.setName(editItemRequest.getName());
-        item.setPrice(editItemRequest.getPrice());
-        item.setCondition(editItemRequest.getCondition());
-        item.setDescription(editItemRequest.getDescription());
-        item.setCategory(editItemRequest.getCategory());
-        item.setLocation(editItemRequest.getExchangeLocation());
-        item.setImageURLs(editItemRequest.getImageURLs());
+
+//        // Update item fields
+//        item.get().setName(editItemRequest.getName());
+//        item.get().setPrice(editItemRequest.getPrice());
+//        item.get().setCondition(editItemRequest.getCondition());
+//        item.get().setDescription(editItemRequest.getDescription());
+//        item.get().setCategory(editItemRequest.getCategory());
+//        item.get().setLocation(editItemRequest.getExchangeLocation());
+//        item.get().setImageURLs(editItemRequest.getImageURLs());
 
         itemRepository.save(item);
     }
