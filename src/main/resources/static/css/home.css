@@ -1,7 +1,7 @@
 /* Font Face Definitions */
 @font-face {
     font-family: 'CooperBlack';
-    src: url('static/fonts/CooperBlack-Std.woff') format('woff');
+    src: url('../fonts/CooperBlack-Std.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 }

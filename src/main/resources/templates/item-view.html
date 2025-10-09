@@ -112,7 +112,7 @@
                     </div>
                 </div>
                 
-                <!-- Item Details -->
+                <!-- Item Details TODO rearrange details for better visuals ux and replace contact button with text contact info  -->
                 <div class="item-details">
                     <h1 class="item-title" th:text="${item.name}">Item Name</h1>
                     <div class="item-price" th:text="'$' + ${#numbers.formatDecimal(item.price, 1, 2)}">$0.00</div>
@@ -120,7 +120,7 @@
                     <div class="item-meta">
                         <span class="meta-badge category" th:text="${item.category}">Category</span>
                         <span class="meta-badge condition" th:text="${item.condition}">Condition</span>
-                        <span class="meta-badge location" th:text="${item.location}">Location</span>
+                        <span class="meta-badge location" th:text="${item.exchangeLocation}">Location</span>
                     </div>
                     
                     <div class="item-description" th:text="${item.description}">
@@ -134,8 +134,8 @@
                 <!-- Seller Information -->
                 <div class="seller-card">
                     <div class="seller-header">
-                        <img th:src="${item.owner?.profilePictureUrl}" 
-                             th:alt="${item.owner?.username}" 
+                        <img th:src="${item.owner.profilePictureURL}"
+                             th:alt="${item.owner.username}"
                              class="seller-avatar"
                              th:onerror="this.src='https://via.placeholder.com/50x50/667eea/ffffff?text=' + ${item.owner?.username?.substring(0,1)}">
                         <div class="seller-info">
@@ -183,7 +183,7 @@
                 </div>
                 
                 <!-- Owner Actions (only show if user is the owner) -->
-                <div class="action-card" th:if="${session.user != null and session.user.id == item.owner.id}">
+                <div class="action-card" th:if="${user != null and user.id == item.owner.id}">
                     <h3 class="action-title">Manage Item</h3>
                     <div class="action-buttons">
                         <a th:href="@{/items/{id}/edit(id=${item.id})}" class="btn btn-primary">
@@ -213,7 +213,7 @@
                         </div>
                         <div class="info-item">
                             <span class="info-label">Location</span>
-                            <span class="info-value" th:text="${item.location}">Campus</span>
+                            <span class="info-value" th:text="${item.exchangeLocation}">Campus</span>
                         </div>
                         <div class="info-item">
                             <span class="info-label">Listed</span>

@@ -5,6 +5,7 @@ import com.app.nexio.item.dto.EditItemRequest;
 import com.app.nexio.item.dto.PostItemRequest;
 import com.app.nexio.item.model.Item;
 import com.app.nexio.item.service.ItemService;
+import com.app.nexio.user.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,15 +21,25 @@ import java.util.UUID;
 public class ItemController {
 
     private final ItemService itemService;
+    private final UserService userService;
 
     @Autowired
-    public ItemController(ItemService itemService) {
+    public ItemController(ItemService itemService, UserService userService) {
         this.itemService = itemService;
+        this.userService = userService;
     }
 
     @GetMapping("/{id}")
     public String getViewItemsPage(@PathVariable UUID id,
-                                   Model model) {
+                                   Model model,
+                                   HttpSession session) {
+        UUID userId = (UUID) session.getAttribute("user_id");
+        
+        // Only add user to model if user is logged in
+        if (userId != null) {
+            model.addAttribute("user", userService.getById(userId));
+        }
+        
         model.addAttribute("active", "home");
         Item item = itemService.getById(id);
         model.addAttribute("item", item);
