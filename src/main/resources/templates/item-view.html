@@ -137,10 +137,10 @@
                         <img th:src="${item.owner.profilePictureURL}"
                              th:alt="${item.owner.username}"
                              class="seller-avatar"
-                             th:onerror="this.src='https://via.placeholder.com/50x50/667eea/ffffff?text=' + ${item.owner?.username?.substring(0,1)}">
+                             th:onerror="|this.src='https://via.placeholder.com/50x50/667eea/ffffff?text=' + ${item.owner?.username?.substring(0,1)}|">
                         <div class="seller-info">
-                            <h3 th:text="${item.owner?.username}">Seller Name</h3>
-                            <p th:text="${item.owner?.university}">University</p>
+                            <h3 th:text="${item.owner.username}">Seller Name</h3>
+                            <p th:text="${item.owner.university.displayName}">University</p>
                         </div>
                     </div>
                     
