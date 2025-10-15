@@ -1,6 +1,7 @@
 package com.app.nexio.common.controller;
 
 
+import com.app.nexio.item.service.ItemService;
 import com.app.nexio.user.model.User;
 import com.app.nexio.user.service.UserService;
 import jakarta.servlet.http.HttpSession;
@@ -16,9 +17,11 @@ import java.util.UUID;
 public class HomeController {
 
     private final UserService userService;
+    private final ItemService itemService;
 
-    public HomeController(UserService userService) {
+    public HomeController(UserService userService, ItemService itemService) {
         this.userService = userService;
+        this.itemService = itemService;
     }
 
     @GetMapping("/")
@@ -33,6 +36,7 @@ public class HomeController {
         UUID userId = (UUID) session.getAttribute("user_id");
         User user = userService.getById(userId);
 
+        itemService.getAllItems();
         model.addAttribute("active", "home");
 
         return "home";

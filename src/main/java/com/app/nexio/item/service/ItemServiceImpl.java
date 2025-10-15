@@ -6,6 +6,7 @@ import com.app.nexio.item.dto.PostItemRequest;
 import com.app.nexio.item.model.Item;
 import com.app.nexio.item.repository.ItemRepository;
 import com.app.nexio.user.model.User;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -63,7 +64,13 @@ public class ItemServiceImpl implements ItemService {
         return itemRepository.findById(itemId)
                              .orElseThrow(() -> new ItemNotFoundException("Item not found"));
     }
-    
+
+    @Override
+    public List<Item> findAllItems() {
+        return itemRepository.findAll(
+                Sort.by(Sort.Direction.DESC, Item::getCreatedOn)
+                                        );    }
+
 
     private Item initializeItemFromRequest(PostItemRequest postItemRequest) {
         return Item.builder()

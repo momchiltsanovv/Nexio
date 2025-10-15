@@ -20,4 +20,6 @@ public interface ItemService {
     Item getUserItem(UUID itemId, User currentUser);
 
     Item getById(UUID itemId);
+
+    List<Item> findAllItems();
 }
