@@ -22,4 +22,5 @@ public interface ItemService {
     Item getById(UUID itemId);
 
     List<Item> findAllItems();
+
 }

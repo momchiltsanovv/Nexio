@@ -9,6 +9,7 @@ import com.app.nexio.user.model.User;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 
@@ -67,10 +68,12 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public List<Item> findAllItems() {
-        return itemRepository.findAll(
-                Sort.by(Sort.Direction.DESC, Item::getCreatedOn)
-                                        );    }
 
+        List<Item> allItems= itemRepository.findAll();
+        allItems.sort(Comparator.comparing(Item::getCreatedOn));
+        return allItems;
+
+    }
 
     private Item initializeItemFromRequest(PostItemRequest postItemRequest) {
         return Item.builder()

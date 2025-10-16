@@ -36,7 +36,7 @@ public class HomeController {
         UUID userId = (UUID) session.getAttribute("user_id");
         User user = userService.getById(userId);
 
-        itemService.getAllItems();
+        itemService.findAllItems();
         model.addAttribute("active", "home");
 
         return "home";
