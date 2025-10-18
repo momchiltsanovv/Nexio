@@ -5,6 +5,7 @@ import com.app.nexio.item.dto.EditItemRequest;
 import com.app.nexio.item.dto.PostItemRequest;
 import com.app.nexio.item.model.Item;
 import com.app.nexio.item.service.ItemService;
+import com.app.nexio.user.model.User;
 import com.app.nexio.user.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -35,14 +36,14 @@ public class ItemController {
                                    HttpSession session) {
 
         UUID userId = (UUID) session.getAttribute("user_id");
-        
-        if (userId != null) {
-            model.addAttribute("user", userService.getById(userId));
-        }
-        
+
         model.addAttribute("active", "home");
+
         Item item = itemService.getById(id);
         model.addAttribute("item", item);
+
+        User user = userService.getById(userId);
+        model.addAttribute("user", user);
 
         return "item-view";
     }
