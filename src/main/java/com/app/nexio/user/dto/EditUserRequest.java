@@ -22,6 +22,7 @@ public class EditUserRequest {
     @URL(message = "LinkedIn URL must be valid if provided")
     String linkedinURL;
 
+
     @Size(max = 255, message = "Major name cant be more than 255 characters")
     String major;
 

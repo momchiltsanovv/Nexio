@@ -21,4 +21,5 @@ public interface ItemRepository extends JpaRepository<Item, UUID> {
 
     List<Item> findByOwner(User owner);
 
+
 }

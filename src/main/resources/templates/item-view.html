@@ -90,23 +90,23 @@
             Back to Browse
         </a>
         
-        <div class="item-container">
+        <div class="item-container" th:object="${item}">
             <!-- Left side - Images and Details -->
             <div class="item-main">
                 <!-- Images -->
                 <div class="item-images">
-                    <div th:if="${item.imageURLs != null and !item.imageURLs.isEmpty()}">
-                        <img th:src="${item.imageURLs[0]}" th:alt="${item.name}" class="main-image" id="mainImage">
-                        <div class="image-thumbnails" th:if="${item.imageURLs.size() > 1}">
-                            <img th:each="image, iterStat : ${item.imageURLs}" 
+                    <div th:if="*{imageURLs != null and !imageURLs.isEmpty()}">
+                        <img th:src="*{imageURLs[0]}" th:alt="*{name}" class="main-image" id="mainImage">
+                        <div class="image-thumbnails" th:if="*{imageURLs.size() > 1}">
+                            <img th:each="image, iterStat : *{imageURLs}" 
                                  th:src="${image}" 
-                                 th:alt="${item.name}" 
+                                 th:alt="*{name}" 
                                  class="thumbnail" 
                                  th:classappend="${iterStat.first} ? 'active' : ''"
                                  th:onclick="'changeMainImage(\'' + ${image} + '\', this)'">
                         </div>
                     </div>
-                    <div th:unless="${item.imageURLs != null and !item.imageURLs.isEmpty()}" class="image-placeholder">
+                    <div th:unless="*{imageURLs != null and !imageURLs.isEmpty()}" class="image-placeholder">
                         <i class="fas fa-image"></i>
                         <span>No Image Available</span>
                     </div>
@@ -114,16 +114,16 @@
                 
                 <!-- Item Details TODO rearrange details for better visuals ux and replace contact button with text info and ratings and items sold text fix    -->
                 <div class="item-details">
-                    <h1 class="item-title" th:text="${item.name}">Item Name</h1>
-                    <div class="item-price" th:text="'$' + ${#numbers.formatDecimal(item.price, 1, 2)}">$0.00</div>
+                    <h1 class="item-title" th:text="*{name}">Item Name</h1>
+                    <div class="item-price" th:text="'$' + ${#numbers.formatDecimal(price, 1, 2)}">$0.00</div>
                     
                     <div class="item-meta">
-                        <span class="meta-badge category" th:text="${item.category}">Category</span>
-                        <span class="meta-badge condition" th:text="${item.condition}">Condition</span>
-                        <span class="meta-badge location" th:text="${item.exchangeLocation}">Location</span>
+                        <span class="meta-badge category" th:text="*{category}">Category</span>
+                        <span class="meta-badge condition" th:text="*{condition}">Condition</span>
+                        <span class="meta-badge location" th:text="*{exchangeLocation}">Location</span>
                     </div>
                     
-                    <div class="item-description" th:text="${item.description}">
+                    <div class="item-description" th:text="*{description}">
                         Item description goes here. This is a detailed description of the item, its features, condition, and any other relevant information that buyers should know.
                     </div>
                 </div>
@@ -132,15 +132,15 @@
             <!-- Right side - Seller Info and Actions -->
             <div class="item-sidebar">
                 <!-- Seller Information -->
-                <div class="seller-card">
+                <div class="seller-card" th:object="*{owner}">
                     <div class="seller-header">
-                        <img th:src="${item.owner.profilePictureURL}"
-                             th:alt="${item.owner.username}"
+                        <img th:src="*{profilePictureURL}"
+                             th:alt="*{username}"
                              class="seller-avatar"
-                             th:onerror="|this.src='https://via.placeholder.com/50x50/667eea/ffffff?text=' + ${item.owner?.username?.substring(0,1)}|">
+                             th:onerror="|this.src='https://via.placeholder.com/50x50/667eea/ffffff?text=' + ${username?.substring(0,1)}|">
                         <div class="seller-info">
-                            <h3 th:text="${item.owner.username}">Seller Name</h3>
-                            <p th:text="${item.owner.university.displayName}">University</p>
+                            <h3 th:text="*{username}">Seller Name</h3>
+                            <p th:text="*{university.displayName}">University</p>
                         </div>
                     </div>
                     
@@ -183,14 +183,14 @@
                 </div>
                 
                 <!-- Owner Actions (only show if user is the owner) -->
-                <div class="action-card" th:if="${user != null and user.id == item.owner.id}">
+                <div class="action-card" th:if="${user != null and user.id == *{owner.id}}">
                     <h3 class="action-title">Manage Item</h3>
                     <div class="action-buttons">
-                        <a th:href="@{/items/{id}/edit(id=${item.id})}" class="btn btn-primary">
+                        <a th:href="@{/items/{id}/edit(id=*{id})}" class="btn btn-primary">
                             <i class="fas fa-edit"></i>
                             Edit Item
                         </a>
-                        <a th:href="@{/items/{id}/delete(id=${item.id})}" 
+                        <a th:href="@{/items/{id}/delete(id=*{id})}" 
                            class="btn btn-danger" 
                            onclick="return confirm('Are you sure you want to delete this item?')">
                             <i class="fas fa-trash"></i>
@@ -205,23 +205,23 @@
                     <div class="info-list">
                         <div class="info-item">
                             <span class="info-label">Category</span>
-                            <span class="info-value" th:text="${item.category}">Electronics</span>
+                            <span class="info-value" th:text="*{category}">Electronics</span>
                         </div>
                         <div class="info-item">
                             <span class="info-label">Condition</span>
-                            <span class="info-value" th:text="${item.condition}">Good</span>
+                            <span class="info-value" th:text="*{condition}">Good</span>
                         </div>
                         <div class="info-item">
                             <span class="info-label">Location</span>
-                            <span class="info-value" th:text="${item.exchangeLocation}">Campus</span>
+                            <span class="info-value" th:text="*{exchangeLocation}">Campus</span>
                         </div>
                         <div class="info-item">
                             <span class="info-label">Listed</span>
-                            <span class="info-value" th:text="${#temporals.format(item.createdOn, 'MMM dd, yyyy')}">Jan 15, 2024</span>
+                            <span class="info-value" th:text="${#temporals.format(createdOn, 'MMM dd, yyyy')}">Jan 15, 2024</span>
                         </div>
                         <div class="info-item">
                             <span class="info-label">Last Updated</span>
-                            <span class="info-value" th:text="${#temporals.format(item.updatedOn, 'MMM dd, yyyy')}">Jan 15, 2024</span>
+                            <span class="info-value" th:text="${#temporals.format(updatedOn, 'MMM dd, yyyy')}">Jan 15, 2024</span>
                         </div>
                     </div>
                 </div>

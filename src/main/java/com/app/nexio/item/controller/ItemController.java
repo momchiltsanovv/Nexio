@@ -33,9 +33,9 @@ public class ItemController {
     public String getViewItemsPage(@PathVariable UUID id,
                                    Model model,
                                    HttpSession session) {
+
         UUID userId = (UUID) session.getAttribute("user_id");
         
-        // Only add user to model if user is logged in
         if (userId != null) {
             model.addAttribute("user", userService.getById(userId));
         }

@@ -6,6 +6,7 @@ import com.app.nexio.item.dto.PostItemRequest;
 import com.app.nexio.item.model.Item;
 import com.app.nexio.item.repository.ItemRepository;
 import com.app.nexio.user.model.User;
+import jakarta.persistence.Cacheable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -26,9 +27,6 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public void postItem(PostItemRequest postItemRequest) {
         Item item = initializeItemFromRequest(postItemRequest);
-
-        //        item.setOwner(); //TODO get user from state
-
 
         itemRepository.save(item);
     }

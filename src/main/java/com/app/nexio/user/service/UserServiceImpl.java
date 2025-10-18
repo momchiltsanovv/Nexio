@@ -34,6 +34,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public static final UserRole ADMIN = UserRole.ADMIN;
     public static final UserRole USER = UserRole.USER;
     private static final String USER_LOGIN_SUCCESSFULLY = "User logged in successfully";
+    public static final String NO_SUCH_USER_FOUND = "No such user found";
     private final UserRepository userRepository;
     private static final String USER_UPDATED_SUCCESSFULLY = "User info updated successfully ";
     private final UserProperties userProperties;
@@ -110,29 +111,44 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public void switchStatus(UUID userId) {
-        User user = userRepository.getUserById(userId);
-        user.setActiveAccount(!user.isActiveAccount());
-        userRepository.save(user);
+        Optional<User> user = userRepository.findById(userId);
+
+        if (user.isEmpty()) {
+            throw new UserDoesNotExistException(NO_SUCH_USER_FOUND);
+        }
+
+        user.get().setActiveAccount(!user.get().isActiveAccount());
+        userRepository.save(user.get());
     }
 
     @Override
     public void switchRole(UUID userId) {
-        User user = userRepository.getUserById(userId);
-        user.setRole(user.getRole() == ADMIN ? USER : ADMIN);
-        userRepository.save(user);
+        Optional<User> user = userRepository.findById(userId);
+
+        if (user.isEmpty()) {
+            throw new UserDoesNotExistException(NO_SUCH_USER_FOUND);
+        }
+
+        user.get().setRole(user.get().getRole() == ADMIN ? USER : ADMIN);
+
+        userRepository.save(user.get());
     }
 
     @Override
     public void editUserDetails(UUID userid, EditUserRequest editRequest) {
-        User user = userRepository.getUserById(userid);
+        Optional<User> user = userRepository.findById(userid);
 
-        user.setProfilePictureURL(editRequest.getProfilePictureURL());
-        user.setInstagramURL(editRequest.getInstagramURL());
-        user.setLinkedinURL(editRequest.getLinkedinURL());
-        user.setMajor(editRequest.getMajor());
-        user.setGraduationYear(editRequest.getGraduationYear());
+        if (user.isEmpty()) {
+            throw new UserDoesNotExistException(NO_SUCH_USER_FOUND);
+        }
 
-        userRepository.save(user);
+        user.get().setProfilePictureURL(editRequest.getProfilePictureURL());
+        user.get().setInstagramURL(editRequest.getInstagramURL());
+        user.get().setLinkedinURL(editRequest.getLinkedinURL());
+        user.get().setMajor(editRequest.getMajor());
+        user.get().setGraduationYear(editRequest.getGraduationYear());
+
+        userRepository.save(user.get());
 
         log.info(USER_UPDATED_SUCCESSFULLY);
 
@@ -140,7 +156,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public User getById(UUID userId) {
-        return userRepository.getUserById(userId);
+        return userRepository.findById(userId)
+                             .orElseThrow(() -> new UserDoesNotExistException("User with id: %s does not exist".formatted(userId)));
+
+
     }
 
     @Override
