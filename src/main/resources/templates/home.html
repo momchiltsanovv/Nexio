@@ -204,184 +204,79 @@
             <!-- Items Grid -->
             <div class="items-container" id="itemsContainer">
                 <div class="items-grid" id="itemsGrid">
-                    <!-- Sample Items - In real app, these would be populated by Thymeleaf -->
+                    <!-- Items populated by Thymeleaf -->
+                    <div class="item-card"
+                         th:each="item : ${items}"
+                         th:data-category="${item.category != null ? item.category : ''}"
+                         th:data-price="${item.price}"
+                         th:data-condition="${item.condition != null ? item.condition : ''}"
+                         th:data-id="${item.id}"
+                         th:data-title="${item.name}"
+                         th:data-description="${item.description}"
+                         th:data-location="${item.exchangeLocation.name()}"
+                         th:data-imageurl="${item.imageURLs != null and !item.imageURLs.isEmpty() ? item.imageURLs[0] : '/images/defaults/no_image.webp'}"
+                         th:data-seller-name="${item.owner.firstName + ' ' + item.owner.lastName}"
+                         th:data-seller-uni="${item.owner.university}"
+                         th:data-seller-avatar="${item.owner.profilePictureURL != null ? item.owner.profilePictureURL : '/images/defaults/default_pfp.jpg'}"
+                         th:data-createdat="${item.createdOn}">
 
-                    <!-- Item Card 1 -->
-                    <div class="item-card" data-category="TEXTBOOKS" data-price="45" data-condition="GOOD">
                         <div class="item-image">
-                            <img src="https://via.placeholder.com/300x200/667eea/ffffff?text=Calculus+Book" alt="Calculus Textbook">
+                            <img th:src="@{${item.imageURLs != null and !item.imageURLs.isEmpty() ? item.imageURLs[0] : '/images/defaults/no_image.webp'}}"
+                                 th:alt="${item.name ?: 'Item image'}"
+                                 onerror="this.src='/images/defaults/no_image.webp'">
                             <div class="item-badges">
-                                <span class="condition-badge good">Good</span>
+                    <span class="condition-badge"
+                          th:classappend="${item.condition != null ? #strings.toLowerCase(item.condition.getDisplayName()).replace(' ', '-') : ''}"
+                          th:text="${item.condition.getDisplayName()}">Good</span>
                             </div>
-                            <button class="wishlist-btn" data-item-id="1">
+                            <button class="wishlist-btn" th:data-item-id="${item.id}">
                                 <i class="far fa-heart"></i>
                             </button>
                         </div>
+
                         <div class="item-content">
-                            <div class="item-category">
-                                <i class="fas fa-book"></i>
-                                Textbooks
+                            <div class="item-category" th:if="${item.category != null}">
+                                <span th:text="${item.category != null ? #strings.capitalize(item.category.toString().toLowerCase()) : 'Other'}">Category</span>
                             </div>
-                            <h3 class="item-title">Calculus: Early Transcendentals</h3>
-                            <p class="item-description">8th Edition by James Stewart. Great condition with minimal highlighting.</p>
+
+                            <h3 class="item-title" th:text="${item.name ?: 'Untitled Item'}">Item Title</h3>
+
+                            <p class="item-description" th:text="${item.description ?: 'No description available'}">Item description</p>
+
                             <div class="item-details">
-                                <div class="item-price">45 лв</div>
-                                <div class="item-location">
+                                <div class="item-price" th:text="${item.price != null ? item.price + ' лв' : 'Price not set'}">0 лв</div>
+                                <div class="item-location" th:if="${item.exchangeLocation != null}">
                                     <i class="fas fa-map-marker-alt"></i>
-                                    Studentski Grad
+                                    <span th:text="${item.exchangeLocation != null ? item.exchangeLocation.displayName : 'Location not set'}">Location</span>
                                 </div>
                             </div>
-                            <div class="item-seller">
-                                <img src="https://via.placeholder.com/30x30/764ba2/ffffff?text=A" alt="Seller" class="seller-avatar">
-                                <span class="seller-name">Alex Petrov</span>
-                                <span class="seller-uni">NBU</span>
+
+                            <div class="item-seller" th:if="${item.owner != null}">
+                                <img th:src="@{${item.owner != null and item.owner.profilePictureURL != null ? item.owner.profilePictureURL : '/images/defaults/default_pfp.jpg'}}"
+                                     alt="Seller"
+                                     class="seller-avatar"
+                                     onerror="this.src='/images/defaults/default_pfp.jpg'">
+                                <span class="seller-name" th:text="${ item.owner.firstName + ' ' + item.owner.lastName}">Seller Name</span>
+                                <span class="seller-uni" th:text="${item.owner.university.getDisplayName()}">University</span>
                             </div>
+
                             <div class="item-actions">
-                                <button class="btn btn-primary" onclick="viewItem('1')">
+                                <a th:href="@{'/items/' + ${item.id}}" class="btn btn-primary">
                                     <i class="fas fa-eye"></i>
                                     View Details
-                                </button>
+                                </a>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Item Card 2 -->
-                    <div class="item-card" data-category="ELECTRONICS" data-price="800" data-condition="LIKE_NEW">
-                        <div class="item-image">
-                            <img src="https://via.placeholder.com/300x200/667eea/ffffff?text=MacBook" alt="MacBook Pro">
-                            <div class="item-badges">
-                                <span class="condition-badge like-new">Like New</span>
-                                <span class="featured-badge">Featured</span>
-                            </div>
-                            <button class="wishlist-btn active" data-item-id="2">
-                                <i class="fas fa-heart"></i>
-                            </button>
-                        </div>
-                        <div class="item-content">
-                            <div class="item-category">
-                                <i class="fas fa-laptop"></i>
-                                Electronics
-                            </div>
-                            <h3 class="item-title">MacBook Pro 13" M1</h3>
-                            <p class="item-description">2021 model, 8GB RAM, 256GB SSD. Barely used, still under warranty.</p>
-                            <div class="item-details">
-                                <div class="item-price">800 лв</div>
-                                <div class="item-location">
-                                    <i class="fas fa-map-marker-alt"></i>
-                                    Sofia Center
-                                </div>
-                            </div>
-                            <div class="item-seller">
-                                <img src="https://via.placeholder.com/30x30/764ba2/ffffff?text=M" alt="Seller" class="seller-avatar">
-                                <span class="seller-name">Maria Ivanova</span>
-                                <span class="seller-uni">Sofia University</span>
-                            </div>
-                            <div class="item-actions">
-                                <button class="btn btn-primary" onclick="viewItem('2')">
-                                    <i class="fas fa-eye"></i>
-                                    View Details
-                                </button>
-                            </div>
+                    <!-- Empty state when no items -->
+                    <div th:if="${items == null or items.isEmpty()}" class="empty-state">
+                        <div class="empty-content">
+                            <i class="fas fa-box-open"></i>
+                            <h3>No items found</h3>
+                            <p>There are currently no items available.</p>
                         </div>
                     </div>
-
-                    <!-- Item Card 3 -->
-                    <div class="item-card" data-category="FURNITURE" data-price="120" data-condition="GOOD">
-                        <div class="item-image">
-                            <img src="https://via.placeholder.com/300x200/667eea/ffffff?text=Desk+Chair" alt="Office Chair">
-                            <div class="item-badges">
-                                <span class="condition-badge good">Good</span>
-                            </div>
-                            <button class="wishlist-btn" data-item-id="3">
-                                <i class="far fa-heart"></i>
-                            </button>
-                        </div>
-                        <div class="item-content">
-                            <div class="item-category">
-                                <i class="fas fa-chair"></i>
-                                Furniture
-                            </div>
-                            <h3 class="item-title">Ergonomic Office Chair</h3>
-                            <p class="item-description">Comfortable office chair with lumbar support. Perfect for studying.</p>
-                            <div class="item-details">
-                                <div class="item-price">120 лв</div>
-                                <div class="item-location">
-                                    <i class="fas fa-map-marker-alt"></i>
-                                    Mladost
-                                </div>
-                            </div>
-                            <div class="item-seller">
-                                <img src="https://via.placeholder.com/30x30/764ba2/ffffff?text=D" alt="Seller" class="seller-avatar">
-                                <span class="seller-name">Dimitar Georgiev</span>
-                                <span class="seller-uni">TU Sofia</span>
-                            </div>
-                            <div class="item-actions">
-                                <button class="btn btn-primary" onclick="viewItem('3')">
-                                    <i class="fas fa-eye"></i>
-                                    View Details
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Item Card 4 -->
-                    <div class="item-card" data-category="CLOTHING" data-price="25" data-condition="NEW">
-                        <div class="item-image">
-                            <img src="https://via.placeholder.com/300x200/667eea/ffffff?text=Jacket" alt="Winter Jacket">
-                            <div class="item-badges">
-                                <span class="condition-badge new">New</span>
-                            </div>
-                            <button class="wishlist-btn" data-item-id="4">
-                                <i class="far fa-heart"></i>
-                            </button>
-                        </div>
-                        <div class="item-content">
-                            <div class="item-category">
-                                <i class="fas fa-tshirt"></i>
-                                Clothing
-                            </div>
-                            <h3 class="item-title">Winter Jacket - Size M</h3>
-                            <p class="item-description">Brand new winter jacket, never worn. Still has tags attached.</p>
-                            <div class="item-details">
-                                <div class="item-price">25 лв</div>
-                                <div class="item-location">
-                                    <i class="fas fa-map-marker-alt"></i>
-                                    Lozenets
-                                </div>
-                            </div>
-                            <div class="item-seller">
-                                <img src="https://via.placeholder.com/30x30/764ba2/ffffff?text=S" alt="Seller" class="seller-avatar">
-                                <span class="seller-name">Stefan Todorov</span>
-                                <span class="seller-uni">UNWE</span>
-                            </div>
-                            <div class="item-actions">
-                                <button class="btn btn-primary" onclick="viewItem('4')">
-                                    <i class="fas fa-eye"></i>
-                                    View Details
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- More items would be added here -->
-                </div>
-
-                <!-- Loading indicator -->
-                <div class="loading-indicator" id="loadingIndicator" style="display: none;">
-                    <div class="spinner"></div>
-                    <p>Loading more items...</p>
-                </div>
-
-                <!-- No results message -->
-                <div class="no-results" id="noResults" style="display: none;">
-                    <div class="no-results-icon">
-                        <i class="fas fa-search"></i>
-                    </div>
-                    <h3>No items found</h3>
-                    <p>Try adjusting your filters or search terms</p>
-                    <button class="btn btn-primary" onclick="clearAllFilters()">
-                        Clear Filters
-                    </button>
                 </div>
             </div>
 

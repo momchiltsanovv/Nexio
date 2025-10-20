@@ -54,7 +54,7 @@ public class Item {
     @Singular
     private List<String> imageURLs;
 
-    @OneToOne
+    @ManyToOne
     private User owner;
 
     @CreationTimestamp

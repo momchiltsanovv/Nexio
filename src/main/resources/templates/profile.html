@@ -554,7 +554,7 @@
             <div class="card-body">
                 <!-- Items Grid -->
                 <div class="items-grid" th:if="${items != null and !items.isEmpty()}">
-                    <a th:each="item : ${items}" th:href="@{'/items/' + ${item.id} + '/edit'}" class="item-card">
+                    <a th:each="item : ${items}" th:href="@{'/items/' + ${item.id}}" class="item-card">
                         <img th:if="${item.imageURLs != null and !item.imageURLs.isEmpty()}"
                              th:src="${item.imageURLs[0]}"
                              th:alt="${item.name}"

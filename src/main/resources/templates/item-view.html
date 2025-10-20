@@ -481,7 +481,11 @@
             </div>
 
             <div class="seller-actions">
-                <a href="#" class="btn btn-outline">
+                <a th:if="${user.id == item.owner.id}" th:href="@{/users/profile}" class="btn btn-outline">
+                    <i class="fas fa-user"></i>
+                    View Profile
+                </a>
+                <a th:if="${user.id != item.owner.id}"  th:href="@{'/users/' + ${item.owner.id}}" class="btn btn-outline">
                     <i class="fas fa-user"></i>
                     View Profile
                 </a>

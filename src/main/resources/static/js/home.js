@@ -1,6 +1,7 @@
 // DOM Elements
 let itemsGrid;
 let searchInput;
+let searchButton;
 let sortSelect;
 let activeFilters;
 let resultsCount;
@@ -22,13 +23,16 @@ let currentFilters = {
 let currentPage = 1;
 let itemsPerPage = 12;
 let totalItems = 0;
-let allItems = []; // This would come from the server in a real app
+let allItems = []; // Will be populated from DOM payload in home.html
 
 // Initialize when DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {
     initializeElements();
     initializeEventListeners();
     initializeMobileFilters();
+    // Load any filters from URL now that elements exist
+    loadFiltersFromURL();
+    hydrateItemsFromDOM();
     loadItems();
     updateURL();
 });
@@ -36,7 +40,9 @@ document.addEventListener('DOMContentLoaded', function() {
 // Initialize DOM elements
 function initializeElements() {
     itemsGrid = document.getElementById('itemsGrid');
-    searchInput = document.getElementById('searchInput');
+    // IDs in template use mainSearchInput/mainSearchBtn
+    searchInput = document.getElementById('mainSearchInput');
+    searchButton = document.getElementById('mainSearchBtn');
     sortSelect = document.getElementById('sortSelect');
     activeFilters = document.getElementById('activeFilters');
     resultsCount = document.getElementById('resultsCount');
@@ -45,11 +51,35 @@ function initializeElements() {
     pagination = document.getElementById('pagination');
 }
 
+// Read server-provided items from hidden DOM and map into JS objects
+function hydrateItemsFromDOM() {
+    const nodes = document.querySelectorAll('.item-card');
+    allItems = Array.from(nodes).map(n => ({
+        id: n.getAttribute('data-id'),
+        title: n.getAttribute('data-title') || '',
+        description: n.getAttribute('data-description') || '',
+        price: parseFloat(n.getAttribute('data-price') || '0'),
+        category: n.getAttribute('data-category') || '',
+        condition: n.getAttribute('data-condition') || '',
+        location: n.getAttribute('data-location') || '',
+        imageUrl: n.getAttribute('data-imageurl') || '/images/defaults/no_image.webp',
+        seller: {
+            name: n.getAttribute('data-seller-name') || '',
+            university: n.getAttribute('data-seller-uni') || '',
+            avatar: n.getAttribute('data-seller-avatar') || '/images/defaults/default_pfp.jpg'
+        },
+        createdAt: n.getAttribute('data-createdat') || '1970-01-01',
+        views: parseInt(n.getAttribute('data-views') || '0'),
+        inWishlist: n.getAttribute('data-inwishlist') === 'true',
+        featured: n.getAttribute('data-featured') === 'true'
+    }));
+}
+
 // Initialize event listeners
 function initializeEventListeners() {
     // Search functionality
-    searchInput.addEventListener('input', debounce(handleSearch, 300));
-    document.getElementById('searchBtn').addEventListener('click', handleSearch);
+    if (searchInput) searchInput.addEventListener('input', debounce(handleSearch, 300));
+    if (searchButton) searchButton.addEventListener('click', handleSearch);
 
     // Sort functionality
     sortSelect.addEventListener('change', handleSort);
@@ -59,7 +89,7 @@ function initializeEventListeners() {
     initializeFilterCollapsibles();
 
     // Force list view styling and skip toggle
-    itemsGrid.classList.add('list-view');
+    if (itemsGrid) itemsGrid.classList.add('list-view');
 
     // Pagination
     initializePagination();
@@ -242,16 +272,36 @@ function initializeWishlistButtons() {
             toggleWishlist(itemId, btn);
         }
     });
+
+    // Set initial state of wishlist icons
+    document.querySelectorAll('.wishlist-btn').forEach(btn => {
+        const inWishlist = btn.dataset.inwishlist === 'true';
+        const icon = btn.querySelector('i');
+        if (inWishlist) {
+            icon.classList.remove('far');
+            icon.classList.add('fas');
+            btn.classList.add('active');
+        } else {
+            icon.classList.remove('fas');
+            icon.classList.add('far');
+            btn.classList.remove('active');
+        }
+    });
 }
 
 // Initialize mobile filters
 function initializeMobileFilters() {
+    const sidebar = document.querySelector('.filters-sidebar');
+    const mobileBody = document.querySelector('.mobile-filters-body');
+    if (!sidebar || !mobileBody) {
+        // Mobile filters container not present on this template; skip
+        return;
+    }
     // Clone desktop filters to mobile
-    const desktopFilters = document.querySelector('.filters-sidebar').innerHTML;
-    document.querySelector('.mobile-filters-body').innerHTML = desktopFilters;
-
+    mobileBody.innerHTML = sidebar.innerHTML;
     // Re-initialize listeners for mobile filters
     initializeMobileFilterListeners();
+    syncMobileFiltersWithCurrentState();
 }
 
 function initializeMobileFilterListeners() {
@@ -260,11 +310,48 @@ function initializeMobileFilterListeners() {
     // Category filters
     mobileFiltersBody.querySelectorAll('input[name="category"]').forEach(checkbox => {
         checkbox.addEventListener('change', function() {
-            updateCategoryFilter(this.value, this.checked);
+            updateCategoryFilter(this.value, this.checked, true);
         });
     });
 
-    // Similar for other filters... (university removed)
+    // Condition filters
+    mobileFiltersBody.querySelectorAll('input[name="condition"]').forEach(checkbox => {
+        checkbox.addEventListener('change', function() {
+            updateConditionFilter(this.value, this.checked, true);
+        });
+    });
+
+    // Price filters
+    mobileFiltersBody.querySelector('#minPrice').addEventListener('input', debounce(() => updatePriceFilter(true), 500));
+    mobileFiltersBody.querySelector('#maxPrice').addEventListener('input', debounce(() => updatePriceFilter(true), 500));
+
+    // Location filter
+    mobileFiltersBody.querySelector('#locationFilter').addEventListener('change', function() {
+        updateLocationFilter(this.value, true);
+    });
+}
+
+// Syncs the mobile filter UI with the currentFilters state.
+function syncMobileFiltersWithCurrentState() {
+    const mobileFiltersBody = document.querySelector('.mobile-filters-body');
+    if (!mobileFiltersBody) return;
+
+    // Sync categories
+    mobileFiltersBody.querySelectorAll('input[name="category"]').forEach(checkbox => {
+        checkbox.checked = currentFilters.categories.includes(checkbox.value);
+    });
+
+    // Sync conditions
+    mobileFiltersBody.querySelectorAll('input[name="condition"]').forEach(checkbox => {
+        checkbox.checked = currentFilters.conditions.includes(checkbox.value);
+    });
+
+    // Sync price
+    mobileFiltersBody.querySelector('#minPrice').value = currentFilters.minPrice !== null ? currentFilters.minPrice : '';
+    mobileFiltersBody.querySelector('#maxPrice').value = currentFilters.maxPrice !== null ? currentFilters.maxPrice : '';
+
+    // Sync location
+    mobileFiltersBody.querySelector('#locationFilter').value = currentFilters.location;
 }
 
 // Search functionality
@@ -284,7 +371,7 @@ function handleSort() {
 }
 
 // Filter update functions
-function updateCategoryFilter(category, checked) {
+function updateCategoryFilter(category, checked, isMobile = false) {
     if (checked) {
         if (!currentFilters.categories.includes(category)) {
             currentFilters.categories.push(category);
@@ -293,19 +380,35 @@ function updateCategoryFilter(category, checked) {
         currentFilters.categories = currentFilters.categories.filter(c => c !== category);
     }
 
+    if (!isMobile) {
+        const mobileCheckbox = document.querySelector('.mobile-filters-body input[name="category"][value="' + category + '"]');
+        if (mobileCheckbox) mobileCheckbox.checked = checked;
+    } else {
+        const desktopCheckbox = document.querySelector('.filters-sidebar input[name="category"][value="' + category + '"]');
+        if (desktopCheckbox) desktopCheckbox.checked = checked;
+    }
+
     currentPage = 1;
     loadItems();
     updateActiveFilters();
     updateURL();
 }
 
-function updateConditionFilter(condition, isChecked) {
+function updateConditionFilter(condition, isChecked, isMobile = false) {
     if (isChecked) {
         if (!currentFilters.conditions.includes(condition)) {
             currentFilters.conditions.push(condition);
         }
     } else {
         currentFilters.conditions = currentFilters.conditions.filter(c => c !== condition);
+    }
+
+    if (!isMobile) {
+        const mobileCheckbox = document.querySelector('.mobile-filters-body input[name="condition"][value="' + condition + '"]');
+        if (mobileCheckbox) mobileCheckbox.checked = isChecked;
+    } else {
+        const desktopCheckbox = document.querySelector('.filters-sidebar input[name="condition"][value="' + condition + '"]');
+        if (desktopCheckbox) desktopCheckbox.checked = isChecked;
     }
 
     currentPage = 1;
@@ -316,12 +419,20 @@ function updateConditionFilter(condition, isChecked) {
 
 // updateUniversityFilter removed
 
-function updatePriceFilter() {
+function updatePriceFilter(isMobile = false) {
     const minPrice = document.getElementById('minPrice').value;
     const maxPrice = document.getElementById('maxPrice').value;
 
     currentFilters.minPrice = minPrice ? parseFloat(minPrice) : null;
     currentFilters.maxPrice = maxPrice ? parseFloat(maxPrice) : null;
+
+    if (!isMobile) {
+        document.querySelector('.mobile-filters-body #minPrice').value = minPrice;
+        document.querySelector('.mobile-filters-body #maxPrice').value = maxPrice;
+    } else {
+        document.querySelector('.filters-sidebar #minPrice').value = minPrice;
+        document.querySelector('.filters-sidebar #maxPrice').value = maxPrice;
+    }
 
     currentPage = 1;
     loadItems();
@@ -330,8 +441,15 @@ function updatePriceFilter() {
 }
 
 
-function updateLocationFilter(location) {
+function updateLocationFilter(location, isMobile = false) {
     currentFilters.location = location;
+
+    if (!isMobile) {
+        document.querySelector('.mobile-filters-body #locationFilter').value = location;
+    } else {
+        document.querySelector('.filters-sidebar #locationFilter').value = location;
+    }
+
     currentPage = 1;
     loadItems();
     updateActiveFilters();
@@ -345,24 +463,27 @@ function toggleView() {}
 function loadItems() {
     showLoading(true);
 
-    // Simulate API call
+    // Work on server-provided items
     setTimeout(() => {
-        const filteredItems = filterItems(getSampleItems());
+        const filteredItems = filterItems(allItems);
         const sortedItems = sortItems(filteredItems);
+
+        // Paginate and display only the current page's items
         const paginatedItems = paginateItems(sortedItems);
-
         displayItems(paginatedItems);
-        updatePagination();
-        updateResultsCount(filteredItems.length);
-
+        updateResultsCount(totalItems); // Use totalItems for pagination
+        if (pagination) {
+            pagination.style.display = 'block'; // Ensure pagination is visible
+        }
+        updatePagination(); // Update pagination controls
         showLoading(false);
 
-        if (filteredItems.length === 0) {
+        if (totalItems === 0) {
             showNoResults(true);
         } else {
             showNoResults(false);
         }
-    }, 500);
+    }, 100);
 }
 
 // Filter items based on current filters
@@ -441,19 +562,36 @@ function paginateItems(items) {
 
 // Display items in the grid
 function displayItems(items) {
-    if (items.length === 0) {
-        itemsGrid.innerHTML = '';
-        return;
-    }
+    const allItemCards = Array.from(itemsGrid.querySelectorAll('.item-card'));
 
-    const itemsHTML = items.map(item => createItemHTML(item)).join('');
-    itemsGrid.innerHTML = itemsHTML;
+    // Hide all items initially
+    allItemCards.forEach(card => card.style.display = 'none');
 
-    // Re-initialize wishlist buttons for new items
-    initializeWishlistButtons();
+    // Display only the filtered and paginated items
+    items.forEach(item => {
+        const card = itemsGrid.querySelector(`.item-card[data-id="${item.id}"]`);
+        if (card) {
+            card.style.display = 'flex'; // Or 'block', depending on your CSS
+        }
+    });
+
+    // Reorder items in the DOM to match the sorted order
+    const fragment = document.createDocumentFragment();
+    items.forEach(item => {
+        const card = itemsGrid.querySelector(`.item-card[data-id="${item.id}"]`);
+        if (card) {
+            fragment.appendChild(card);
+        }
+    });
+    itemsGrid.innerHTML = ''; // Clear existing items to re-append in sorted order
+    itemsGrid.appendChild(fragment);
+
+    // Re-initialize wishlist buttons for new items - no longer needed as items are just hidden/shown.
+    // initializeWishlistButtons();
 }
 
-// Create HTML for a single item
+// Create HTML for a single item (removed - using Thymeleaf rendered items)
+/*
 function createItemHTML(item) {
     const conditionClass = item.condition.toLowerCase().replace('_', '-');
     const categoryIcon = getCategoryIcon(item.category);
@@ -502,7 +640,7 @@ function createItemHTML(item) {
             </div>
         </div>
     `;
-}
+} */
 
 // Update active filters display
 function updateActiveFilters() {
@@ -807,92 +945,6 @@ function formatCondition(condition) {
     return condition.replace(/_/g, ' ').toLowerCase().replace(/\b\w/g, l => l.toUpperCase());
 }
 
-// Sample data (in real app, this would come from server)
-function getSampleItems() {
-    return [
-        {
-            id: '1',
-            title: 'Calculus: Early Transcendentals',
-            description: '8th Edition by James Stewart. Great condition with minimal highlighting.',
-            price: 45,
-            category: 'TEXTBOOKS',
-            condition: 'GOOD',
-            location: 'Studentski Grad',
-            imageUrl: 'https://via.placeholder.com/300x200/667eea/ffffff?text=Calculus+Book',
-            seller: {
-                name: 'Alex Petrov',
-                university: 'NBU',
-                avatar: 'https://via.placeholder.com/30x30/764ba2/ffffff?text=A'
-            },
-            university: 'NBU',
-            createdAt: '2024-01-15',
-            views: 25,
-            inWishlist: false,
-            featured: false
-        },
-        {
-            id: '2',
-            title: 'MacBook Pro 13" M1',
-            description: '2021 model, 8GB RAM, 256GB SSD. Barely used, still under warranty.',
-            price: 800,
-            category: 'ELECTRONICS',
-            condition: 'LIKE_NEW',
-            location: 'Sofia Center',
-            imageUrl: 'https://via.placeholder.com/300x200/667eea/ffffff?text=MacBook',
-            seller: {
-                name: 'Maria Ivanova',
-                university: 'Sofia University',
-                avatar: 'https://via.placeholder.com/30x30/764ba2/ffffff?text=M'
-            },
-            university: 'SOFIA_UNI',
-            createdAt: '2024-01-20',
-            views: 45,
-            inWishlist: true,
-            featured: true
-        },
-        {
-            id: '3',
-            title: 'Ergonomic Office Chair',
-            description: 'Comfortable office chair with lumbar support. Perfect for studying.',
-            price: 120,
-            category: 'FURNITURE',
-            condition: 'GOOD',
-            location: 'Mladost',
-            imageUrl: 'https://via.placeholder.com/300x200/667eea/ffffff?text=Desk+Chair',
-            seller: {
-                name: 'Dimitar Georgiev',
-                university: 'TU Sofia',
-                avatar: 'https://via.placeholder.com/30x30/764ba2/ffffff?text=D'
-            },
-            university: 'TU_SOFIA',
-            createdAt: '2024-01-18',
-            views: 12,
-            inWishlist: false,
-            featured: false
-        },
-        {
-            id: '4',
-            title: 'Winter Jacket - Size M',
-            description: 'Brand new winter jacket, never worn. Still has tags attached.',
-            price: 25,
-            category: 'CLOTHING',
-            condition: 'NEW',
-            location: 'Lozenets',
-            imageUrl: 'https://via.placeholder.com/300x200/667eea/ffffff?text=Jacket',
-            seller: {
-                name: 'Stefan Todorov',
-                university: 'UNWE',
-                avatar: 'https://via.placeholder.com/30x30/764ba2/ffffff?text=S'
-            },
-            university: 'UNWE',
-            createdAt: '2024-01-22',
-            views: 8,
-            inWishlist: false,
-            featured: false
-        }
-        // Add more sample items as needed...
-    ];
-}
+// Removed mock sample items; using server-provided items only
 
-// Initialize page
-loadFiltersFromURL();
+// Removed early call to loadFiltersFromURL(); it's now called after DOM is ready

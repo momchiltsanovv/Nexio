@@ -1,6 +1,7 @@
 package com.app.nexio.common.controller;
 
 
+import com.app.nexio.item.model.Item;
 import com.app.nexio.item.service.ItemService;
 import com.app.nexio.user.model.User;
 import com.app.nexio.user.service.UserService;
@@ -10,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.List;
 import java.util.UUID;
 
 @Controller
@@ -36,7 +38,9 @@ public class HomeController {
         UUID userId = (UUID) session.getAttribute("user_id");
         User user = userService.getById(userId);
 
-        itemService.findAllItems();
+        List<Item> items = itemService.findAllItems();
+        model.addAttribute("items", items);
+
         model.addAttribute("active", "home");
 
         return "home";
