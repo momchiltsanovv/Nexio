@@ -6,7 +6,6 @@ import com.app.nexio.security.AuthenticationDetails;
 import com.app.nexio.user.dto.EditUserRequest;
 import com.app.nexio.user.model.User;
 import com.app.nexio.user.service.UserService;
-import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -111,6 +110,22 @@ public class UserController {
 
 
         return "index";
+    }
+
+    //debug to see where brake
+    @PatchMapping("/{id}/toggle-role")
+    @PreAuthorize("hasRole('ADMIN')")
+    public String toggleUserRole(@PathVariable UUID id) {
+        userService.switchRole(id);
+        return "redirect:/users";
+    }
+
+    //debug this also 2
+    @PatchMapping("/{id}/toggle-status")
+    @PreAuthorize("hasRole('ADMIN')")
+    public String toggleUserStatus(@PathVariable UUID id) {
+        userService.switchStatus(id);
+        return "redirect:/users";
     }
 
 

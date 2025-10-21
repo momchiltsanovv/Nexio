@@ -3,6 +3,7 @@ package com.app.nexio.security;
 import com.app.nexio.user.model.UserRole;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,7 +25,7 @@ public class AuthenticationDetails implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
 
-        SimpleGrantedAuthority role = new SimpleGrantedAuthority(this.role.name());
+        SimpleGrantedAuthority role = new SimpleGrantedAuthority("ROLE_" + getRole());
 
         return List.of(role);
     }

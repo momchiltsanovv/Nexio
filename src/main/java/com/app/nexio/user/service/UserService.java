@@ -140,22 +140,10 @@ public class UserService implements UserDetailsService {
         return userRepository.findAll();
     }
 
-
-    @Override
-    public UserDetails loadUserByUsername(String usernameOrEmail) throws UsernameNotFoundException {
-        User user = userRepository.findByUsernameOrEmail(usernameOrEmail)
-                                  .orElseThrow(() -> new UserDoesNotExistException(NO_SUCH_USER_FOUND));
-
-
-        return new AuthenticationDetails(user.getId(), user.getUsername(), user.getPassword(), user.getRole(), user.isActiveAccount());
-    }
-
-
     public Integer getActiveUsersCount() {
         return userRepository
                 .getAllByActiveAccount(ACTIVE_ACCOUNT).size();
     }
-
     public Integer getAdminsCount() {
         return userRepository
                 .getAllByRole(ADMIN).size();
@@ -164,5 +152,14 @@ public class UserService implements UserDetailsService {
     public Integer getGraduatedCount() {
         return userRepository
                 .getAllByGraduationYearBefore(LocalDateTime.now().getYear()).size();
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String usernameOrEmail) throws UsernameNotFoundException {
+        User user = userRepository.findByUsernameOrEmail(usernameOrEmail)
+                                  .orElseThrow(() -> new UserDoesNotExistException(NO_SUCH_USER_FOUND));
+
+
+        return new AuthenticationDetails(user.getId(), user.getUsername(), user.getPassword(), user.getRole(), user.isActiveAccount());
     }
 }

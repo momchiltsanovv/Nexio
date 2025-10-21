@@ -7,9 +7,11 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity
 public class WebConfiguration implements WebMvcConfigurer {
 
 
@@ -18,7 +20,7 @@ public class WebConfiguration implements WebMvcConfigurer {
 
         httpSecurity.authorizeHttpRequests(matcher -> matcher
                                            .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-                                           .requestMatchers("/", "/auth/register").permitAll()
+                                           .requestMatchers("/", "/auth/register", "/info").permitAll()
                                            .anyRequest().authenticated()
                                   )
             .formLogin(form -> form
