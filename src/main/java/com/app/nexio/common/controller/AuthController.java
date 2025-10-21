@@ -3,7 +3,6 @@ package com.app.nexio.common.controller;
 import com.app.nexio.user.dto.LoginRequest;
 import com.app.nexio.user.dto.RegisterRequest;
 import com.app.nexio.user.service.UserService;
-import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

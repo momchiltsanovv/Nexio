@@ -3,6 +3,7 @@ package com.app.nexio.item.service;
 import com.app.nexio.exception.ItemNotFoundException;
 import com.app.nexio.item.dto.EditItemRequest;
 import com.app.nexio.item.dto.PostItemRequest;
+import com.app.nexio.item.model.Category;
 import com.app.nexio.item.model.Item;
 import com.app.nexio.item.repository.ItemRepository;
 import com.app.nexio.user.model.User;
@@ -13,7 +14,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class ItemService{
+public class ItemService {
 
 
     private final ItemRepository itemRepository;
@@ -59,7 +60,7 @@ public class ItemService{
 
     public List<Item> findAllItems() {
 
-        List<Item> allItems= itemRepository.findAll();
+        List<Item> allItems = itemRepository.findAll();
         allItems.sort(Comparator.comparing(Item::getCreatedOn));
         return allItems;
 
@@ -75,6 +76,14 @@ public class ItemService{
                    .exchangeLocation(postItemRequest.getExchangeLocation())
                    .imageURLs(postItemRequest.getImageURLs())//TODO get image url from cloud
                    .build();
+
+    }
+
+    public Integer getCategoryCount(Category category) {
+        return itemRepository.findAll().stream()
+                             .filter(item -> item.getCategory() == category)
+                             .toList()
+                             .size();
 
     }
 

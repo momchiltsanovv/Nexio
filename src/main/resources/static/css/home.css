@@ -1564,6 +1564,28 @@ body {
     box-shadow: none;
 }
 
+.filter-buttons {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    padding: 8px 16px;
+    border: 1px solid #e0e0e0;
+    background: #f8f9fa;
+    border-radius: 20px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.filter-btn.active {
+    background: #212346;
+    color: white;
+    border-color: #212346;
+}
+
 /* Content Layout */
 .content-layout {
     display: grid;

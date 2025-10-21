@@ -104,15 +104,6 @@ public class UserController {
         return "redirect:/users/profile";
     }
 
-
-    @DeleteMapping("/delete")//user delete its account
-    public String deleteUser() {
-
-
-        return "index";
-    }
-
-    //debug to see where brake
     @PatchMapping("/{id}/toggle-role")
     @PreAuthorize("hasRole('ADMIN')")
     public String toggleUserRole(@PathVariable UUID id) {
@@ -120,13 +111,21 @@ public class UserController {
         return "redirect:/users";
     }
 
-    //debug this also 2
     @PatchMapping("/{id}/toggle-status")
     @PreAuthorize("hasRole('ADMIN')")
     public String toggleUserStatus(@PathVariable UUID id) {
         userService.switchStatus(id);
         return "redirect:/users";
     }
+
+    @DeleteMapping("/delete")//user delete its account
+    public String deleteUser(@AuthenticationPrincipal AuthenticationDetails authenticationDetails) {
+
+        userService.switchStatus(authenticationDetails.getUserId());
+
+        return "redirect:/";
+    }
+
 
 
 }

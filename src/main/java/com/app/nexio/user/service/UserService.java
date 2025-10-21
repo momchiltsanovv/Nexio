@@ -137,7 +137,16 @@ public class UserService implements UserDetailsService {
     }
 
     public List<User> getAllUsers() {
-        return userRepository.findAll();
+        return userRepository.findAll()
+                             .stream()
+                             .sorted((u1, u2) -> {
+                                 int firstNameComparison = u1.getFirstName().compareToIgnoreCase(u2.getFirstName());
+                                 if (firstNameComparison != 0) {
+                                     return firstNameComparison;
+                                 }
+                                 return u1.getLastName().compareToIgnoreCase(u2.getLastName());
+                             })
+                             .toList();
     }
 
     public Integer getActiveUsersCount() {

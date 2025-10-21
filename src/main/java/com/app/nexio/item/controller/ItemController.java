@@ -5,11 +5,12 @@ import com.app.nexio.item.dto.EditItemRequest;
 import com.app.nexio.item.dto.PostItemRequest;
 import com.app.nexio.item.model.Item;
 import com.app.nexio.item.service.ItemService;
+import com.app.nexio.security.AuthenticationDetails;
 import com.app.nexio.user.model.User;
 import com.app.nexio.user.service.UserService;
-import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -31,18 +32,16 @@ public class ItemController {
     }
 
     @GetMapping("/{id}")
-    public String getViewItemsPage(@PathVariable UUID id,
-                                   Model model,
-                                   HttpSession session) {
-
-        UUID userId = (UUID) session.getAttribute("user_id");
+    public String getViewItemsPage(@AuthenticationPrincipal AuthenticationDetails userDetails,
+                                   @PathVariable UUID id,
+                                   Model model) {
 
         model.addAttribute("active", "home");
 
         Item item = itemService.getById(id);
         model.addAttribute("item", item);
 
-        User user = userService.getById(userId);
+        User user = userService.getById(userDetails.getUserId());
         model.addAttribute("user", user);
 
         return "item-view";
@@ -50,14 +49,8 @@ public class ItemController {
 
     @GetMapping("/{itemId}/edit")
     public String getEditItemPage(@PathVariable UUID itemId,
-                                  Model model,
-                                  HttpSession session) {
+                                  Model model) {
         model.addAttribute("active", "item");
-
-        UUID currentUserId = (UUID) session.getAttribute("user_id");
-        if (currentUserId == null) {
-            return "redirect:/login";
-        }
 
         Item item = itemService.getById(itemId);
 
@@ -85,7 +78,7 @@ public class ItemController {
         return "item-view" + id;
     }
 
-    @GetMapping("/post") // get post item form
+    @GetMapping("/post")
     public String getPostItemPage(Model model) {
 
         model.addAttribute("active", "post");
@@ -94,7 +87,7 @@ public class ItemController {
         return "post-item";
     }
 
-    @PostMapping("/post") // get post item form
+    @PostMapping("/post")
     public String postItem(@Valid PostItemRequest postItemRequest,
                            BindingResult bindingResult) {
 
@@ -106,9 +99,10 @@ public class ItemController {
         return "home";
     }
 
-    @DeleteMapping("/{id}/delete") //Delete item
+    @DeleteMapping("/{id}/delete")
     public String deleteItem(@PathVariable UUID id) {
 
         return "edit-item";
     }
+
 }
