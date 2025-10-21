@@ -202,72 +202,63 @@
             </div>
 
             <!-- Items Grid -->
-            <div class="items-container" id="itemsContainer">
-                <div class="items-grid" id="itemsGrid">
-                    <!-- Items populated by Thymeleaf -->
-                    <div class="item-card"
-                         th:each="item : ${items}"
-                         th:data-category="${item.category != null ? item.category : ''}"
-                         th:data-price="${item.price}"
-                         th:data-condition="${item.condition != null ? item.condition : ''}"
-                         th:data-id="${item.id}"
-                         th:data-title="${item.name}"
-                         th:data-description="${item.description}"
-                         th:data-location="${item.exchangeLocation.name()}"
-                         th:data-imageurl="${item.imageURLs != null and !item.imageURLs.isEmpty() ? item.imageURLs[0] : '/images/defaults/no_image.webp'}"
-                         th:data-seller-name="${item.owner.firstName + ' ' + item.owner.lastName}"
-                         th:data-seller-uni="${item.owner.university}"
-                         th:data-seller-avatar="${item.owner.profilePictureURL != null ? item.owner.profilePictureURL : '/images/defaults/default_pfp.jpg'}"
-                         th:data-createdat="${item.createdOn}">
+            <div class="items-grid">
+                <!-- Items populated by Thymeleaf -->
+                <div class="item-card"
+                     th:each="item : ${items}"
+                     th:data-category="${item.category != null ? item.category : ''}"
+                     th:data-price="${item.price}"
+                     th:data-condition="${item.condition != null ? item.condition : ''}"
+                     th:data-id="${item.id}"
+                     th:data-title="${item.name}"
+                     th:data-description="${item.description}"
+                     th:data-location="${item.exchangeLocation.name()}"
+                     th:data-imageurl="${item.imageURLs != null and !item.imageURLs.isEmpty() ? item.imageURLs[0] : '/images/defaults/no_image.webp'}"
+                     th:data-seller-name="${item.owner.firstName + ' ' + item.owner.lastName}"
+                     th:data-seller-uni="${item.owner.university}"
+                     th:data-seller-avatar="${item.owner.profilePictureURL != null ? item.owner.profilePictureURL : '/images/defaults/default_pfp.jpg'}"
+                     th:data-createdat="${item.createdOn}">
 
-                        <div class="item-image">
-                            <img th:src="@{${item.imageURLs != null and !item.imageURLs.isEmpty() ? item.imageURLs[0] : '/images/defaults/no_image.webp'}}"
-                                 th:alt="${item.name ?: 'Item image'}"
-                                 onerror="this.src='/images/defaults/no_image.webp'">
-                            <div class="item-badges">
-                    <span class="condition-badge"
-                          th:classappend="${item.condition != null ? #strings.toLowerCase(item.condition.getDisplayName()).replace(' ', '-') : ''}"
-                          th:text="${item.condition.getDisplayName()}">Good</span>
-                            </div>
-                            <button class="wishlist-btn" th:data-item-id="${item.id}">
-                                <i class="far fa-heart"></i>
-                            </button>
+                    <div class="item-image">
+                        <img th:src="@{${item.imageURLs != null and !item.imageURLs.isEmpty() ? item.imageURLs[0] : '/images/defaults/no_image.webp'}}"
+                             th:alt="${item.name ?: 'Item image'}"
+                             onerror="this.src='/images/defaults/no_image.webp'">
+                        <div class="item-badges">
+                                <span class="condition-badge"
+                                      th:classappend="${item.condition != null ? #strings.toLowerCase(item.condition.getDisplayName()).replace(' ', '-') : ''}"
+                                      th:text="${item.condition.getDisplayName()}">Good</span>
+                        </div>
+                        <button class="wishlist-btn" th:data-item-id="${item.id}">
+                            <i class="far fa-heart"></i>
+                        </button>
+                    </div>
+
+                    <div class="item-content">
+                        <div class="item-category" th:if="${item.category != null}">
+                            <span th:text="${item.category != null ? #strings.capitalize(item.category.toString().toLowerCase()) : 'Other'}">Category</span>
                         </div>
 
-                        <div class="item-content">
-                            <div class="item-category" th:if="${item.category != null}">
-                                <span th:text="${item.category != null ? #strings.capitalize(item.category.toString().toLowerCase()) : 'Other'}">Category</span>
+
+                        <h3 class="item-title" th:text="${item.name ?: 'Untitled Item'}">Item Title</h3>
+
+                        <p class="item-description" th:text="${item.description ?: 'No description available'}">Item description</p>
+
+                        <div class="item-details">
+                            <div class="item-price" th:text="${item.price != null ? item.price + ' лв' : 'Price not set'}">0 лв</div>
+                            <div class="item-location" th:if="${item.exchangeLocation != null}">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span th:text="${item.exchangeLocation != null ? item.exchangeLocation.displayName : 'Location not set'}">Location</span>
                             </div>
+                        </div>
 
-                            <h3 class="item-title" th:text="${item.name ?: 'Untitled Item'}">Item Title</h3>
-
-                            <p class="item-description" th:text="${item.description ?: 'No description available'}">Item description</p>
-
-                            <div class="item-details">
-                                <div class="item-price" th:text="${item.price != null ? item.price + ' лв' : 'Price not set'}">0 лв</div>
-                                <div class="item-location" th:if="${item.exchangeLocation != null}">
-                                    <i class="fas fa-map-marker-alt"></i>
-                                    <span th:text="${item.exchangeLocation != null ? item.exchangeLocation.displayName : 'Location not set'}">Location</span>
-                                </div>
-                            </div>
-
-                            <div class="item-seller" th:if="${item.owner != null}">
-                                <img th:src="@{${item.owner != null and item.owner.profilePictureURL != null ? item.owner.profilePictureURL : '/images/defaults/default_pfp.jpg'}}"
-                                     alt="Seller"
-                                     class="seller-avatar"
-                                     onerror="this.src='/images/defaults/default_pfp.jpg'">
-                                <span class="seller-name" th:text="${ item.owner.firstName + ' ' + item.owner.lastName}">Seller Name</span>
-                                <span class="seller-uni" th:text="${item.owner.university.getDisplayName()}">University</span>
-                            </div>
-
-                            <div class="item-actions">
-                                <a th:href="@{'/items/' + ${item.id}}" class="btn btn-primary">
-                                    <i class="fas fa-eye"></i>
-                                    View Details
-                                </a>
-                            </div>
+                        <div class="item-actions">
+                            <a th:href="@{'/items/' + ${item.id}}" class="btn btn-primary">
+                                <i class="fas fa-eye"></i>
+                                View Details
+                            </a>
                         </div>
                     </div>
+                </div>
 
                     <!-- Empty state when no items -->
                     <div th:if="${items == null or items.isEmpty()}" class="empty-state">
@@ -278,25 +269,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
-
-            <!-- Pagination -->
-            <div class="pagination" id="pagination">
-                <button class="page-btn prev" disabled>
-                    <i class="fas fa-chevron-left"></i>
-                    Previous
-                </button>
-                <div class="page-numbers">
-                    <button class="page-number active">1</button>
-                    <button class="page-number">2</button>
-                    <button class="page-number">3</button>
-                    <span class="page-ellipsis">...</span>
-                    <button class="page-number">10</button>
-                </div>
-                <button class="page-btn next">
-                    Next
-                    <i class="fas fa-chevron-right"></i>
-                </button>
             </div>
         </div>
     </div> <!-- End content-layout -->

@@ -224,6 +224,7 @@
                                 <span th:text="${item.category != null ? #strings.capitalize(item.category.toString().toLowerCase()) : 'Other'}">Category</span>
                             </div>
 
+
                             <h3 class="item-title" th:text="${item.name ?: 'Untitled Item'}">Item Title</h3>
 
                             <p class="item-description" th:text="${item.description ?: 'No description available'}">Item description</p>

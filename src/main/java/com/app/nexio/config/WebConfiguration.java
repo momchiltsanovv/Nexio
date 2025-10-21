@@ -1,33 +1,40 @@
 package com.app.nexio.config;
 
-import com.app.nexio.security.SessionCheckInterceptor;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.filter.HiddenHttpMethodFilter;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
+@EnableWebSecurity
 public class WebConfiguration implements WebMvcConfigurer {
 
-    private final SessionCheckInterceptor interceptor;
-
-    @Autowired
-    public WebConfiguration(SessionCheckInterceptor interceptor) {
-        this.interceptor = interceptor;
-    }
 
     @Bean
-    public HiddenHttpMethodFilter hiddenHttpMethodFilter() {
-        return new HiddenHttpMethodFilter();
+    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+
+        httpSecurity.authorizeHttpRequests(matcher -> matcher
+                                           .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
+                                           .requestMatchers("/", "/auth/register").permitAll()
+                                           .anyRequest().authenticated()
+                                  )
+            .formLogin(form -> form
+                               .loginPage("/auth/login")
+                               .usernameParameter("usernameOrEmail")
+                               .defaultSuccessUrl("/home", true)
+                               .failureUrl("/auth/login?error")
+                               .permitAll()
+                      )
+            .logout(logout -> logout
+                    .logoutUrl("/auth/logout")
+                    .logoutSuccessUrl("/")
+                   );
+
+
+        return httpSecurity.build();
     }
 
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(interceptor)
-                .addPathPatterns("/**")
-                .excludePathPatterns("/css/**", "/js/**", "/images/**", "/fonts/**");
-
-    }
 }

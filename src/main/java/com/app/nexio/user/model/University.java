@@ -1,5 +1,8 @@
 package com.app.nexio.user.model;
 
+import lombok.Getter;
+
+@Getter
 public enum University {
     NEW_BULGARIAN_UNIVERSITY("New Bulgarian University"),
     MEDICAL_UNIVERSITY_OF_SOFIA("Medical University Of Sofia"),
@@ -12,11 +15,7 @@ public enum University {
 
     University(String displayName) {
         this.displayName = displayName;
-
     }
 
-    public String getDisplayName() {
-        return displayName;
-    }
 }
 

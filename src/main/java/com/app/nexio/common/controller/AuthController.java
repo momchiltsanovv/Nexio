@@ -2,7 +2,6 @@ package com.app.nexio.common.controller;
 
 import com.app.nexio.user.dto.LoginRequest;
 import com.app.nexio.user.dto.RegisterRequest;
-import com.app.nexio.user.model.User;
 import com.app.nexio.user.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -49,27 +48,5 @@ public class AuthController {
 
         model.addAttribute("loginRequest", new LoginRequest());
         return "login";
-    }
-
-    @PostMapping("/login")
-    public String loginUser(@Valid LoginRequest loginRequest,
-                                  BindingResult bindingResult,
-                                  HttpSession session) {
-
-        if (bindingResult.hasErrors()) {
-            return "login";
-        }
-
-        User loggedUser = userService.login(loginRequest);
-        session.setAttribute("user_id", loggedUser.getId());
-
-        return "redirect:/home";
-    }
-
-    @GetMapping("/logout")
-    public String logout(HttpSession session) {
-
-        session.invalidate();
-        return "redirect:/";
     }
 }

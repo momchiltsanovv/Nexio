@@ -2,19 +2,21 @@ package com.app.nexio.user.controller;
 
 import com.app.nexio.item.model.Item;
 import com.app.nexio.item.service.ItemService;
+import com.app.nexio.security.AuthenticationDetails;
 import com.app.nexio.user.dto.EditUserRequest;
 import com.app.nexio.user.model.User;
 import com.app.nexio.user.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 
@@ -33,11 +35,19 @@ public class UserController {
 
 
     @GetMapping
-    //Only admin access
+    @PreAuthorize("hasRole('ADMIN')")
     public String getUsersPage(Model model) {
         List<User> users = userService.getAllUsers();
+        Integer activeUsers = userService.getActiveUsersCount();
+        Integer adminsCount = userService.getAdminsCount();
+        Integer graduated = userService.getGraduatedCount();
+
+        model.addAttribute("users", users);
+        model.addAttribute("activeUsers", activeUsers);
+        model.addAttribute("admins", adminsCount);
+        model.addAttribute("graduated", graduated);
+
         model.addAttribute("active", "community");
-        model.addAllAttributes(users);
         return "admin-users";
     }
 
@@ -56,14 +66,11 @@ public class UserController {
 
 
     @GetMapping("/profile")
-    public String getMyProfile(Model model, HttpSession session) {
+    public String getMyProfile(@AuthenticationPrincipal AuthenticationDetails authenticationDetails,
+                               Model model) {
         model.addAttribute("active", "profile");
 
-        UUID userId = (UUID) session.getAttribute("user_id");
-        if (userId == null) {
-            return "redirect:/auth/login";
-        }
-        User user = userService.getById(userId);
+        User user = userService.getById(authenticationDetails.getUserId());
         List<Item> userItems = itemService.getUsersItems(user);
         model.addAttribute("user", user);
         model.addAttribute("items", userItems);
@@ -72,50 +79,39 @@ public class UserController {
     }
 
     @GetMapping("/profile/edit") // get edit profile form
-    public String getEditProfilePage(Model model,
-                                     HttpSession session) {
+    public String getEditProfilePage(@AuthenticationPrincipal AuthenticationDetails authenticationdetails,
+                                     Model model) {
         model.addAttribute("active", "profile");
 
-        UUID userId = (UUID) session.getAttribute("user_id");
-        if (userId == null) {
-            return "redirect:/auth/login";
-        }
-        
-        User user = userService.getById(userId);
+        User user = userService.getById(authenticationdetails.getUserId());
         model.addAttribute("user", EditUserRequest.fromUser(user));
 
         return "edit-profile";
     }
 
-   @PatchMapping("/profile/edit")
-   public String editProfile(@Valid EditUserRequest request,
-                             BindingResult bindingResult,
-                             Model model,
-                             HttpSession session) {
-       UUID userId = (UUID) session.getAttribute("user_id");
-       if (userId == null) {
-           return "redirect:/auth/login";
-       }
-       
-       if (bindingResult.hasErrors()) {
-           model.addAttribute("active", "profile");
-           return "edit-profile";
-       }
+    @PatchMapping("/profile/edit")
+    public String editProfile(@AuthenticationPrincipal AuthenticationDetails authenticationdetails,
+                              @Valid EditUserRequest request,
+                              BindingResult bindingResult,
+                              Model model) {
 
-       userService.editUserDetails(userId, request);
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("active", "profile");
+            return "edit-profile";
+        }
 
-       return "redirect:/users/profile";
-   }
+        userService.editUserDetails(authenticationdetails.getUserId(), request);
 
-    
-    @DeleteMapping("/delete")//user delete its account
-    public String deleteUser() {
-
-        
-        return "index";
+        return "redirect:/users/profile";
     }
 
 
+    @DeleteMapping("/delete")//user delete its account
+    public String deleteUser() {
+
+
+        return "index";
+    }
 
 
 }

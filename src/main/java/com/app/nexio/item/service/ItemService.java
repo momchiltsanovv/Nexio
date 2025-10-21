@@ -1,26 +1,81 @@
 package com.app.nexio.item.service;
 
+import com.app.nexio.exception.ItemNotFoundException;
 import com.app.nexio.item.dto.EditItemRequest;
 import com.app.nexio.item.dto.PostItemRequest;
 import com.app.nexio.item.model.Item;
+import com.app.nexio.item.repository.ItemRepository;
 import com.app.nexio.user.model.User;
+import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 
-public interface ItemService {
+@Service
+public class ItemService{
 
 
-    void postItem(PostItemRequest postItemRequest);
+    private final ItemRepository itemRepository;
 
-    void editItem(UUID itemId, EditItemRequest editItemRequest);
+    public ItemService(ItemRepository itemRepository) {
+        this.itemRepository = itemRepository;
+    }
 
-    List<Item> getUsersItems(User currentUser);
+    public void postItem(PostItemRequest postItemRequest) {
+        Item item = initializeItemFromRequest(postItemRequest);
 
-    Item getUserItem(UUID itemId, User currentUser);
+        itemRepository.save(item);
+    }
 
-    Item getById(UUID itemId);
 
-    List<Item> findAllItems();
+    public void editItem(UUID itemId, EditItemRequest editItemRequest) {
+        Item item = getById(itemId);
+
+        // Update item fields
+        item.setName(editItemRequest.getName());
+        item.setPrice(editItemRequest.getPrice());
+        item.setCondition(editItemRequest.getCondition());
+        item.setDescription(editItemRequest.getDescription());
+        item.setCategory(editItemRequest.getCategory());
+        item.setExchangeLocation(editItemRequest.getExchangeLocation());
+
+        itemRepository.save(item);
+    }
+
+    public List<Item> getUsersItems(User currentUser) {
+        return itemRepository.findByOwner(currentUser);
+    }
+
+    public Item getUserItem(UUID itemId, User currentUser) {
+        return itemRepository.findByOwnerAndId(itemId, currentUser)
+                             .orElseThrow(() -> new ItemNotFoundException("Item not found or access denied"));
+    }
+
+    public Item getById(UUID itemId) {
+        return itemRepository.findById(itemId)
+                             .orElseThrow(() -> new ItemNotFoundException("Item not found"));
+    }
+
+    public List<Item> findAllItems() {
+
+        List<Item> allItems= itemRepository.findAll();
+        allItems.sort(Comparator.comparing(Item::getCreatedOn));
+        return allItems;
+
+    }
+
+    private Item initializeItemFromRequest(PostItemRequest postItemRequest) {
+        return Item.builder()
+                   .name(postItemRequest.getName())
+                   .price(postItemRequest.getPrice())
+                   .condition(postItemRequest.getCondition())
+                   .description(postItemRequest.getDescription())
+                   .category(postItemRequest.getCategory())
+                   .exchangeLocation(postItemRequest.getExchangeLocation())
+                   .imageURLs(postItemRequest.getImageURLs())//TODO get image url from cloud
+                   .build();
+
+    }
 
 }

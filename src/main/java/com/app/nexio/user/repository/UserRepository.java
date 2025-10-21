@@ -1,6 +1,7 @@
 package com.app.nexio.user.repository;
 
 import com.app.nexio.user.model.User;
+import com.app.nexio.user.model.UserRole;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -18,6 +19,10 @@ public interface UserRepository extends JpaRepository<User, UUID> {
     @Query("SELECT u FROM User u WHERE u.username = :value OR u.email = :value")
     Optional<User> findByUsernameOrEmail(@Param("value") String usernameOrEmail);
 
-    @Query("Select u from User u")
-    List<User> getAll();
+
+    List<User> getAllByActiveAccount(boolean activeAccount);
+
+    List<User> getAllByRole(UserRole role);
+
+    List<User> getAllByGraduationYearBefore(Integer graduationYearBefore);
 }

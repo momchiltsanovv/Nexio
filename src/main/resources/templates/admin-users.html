@@ -185,14 +185,8 @@
             border-color: #212346;
         }
         
-        .filter-btn:hover {
-            background: #f8f9fa;
-        }
-        
-        .filter-btn.active:hover {
-            background: #CE3A81;
-        }
-        
+
+
         /* Custom table styles to replace Bootstrap */
         .table {
             width: 100%;
@@ -402,29 +396,29 @@
                 <div class="icon text-primary">
                     <i class="fas fa-users"></i>
                 </div>
-                <div class="number">24</div>
+                <div class="number" th:text="${users.size()}">24</div>
                 <div class="label">Total Users</div>
             </div>
             <div class="stat-card">
                 <div class="icon text-success">
                     <i class="fas fa-user-check"></i>
                 </div>
-                <div class="number">22</div>
+                <div class="number" th:text="${activeUsers}">22</div>
                 <div class="label">Active Users</div>
             </div>
             <div class="stat-card">
                 <div class="icon text-warning">
                     <i class="fas fa-user-shield"></i>
                 </div>
-                <div class="number">3</div>
+                <div class="number" th:text="${admins}">3</div>
                 <div class="label">Admins</div>
             </div>
             <div class="stat-card">
                 <div class="icon text-info">
                     <i class="fas fa-graduation-cap"></i>
                 </div>
-                <div class="number">20</div>
-                <div class="label">With University</div>
+                <div class="number" th:text="${graduated}">20</div>
+                <div class="label">Graduated University</div>
             </div>
         </div>
 
@@ -463,178 +457,38 @@
                         </tr>
                     </thead>
                     <tbody id="usersTableBody">
-                        <tr data-role="ADMIN" data-status="active">
+                        <tr th:each="user : ${users}" th:data-role="${user.role}" th:data-status="${user.activeAccount ? 'active' : 'inactive'}">
                             <td>
                                 <div class="d-flex align-items-center">
-                                    <img src="https://via.placeholder.com/40x40/212346/ffffff?text=e74c3c/ffffff?text=JS" alt="Avatar" class="user-avatar me-3">
+                                    <img th:src="${user.profilePictureURL != null ? user.profilePictureURL : '/images/defaults/default_pfp.jpg'}" alt="Avatar" class="user-avatar me-3">
                                     <div>
-                                        <div class="fw-bold">John Smith</div>
-                                        <small class="text-muted">@johnsmith</small>
+                                        <div class="fw-bold" th:text="${user.firstName + ' ' + user.lastName}"></div>
+                                        <small class="text-muted" th:text="${'@' + user.username}"></small>
                                     </div>
                                 </div>
                             </td>
-                            <td>john.smith@university.edu</td>
+                            <td th:text="${user.email}"></td>
                             <td>
-                                <span class="badge bg-light text-dark">MIT</span>
+                                <span class="badge bg-light text-dark" th:text="${user.university.getDisplayName()}"></span>
                             </td>
                             <td>
-                                <span class="role-badge admin">ADMIN</span>
+                                <span th:classappend="${user.role == 'ADMIN' ? 'admin' : 'user'}" class="role-badge" th:text="${user.role.getDisplayName()}"></span>
                             </td>
                             <td>
-                                <span class="status-badge active">Active</span>
+                                <span th:classappend="${user.activeAccount ? 'active' : 'inactive'}" class="status-badge" th:text="${user.activeAccount ? 'Active' : 'Inactive'}"></span>
                             </td>
-                            <td>Jan 15, 2024</td>
+                            <td th:text="${#temporals.format(user.createdOn, 'MMM dd, yyyy')}"></td>
                             <td>
                                 <div class="action-buttons">
-                                    <button class="btn btn-primary btn-sm" onclick="viewUser('1')" title="View User Details">
+                                    <a th:href="@{'/users/' + ${user.id}}" class="btn btn-primary btn-sm" title="View User Details">
                                         <i class="fas fa-eye me-1"></i>View
-                                    </button>
-                                    <button class="btn btn-success btn-sm" onclick="toggleRole('1')" title="Change User Role">
+                                    </a>
+                                    <a th:href="@{'/admin/users/' + ${user.id} + '/toggle-role'}" class="btn btn-success btn-sm" title="Change User Role">
                                         <i class="fas fa-user-shield me-1"></i>Change Role
-                                    </button>
-                                    <button class="btn btn-outline-secondary btn-sm" onclick="toggleStatus('1')" title="Activate/Deactivate User">
+                                    </a>
+                                    <a th:href="@{'/admin/users/' + ${user.id} + '/toggle-status'}" class="btn btn-outline-secondary btn-sm" title="Activate/Deactivate User">
                                         <i class="fas fa-power-off me-1"></i>Toggle Status
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr data-role="USER" data-status="active">
-                            <td>
-                                <div class="d-flex align-items-center">
-                                    <img src="https://via.placeholder.com/40x40/212346/ffffff?text=28a745/ffffff?text=AJ" alt="Avatar" class="user-avatar me-3">
-                                    <div>
-                                        <div class="fw-bold">Alice Johnson</div>
-                                        <small class="text-muted">@alicej</small>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>alice.johnson@university.edu</td>
-                            <td>
-                                <span class="badge bg-light text-dark">Stanford</span>
-                            </td>
-                            <td>
-                                <span class="role-badge user">USER</span>
-                            </td>
-                            <td>
-                                <span class="status-badge active">Active</span>
-                            </td>
-                            <td>Feb 03, 2024</td>
-                            <td>
-                                <div class="action-buttons">
-                                    <button class="btn btn-primary btn-sm" onclick="viewUser('2')" title="View User Details">
-                                        <i class="fas fa-eye me-1"></i>View
-                                    </button>
-                                    <button class="btn btn-success btn-sm" onclick="toggleRole('2')" title="Change User Role">
-                                        <i class="fas fa-user-shield me-1"></i>Change Role
-                                    </button>
-                                    <button class="btn btn-outline-secondary btn-sm" onclick="toggleStatus('2')" title="Activate/Deactivate User">
-                                        <i class="fas fa-power-off me-1"></i>Toggle Status
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr data-role="USER" data-status="inactive">
-                            <td>
-                                <div class="d-flex align-items-center">
-                                    <img src="https://via.placeholder.com/40x40/212346/ffffff?text=dc3545/ffffff?text=MB" alt="Avatar" class="user-avatar me-3">
-                                    <div>
-                                        <div class="fw-bold">Mike Brown</div>
-                                        <small class="text-muted">@mikebrown</small>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>mike.brown@university.edu</td>
-                            <td>
-                                <span class="badge bg-light text-dark">Harvard</span>
-                            </td>
-                            <td>
-                                <span class="role-badge user">USER</span>
-                            </td>
-                            <td>
-                                <span class="status-badge inactive">Inactive</span>
-                            </td>
-                            <td>Mar 10, 2024</td>
-                            <td>
-                                <div class="action-buttons">
-                                    <button class="btn btn-primary btn-sm" onclick="viewUser('3')" title="View User Details">
-                                        <i class="fas fa-eye me-1"></i>View
-                                    </button>
-                                    <button class="btn btn-success btn-sm" onclick="toggleRole('3')" title="Change User Role">
-                                        <i class="fas fa-user-shield me-1"></i>Change Role
-                                    </button>
-                                    <button class="btn btn-outline-secondary btn-sm" onclick="toggleStatus('3')" title="Activate/Deactivate User">
-                                        <i class="fas fa-power-off me-1"></i>Toggle Status
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr data-role="ADMIN" data-status="active">
-                            <td>
-                                <div class="d-flex align-items-center">
-                                    <img src="https://via.placeholder.com/40x40/212346/ffffff?text=ffc107/ffffff?text=SD" alt="Avatar" class="user-avatar me-3">
-                                    <div>
-                                        <div class="fw-bold">Sarah Davis</div>
-                                        <small class="text-muted">@sarahd</small>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>sarah.davis@university.edu</td>
-                            <td>
-                                <span class="badge bg-light text-dark">Yale</span>
-                            </td>
-                            <td>
-                                <span class="role-badge admin">ADMIN</span>
-                            </td>
-                            <td>
-                                <span class="status-badge active">Active</span>
-                            </td>
-                            <td>Apr 22, 2024</td>
-                            <td>
-                                <div class="action-buttons">
-                                    <button class="btn btn-primary btn-sm" onclick="viewUser('4')" title="View User Details">
-                                        <i class="fas fa-eye me-1"></i>View
-                                    </button>
-                                    <button class="btn btn-success btn-sm" onclick="toggleRole('4')" title="Change User Role">
-                                        <i class="fas fa-user-shield me-1"></i>Change Role
-                                    </button>
-                                    <button class="btn btn-outline-secondary btn-sm" onclick="toggleStatus('4')" title="Activate/Deactivate User">
-                                        <i class="fas fa-power-off me-1"></i>Toggle Status
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr data-role="USER" data-status="active">
-                            <td>
-                                <div class="d-flex align-items-center">
-                                    <img src="https://via.placeholder.com/40x40/212346/ffffff?text=6f42c1/ffffff?text=TW" alt="Avatar" class="user-avatar me-3">
-                                    <div>
-                                        <div class="fw-bold">Tom Wilson</div>
-                                        <small class="text-muted">@tomwilson</small>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>tom.wilson@university.edu</td>
-                            <td>
-                                <span class="text-muted">-</span>
-                            </td>
-                            <td>
-                                <span class="role-badge user">USER</span>
-                            </td>
-                            <td>
-                                <span class="status-badge active">Active</span>
-                            </td>
-                            <td>May 05, 2024</td>
-                            <td>
-                                <div class="action-buttons">
-                                    <button class="btn btn-primary btn-sm" onclick="viewUser('5')" title="View User Details">
-                                        <i class="fas fa-eye me-1"></i>View
-                                    </button>
-                                    <button class="btn btn-success btn-sm" onclick="toggleRole('5')" title="Change User Role">
-                                        <i class="fas fa-user-shield me-1"></i>Change Role
-                                    </button>
-                                    <button class="btn btn-outline-secondary btn-sm" onclick="toggleStatus('5')" title="Activate/Deactivate User">
-                                        <i class="fas fa-power-off me-1"></i>Toggle Status
-                                    </button>
+                                    </a>
                                 </div>
                             </td>
                         </tr>
