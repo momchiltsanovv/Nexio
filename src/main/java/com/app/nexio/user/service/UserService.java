@@ -13,6 +13,9 @@ import com.app.nexio.wishlist.service.WishlistService;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -53,6 +56,7 @@ public class UserService implements UserDetailsService {
 
 
     @Transactional
+    @CacheEvict(value = "users", allEntries = true)
     public void register(RegisterRequest registerRequest) {
         Optional<User> optionalUser = userRepository.findByUsername(registerRequest.getUsername());
 
@@ -87,6 +91,7 @@ public class UserService implements UserDetailsService {
     }
 
 
+    @CacheEvict(value = "users", allEntries = true)
     public void switchStatus(UUID userId) {
         Optional<User> user = userRepository.findById(userId);
 
@@ -98,6 +103,10 @@ public class UserService implements UserDetailsService {
         userRepository.save(user.get());
     }
 
+    @Caching(evict = {
+            @CacheEvict(value = "users", allEntries = true),
+            @CacheEvict(value = "admins", allEntries = true)
+    })
     public void switchRole(UUID userId) {
         Optional<User> user = userRepository.findById(userId);
 
@@ -118,6 +127,7 @@ public class UserService implements UserDetailsService {
         }
 
         user.get().setProfilePictureURL(editRequest.getProfilePictureURL());
+        user.get().setUsername(editRequest.getUsername());
         user.get().setInstagramURL(editRequest.getInstagramURL());
         user.get().setLinkedinURL(editRequest.getLinkedinURL());
         user.get().setMajor(editRequest.getMajor());
@@ -136,6 +146,7 @@ public class UserService implements UserDetailsService {
 
     }
 
+    @Cacheable("users")
     public List<User> getAllUsers() {
         return userRepository.findAll()
                              .stream()
@@ -153,6 +164,8 @@ public class UserService implements UserDetailsService {
         return userRepository
                 .getAllByActiveAccount(ACTIVE_ACCOUNT).size();
     }
+
+    @Cacheable("admins")
     public Integer getAdminsCount() {
         return userRepository
                 .getAllByRole(ADMIN).size();

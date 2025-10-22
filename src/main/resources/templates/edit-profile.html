@@ -98,6 +98,17 @@
 
                         <!-- Academic Information -->
                         <div class="field">
+                            <label for="username">Username</label>
+                            <div class="input-with-clear">
+                                <input type="text" id="username" th:field="*{username}"
+                                       placeholder="someusername">
+                                <button type="button" class="clear-btn" onclick="clearField('username')"
+                                        th:if="${user.username != null and user.username != ''}">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="field">
                             <label for="major">Major</label>
                             <div class="input-with-clear">
                                 <input type="text" id="major" th:field="*{major}" 
@@ -107,7 +118,6 @@
                                     <i class="fas fa-times"></i>
                                 </button>
                             </div>
-                            <div class="help-text">Your field of study</div>
                         </div>
 
                         <div class="field">
