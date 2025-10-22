@@ -49,6 +49,7 @@ public class EditItemRequest {
         request.setExchangeLocation(item.getExchangeLocation());
         request.setPrice(item.getPrice());
         request.setDescription(item.getDescription());
+        request.setImageURLs(item.getImageURLs());
         return request;
     }
 }

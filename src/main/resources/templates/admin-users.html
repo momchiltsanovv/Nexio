@@ -4,20 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Management - Nexio Admin</title>
-    
+
     <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <!-- Custom CSS -->
     <link rel="stylesheet" th:href="@{/css/home.css}">
     <th:block th:replace="fragments/background :: background-styles"></th:block>
-    
+
     <style>
         .admin-wrapper {
             max-width: 1400px;
             margin: 90px auto 40px;
             padding: 0 20px;
         }
-        
+
         .admin-header {
             background: transparent;
             color: #ffffff;
@@ -25,25 +25,25 @@
             border-radius: 12px;
             margin-bottom: 30px;
         }
-        
+
         .admin-header h1 {
             font-size: 28px;
             font-weight: 700;
             margin: 0;
         }
-        
+
         .admin-header p {
             margin: 8px 0 0 0;
             opacity: 0.9;
         }
-        
+
         .stats-cards {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 20px;
             margin-bottom: 30px;
         }
-        
+
         .stat-card {
             background: rgba(255, 255, 255, 0.1);
             padding: 20px;
@@ -53,19 +53,19 @@
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
-        
+
         .stat-card .icon {
             font-size: 24px;
             margin-bottom: 10px;
         }
-        
+
         .stat-card .number {
             font-size: 24px;
             font-weight: 700;
             color: #ffffff;
             text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
         }
-        
+
         .stat-card .label {
             font-size: 14px;
             color: #ffffff;
@@ -73,88 +73,139 @@
             text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
             opacity: 0.9;
         }
-        
+
         .users-table-container {
             background: #f8f9fa;
             border-radius: 12px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             overflow: hidden;
         }
-        
+
         .table-header {
             background: #f8f9fa;
             padding: 20px;
             border-bottom: 1px solid #e0e0e0;
         }
-        
+
         .table-header h3 {
             margin: 0;
             font-size: 18px;
             font-weight: 600;
         }
-        
+
         .table-responsive {
             max-height: 600px;
             overflow-y: auto;
         }
-        
-        
+
         .role-badge {
             padding: 4px 12px;
             border-radius: 20px;
             font-size: 12px;
             font-weight: 600;
             text-transform: uppercase;
+            transition: all 0.3s ease;
         }
-        
+
         .role-badge.admin {
-            background: #e3f2fd;
-            color: #1976d2;
-        }
-        
-        .role-badge.user {
             background: #f3e5f5;
             color: #7b1fa2;
         }
-        
+
+        .role-badge.user {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+
         .status-badge {
             padding: 4px 12px;
             border-radius: 20px;
             font-size: 12px;
             font-weight: 600;
+            transition: all 0.3s ease;
         }
-        
+
         .status-badge.active {
             background: #e8f5e8;
             color: #2e7d32;
         }
-        
+
         .status-badge.inactive {
             background: #ffebee;
             color: #c62828;
         }
-        
+
         .action-buttons {
             display: flex;
             gap: 8px;
             flex-wrap: wrap;
         }
-        
+
         .btn-sm {
             padding: 8px 12px;
             font-size: 12px;
             white-space: nowrap;
         }
-        
+
+        /* New button styles */
+        .admin-btn-primary, .btn-status-toggle {
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .admin-btn-primary {
+            background-color: #212346;
+            color: #ffffff;
+            border: 1px solid #212346;
+        }
+
+        .admin-btn-primary:hover {
+            background-color: #1a1c38;
+            border-color: #1a1c38;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transform: translateY(-1px);
+        }
+
+        .btn-status-toggle {
+            background-color: #e0e0e0;
+            color: #495057;
+            border: 1px solid #d0d0d0;
+        }
+
+        .btn-status-toggle.active {
+            background-color: #f8d7da;
+            color: #721c24;
+            border-color: #f5c6cb;
+        }
+
+        .btn-status-toggle.inactive {
+            background-color: #d4edda;
+            color: #155724;
+            border-color: #c3e6cb;
+        }
+
+        .btn-status-toggle:hover {
+            opacity: 0.9;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transform: translateY(-1px);
+        }
+
         .search-box {
             position: relative;
             max-width: 300px;
         }
-        
+
         .search-box .form-control {
             padding-left: 40px;
         }
-        
+
         .search-box .search-icon {
             position: absolute;
             left: 12px;
@@ -162,13 +213,13 @@
             transform: translateY(-50%);
             color: #999;
         }
-        
+
         .filter-buttons {
             display: flex;
             gap: 10px;
             flex-wrap: wrap;
         }
-        
+
         .filter-btn {
             padding: 8px 16px;
             border: 1px solid #e0e0e0;
@@ -178,14 +229,12 @@
             cursor: pointer;
             transition: all 0.2s;
         }
-        
+
         .filter-btn.active {
             background: #212346;
             color: white;
             border-color: #212346;
         }
-        
-
 
         /* Custom table styles to replace Bootstrap */
         .table {
@@ -193,7 +242,7 @@
             border-collapse: collapse;
             margin-bottom: 0;
         }
-        
+
         .table th,
         .table td {
             padding: 12px;
@@ -201,73 +250,73 @@
             border-bottom: 1px solid #dee2e6;
             vertical-align: middle;
         }
-        
+
         .table th {
             background-color: #f8f9fa;
             font-weight: 600;
             color: #495057;
         }
-        
+
         .table-hover tbody tr:hover {
             background-color: rgba(0,0,0,.075);
         }
-        
+
         .table-light {
             background-color: #f8f9fa;
         }
-        
+
         .d-flex {
             display: flex;
         }
-        
+
         .justify-content-between {
             justify-content: space-between;
         }
-        
+
         .align-items-center {
             align-items: center;
         }
-        
+
         .gap-3 {
             gap: 1rem;
         }
-        
+
         .me-2 {
             margin-right: 0.5rem;
         }
-        
+
         .me-3 {
             margin-right: 1rem;
         }
-        
+
         .me-1 {
             margin-right: 0.25rem;
         }
-        
+
         .fw-bold {
             font-weight: 700;
         }
-        
+
         .text-muted {
             color: #6c757d;
         }
-        
+
         .text-primary {
             color: #0d6efd;
         }
-        
+
         .text-success {
             color: #198754;
         }
-        
+
         .text-warning {
             color: #ffc107;
         }
-        
+
         .text-info {
             color: #0dcaf0;
         }
-        
+
         .badge {
             display: inline-block;
             padding: 0.35em 0.65em;
@@ -279,56 +328,15 @@
             vertical-align: baseline;
             border-radius: 0.375rem;
         }
-        
+
         .bg-light {
             background-color: #f8f9fa;
         }
-        
+
         .text-dark {
             color: #212529;
         }
-        
-        .btn {
-            display: inline-block;
-            font-weight: 400;
-            line-height: 1.5;
-            color: #212529;
-            text-align: center;
-            text-decoration: none;
-            vertical-align: middle;
-            cursor: pointer;
-            user-select: none;
-            background-color: transparent;
-            border: 1px solid transparent;
-            padding: 0.375rem 0.75rem;
-            font-size: 1rem;
-            border-radius: 0.375rem;
-            transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
-        }
-        
-        .btn-primary {
-            color: #fff;
-            background-color: #0d6efd;
-            border: none;
-        }
-        
-        .btn-success {
-            color: #fff;
-            background-color: #198754;
-            border-color: #198754;
-        }
-        
-        .btn-outline-secondary {
-            color: #6c757d;
-            border-color: #6c757d;
-        }
-        
-        .btn-sm {
-            padding: 0.25rem 0.5rem;
-            font-size: 0.875rem;
-            border-radius: 0.25rem;
-        }
-        
+
         .form-control {
             display: block;
             width: 100%;
@@ -343,7 +351,7 @@
             border-radius: 0.375rem;
             transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
         }
-        
+
         .form-control:focus {
             color: #212529;
             background-color: #fff;
@@ -351,26 +359,33 @@
             outline: 0;
             box-shadow: 0 0 0 0.25rem rgba(13,110,253,.25);
         }
-        
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
         @media (max-width: 768px) {
             .admin-wrapper {
                 margin: 70px 0 0;
                 padding: 0 15px;
             }
-            
+
             .stats-cards {
                 grid-template-columns: 1fr 1fr;
             }
-            
+
             .table-responsive {
                 font-size: 14px;
             }
-            
+
             .action-buttons {
                 flex-direction: column;
                 gap: 4px;
             }
-            
+
             .action-buttons .btn-sm {
                 font-size: 11px;
                 padding: 6px 10px;
@@ -379,206 +394,331 @@
     </style>
 </head>
 <body>
-    <th:block th:replace="fragments/background :: background-elements"></th:block>
-    <!-- Navigation -->
-    <th:block th:replace="fragments/navbar :: navbar(${active})"></th:block>
+<th:block th:replace="fragments/background :: background-elements"></th:block>
+<!-- Navigation -->
+<th:block th:replace="fragments/navbar :: navbar(${active})"></th:block>
 
-    <div class="admin-wrapper">
-        <!-- Header -->
-        <div class="admin-header">
-            <h1><i class="fas fa-users-cog me-2"></i>User Management</h1>
-            <p>Manage user accounts, roles, and permissions</p>
+<div class="admin-wrapper">
+    <!-- Header -->
+    <div class="admin-header">
+        <h1><i class="fas fa-users-cog me-2"></i>User Management</h1>
+        <p>Manage user accounts, roles, and permissions</p>
+    </div>
+
+    <!-- Statistics Cards -->
+    <div class="stats-cards">
+        <div class="stat-card">
+            <div class="icon text-primary">
+                <i class="fas fa-users"></i>
+            </div>
+            <div class="number" th:text="${users.size()}">24</div>
+            <div class="label">Total Users</div>
         </div>
-
-        <!-- Statistics Cards -->
-        <div class="stats-cards">
-            <div class="stat-card">
-                <div class="icon text-primary">
-                    <i class="fas fa-users"></i>
-                </div>
-                <div class="number" th:text="${users.size()}">24</div>
-                <div class="label">Total Users</div>
+        <div class="stat-card">
+            <div class="icon text-success">
+                <i class="fas fa-user-check"></i>
             </div>
-            <div class="stat-card">
-                <div class="icon text-success">
-                    <i class="fas fa-user-check"></i>
-                </div>
-                <div class="number" th:text="${activeUsers}">22</div>
-                <div class="label">Active Users</div>
-            </div>
-            <div class="stat-card">
-                <div class="icon text-warning">
-                    <i class="fas fa-user-shield"></i>
-                </div>
-                <div class="number" th:text="${admins}">3</div>
-                <div class="label">Admins</div>
-            </div>
-            <div class="stat-card">
-                <div class="icon text-info">
-                    <i class="fas fa-graduation-cap"></i>
-                </div>
-                <div class="number" th:text="${graduated}">20</div>
-                <div class="label">Graduated University</div>
-            </div>
+            <div class="number" th:text="${activeUsers}">22</div>
+            <div class="label">Active Users</div>
         </div>
-
-        <!-- Users Table -->
-        <div class="users-table-container">
-            <div class="table-header">
-                <div class="d-flex justify-content-between align-items-center">
-                    <h3>All Users</h3>
-                    <div class="d-flex gap-3 align-items-center">
-                        <div class="search-box">
-                            <i class="fas fa-search search-icon"></i>
-                            <input type="text" class="form-control" placeholder="Search users..." id="searchInput">
-                        </div>
-                        <div class="filter-buttons">
-                            <button class="filter-btn active" data-filter="all">All</button>
-                            <button class="filter-btn" data-filter="admin">Admins</button>
-                            <button class="filter-btn" data-filter="user">Users</button>
-                            <button class="filter-btn" data-filter="active">Active</button>
-                            <button class="filter-btn" data-filter="inactive">Inactive</button>
-                        </div>
-                    </div>
-                </div>
+        <div class="stat-card">
+            <div class="icon text-warning">
+                <i class="fas fa-user-shield"></i>
             </div>
-
-            <div class="table-responsive">
-                <table class="table table-hover mb-0">
-                    <thead class="table-light">
-                        <tr>
-                            <th>User</th>
-                            <th>Email</th>
-                            <th>University</th>
-                            <th>Role</th>
-                            <th>Status</th>
-                            <th>Joined</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody id="usersTableBody">
-                        <tr th:each="user : ${users}" th:data-role="${user.role}" th:data-status="${user.activeAccount ? 'active' : 'inactive'}">
-                            <td>
-                                <div class="d-flex align-items-center">
-                                    <img th:src="${user.profilePictureURL != null ? user.profilePictureURL : '/images/defaults/default_pfp.jpg'}" alt="Avatar" class="user-avatar me-3">
-                                    <div>
-                                        <div class="fw-bold" th:text="${user.firstName + ' ' + user.lastName}"></div>
-                                        <small class="text-muted" th:text="${'@' + user.username}"></small>
-                                    </div>
-                                </div>
-                            </td>
-                            <td th:text="${user.email}"></td>
-                            <td>
-                                <span class="badge bg-light text-dark" th:text="${user.university.getDisplayName()}"></span>
-                            </td>
-                            <td>
-                                <span th:classappend="${user.role == 'ADMIN' ? 'admin' : 'user'}" class="role-badge" th:text="${user.role.getDisplayName()}"></span>
-                            </td>
-                            <td>
-                                <span th:classappend="${user.activeAccount ? 'active' : 'inactive'}" class="status-badge" th:text="${user.activeAccount ? 'Active' : 'Inactive'}"></span>
-                            </td>
-                            <td th:text="${#temporals.format(user.createdOn, 'MMM dd, yyyy')}"></td>
-                            <td>
-                                <div class="action-buttons">
-                                    <a th:href="@{'/users/' + ${user.id}}" class="btn btn-primary btn-sm" title="View User Details">
-                                        <i class="fas fa-eye me-1"></i>View
-                                    </a>
-                                    <form th:action="@{'/users/' + ${user.id} + '/toggle-role'}" th:method="PATCH">
-                                        <input type="hidden" name="_method" value="patch"/>
-                                        <button type="submit" class="btn btn-success btn-sm" title="Change User Role">
-                                            <i class="fas fa-user-shield me-1"></i>Change Role
-                                        </button>
-                                    </form>
-                                    <form th:action="@{'/users/' + ${user.id} + '/toggle-status'}" th:method="PATCH">
-                                        <input type="hidden" name="_method" th:value="patch"/>
-                                        <button type="submit" class="btn btn-outline-secondary btn-sm" title="Activate/Deactivate User">
-                                            <i class="fas fa-power-off me-1"></i>Toggle Status
-                                        </button>
-                                    </form>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="number" th:text="${admins}">3</div>
+            <div class="label">Admins</div>
+        </div>
+        <div class="stat-card">
+            <div class="icon text-info">
+                <i class="fas fa-graduation-cap"></i>
             </div>
+            <div class="number" th:text="${graduated}">20</div>
+            <div class="label">Graduated University</div>
         </div>
     </div>
 
-    <!-- Navbar Script -->
-    <th:block th:replace="fragments/navbar-script :: navbar-script"></th:block>
-    
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const searchInput = document.getElementById('searchInput');
-            const filterButtons = document.querySelectorAll('.filter-btn');
-            const tableBody = document.getElementById('usersTableBody');
-            const rows = tableBody.querySelectorAll('tr');
+    <!-- Users Table -->
+    <div class="users-table-container">
+        <div class="table-header">
+            <div class="d-flex justify-content-between align-items-center">
+                <h3>All Users</h3>
+                <div class="d-flex gap-3 align-items-center">
+                    <div class="search-box">
+                        <i class="fas fa-search search-icon"></i>
+                        <input type="text" class="form-control" placeholder="Search users..." id="searchInput">
+                    </div>
+                    <div class="filter-buttons">
+                        <button class="filter-btn active" data-filter="all">All</button>
+                        <button class="filter-btn" data-filter="admin">Admins</button>
+                        <button class="filter-btn" data-filter="user">Users</button>
+                        <button class="filter-btn" data-filter="active">Active</button>
+                        <button class="filter-btn" data-filter="inactive">Inactive</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-            // Search functionality
-            searchInput.addEventListener('input', function() {
-                const searchTerm = this.value.toLowerCase();
-                filterRows(searchTerm);
-            });
+        <div class="table-responsive">
+            <table class="table table-hover mb-0">
+                <thead class="table-light">
+                <tr>
+                    <th>User</th>
+                    <th>Email</th>
+                    <th>University</th>
+                    <th>Role</th>
+                    <th>Status</th>
+                    <th>Joined</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody id="usersTableBody">
+                <tr th:each="user : ${users}" th:data-role="${user.role}" th:data-status="${user.activeAccount ? 'active' : 'inactive'}">
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <img th:src="${user.profilePictureURL != null ? user.profilePictureURL : '/images/defaults/default_pfp.jpg'}" alt="Avatar" class="user-avatar me-3">
+                            <div>
+                                <div class="fw-bold" th:text="${user.firstName + ' ' + user.lastName}"></div>
+                                <small class="text-muted" th:text="${'@' + user.username}"></small>
+                            </div>
+                        </div>
+                    </td>
+                    <td th:text="${user.email}"></td>
+                    <td>
+                        <span class="badge bg-light text-dark" th:text="${user.university.getDisplayName()}"></span>
+                    </td>
+                    <td>
+                        <span class="role-badge" th:text="${user.role.getDisplayName()}"></span>
+                    </td>
+                    <td>
+                        <span class="status-badge" th:text="${user.activeAccount ? 'Active' : 'Inactive'}"></span>
+                    </td>
+                    <td th:text="${#temporals.format(user.createdOn, 'MMM dd, yyyy')}"></td>
+                    <td>
+                        <div class="action-buttons">
+                            <a th:href="@{'/users/' + ${user.id}}" class="btn btn-primary btn-sm" title="View User Details">
+                                <i class="fas fa-eye me-1"></i>View
+                            </a>
+                            <form th:action="@{'/users/' + ${user.id} + '/toggle-role'}" th:method="PATCH">
+                                <input type="hidden" name="_method" th:value="patch"/>
+                                <button type="submit" class="admin-btn-primary btn-sm" title="Change User Role">
+                                    <i class="fas fa-user-shield me-1"></i>Change Role
+                                </button>
+                            </form>
+                            <form th:action="@{'/users/' + ${user.id} + '/toggle-status'}" th:method="PATCH">
+                                <input type="hidden" name="_method" th:value="patch"/>
+                                <button type="submit" th:classappend="${user.activeAccount ? 'active' : 'inactive'}" class="btn-status-toggle btn-sm" title="Activate/Deactivate User">
+                                    <i th:classappend="${user.activeAccount ? 'fa-user-slash' : 'fa-user-check'}" class="fas me-1"></i>
+                                    <span th:text="${user.activeAccount ? 'Deactivate' : 'Activate'}"></span>
+                                </button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 
-            // Filter functionality
-            filterButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    // Remove active class from all buttons
-                    filterButtons.forEach(btn => btn.classList.remove('active'));
-                    // Add active class to clicked button
-                    this.classList.add('active');
-                    
-                    const filter = this.dataset.filter;
-                    filterRows('', filter);
-                });
-            });
+<!-- Navbar Script -->
+<th:block th:replace="fragments/navbar-script :: navbar-script"></th:block>
 
-            function filterRows(searchTerm = '', filter = 'all') {
-                rows.forEach(row => {
-                    const name = row.querySelector('.fw-bold').textContent.toLowerCase();
-                    const email = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
-                    const role = row.dataset.role;
-                    const status = row.dataset.status;
-                    
-                    let showRow = true;
-                    
-                    // Search filter
-                    if (searchTerm && !name.includes(searchTerm) && !email.includes(searchTerm)) {
-                        showRow = false;
-                    }
-                    
-                    // Category filter
-                    if (filter !== 'all') {
-                        if (filter === 'admin' && role !== 'ADMIN') showRow = false;
-                        if (filter === 'user' && role !== 'USER') showRow = false;
-                        if (filter === 'active' && status !== 'active') showRow = false;
-                        if (filter === 'inactive' && status !== 'inactive') showRow = false;
-                    }
-                    
-                    row.style.display = showRow ? '' : 'none';
-                });
-            }
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchInput = document.getElementById('searchInput');
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const tableBody = document.getElementById('usersTableBody');
+        const rows = tableBody.querySelectorAll('tr');
 
-            // Action functions
-            window.viewUser = function(userId) {
-                alert('View user details for ID: ' + userId);
-                // Implement user details modal
-            };
+        // Initialize badge colors on page load
+        function initializeBadges() {
+            rows.forEach(row => {
+                const roleBadge = row.querySelector('.role-badge');
+                const statusBadge = row.querySelector('.status-badge');
+                const role = row.dataset.role;
+                const status = row.dataset.status;
 
-            window.toggleRole = function(userId) {
-                if (confirm('Are you sure you want to change this user\'s role?')) {
-                    // Implement role toggle
-                    alert('Role toggled for user ID: ' + userId);
+                // Set role badge class
+                if (roleBadge) {
+                    roleBadge.classList.remove('admin', 'user');
+                    roleBadge.classList.add(role === 'ADMIN' ? 'admin' : 'user');
                 }
-            };
 
-            window.toggleStatus = function(userId) {
-                if (confirm('Are you sure you want to change this user\'s status?')) {
-                    // Implement status toggle
-                    alert('Status toggled for user ID: ' + userId);
+                // Set status badge class
+                if (statusBadge) {
+                    statusBadge.classList.remove('active', 'inactive');
+                    statusBadge.classList.add(status);
                 }
-            };
+            });
+        }
+
+        // Initialize badges when page loads
+        initializeBadges();
+
+        // Search functionality
+        searchInput.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            filterRows(searchTerm);
         });
-    </script>
+
+        // Filter functionality
+        filterButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                // Remove active class from all buttons
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                // Add active class to clicked button
+                this.classList.add('active');
+
+                const filter = this.dataset.filter;
+                filterRows('', filter);
+            });
+        });
+
+        function filterRows(searchTerm = '', filter = 'all') {
+            rows.forEach(row => {
+                const name = row.querySelector('.fw-bold').textContent.toLowerCase();
+                const email = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
+                const role = row.dataset.role;
+                const status = row.dataset.status;
+
+                let showRow = true;
+
+                // Search filter
+                if (searchTerm && !name.includes(searchTerm) && !email.includes(searchTerm)) {
+                    showRow = false;
+                }
+
+                // Category filter
+                if (filter !== 'all') {
+                    if (filter === 'admin' && role !== 'ADMIN') showRow = false;
+                    if (filter === 'user' && role !== 'USER') showRow = false;
+                    if (filter === 'active' && status !== 'active') showRow = false;
+                    if (filter === 'inactive' && status !== 'inactive') showRow = false;
+                }
+
+                row.style.display = showRow ? '' : 'none';
+            });
+        }
+
+        // Handle role change forms
+        document.querySelectorAll('form[action*="/toggle-role"]').forEach(form => {
+            form.addEventListener('submit', function(e) {
+                e.preventDefault(); // Prevent default form submission
+
+                const row = this.closest('tr');
+                const roleBadge = row.querySelector('.role-badge');
+                const currentRole = row.dataset.role;
+
+                // Immediately change to new role
+                const newRole = currentRole === 'ADMIN' ? 'USER' : 'ADMIN';
+                const newRoleDisplay = newRole === 'ADMIN' ? 'Admin' : 'User';
+
+                // Update the row data
+                row.dataset.role = newRole;
+
+                // Update the badge immediately
+                roleBadge.classList.remove('admin', 'user');
+                roleBadge.classList.add(newRole.toLowerCase());
+                roleBadge.textContent = newRoleDisplay;
+
+                // Submit the form to the server
+                const formData = new FormData(this);
+                fetch(this.action, {
+                    method: 'POST',
+                    body: formData
+                }).then(response => {
+                    if (!response.ok) {
+                        // If server request fails, revert the change
+                        row.dataset.role = currentRole;
+                        roleBadge.classList.remove('admin', 'user');
+                        roleBadge.classList.add(currentRole.toLowerCase());
+                        roleBadge.textContent = currentRole === 'ADMIN' ? 'Admin' : 'User';
+                        alert('Failed to update role. Please try again.');
+                    }
+                }).catch(error => {
+                    // If request fails, revert the change
+                    row.dataset.role = currentRole;
+                    roleBadge.classList.remove('admin', 'user');
+                    roleBadge.classList.add(currentRole.toLowerCase());
+                    roleBadge.textContent = currentRole === 'ADMIN' ? 'Admin' : 'User';
+                    alert('Failed to update role. Please try again.');
+                });
+            });
+        });
+
+        // Handle status change forms
+        document.querySelectorAll('form[action*="/toggle-status"]').forEach(form => {
+            form.addEventListener('submit', function(e) {
+                e.preventDefault(); // Prevent default form submission
+
+                const row = this.closest('tr');
+                const statusBadge = row.querySelector('.status-badge');
+                const currentStatus = row.dataset.status;
+
+                // Immediately change to new status
+                const newStatus = currentStatus === 'active' ? 'inactive' : 'active';
+                const newStatusDisplay = newStatus === 'active' ? 'Active' : 'Inactive';
+
+                // Update the row data
+                row.dataset.status = newStatus;
+
+                // Update the badge immediately
+                statusBadge.classList.remove('active', 'inactive');
+                statusBadge.classList.add(newStatus);
+                statusBadge.textContent = newStatusDisplay;
+
+                // Update toggle status button text and icon
+                const toggleStatusButton = this.querySelector('.btn-status-toggle');
+                const toggleStatusIcon = toggleStatusButton.querySelector('i');
+                const toggleStatusText = toggleStatusButton.querySelector('span');
+
+                toggleStatusButton.classList.remove('active', 'inactive');
+                toggleStatusButton.classList.add(newStatus);
+                toggleStatusIcon.classList.remove('fa-user-slash', 'fa-user-check');
+                toggleStatusIcon.classList.add(newStatus === 'active' ? 'fa-user-slash' : 'fa-user-check');
+                toggleStatusText.textContent = newStatus === 'active' ? 'Deactivate' : 'Activate';
+
+                // Submit the form to the server
+                const formData = new FormData(this);
+                fetch(this.action, {
+                    method: 'POST',
+                    body: formData
+                }).then(response => {
+                    if (!response.ok) {
+                        // If server request fails, revert the change
+                        row.dataset.status = currentStatus;
+                        statusBadge.classList.remove('active', 'inactive');
+                        statusBadge.classList.add(currentStatus);
+                        statusBadge.textContent = currentStatus === 'active' ? 'Active' : 'Inactive';
+
+                        // Revert toggle status button text and icon
+                        toggleStatusButton.classList.remove('active', 'inactive');
+                        toggleStatusButton.classList.add(currentStatus);
+                        toggleStatusIcon.classList.remove('fa-user-slash', 'fa-user-check');
+                        toggleStatusIcon.classList.add(currentStatus === 'active' ? 'fa-user-slash' : 'fa-user-check');
+                        toggleStatusText.textContent = currentStatus === 'active' ? 'Deactivate' : 'Activate';
+
+                        alert('Failed to update status. Please try again.');
+                    }
+                }).catch(error => {
+                    // If request fails, revert the change
+                    row.dataset.status = currentStatus;
+                    statusBadge.classList.remove('active', 'inactive');
+                    statusBadge.classList.add(currentStatus);
+                    statusBadge.textContent = currentStatus === 'active' ? 'Active' : 'Inactive';
+
+                    // Revert toggle status button text and icon
+                    toggleStatusButton.classList.remove('active', 'inactive');
+                    toggleStatusButton.classList.add(currentStatus);
+                    toggleStatusIcon.classList.remove('fa-user-slash', 'fa-user-check');
+                    toggleStatusIcon.classList.add(currentStatus === 'active' ? 'fa-user-slash' : 'fa-user-check');
+                    toggleStatusText.textContent = currentStatus === 'active' ? 'Deactivate' : 'Activate';
+
+                    alert('Failed to update status. Please try again.');
+                });
+            });
+        });
+    });
+</script>
 </body>
 </html>

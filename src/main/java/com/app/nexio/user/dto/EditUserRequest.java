@@ -2,7 +2,7 @@ package com.app.nexio.user.dto;
 
 import com.app.nexio.user.model.User;
 import jakarta.validation.constraints.Max;
- import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.hibernate.validator.constraints.URL;
 

@@ -48,7 +48,7 @@ public class Item {
     @Column(nullable = false)
     private Location exchangeLocation;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "item_images", joinColumns = @JoinColumn(name = "item_id"))
     @Column(name = "image_url", columnDefinition = "TEXT")
     @Singular

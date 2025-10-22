@@ -23,7 +23,6 @@ public class WishlistItem { // entity to link items to wishlists
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    // Many users can add the same item to their wishlist
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "item_id",
                 nullable = false)

@@ -40,6 +40,7 @@ public class ItemService {
         item.setDescription(editItemRequest.getDescription());
         item.setCategory(editItemRequest.getCategory());
         item.setExchangeLocation(editItemRequest.getExchangeLocation());
+        item.setImageURLs(editItemRequest.getImageURLs());
 
         itemRepository.save(item);
     }

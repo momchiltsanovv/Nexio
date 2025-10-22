@@ -562,15 +562,16 @@
 
 <script th:replace="fragments/navbar-script :: navbar-script"></script>
 <script>
-    function changeMainImage(imageSrc, thumbnail) {
-        // Update main image
-        document.getElementById('mainImage').src = imageSrc;
+    function changeMainImage(imageUrl, clickedThumbnail) {
+        document.getElementById('mainImage').src = imageUrl;
 
-        // Update active thumbnail
-        document.querySelectorAll('.thumbnail').forEach(thumb => {
-            thumb.classList.remove('active');
+        // Remove 'active' class from all thumbnails
+        document.querySelectorAll('.thumbnail').forEach(thumbnail => {
+            thumbnail.classList.remove('active');
         });
-        thumbnail.classList.add('active');
+
+        // Add 'active' class to the clicked thumbnail
+        clickedThumbnail.classList.add('active');
     }
 
     // Add to wishlist functionality

@@ -91,8 +91,10 @@ public class UserService implements UserDetailsService {
     }
 
 
-    @CacheEvict(value = "users", allEntries = true)
-    public void switchStatus(UUID userId) {
+    @Caching(evict = {
+            @CacheEvict(value = "users", allEntries = true),
+            @CacheEvict(value = "admins", allEntries = true)
+    })    public void switchStatus(UUID userId) {
         Optional<User> user = userRepository.findById(userId);
 
         if (user.isEmpty()) {
