@@ -203,9 +203,6 @@
                                       th:classappend="${item.condition != null ? #strings.toLowerCase(item.condition.getDisplayName()).replace(' ', '-') : ''}"
                                       th:text="${item.condition.getDisplayName()}">Good</span>
                         </div>
-                        <button class="wishlist-btn" th:data-item-id="${item.id}">
-                            <i class="far fa-heart"></i>
-                        </button>
                     </div>
 
                     <div class="item-content">

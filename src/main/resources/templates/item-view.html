@@ -347,18 +347,26 @@
             font-size: 14px;
         }
 
-        .back-link {
+        /* New professional back button style */
+        .btn-back-to-browse {
+            background: #f0f2f8;
+            color: #212346;
+            padding: 8px 16px; /* Slightly reduced padding */
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            color: #212346;
-            text-decoration: none;
-            font-weight: 500;
-            margin-bottom: 20px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            margin-bottom: 30px; /* Added margin to push it away from the image */
+            font-size: 14px; /* Slightly reduced font size */
         }
 
-        .back-link:hover {
-            color: #5a6fd8;
+        .btn-back-to-browse:hover {
+            background: #e0e4f0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
 
         @media (max-width: 768px) {
@@ -406,7 +414,7 @@
 <div th:replace="fragments/navbar :: navbar(${active})"></div>
 
 <div class="item-view-wrapper">
-    <a href="/home" class="back-link">
+    <a href="/home" class="btn-back-to-browse">
         <i class="fas fa-arrow-left"></i>
         Back to Browse
     </a>
@@ -460,7 +468,7 @@
         <!-- Seller Information -->
         <div class="seller-card" th:object="${item.owner}">
             <div class="seller-header">
-                <img th:src="*{profilePictureURL}"
+                <img th:src="${user.profilePictureURL != null} ? ${user.profilePictureURL} : '/images/defaults/default_pfp.jpg'"
                      th:alt="*{username}"
                      class="seller-avatar">
                 <div class="seller-info">
@@ -483,7 +491,7 @@
             <div class="seller-actions">
                 <a th:if="${user.id == item.owner.id}" th:href="@{/users/profile}" class="btn btn-outline">
                     <i class="fas fa-user"></i>
-                    View Profile
+                    Profile
                 </a>
                 <a th:if="${user.id != item.owner.id}"  th:href="@{'/users/' + ${item.owner.id}}" class="btn btn-outline">
                     <i class="fas fa-user"></i>

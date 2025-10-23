@@ -15,276 +15,475 @@
             display: flex;
             flex-direction: column;
         }
+
         .page-content {
             flex: 1;
         }
-        
-        .wishlist-wrapper { max-width: 1200px; margin: 100px auto 40px; padding: 0 20px; }
-        .wishlist-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 30px; }
-        .wishlist-title { display: flex; align-items: center; gap: 12px; }
-        .wishlist-title h1 { font-size: 28px; font-weight: 700; color: #ffffff; margin: 0; }
-        .wishlist-count { background: #212346; color: white; padding: 4px 12px; border-radius: 20px; font-size: 14px; font-weight: 600; }
-        .wishlist-actions { display: flex; gap: 12px; }
-        .btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; border-radius: 8px; border: none; font-size: 14px; font-weight: 500; cursor: pointer; text-decoration: none; transition: all 0.3s ease; }
-        .btn-primary { background: linear-gradient(135deg, #212346 0%, #CE3A81 100%); color: white; }
-        .btn-primary:hover { transform: translateY(-1px); }
-        .btn-secondary { background: #f8f9fa; color: #666; border: 1px solid #e0e0e0; }
-        .btn-secondary:hover { transform: translateY(-1px); }
-        
-        .wishlist-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
-        .wishlist-item { background: #f8f9fa; border: 1px solid #e0e0e0; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,.05); transition: all 0.3s ease; position: relative; }
-        .wishlist-item:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,0,0,.1); }
-        .item-image { width: 100%; height: 200px; object-fit: cover; background: #f8f9fa; }
-        .item-content { padding: 16px; }
-        .item-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
-        .item-title { font-size: 16px; font-weight: 600; color: #1a1a1a; margin: 0; line-height: 1.4; }
-        .item-price { font-size: 18px; font-weight: 700; color: #212346; margin: 0; }
-        .item-details { display: flex; flex-direction: column; gap: 4px; margin-bottom: 12px; }
-        .item-detail { display: flex; align-items: center; gap: 6px; font-size: 12px; color: #666; }
-        .item-detail i { width: 12px; color: #212346; }
-        .item-actions { display: flex; gap: 8px; }
-        .item-btn { flex: 1; padding: 8px 12px; border-radius: 6px; border: 1px solid #e0e0e0; background: #f8f9fa; color: #666; font-size: 12px; cursor: pointer; transition: all 0.3s ease; }
-        .item-btn:hover { background: #f8f9fa; color: #495057; }
-        .item-btn.primary { background: #212346; color: white; }
-        .item-btn.primary:hover { background: #CE3A81; }
-        .remove-btn { position: absolute; top: 8px; right: 8px; width: 32px; height: 32px; border-radius: 50%; background: rgba(255, 255, 255, 0.9); border: 1px solid #e0e0e0; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s ease; }
-        .remove-btn:hover { background: #ff4757; color: white; border-color: #ff4757; }
-        
-        .empty-state { text-align: center; padding: 60px 20px; }
-        .empty-icon { width: 80px; height: 80px; margin: 0 auto 20px; background: #f8f9fa; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 32px; color: #ccc; }
-        .empty-title { font-size: 20px; font-weight: 600; color: #666; margin: 0 0 8px; }
-        .empty-text { color: #999; margin: 0 0 24px; }
-        
-        
+
+        .wishlist-wrapper {
+            max-width: 1200px;
+            margin: 100px auto 40px;
+            padding: 0 20px;
+        }
+
+        .wishlist-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 30px;
+        }
+
+        .wishlist-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .wishlist-title h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: #ffffff;
+            margin: 0;
+        }
+
+        .wishlist-count {
+            background: #212346;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .wishlist-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 16px;
+            border-radius: 8px;
+            border: none;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #212346 0%, #CE3A81 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: #f8f9fa;
+            color: #666;
+            border: 1px solid #e0e0e0;
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-1px);
+        }
+
+        .wishlist-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .wishlist-item {
+            background: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, .05);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .wishlist-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, .1);
+        }
+
+        .item-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            background: #f8f9fa;
+        }
+
+        .item-content {
+            padding: 16px;
+        }
+
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 8px;
+        }
+
+        .item-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin: 0;
+            line-height: 1.4;
+        }
+
+        .item-price {
+            font-size: 18px;
+            font-weight: 700;
+            color: #212346;
+            margin: 0;
+        }
+
+        .item-details {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            margin-bottom: 12px;
+        }
+
+        .item-detail {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .item-detail i {
+            width: 12px;
+            color: #212346;
+        }
+
+        .item-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .item-btn {
+            flex: 1;
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: 1px solid #e0e0e0;
+            background: #f8f9fa;
+            color: #666;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .item-btn:hover {
+            background: #f8f9fa;
+            color: #495057;
+        }
+
+        .item-btn.primary {
+            background: #212346;
+            color: white;
+        }
+
+        .item-btn.primary:hover {
+            background: #CE3A81;
+        }
+
+        .remove-btn {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .remove-btn:hover {
+            background: #ff4757;
+            color: white;
+            border-color: #ff4757;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .empty-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+            background: #f8f9fa;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            color: #ccc;
+        }
+
+        .empty-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #666;
+            margin: 0 0 8px;
+        }
+
+        .empty-text {
+            color: #999;
+            margin: 0 0 24px;
+        }
+
+
         @media (max-width: 768px) {
-            .wishlist-header { flex-direction: column; gap: 16px; align-items: flex-start; }
-            .wishlist-actions { width: 100%; justify-content: space-between; }
-            .wishlist-grid { grid-template-columns: 1fr; }
+            .wishlist-header {
+                flex-direction: column;
+                gap: 16px;
+                align-items: flex-start;
+            }
+
+            .wishlist-actions {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .wishlist-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
-    <th:block th:replace="fragments/background :: background-elements"></th:block>
-    
-    <div class="page-wrapper">
-        <div th:replace="fragments/navbar :: navbar(${active})"></div>
+<th:block th:replace="fragments/background :: background-elements"></th:block>
 
-        <div class="page-content">
-            <div class="wishlist-wrapper">
-        <!-- Header -->
-        <div class="wishlist-header">
-            <div class="wishlist-title">
-                <h1>
-                    <i class="fas fa-heart" style="color: #ff4757;"></i>
-                    My Wishlist
-                </h1>
-                <span class="wishlist-count" id="wishlistCount">3 it ems</span>
-            </div>
-            <div class="wishlist-actions">
-                <button class="btn btn-secondary" id="clearWishlist">
-                    <i class="fas fa-trash"></i>
-                    Clear All
-                </button>
-<!--                <a href="/home" class="btn btn-primary">-->
-<!--                    <i class="fas fa-plus"></i>-->
-<!--                    Browse Items-->
-<!--                </a>-->
-            </div>
-        </div>
+<div class="page-wrapper">
+    <div th:replace="fragments/navbar :: navbar(${active})"></div>
 
-
-        <!-- Wishlist Items -->
-        <div class="wishlist-grid" id="wishlistGrid">
-            <!-- Sample wishlist items -->
-            <div class="wishlist-item" data-category="TEXTBOOKS" data-condition="GOOD" data-price="45" data-date="2024-01-15">
-                <img src="https://via.placeholder.com/300x200/667eea/ffffff?text=Calculus+Textbook" alt="Calculus Textbook" class="item-image">
-                <div class="item-content">
-                    <div class="item-header">
-                        <h3 class="item-title">Calculus: Early Transcendentals</h3>
-                        <div class="item-price">$45</div>
-                    </div>
-                    <div class="item-details">
-                        <div class="item-detail">
-                            <i class="fas fa-book"></i>
-                            <span>Textbook</span>
-                        </div>
-                        <div class="item-detail">
-                            <i class="fas fa-tag"></i>
-                            <span>Good Condition</span>
-                        </div>
-                        <div class="item-detail">
-                            <i class="fas fa-map-marker-alt"></i>
-                            <span>Campus</span>
-                        </div>
-                    </div>
-                    <div class="item-actions">
-                        <button class="item-btn primary">
-                            <i class="fas fa-message"></i>
-                            Contact Seller
-                        </button>
-                        <button class="item-btn">
-                            <i class="fas fa-eye"></i>
-                            View Details
-                        </button>
-                    </div>
+    <div class="page-content">
+        <div class="wishlist-wrapper">
+            <!-- Header -->
+            <div class="wishlist-header">
+                <div class="wishlist-title">
+                    <h1>
+                        <i class="fas fa-heart" style="color: #ff4757;"></i>
+                        My Wishlist
+                    </h1>
+                    <span class="wishlist-count" id="wishlistCount" th:text="${wishlistItems.size() + ' items'}">3 it ems</span>
                 </div>
-                <button class="remove-btn" onclick="removeFromWishlist(this)">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-
-            <div class="wishlist-item" data-category="ELECTRONICS" data-condition="LIKE_NEW" data-price="299" data-date="2024-01-12">
-                <img src="https://via.placeholder.com/300x200/764ba2/ffffff?text=MacBook+Air" alt="MacBook Air" class="item-image">
-                <div class="item-content">
-                    <div class="item-header">
-                        <h3 class="item-title">MacBook Air M1 13"</h3>
-                        <div class="item-price">$299</div>
-                    </div>
-                    <div class="item-details">
-                        <div class="item-detail">
-                            <i class="fas fa-laptop"></i>
-                            <span>Electronics</span>
-                        </div>
-                        <div class="item-detail">
-                            <i class="fas fa-tag"></i>
-                            <span>Like New</span>
-                        </div>
-                        <div class="item-detail">
-                            <i class="fas fa-map-marker-alt"></i>
-                            <span>Shipping</span>
-                        </div>
-                    </div>
-                    <div class="item-actions">
-                        <button class="item-btn primary">
-                            <i class="fas fa-message"></i>
-                            Contact Seller
-                        </button>
-                        <button class="item-btn">
-                            <i class="fas fa-eye"></i>
-                            View Details
-                        </button>
-                    </div>
+                <div class="wishlist-actions">
+                    <button class="btn btn-secondary" id="clearWishlist">
+                        <i class="fas fa-trash"></i>
+                        Clear All
+                    </button>
                 </div>
-                <button class="remove-btn" onclick="removeFromWishlist(this)">
-                    <i class="fas fa-times"></i>
-                </button>
             </div>
 
-            <div class="wishlist-item" data-category="FURNITURE" data-condition="GOOD" data-price="80" data-date="2024-01-10">
-                <img src="https://via.placeholder.com/300x200/f093fb/ffffff?text=Desk+Chair" alt="Desk Chair" class="item-image">
-                <div class="item-content">
-                    <div class="item-header">
-                        <h3 class="item-title">Ergonomic Desk Chair</h3>
-                        <div class="item-price">$80</div>
-                    </div>
-                    <div class="item-details">
-                        <div class="item-detail">
-                            <i class="fas fa-chair"></i>
-                            <span>Furniture</span>
+
+            <!-- Wishlist Items -->
+            <div class="wishlist-grid" id="wishlistGrid">
+                <!-- Sample wishlist items -->
+                <div class="wishlist-item" th:each="item : ${wishlistItems}"
+                     th:data-item-id="${item.id}"
+                     th:data-category="${item.category != null ? item.category : ''}"
+                     th:data-condition="${item.condition != null ? item.condition : ''}"
+                     th:data-price="${item.price}"
+                     th:data-location="${item.exchangeLocation.name()}">
+                    <img th:src="@{${item.imageURLs != null and !item.imageURLs.isEmpty() ? item.imageURLs[0] : '/images/defaults/no_image.webp'}}"
+                         alt="Item image" class="item-image"
+                         onerror="this.src='/images/defaults/no_image.webp'">
+                    <div class="item-content">
+                        <div class="item-header">
+                            <h3 class="item-title" th:text="${item.name}">Ergonomic Desk Chair</h3>
+                            <div class="item-price" th:text="${item.price + ' лв'}">$80</div>
                         </div>
-                        <div class="item-detail">
-                            <i class="fas fa-tag"></i>
-                            <span>Good Condition</span>
+                        <div class="item-details">
+                            <div class="item-detail">
+                                <i class="fas fa-tag"></i>
+                                <span th:text="${item.category != null ? item.category.displayName : 'Other'}">Category</span>
+                            </div>
+                            <div class="item-detail">
+                                <i class="fas fa-tag"></i>
+                                <span th:text="${item.condition != null ? item.condition.displayName : 'Not specified'}">Good Condition</span>
+                            </div>
+                            <div class="item-detail">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span th:text="${item.exchangeLocation != null ? item.exchangeLocation.displayName : 'Not specified'}">Location</span>
+                            </div>
                         </div>
-                        <div class="item-detail">
-                            <i class="fas fa-map-marker-alt"></i>
-                            <span>Nearby</span>
+                        <div class="item-actions">
+                            <a th:href="@{'/items/' + ${item.id}}" class="item-btn primary">
+                                <i class="fas fa-eye"></i>
+                                View Details
+                            </a>
                         </div>
                     </div>
-                    <div class="item-actions">
-                        <button class="item-btn primary">
-                            <i class="fas fa-message"></i>
-                            Contact Seller
-                        </button>
-                        <button class="item-btn">
-                            <i class="fas fa-eye"></i>
-                            View Details
-                        </button>
-                    </div>
+                    <button class="remove-btn" th:data-item-id="${item.id}">
+                        <i class="fas fa-times"></i>
+                    </button>
                 </div>
-                <button class="remove-btn" onclick="removeFromWishlist(this)">
-                    <i class="fas fa-times"></i>
-                </button>
             </div>
-        </div>
 
-        <!-- Empty State (hidden by default) -->
-        <div class="empty-state" id="emptyState" style="display: none;">
-            <div class="empty-icon">
-                <i class="fas fa-heart"></i>
+            <!-- Empty State (hidden by default) -->
+            <div class="empty-state" id="emptyState"
+                 th:style="${wishlistItems.isEmpty() ? 'display: block;' : 'display: none;'}">
+                <div class="empty-icon">
+                    <i class="fas fa-heart"></i>
+                </div>
+                <h3 class="empty-title">Your wishlist is empty</h3>
+                <p class="empty-text">Start browsing items and add them to your wishlist to see them here.</p>
+                <a href="/home" class="btn btn-primary">
+                    <i class="fas fa-search"></i>
+                    Browse Items
+                </a>
             </div>
-            <h3 class="empty-title">Your wishlist is empty</h3>
-            <p class="empty-text">Start browsing items and add them to your wishlist to see them here.</p>
-            <a href="/home" class="btn btn-primary">
-                <i class="fas fa-search"></i>
-                Browse Items
-            </a>
         </div>
-            </div>
-        </div>
-
-        <script th:replace="fragments/navbar-script :: navbar-script"></script>
-        <div th:replace="fragments/footer :: footer"></div>
     </div>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const wishlistGrid = document.getElementById('wishlistGrid');
-            const emptyState = document.getElementById('emptyState');
-            const wishlistCount = document.getElementById('wishlistCount');
-            const clearWishlist = document.getElementById('clearWishlist');
-            
-            let items = Array.from(wishlistGrid.children);
-            
-            // Update wishlist count
-            function updateCount() {
-                const visibleItems = items.filter(item => item.style.display !== 'none');
-                wishlistCount.textContent = `${visibleItems.length} item${visibleItems.length !== 1 ? 's' : ''}`;
-                
-                if (visibleItems.length === 0) {
-                    emptyState.style.display = 'block';
-                    wishlistGrid.style.display = 'none';
-                } else {
-                    emptyState.style.display = 'none';
-                    wishlistGrid.style.display = 'grid';
-                }
+
+    <script th:replace="fragments/navbar-script :: navbar-script"></script>
+    <div th:replace="fragments/footer :: footer"></div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const wishlistGrid = document.getElementById('wishlistGrid');
+        const emptyState = document.getElementById('emptyState');
+        const wishlistCount = document.getElementById('wishlistCount');
+        const clearWishlist = document.getElementById('clearWishlist');
+
+        let items = Array.from(wishlistGrid.children);
+
+        // Update wishlist count
+        function updateCount() {
+            const visibleItems = items.filter(item => item.style.display !== 'none');
+            wishlistCount.textContent = `${visibleItems.length} item${visibleItems.length !== 1 ? 's' : ''}`;
+
+            if (visibleItems.length === 0) {
+                emptyState.style.display = 'block';
+                wishlistGrid.style.display = 'none';
+            } else {
+                emptyState.style.display = 'none';
+                wishlistGrid.style.display = 'grid';
             }
-            
-            // Remove from wishlist
-            window.removeFromWishlist = function(button) {
-                const item = button.closest('.wishlist-item');
-                item.style.animation = 'fadeOut 0.3s ease';
-                setTimeout(() => {
-                    item.remove();
-                    items = items.filter(i => i !== item);
-                    updateCount();
-                }, 300);
-            };
-            
-            // Clear all wishlist
-            clearWishlist.addEventListener('click', function() {
-                if (confirm('Are you sure you want to clear your entire wishlist?')) {
-                    items.forEach(item => {
-                        item.style.animation = 'fadeOut 0.3s ease';
-                        setTimeout(() => item.remove(), 300);
-                    });
-                    items = [];
-                    updateCount();
-                }
-            });
-            
-            // Initial setup
-            updateCount();
+        }
+
+        // Remove from wishlist
+        window.removeFromWishlist = function (button) {
+            const item = button.closest('.wishlist-item');
+            item.style.animation = 'fadeOut 0.3s ease';
+            setTimeout(() => {
+                item.remove();
+                items = items.filter(i => i !== item);
+                updateCount();
+            }, 300);
+        };
+
+        // Clear all wishlist
+        clearWishlist.addEventListener('click', function () {
+            if (confirm('Are you sure you want to clear your entire wishlist?')) {
+                items.forEach(item => {
+                    item.style.animation = 'fadeOut 0.3s ease';
+                    setTimeout(() => item.remove(), 300);
+                });
+                items = [];
+                updateCount();
+            }
         });
-        
-        // Add fade out animation
-        const style = document.createElement('style');
-        style.textContent = `
+
+        // Initial setup
+        updateCount();
+    });
+
+    // Add fade out animation
+    const style = document.createElement('style');
+    style.textContent = `
             @keyframes fadeOut {
                 from { opacity: 1; transform: scale(1); }
                 to { opacity: 0; transform: scale(0.8); }
             }
         `;
-        document.head.appendChild(style);
-    </script>
+    document.head.appendChild(style);
+
+    // Remove from wishlist (AJAX call)
+    document.querySelectorAll('.remove-btn').forEach(button => {
+        button.addEventListener('click', function () {
+            const itemId = this.dataset.itemId;
+            const itemCard = this.closest('.wishlist-item');
+
+            fetch(`/wishlist/remove/${itemId}`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+                .then(response => {
+                    if (response.ok) {
+                        // Animate and remove from DOM
+                        itemCard.style.animation = 'fadeOut 0.3s ease';
+                        setTimeout(() => {
+                            itemCard.remove();
+                            updateCount(); // Update count after item is removed from DOM
+                        }, 300);
+                    } else {
+                        console.error('Failed to remove item from wishlist.');
+                        alert('Failed to remove item. Please try again.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred. Please try again.');
+                });
+        });
+    });
+
+    // Clear all wishlist (AJAX call)
+    clearWishlist.addEventListener('click', function () {
+        if (confirm('Are you sure you want to clear your entire wishlist?')) {
+            fetch(`/wishlist/clear`, { // Assuming a new endpoint for clearing all
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+                .then(response => {
+                    if (response.ok) {
+                        // Animate and remove all items from DOM
+                        const allItems = document.querySelectorAll('.wishlist-item');
+                        allItems.forEach(item => {
+                            item.style.animation = 'fadeOut 0.3s ease';
+                            setTimeout(() => item.remove(), 300);
+                        });
+                        setTimeout(() => {
+                            updateCount(); // Update count after all items are removed
+                        }, 300);
+                    } else {
+                        console.error('Failed to clear wishlist.');
+                        alert('Failed to clear wishlist. Please try again.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred. Please try again.');
+                });
+        }
+    });
+
+    })
+    ;
+</script>
 </body>
 </html>

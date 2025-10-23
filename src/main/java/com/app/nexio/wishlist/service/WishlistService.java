@@ -4,12 +4,10 @@ import com.app.nexio.exception.userAlreadyHaveWishlistException;
 import com.app.nexio.item.service.ItemService;
 import com.app.nexio.user.model.User;
 import com.app.nexio.wishlist.model.Wishlist;
-import com.app.nexio.wishlist.model.WishlistItem;
 import com.app.nexio.wishlist.repository.WishlistRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
-import java.util.Set;
 import java.util.UUID;
 
 @Service
@@ -23,35 +21,17 @@ public class WishlistService {
         this.itemService = itemService;
     }
 
+    //TODO IMPL ADD ITEM
     public void addItem(User user, UUID itemId) {
-        Wishlist wishlist = user.getWishlist();
-        Set<WishlistItem> items = wishlist.getItems();
 
-        // Check if item is already in wishlist
-        boolean itemExists = items.stream()
-                .anyMatch(wishlistItem -> wishlistItem.getItem().getId().equals(itemId));
-
-        if (!itemExists) {
-            items.add(WishlistItem.builder()
-                                  .item(itemService.getById(itemId))
-                                  .build());
-            wishlistRepository.save(wishlist);
-        }
     }
 
+    // TODO IMPL REMOVE ITEM
     public void removeItem(User user, UUID itemId) {
-        Wishlist wishlist = user.getWishlist();
-        Set<WishlistItem> items = wishlist.getItems();
 
-        items.removeIf(wishlistItem -> wishlistItem
-                .getItem()
-                .getId()
-                .equals(itemId));
-
-        wishlistRepository.save(wishlist);
     }
 
-    public Wishlist initializeWishlist(User user) {
+    public void initializeWishlist(User user) {
         if (user.getWishlist() != null) {
             throw new userAlreadyHaveWishlistException("user have a wishlist cant create a new one");
         }
@@ -60,7 +40,6 @@ public class WishlistService {
         wishlist.setItems(new HashSet<>());
         user.setWishlist(wishlist);
         wishlistRepository.save(wishlist);
-        return wishlist;
     }
 
 
