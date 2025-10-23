@@ -50,9 +50,8 @@ public class UserController {
         return "admin-users";
     }
 
-    @GetMapping("/{id}")// see another users profile
-    public String getUserProfilePage(@PathVariable UUID id,
-                                     Model model) {
+    @GetMapping("/{id}")
+    public String getUserProfilePage(@PathVariable UUID id, Model model) {
 
         model.addAttribute("active", "user-profile-view");
         User user = userService.getById(id);
@@ -77,7 +76,7 @@ public class UserController {
         return "profile";
     }
 
-    @GetMapping("/profile/edit") // get edit profile form
+    @GetMapping("/profile/edit")
     public String getEditProfilePage(@AuthenticationPrincipal AuthenticationDetails authenticationdetails,
                                      Model model) {
         model.addAttribute("active", "profile");
@@ -125,7 +124,6 @@ public class UserController {
 
         return "redirect:/";
     }
-
 
 
 }
