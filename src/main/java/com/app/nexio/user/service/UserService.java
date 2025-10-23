@@ -10,6 +10,8 @@ import com.app.nexio.user.model.UserRole;
 import com.app.nexio.user.property.UserProperties;
 import com.app.nexio.user.repository.UserRepository;
 import com.app.nexio.wishlist.service.WishlistService;
+import jakarta.servlet.ServletRequestAttributeEvent;
+import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -94,7 +98,8 @@ public class UserService implements UserDetailsService {
     @Caching(evict = {
             @CacheEvict(value = "users", allEntries = true),
             @CacheEvict(value = "admins", allEntries = true)
-    })    public void switchStatus(UUID userId) {
+    })
+    public void switchStatus(UUID userId) {
         Optional<User> user = userRepository.findById(userId);
 
         if (user.isEmpty()) {
@@ -180,9 +185,13 @@ public class UserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String usernameOrEmail) throws UsernameNotFoundException {
+        ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+        HttpSession currentSession = servletRequestAttributes.getRequest().getSession(true);
         User user = userRepository.findByUsernameOrEmail(usernameOrEmail)
                                   .orElseThrow(() -> new UserDoesNotExistException(NO_SUCH_USER_FOUND));
 
+        if (!user.isActiveAccount())
+            currentSession.setAttribute("Inactive", "This account is blocked!");
 
         return new AuthenticationDetails(user.getId(), user.getUsername(), user.getPassword(), user.getRole(), user.isActiveAccount());
     }

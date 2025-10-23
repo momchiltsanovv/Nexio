@@ -260,6 +260,10 @@
                     Your account is currently inactive. It will be deleted in 30 days if no action is taken. Please contact support to reactivate your account.
                 </div>
 
+                <div th:if="${loginError}" class="alert alert-danger">
+                    Invalid username or password. Please try again.
+                </div>
+
                 <form th:action="'/auth/login'" th:method="post" th:object="${loginRequest}">
                     <div class="field">
                         <label for="usernameOrEmail">Username or Email</label>
