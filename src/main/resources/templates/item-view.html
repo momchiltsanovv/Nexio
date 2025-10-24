@@ -504,14 +504,20 @@
         <div class="action-card">
             <h3 class="action-title">Interested in this item?</h3>
             <div class="action-buttons">
-                <button class="btn btn-primary">
-                    <i class="fas fa-message"></i>
-                    Contact Seller
-                </button>
-                <button class="btn btn-secondary">
-                    <i class="fas fa-heart"></i>
-                    Add to Wishlist
-                </button>
+                <form th:if="${!isInWishlist}" th:action="@{/items/{id}/add(id=${item.id})}" th:method="post">
+                    <button type="submit" class="btn btn-secondary">
+                        <i class="fas fa-heart"></i>
+                        Add to Wishlist
+                    </button>
+                </form>
+
+                <form th:if="${isInWishlist}" th:action="@{/items/{id}/remove(id=${item.id})}" th:method="post">
+                    <input type="hidden" name="_method" value="delete"/>
+                    <button type="submit" class="btn btn-secondary active">
+                        <i class="fas fa-heart"></i>
+                        In Wishlist
+                    </button>
+                </form>
                 <button class="btn btn-secondary">
                     <i class="fas fa-share"></i>
                     Share Item
