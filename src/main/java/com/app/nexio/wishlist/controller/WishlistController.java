@@ -4,7 +4,6 @@ import com.app.nexio.item.model.Item;
 import com.app.nexio.security.AuthenticationDetails;
 import com.app.nexio.user.model.User;
 import com.app.nexio.user.service.UserService;
-import com.app.nexio.wishlist.model.Wishlist;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,4 +35,5 @@ public class WishlistController {
 
         return "wishlist";
     }
+
 }

@@ -28,8 +28,7 @@ public class Wishlist {
     @JoinTable(name = "wishlist_items",
                joinColumns = @JoinColumn(name = "wishlist_id"),
                inverseJoinColumns = @JoinColumn(name = "item_id"))
-    @Builder.Default
-    private Set<Item> items = new HashSet<>();
+    private Set<Item> items;
 
     @CreationTimestamp
     @Column(nullable = false, updatable = false)

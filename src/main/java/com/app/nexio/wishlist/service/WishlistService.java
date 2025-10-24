@@ -31,16 +31,29 @@ public class WishlistService {
         Set<Item> items = wishlist.getItems();
         Item itemToAdd = itemService.getById(itemId);
 
-        if (items.contains(itemToAdd)) {
+        if (isInWishlist(itemId, wishlist)) {
             throw new ItemAlreadyInWishlist(ITEM_ALREADY_IN_YOUR_WISHLIST);
         }
+
         items.add(itemToAdd);
         wishlistRepository.save(wishlist);
     }
 
     // TODO IMPL REMOVE ITEM
     public void removeItem(User user, UUID itemId) {
+        Wishlist wishlist = user.getWishlist();
+        Set<Item> items = wishlist.getItems();
+        Item itemToRemove = itemService.getById(itemId);
 
+        items.remove(itemToRemove);
+        wishlistRepository.save(wishlist);
+    }
+
+    public boolean isInWishlist(UUID itemId, Wishlist wishlist) {
+        Item item = itemService.getById(itemId);
+
+        return wishlist.getItems()
+                       .contains(item);
     }
 
     public void initializeWishlist(User user) {
