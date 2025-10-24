@@ -275,6 +275,7 @@
 <div class="page-wrapper">
     <div th:replace="fragments/navbar :: navbar(${active})"></div>
 
+    <!--    TODO make item card layout same as home page -->
     <div class="page-content">
         <div class="wishlist-wrapper">
             <!-- Header -->
@@ -286,6 +287,7 @@
                     </h1>
                     <span class="wishlist-count" id="wishlistCount" th:text="${wishlistItems.size() + ' items'}">3 it ems</span>
                 </div>
+                <!--                TODO make clear all clears whole wishlist -->
                 <div class="wishlist-actions">
                     <button class="btn btn-secondary" id="clearWishlist">
                         <i class="fas fa-trash"></i>

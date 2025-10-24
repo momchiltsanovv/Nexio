@@ -21,7 +21,7 @@ public class WishlistController {
         this.userService = userService;
     }
 
-    //TODO make the whole controller functionality and displaying items in the wishlist page
+
 
     @GetMapping("/wishlist")
     public String getWishlistPage(@AuthenticationPrincipal AuthenticationDetails authenticationDetails,
