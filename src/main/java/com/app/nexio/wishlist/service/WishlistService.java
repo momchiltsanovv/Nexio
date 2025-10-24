@@ -17,6 +17,7 @@ import java.util.UUID;
 public class WishlistService {
 
     public static final String ITEM_ALREADY_IN_YOUR_WISHLIST = "Item is already saved in your wishlist";
+    public static final String USER_ALREADY_HAVE_WISHLIST = "user have a wishlist cant create a new one";
     private final WishlistRepository wishlistRepository;
     private final ItemService itemService;
 
@@ -25,7 +26,7 @@ public class WishlistService {
         this.itemService = itemService;
     }
 
-    //TODO IMPL ADD ITEM
+
     public void addItem(User user, UUID itemId) {
         Wishlist wishlist = user.getWishlist();
         Set<Item> items = wishlist.getItems();
@@ -39,7 +40,6 @@ public class WishlistService {
         wishlistRepository.save(wishlist);
     }
 
-    // TODO IMPL REMOVE ITEM
     public void removeItem(User user, UUID itemId) {
         Wishlist wishlist = user.getWishlist();
         Set<Item> items = wishlist.getItems();
@@ -58,7 +58,7 @@ public class WishlistService {
 
     public void initializeWishlist(User user) {
         if (user.getWishlist() != null) {
-            throw new userAlreadyHaveWishlistException("user have a wishlist cant create a new one");
+            throw new userAlreadyHaveWishlistException(USER_ALREADY_HAVE_WISHLIST);
         }
 
         Wishlist wishlist = new Wishlist();
