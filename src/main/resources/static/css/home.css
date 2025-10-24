@@ -941,7 +941,6 @@ body {
     border-radius: 16px;
     overflow: hidden;
     transition: all 0.3s ease;
-    border: 1px solid #e9ecef;
     position: relative;
     display: flex;
     flex-direction: column;
