@@ -10,7 +10,6 @@ import com.app.nexio.user.model.UserRole;
 import com.app.nexio.user.property.UserProperties;
 import com.app.nexio.user.repository.UserRepository;
 import com.app.nexio.wishlist.service.WishlistService;
-import jakarta.servlet.ServletRequestAttributeEvent;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
@@ -68,11 +67,10 @@ public class UserService implements UserDetailsService {
             throw new UsernameTakenException(USERNAME_ALREADY_TAKEN.formatted(registerRequest.getUsername()));
         }
 
-        User user = userRepository.save(initializeUserFromRequest(registerRequest));
+        User user = initializeUserFromRequest(registerRequest);
         wishlistService.initializeWishlist(user);
-
+        userRepository.save(user);
         log.info(USER_REGISTERED_SUCCESSFULLY);
-
     }
 
     private User initializeUserFromRequest(RegisterRequest registerRequest) {
