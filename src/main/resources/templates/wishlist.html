@@ -99,17 +99,19 @@
             gap: 20px;
         }
 
-        .wishlist-item {
+        /* The following styles are for the item cards in wishlist */
+        .item-card {
             background: #f8f9fa;
-            border: 1px solid #e0e0e0;
             border-radius: 12px;
             overflow: hidden;
             box-shadow: 0 2px 10px rgba(0, 0, 0, .05);
             transition: all 0.3s ease;
             position: relative;
+            display: flex;
+            flex-direction: column;
         }
 
-        .wishlist-item:hover {
+        .item-card:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 25px rgba(0, 0, 0, .1);
         }
@@ -119,105 +121,164 @@
             height: 200px;
             object-fit: cover;
             background: #f8f9fa;
+            position: relative; /* For positioning badges */
+            overflow: hidden;
+        }
+
+        .item-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .item-badges {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            display: flex;
+            gap: 8px;
+        }
+
+        .condition-badge {
+            background: #212346;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        /* Specific condition badge colors from home.css for consistency */
+        .condition-badge.new {
+            background-color: #28a745; /* Green */
+        }
+        .condition-badge.like-new {
+            background-color: #007bff; /* Blue */
+        }
+        .condition-badge.good {
+            background-color: #ffc107; /* Yellow */
+            color: #333;
+        }
+        .condition-badge.fair {
+            background-color: #fd7e14; /* Orange */
+        }
+        .condition-badge.poor {
+            background-color: #dc3545; /* Red */
+        }
+        .condition-badge.refurbished {
+            background-color: #6f42c1; /* Purple */
         }
 
         .item-content {
             padding: 16px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
         }
 
-        .item-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 8px;
+        .item-category {
+            color: #5a6fd8;
+            font-size: 12px;
+            margin-bottom: 4px;
+            border-radius: 12px;
+            text-transform: capitalize;
         }
 
         .item-title {
-            font-size: 16px;
-            font-weight: 600;
+            font-size: 18px;
+            font-weight: 700;
             color: #1a1a1a;
-            margin: 0;
-            line-height: 1.4;
+            margin: 0 0 8px;
+            line-height: 1.3;
+        }
+
+        .item-description {
+            font-size: 14px;
+            color: #495057;
+            margin-bottom: 12px;
+            flex-grow: 1;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 2; /* Limit to 2 lines */
+            line-clamp: 2; /* Limit to 2 lines */
+            -webkit-box-orient: vertical;
+        }
+
+        .item-details {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto; /* Pushes details to the bottom */
+            margin-top: 12px; /* Add some space above the border */
         }
 
         .item-price {
-            font-size: 18px;
+            font-size: 20px;
             font-weight: 700;
             color: #212346;
             margin: 0;
         }
 
-        .item-details {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-            margin-bottom: 12px;
-        }
-
-        .item-detail {
+        .item-location {
+            font-size: 14px;
+            color: #000000;
             display: flex;
             align-items: center;
             gap: 6px;
-            font-size: 12px;
-            color: #666;
         }
 
-        .item-detail i {
-            width: 12px;
+        .item-location i {
             color: #212346;
         }
 
         .item-actions {
-            display: flex;
-            gap: 8px;
-        }
-
-        .item-btn {
-            flex: 1;
-            padding: 8px 12px;
-            border-radius: 6px;
-            border: 1px solid #e0e0e0;
-            background: #f8f9fa;
-            color: #666;
-            font-size: 12px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .item-btn:hover {
-            background: #f8f9fa;
-            color: #495057;
+            margin-top: 16px;
         }
 
         .item-btn.primary {
-            background: #212346;
+            display: block;
+            width: 100%;
+            padding: 10px 15px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #212346 0%, #CE3A81 100%);
             color: white;
+            font-size: 14px;
+            font-weight: 500;
+            text-align: center;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: none; /* Ensure no extra border */
         }
 
         .item-btn.primary:hover {
-            background: #CE3A81;
+            transform: translateY(-1px);
+            opacity: 0.95;
         }
 
         .remove-btn {
             position: absolute;
-            top: 8px;
-            right: 8px;
-            width: 32px;
-            height: 32px;
+            top: 12px; /* Adjusted position */
+            right: 12px; /* Adjusted position */
+            width: 36px; /* Slightly larger */
+            height: 36px; /* Slightly larger */
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.9); /* White background with opacity */
             border: 1px solid #e0e0e0;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
             transition: all 0.3s ease;
+            color: #dc3545; /* Red icon color */
+            font-size: 16px;
+            z-index: 10; /* Ensure it's above the image */
         }
 
         .remove-btn:hover {
-            background: #ff4757;
+            background: #dc3545;
             color: white;
-            border-color: #ff4757;
+            border-color: #dc3545;
+            transform: scale(1.1);
         }
 
         .empty-state {
@@ -285,7 +346,7 @@
                         <i class="fas fa-heart" style="color: #ff4757;"></i>
                         My Wishlist
                     </h1>
-                    <span class="wishlist-count" id="wishlistCount" th:text="${wishlistItems.size() + ' items'}">3 it ems</span>
+                    <span class="wishlist-count" id="wishlistCount" th:text="${wishlistItems.size() + ' items'}">3 items</span>
                 </div>
                 <!--                TODO make clear all clears whole wishlist -->
                 <div class="wishlist-actions">
@@ -299,45 +360,53 @@
 
             <!-- Wishlist Items -->
             <div class="wishlist-grid" id="wishlistGrid">
-                <!-- Sample wishlist items -->
-                <div class="wishlist-item" th:each="item : ${wishlistItems}"
+                <div class="item-card"
+                     th:each="item : ${wishlistItems}"
                      th:data-item-id="${item.id}"
                      th:data-category="${item.category != null ? item.category : ''}"
                      th:data-condition="${item.condition != null ? item.condition : ''}"
                      th:data-price="${item.price}"
-                     th:data-location="${item.exchangeLocation.name()}">
-                    <img th:src="@{${item.imageURLs != null and !item.imageURLs.isEmpty() ? item.imageURLs[0] : '/images/defaults/no_image.webp'}}"
-                         alt="Item image" class="item-image"
-                         onerror="this.src='/images/defaults/no_image.webp'">
-                    <div class="item-content">
-                        <div class="item-header">
-                            <h3 class="item-title" th:text="${item.name}">Ergonomic Desk Chair</h3>
-                            <div class="item-price" th:text="${item.price + ' лв'}">$80</div>
+                     th:data-location="${item.exchangeLocation.name()}"
+                     th:data-description="${item.description}"
+                     th:data-id="${item.id}"
+                     th:data-title="${item.name}"
+                     th:data-imageurl="${item.imageURLs != null and !item.imageURLs.isEmpty() ? item.imageURLs[0] : '/images/defaults/no_image.webp'}"
+                     th:data-seller-name="${item.owner.firstName + ' ' + item.owner.lastName}"
+                     th:data-seller-uni="${item.owner.university}"
+                     th:data-seller-avatar="${item.owner.profilePictureURL != null ? item.owner.profilePictureURL : '/images/defaults/default_pfp.jpg'}"
+                     th:data-createdat="${item.createdOn}">
+                    <div class="item-image">
+                        <img th:src="@{${item.imageURLs != null and !item.imageURLs.isEmpty() ? item.imageURLs[0] : '/images/defaults/no_image.webp'}}"
+                             th:alt="${item.name ?: 'Item image'}" onerror="this.src='/images/defaults/no_image.webp'">
+                        <div class="item-badges">
+                            <span class="condition-badge"
+                                  th:classappend="${item.condition != null ? #strings.toLowerCase(item.condition.getDisplayName()).replace(' ', '-') : ''}"
+                                  th:text="${item.condition.getDisplayName()}">Good</span>
                         </div>
+                        <button class="remove-btn" th:data-item-id="${item.id}">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="item-content">
+                        <div class="item-category" th:if="${item.category != null}">
+                            <span th:text="${item.category}">Category</span>
+                        </div>
+                        <h3 class="item-title" th:text="${item.name ?: 'Untitled Item'}">Item Title</h3>
+                        <p class="item-description" th:text="${item.description ?: 'No description available'}">Item description</p>
                         <div class="item-details">
-                            <div class="item-detail">
-                                <i class="fas fa-tag"></i>
-                                <span th:text="${item.category != null ? item.category.displayName : 'Other'}">Category</span>
-                            </div>
-                            <div class="item-detail">
-                                <i class="fas fa-tag"></i>
-                                <span th:text="${item.condition != null ? item.condition.displayName : 'Not specified'}">Good Condition</span>
-                            </div>
-                            <div class="item-detail">
+                            <div class="item-price" th:text="${item.price != null ? item.price + ' лв' : 'Price not set'}">0 лв</div>
+                            <div class="item-location" th:if="${item.exchangeLocation != null}">
                                 <i class="fas fa-map-marker-alt"></i>
-                                <span th:text="${item.exchangeLocation != null ? item.exchangeLocation.displayName : 'Not specified'}">Location</span>
+                                <span th:text="${item.exchangeLocation != null ? item.exchangeLocation.displayName : 'Location not set'}">Location</span>
                             </div>
                         </div>
                         <div class="item-actions">
-                            <a th:href="@{'/items/' + ${item.id}}" class="item-btn primary">
+                            <a th:href="@{'/items/' + ${item.id}}" class="btn btn-primary">
                                 <i class="fas fa-eye"></i>
                                 View Details
                             </a>
                         </div>
                     </div>
-                    <button class="remove-btn" th:data-item-id="${item.id}">
-                        <i class="fas fa-times"></i>
-                    </button>
                 </div>
             </div>
 
@@ -369,7 +438,6 @@
 
         let items = Array.from(wishlistGrid.children);
 
-        // Update wishlist count
         function updateCount() {
             const visibleItems = items.filter(item => item.style.display !== 'none');
             wishlistCount.textContent = `${visibleItems.length} item${visibleItems.length !== 1 ? 's' : ''}`;
@@ -383,9 +451,8 @@
             }
         }
 
-        // Remove from wishlist
         window.removeFromWishlist = function (button) {
-            const item = button.closest('.wishlist-item');
+            const item = button.closest('.item-card');
             item.style.animation = 'fadeOut 0.3s ease';
             setTimeout(() => {
                 item.remove();
@@ -394,7 +461,6 @@
             }, 300);
         };
 
-        // Clear all wishlist
         clearWishlist.addEventListener('click', function () {
             if (confirm('Are you sure you want to clear your entire wishlist?')) {
                 items.forEach(item => {
@@ -406,11 +472,9 @@
             }
         });
 
-        // Initial setup
         updateCount();
     });
 
-    // Add fade out animation
     const style = document.createElement('style');
     style.textContent = `
             @keyframes fadeOut {
@@ -420,11 +484,10 @@
         `;
     document.head.appendChild(style);
 
-    // Remove from wishlist (AJAX call)
     document.querySelectorAll('.remove-btn').forEach(button => {
         button.addEventListener('click', function () {
             const itemId = this.dataset.itemId;
-            const itemCard = this.closest('.wishlist-item');
+            const itemCard = this.closest('.item-card');
 
             fetch(`/wishlist/remove/${itemId}`, {
                 method: 'PATCH',
@@ -434,11 +497,10 @@
             })
                 .then(response => {
                     if (response.ok) {
-                        // Animate and remove from DOM
                         itemCard.style.animation = 'fadeOut 0.3s ease';
                         setTimeout(() => {
                             itemCard.remove();
-                            updateCount(); // Update count after item is removed from DOM
+                            updateCount();
                         }, 300);
                     } else {
                         console.error('Failed to remove item from wishlist.');
@@ -452,10 +514,9 @@
         });
     });
 
-    // Clear all wishlist (AJAX call)
     clearWishlist.addEventListener('click', function () {
         if (confirm('Are you sure you want to clear your entire wishlist?')) {
-            fetch(`/wishlist/clear`, { // Assuming a new endpoint for clearing all
+            fetch(`/wishlist/clear`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
@@ -463,14 +524,13 @@
             })
                 .then(response => {
                     if (response.ok) {
-                        // Animate and remove all items from DOM
-                        const allItems = document.querySelectorAll('.wishlist-item');
+                        const allItems = document.querySelectorAll('.item-card');
                         allItems.forEach(item => {
                             item.style.animation = 'fadeOut 0.3s ease';
                             setTimeout(() => item.remove(), 300);
                         });
                         setTimeout(() => {
-                            updateCount(); // Update count after all items are removed
+                            updateCount();
                         }, 300);
                     } else {
                         console.error('Failed to clear wishlist.');
@@ -484,8 +544,6 @@
         }
     });
 
-    })
-    ;
 </script>
 </body>
 </html>
