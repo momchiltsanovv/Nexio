@@ -152,19 +152,24 @@
         .condition-badge.new {
             background-color: #28a745; /* Green */
         }
+
         .condition-badge.like-new {
             background-color: #007bff; /* Blue */
         }
+
         .condition-badge.good {
             background-color: #ffc107; /* Yellow */
             color: #333;
         }
+
         .condition-badge.fair {
             background-color: #fd7e14; /* Orange */
         }
+
         .condition-badge.poor {
             background-color: #dc3545; /* Red */
         }
+
         .condition-badge.refurbished {
             background-color: #6f42c1; /* Purple */
         }
@@ -346,7 +351,8 @@
                         <i class="fas fa-heart" style="color: #ff4757;"></i>
                         My Wishlist
                     </h1>
-                    <span class="wishlist-count" id="wishlistCount" th:text="${wishlistItems.size() + ' items'}">3 items</span>
+                    <span class="wishlist-count" id="wishlistCount"
+                          th:text="${wishlistItems.size() + ' items'}">3 items</span>
                 </div>
                 <!--                TODO make clear all clears whole wishlist -->
                 <div class="wishlist-actions">
@@ -383,18 +389,25 @@
                                   th:classappend="${item.condition != null ? #strings.toLowerCase(item.condition.getDisplayName()).replace(' ', '-') : ''}"
                                   th:text="${item.condition.getDisplayName()}">Good</span>
                         </div>
-                        <button class="remove-btn" th:data-item-id="${item.id}">
-                            <i class="fas fa-times"></i>
-                        </button>
+
+                        <form th:action="@{/items/{id}/remove(id=${item.id})}" th:method="delete">
+                            <button class="remove-btn" th:data-item-id="${item.id}">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </form>
+
                     </div>
                     <div class="item-content">
                         <div class="item-category" th:if="${item.category != null}">
                             <span th:text="${item.category}">Category</span>
                         </div>
                         <h3 class="item-title" th:text="${item.name ?: 'Untitled Item'}">Item Title</h3>
-                        <p class="item-description" th:text="${item.description ?: 'No description available'}">Item description</p>
+                        <p class="item-description" th:text="${item.description ?: 'No description available'}">Item
+                            description</p>
                         <div class="item-details">
-                            <div class="item-price" th:text="${item.price != null ? item.price + ' лв' : 'Price not set'}">0 лв</div>
+                            <div class="item-price"
+                                 th:text="${item.price != null ? item.price + ' лв' : 'Price not set'}">0 лв
+                            </div>
                             <div class="item-location" th:if="${item.exchangeLocation != null}">
                                 <i class="fas fa-map-marker-alt"></i>
                                 <span th:text="${item.exchangeLocation != null ? item.exchangeLocation.displayName : 'Location not set'}">Location</span>
@@ -451,27 +464,6 @@
             }
         }
 
-        window.removeFromWishlist = function (button) {
-            const item = button.closest('.item-card');
-            item.style.animation = 'fadeOut 0.3s ease';
-            setTimeout(() => {
-                item.remove();
-                items = items.filter(i => i !== item);
-                updateCount();
-            }, 300);
-        };
-
-        clearWishlist.addEventListener('click', function () {
-            if (confirm('Are you sure you want to clear your entire wishlist?')) {
-                items.forEach(item => {
-                    item.style.animation = 'fadeOut 0.3s ease';
-                    setTimeout(() => item.remove(), 300);
-                });
-                items = [];
-                updateCount();
-            }
-        });
-
         updateCount();
     });
 
@@ -483,66 +475,6 @@
             }
         `;
     document.head.appendChild(style);
-
-    document.querySelectorAll('.remove-btn').forEach(button => {
-        button.addEventListener('click', function () {
-            const itemId = this.dataset.itemId;
-            const itemCard = this.closest('.item-card');
-
-            fetch(`/wishlist/remove/${itemId}`, {
-                method: 'PATCH',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            })
-                .then(response => {
-                    if (response.ok) {
-                        itemCard.style.animation = 'fadeOut 0.3s ease';
-                        setTimeout(() => {
-                            itemCard.remove();
-                            updateCount();
-                        }, 300);
-                    } else {
-                        console.error('Failed to remove item from wishlist.');
-                        alert('Failed to remove item. Please try again.');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('An error occurred. Please try again.');
-                });
-        });
-    });
-
-    clearWishlist.addEventListener('click', function () {
-        if (confirm('Are you sure you want to clear your entire wishlist?')) {
-            fetch(`/wishlist/clear`, {
-                method: 'PATCH',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            })
-                .then(response => {
-                    if (response.ok) {
-                        const allItems = document.querySelectorAll('.item-card');
-                        allItems.forEach(item => {
-                            item.style.animation = 'fadeOut 0.3s ease';
-                            setTimeout(() => item.remove(), 300);
-                        });
-                        setTimeout(() => {
-                            updateCount();
-                        }, 300);
-                    } else {
-                        console.error('Failed to clear wishlist.');
-                        alert('Failed to clear wishlist. Please try again.');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('An error occurred. Please try again.');
-                });
-        }
-    });
 
 </script>
 </body>

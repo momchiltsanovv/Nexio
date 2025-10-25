@@ -123,6 +123,7 @@ public class ItemController {
         return "edit-item";
     }
 
+    //TODO figure out how to return the page you are currently on
     @DeleteMapping("/{id}/remove")
     public String removeFromWishlist(@AuthenticationPrincipal AuthenticationDetails authenticationDetails,
                                      @PathVariable UUID id) {
