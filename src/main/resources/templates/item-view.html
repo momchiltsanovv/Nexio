@@ -321,6 +321,21 @@
             transform: translateY(-1px);
         }
 
+        .btn-profile {
+            background: transparent; /* Transparent background */
+            color: #212346; /* Dark blue text */
+            border: 1px solid #212346; /* Dark blue border */
+            box-shadow: none; /* No initial shadow */
+        }
+
+        .btn-profile:hover {
+            background: #212346; /* Dark blue background on hover */
+            color: white; /* White text on hover */
+            border-color: #212346;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15); /* More pronounced shadow on hover */
+            transform: translateY(-1px);
+        }
+
         .action-card {
             background: #f8f9fa;
             border-radius: 12px;
@@ -535,11 +550,11 @@
             </div>
 
             <div class="seller-actions">
-                <a th:if="${user.id == item.owner.id}" th:href="@{/users/profile}" class="btn btn-outline">
+                <a th:if="${user.id == item.owner.id}" th:href="@{/users/profile}" class="btn btn-profile">
                     <i class="fas fa-user"></i>
                     Profile
                 </a>
-                <a th:if="${user.id != item.owner.id}"  th:href="@{'/users/' + ${item.owner.id}}" class="btn btn-outline">
+                <a th:if="${user.id != item.owner.id}"  th:href="@{'/users/' + ${item.owner.id}}" class="btn btn-profile">
                     <i class="fas fa-user"></i>
                     View Profile
                 </a>
