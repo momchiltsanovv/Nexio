@@ -24,21 +24,24 @@ public class WebConfiguration implements WebMvcConfigurer {
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
 
         httpSecurity.authorizeHttpRequests(matcher -> matcher
-                                           .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-                                           .requestMatchers("/", "/auth/register", "/info").permitAll()
-                                           .anyRequest().authenticated()
-                                  )
-            .formLogin(form -> form
-                               .loginPage("/auth/login")
-                               .usernameParameter("usernameOrEmail")
-                               .defaultSuccessUrl("/home", true)
-                               .failureUrl("/auth/login?error")
-                               .permitAll()
-                      )
-            .logout(logout -> logout
-                    .logoutUrl("/auth/logout")
-                    .logoutSuccessUrl("/")
-                   );
+                                                   .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
+                                                   .requestMatchers("/", "/auth/register", "/info").permitAll()
+                                                   .anyRequest().authenticated()
+                                          )
+                    .formLogin(form -> form
+                                       .loginPage("/auth/login")
+                                       .usernameParameter("usernameOrEmail")
+                                       .defaultSuccessUrl("/home", true)
+                                       .failureUrl("/auth/login?error")
+                                       .permitAll()
+                              )
+                    .logout(logout -> logout
+                            .logoutUrl("/auth/logout")
+                            .logoutSuccessUrl("/")
+                            .invalidateHttpSession(true)
+                            .deleteCookies("JSESSIONID")
+                            .permitAll()
+                           );
 
 
         return httpSecurity.build();
