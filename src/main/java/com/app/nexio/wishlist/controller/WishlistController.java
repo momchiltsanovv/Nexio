@@ -4,26 +4,29 @@ import com.app.nexio.item.model.Item;
 import com.app.nexio.security.AuthenticationDetails;
 import com.app.nexio.user.model.User;
 import com.app.nexio.user.service.UserService;
+import com.app.nexio.wishlist.service.WishlistService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Set;
+import java.util.UUID;
 
 @Controller
-@RequestMapping
+@RequestMapping("/wishlist")
 public class WishlistController {
     private final UserService userService;
+    private final WishlistService wishlistService;
 
-    public WishlistController(UserService userService) {
+    public WishlistController(UserService userService, WishlistService wishlistService) {
         this.userService = userService;
+        this.wishlistService = wishlistService;
     }
 
 
-
-    @GetMapping("/wishlist")
+    @GetMapping
     public String getWishlistPage(@AuthenticationPrincipal AuthenticationDetails authenticationDetails,
                                   Model model) {
 
@@ -35,5 +38,39 @@ public class WishlistController {
 
         return "wishlist";
     }
+
+    @PostMapping("/{id}/add")
+    public String addToWishlist(@AuthenticationPrincipal AuthenticationDetails authenticationDetails,
+                                @PathVariable UUID id) {
+
+        User user = userService.getById(authenticationDetails.getUserId());
+        wishlistService.addItem(user, id);
+
+
+        return "redirect:/items/" + id;
+    }
+
+    @DeleteMapping("/{id}/remove")
+    public String removeFromWishlist(@AuthenticationPrincipal AuthenticationDetails authenticationDetails,
+                                     @PathVariable UUID id,
+                                     HttpServletRequest request) {
+        User user = userService.getById(authenticationDetails.getUserId());
+        wishlistService.removeItem(user, id);
+
+        String referer = request.getHeader("Referer");
+        return "redirect:" + referer;
+    }
+
+    @DeleteMapping("/clear")
+    public String clearWishlist(@AuthenticationPrincipal AuthenticationDetails authenticationDetails) {
+
+        User user = userService.getById(authenticationDetails.getUserId());
+
+        wishlistService.clearWishlist(user);
+
+        System.out.println("what is happening ");
+        return "redirect:/wishlist";
+    }
+
 
 }
