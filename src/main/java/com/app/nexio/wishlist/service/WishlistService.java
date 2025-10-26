@@ -68,4 +68,9 @@ public class WishlistService {
     }
 
 
+    public void clearWishlist(User user) {
+        Wishlist wishlist = user.getWishlist();
+        wishlist.getItems().clear();
+        wishlistRepository.save(wishlist);
+    }
 }
