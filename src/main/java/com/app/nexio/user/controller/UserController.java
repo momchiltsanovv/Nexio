@@ -5,11 +5,18 @@ import com.app.nexio.item.service.ItemService;
 import com.app.nexio.security.AuthenticationDetails;
 import com.app.nexio.user.dto.EditUserRequest;
 import com.app.nexio.user.model.User;
+import com.app.nexio.user.service.AccountDeletionService;
 import com.app.nexio.user.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,11 +32,13 @@ public class UserController {
 
     private final UserService userService;
     private final ItemService itemService;
+    private final AccountDeletionService accountDeletionService;
 
     @Autowired
-    public UserController(UserService userService, ItemService itemService) {
+    public UserController(UserService userService, ItemService itemService, AccountDeletionService accountDeletionService) {
         this.userService = userService;
         this.itemService = itemService;
+        this.accountDeletionService = accountDeletionService;
     }
 
 
@@ -117,13 +126,17 @@ public class UserController {
         return "redirect:/users";
     }
 
-    @DeleteMapping("/delete")//user delete its account
-    public String deleteUser(@AuthenticationPrincipal AuthenticationDetails authenticationDetails) {
+    @DeleteMapping("/delete")
+    public String deleteUser(@AuthenticationPrincipal AuthenticationDetails authenticationDetails,
+                             HttpServletRequest request,
+                             HttpServletResponse response) {
 
-        userService.switchStatus(authenticationDetails.getUserId());
+        accountDeletionService.deleteUserAccount(
+                authenticationDetails.getUserId(),
+                request,
+                response
+        );
 
         return "redirect:/";
     }
-
-
 }
