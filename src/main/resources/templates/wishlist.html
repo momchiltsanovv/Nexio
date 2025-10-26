@@ -356,10 +356,13 @@
                 </div>
                 <!--                TODO make clear all clears whole wishlist -->
                 <div class="wishlist-actions">
-                    <button class="btn btn-secondary" id="clearWishlist">
-                        <i class="fas fa-trash"></i>
-                        Clear All
-                    </button>
+                    <form th:action="@{/wishlist/clear}" th:method="post">
+                        <input type="hidden" name="_method" value="delete"/>
+                        <button class="btn btn-secondary" id="clearWishlist">
+                            <i class="fas fa-trash"></i>
+                            Clear All
+                        </button>
+                    </form>
                 </div>
             </div>
 
@@ -390,7 +393,8 @@
                                   th:text="${item.condition.getDisplayName()}">Good</span>
                         </div>
 
-                        <form th:action="@{/items/{id}/remove(id=${item.id})}" th:method="delete">
+                        <form th:action="@{/wishlist/{id}/remove(id=${item.id})}" th:method="post">
+                            <input type="hidden" name="_method" value="delete"/>
                             <button class="remove-btn" th:data-item-id="${item.id}">
                                 <i class="fas fa-times"></i>
                             </button>
