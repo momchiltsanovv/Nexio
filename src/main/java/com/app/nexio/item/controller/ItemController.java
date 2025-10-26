@@ -10,6 +10,7 @@ import com.app.nexio.user.model.User;
 import com.app.nexio.user.service.UserService;
 import com.app.nexio.wishlist.model.Wishlist;
 import com.app.nexio.wishlist.service.WishlistService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.UUID;
 
@@ -126,10 +128,13 @@ public class ItemController {
     //TODO figure out how to return the page you are currently on
     @DeleteMapping("/{id}/remove")
     public String removeFromWishlist(@AuthenticationPrincipal AuthenticationDetails authenticationDetails,
-                                     @PathVariable UUID id) {
+                                     @PathVariable UUID id,
+                                     HttpServletRequest request) {
         User user = userService.getById(authenticationDetails.getUserId());
         wishlistService.removeItem(user, id);
-        return "redirect:/items/" + id;
+
+        String referer = request.getHeader("Referer");
+        return "redirect:" + referer;
     }
 
 }
