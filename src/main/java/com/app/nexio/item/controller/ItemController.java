@@ -8,9 +8,7 @@ import com.app.nexio.item.service.ItemService;
 import com.app.nexio.security.AuthenticationDetails;
 import com.app.nexio.user.model.User;
 import com.app.nexio.user.service.UserService;
-import com.app.nexio.wishlist.model.Wishlist;
 import com.app.nexio.wishlist.service.WishlistService;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -18,7 +16,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.UUID;
 
@@ -87,16 +84,7 @@ public class ItemController {
         return "redirect:/item-view/" + id;
     }
 
-    @PostMapping("/{id}/add")
-    public String addToWishlist(@AuthenticationPrincipal AuthenticationDetails authenticationDetails,
-                                @PathVariable UUID id) {
 
-        User user = userService.getById(authenticationDetails.getUserId());
-        wishlistService.addItem(user, id);
-
-
-        return "redirect:/items/" + id;
-    }
 
     @GetMapping("/post")
     public String getPostItemPage(Model model) {
@@ -123,18 +111,6 @@ public class ItemController {
     public String deleteItem(@PathVariable UUID id) {
 
         return "edit-item";
-    }
-
-    //TODO figure out how to return the page you are currently on
-    @DeleteMapping("/{id}/remove")
-    public String removeFromWishlist(@AuthenticationPrincipal AuthenticationDetails authenticationDetails,
-                                     @PathVariable UUID id,
-                                     HttpServletRequest request) {
-        User user = userService.getById(authenticationDetails.getUserId());
-        wishlistService.removeItem(user, id);
-
-        String referer = request.getHeader("Referer");
-        return "redirect:" + referer;
     }
 
 }
