@@ -354,7 +354,6 @@
                     <span class="wishlist-count" id="wishlistCount"
                           th:text="${wishlistItems.size() + ' items'}">3 items</span>
                 </div>
-                <!--                TODO make clear all clears whole wishlist -->
                 <div class="wishlist-actions">
                     <form th:action="@{/wishlist/clear}" th:method="post">
                         <input type="hidden" name="_method" value="delete"/>
