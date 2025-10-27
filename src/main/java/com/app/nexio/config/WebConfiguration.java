@@ -9,6 +9,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.web.filter.HiddenHttpMethodFilter;
+import com.app.nexio.security.CustomOAuth2UserService;
 
 @Configuration
 @EnableWebSecurity
@@ -21,7 +22,7 @@ public class WebConfiguration implements WebMvcConfigurer {
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity, CustomOAuth2UserService customOAuth2UserService) throws Exception {
 
         httpSecurity.authorizeHttpRequests(matcher -> matcher
                                                    .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
@@ -35,6 +36,13 @@ public class WebConfiguration implements WebMvcConfigurer {
                                        .failureUrl("/auth/login?error")
                                        .permitAll()
                               )
+                    .oauth2Login(oauth2 -> oauth2
+                                           .userInfoEndpoint(userInfo -> userInfo
+                                                                       .userService(customOAuth2UserService)
+                                           )
+                                           .defaultSuccessUrl("/home", true)
+                                           .failureUrl("/auth/login?oauth2Error")
+                                  )
                     .logout(logout -> logout
                             .logoutUrl("/auth/logout")
                             .logoutSuccessUrl("/")
