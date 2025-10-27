@@ -4,10 +4,7 @@ package com.app.nexio.common.controller;
 import com.app.nexio.item.model.Category;
 import com.app.nexio.item.model.Item;
 import com.app.nexio.item.service.ItemService;
-import com.app.nexio.security.AuthenticationDetails;
-import com.app.nexio.user.model.User;
 import com.app.nexio.user.service.UserService;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -64,10 +61,4 @@ public class HomeController {
         model.addAttribute("active", "info");
         return "info";
     }
-
-
-
-
-
-
 }
