@@ -17,8 +17,11 @@ public class EditUserRequest {
 
     private String profilePictureURL;
 
-    @Size(min = 3, max = 20, message = "Username must be between 3 and 20 characters")
-    private String username;
+    @Size(min = 2)
+   private String firstName;
+
+    @Size(min = 2)
+   private String lastName;
 
     @URL(message = "Instagram URL must be valid if provided")
     private String instagramURL;
@@ -40,7 +43,8 @@ public class EditUserRequest {
         EditUserRequest editRequest = new EditUserRequest();
 
         editRequest.setProfilePictureURL(user.getProfilePictureURL());
-        editRequest.setUsername(user.getUsername());
+        editRequest.setFirstName(user.getFirstName());
+        editRequest.setLastName(user.getLastName());
         editRequest.setInstagramURL(user.getInstagramURL());
         editRequest.setUniversity(user.getUniversity());
         editRequest.setLinkedinURL(user.getLinkedinURL());

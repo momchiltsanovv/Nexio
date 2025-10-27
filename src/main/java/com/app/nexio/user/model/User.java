@@ -25,10 +25,10 @@ public class User {
     @Column(nullable = false)
     private String username;
 
-    @Column(nullable = false)
+    @Column
     private String firstName;
 
-    @Column(nullable = false)
+    @Column
     private String lastName;
 
     @Enumerated(EnumType.STRING)
@@ -47,6 +47,7 @@ public class User {
 
     private Integer graduationYear;
 
+    @Column(nullable = false)
     private boolean activeAccount;
 
     @Column
@@ -57,15 +58,13 @@ public class User {
     private String profilePictureURL;
 
     @Column(unique = true,
-            nullable = false,
-            updatable = false)
+            nullable = false)
     private String email;
 
     @Column(nullable = false)
     private String password;
 
 
-    // One user can have only one wishlist
     @OneToOne(cascade = CascadeType.ALL,
               orphanRemoval = true,
               fetch = FetchType.LAZY)

@@ -132,7 +132,8 @@ public class UserService implements UserDetailsService {
         }
 
         user.get().setProfilePictureURL(editRequest.getProfilePictureURL());
-        user.get().setUsername(editRequest.getUsername());
+        user.get().setFirstName(editRequest.getFirstName());
+        user.get().setLastName(editRequest.getLastName());
         user.get().setInstagramURL(editRequest.getInstagramURL());
         user.get().setLinkedinURL(editRequest.getLinkedinURL());
         user.get().setUniversity(editRequest.getUniversity());
@@ -192,6 +193,10 @@ public class UserService implements UserDetailsService {
         if (!user.isActiveAccount())
             currentSession.setAttribute("Inactive", "This account is blocked!");
 
-        return new AuthenticationMetaData(user.getId(), user.getUsername(), user.getPassword(),  user.getRole(), user.isActiveAccount());
+        return new AuthenticationMetaData(user.getId(),
+                                          user.getUsername(),
+                                          user.getPassword(),
+                                          user.getRole(),
+                                          user.isActiveAccount());
     }
 }
