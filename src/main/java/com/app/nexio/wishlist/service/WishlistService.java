@@ -64,7 +64,6 @@ public class WishlistService {
         Wishlist wishlist = new Wishlist();
         wishlist.setItems(new HashSet<>());
         user.setWishlist(wishlist);
-        wishlistRepository.save(wishlist);
     }
 
 

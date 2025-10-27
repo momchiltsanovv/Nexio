@@ -69,11 +69,11 @@ public class UserController {
 
 
     @GetMapping("/profile")
-    public String getMyProfile(@AuthenticationPrincipal AuthenticationMetaData authenticationDetails,
+    public String getMyProfile(@AuthenticationPrincipal AuthenticationMetaData metaData,
                                Model model) {
         model.addAttribute("active", "profile");
 
-        User user = userService.getById(authenticationDetails.getUserId());
+        User user = userService.getById(metaData.getUserId());
         List<Item> userItems = itemService.getUsersItems(user);
         model.addAttribute("user", user);
         model.addAttribute("items", userItems);
