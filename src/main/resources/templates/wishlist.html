@@ -392,7 +392,7 @@
                                   th:text="${item.condition.getDisplayName()}">Good</span>
                         </div>
 
-                        <form th:action="@{/wishlist/{id}/remove(id=${item.id})}" th:method="post">
+                        <form th:action="@{'/wishlist/' + ${item.id} + '/remove?redirect=/wishlist'}" th:method="post">
                             <input type="hidden" name="_method" value="delete"/>
                             <button class="remove-btn" th:data-item-id="${item.id}">
                                 <i class="fas fa-times"></i>

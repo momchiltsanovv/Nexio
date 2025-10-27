@@ -2,7 +2,7 @@ package com.app.nexio.user.controller;
 
 import com.app.nexio.item.model.Item;
 import com.app.nexio.item.service.ItemService;
-import com.app.nexio.security.AuthenticationMetaData;
+import com.app.nexio.security.AuthenticationMetadata;
 import com.app.nexio.user.dto.EditUserRequest;
 import com.app.nexio.user.model.User;
 import com.app.nexio.user.service.AccountDeletionService;
@@ -69,7 +69,7 @@ public class UserController {
 
 
     @GetMapping("/profile")
-    public String getMyProfile(@AuthenticationPrincipal AuthenticationMetaData metaData,
+    public String getMyProfile(@AuthenticationPrincipal AuthenticationMetadata metaData,
                                Model model) {
         model.addAttribute("active", "profile");
 
@@ -82,7 +82,7 @@ public class UserController {
     }
 
     @GetMapping("/profile/edit")
-    public String getEditProfilePage(@AuthenticationPrincipal AuthenticationMetaData metaData,
+    public String getEditProfilePage(@AuthenticationPrincipal AuthenticationMetadata metaData,
                                      Model model) {
         model.addAttribute("active", "profile");
 
@@ -93,7 +93,7 @@ public class UserController {
     }
 
     @PatchMapping("/profile/edit")
-    public String editProfile(@AuthenticationPrincipal AuthenticationMetaData metaData,
+    public String editProfile(@AuthenticationPrincipal AuthenticationMetadata metaData,
                               @Valid EditUserRequest request,
                               BindingResult bindingResult,
                               Model model) {
@@ -123,7 +123,7 @@ public class UserController {
     }
 
     @DeleteMapping("/delete")
-    public String deleteUser(@AuthenticationPrincipal AuthenticationMetaData metaData,
+    public String deleteUser(@AuthenticationPrincipal AuthenticationMetadata metaData,
                              HttpServletRequest request,
                              HttpServletResponse response) {
 

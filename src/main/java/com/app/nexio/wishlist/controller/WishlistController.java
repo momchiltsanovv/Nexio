@@ -1,11 +1,10 @@
 package com.app.nexio.wishlist.controller;
 
 import com.app.nexio.item.model.Item;
-import com.app.nexio.security.AuthenticationMetaData;
+import com.app.nexio.security.AuthenticationMetadata;
 import com.app.nexio.user.model.User;
 import com.app.nexio.user.service.UserService;
 import com.app.nexio.wishlist.service.WishlistService;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,7 +26,7 @@ public class WishlistController {
 
 
     @GetMapping
-    public String getWishlistPage(@AuthenticationPrincipal AuthenticationMetaData authenticationDetails,
+    public String getWishlistPage(@AuthenticationPrincipal AuthenticationMetadata authenticationDetails,
                                   Model model) {
 
         User user = userService.getById(authenticationDetails.getUserId());
@@ -40,7 +39,7 @@ public class WishlistController {
     }
 
     @PostMapping("/{id}/add")
-    public String addToWishlist(@AuthenticationPrincipal AuthenticationMetaData authenticationDetails,
+    public String addToWishlist(@AuthenticationPrincipal AuthenticationMetadata authenticationDetails,
                                 @PathVariable UUID id) {
 
         User user = userService.getById(authenticationDetails.getUserId());
@@ -51,18 +50,18 @@ public class WishlistController {
     }
 
     @DeleteMapping("/{id}/remove")
-    public String removeFromWishlist(@AuthenticationPrincipal AuthenticationMetaData authenticationDetails,
+    public String removeFromWishlist(@AuthenticationPrincipal AuthenticationMetadata authenticationDetails,
                                      @PathVariable UUID id,
-                                     HttpServletRequest request) {
+                                     @RequestParam String redirect) {
+
         User user = userService.getById(authenticationDetails.getUserId());
         wishlistService.removeItem(user, id);
 
-        String referer = request.getHeader("Referer");
-        return "redirect:" + referer;
+        return "redirect:" + redirect;
     }
 
     @DeleteMapping("/clear")
-    public String clearWishlist(@AuthenticationPrincipal AuthenticationMetaData authenticationDetails) {
+    public String clearWishlist(@AuthenticationPrincipal AuthenticationMetadata authenticationDetails) {
 
         User user = userService.getById(authenticationDetails.getUserId());
 

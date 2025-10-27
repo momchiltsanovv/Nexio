@@ -565,14 +565,14 @@
         <div class="action-card">
             <h3 class="action-title">Interested in this item?</h3>
             <div class="action-buttons">
-                <form th:if="${!isInWishlist}" th:action="@{/wishlist/{id}/add(id=${item.id})}" th:method="post">
+                <form th:if="${!isInWishlist}" th:action="@{'/wishlist/' + ${item.id} + '/add'}" th:method="post">
                     <button type="submit" class="btn btn-wishlist">
                         <i class="fas fa-heart"></i>
                         Add to Wishlist
                     </button>
                 </form>
 
-                <form th:if="${isInWishlist}" th:action="@{/wishlist/{id}/remove(id=${item.id})}" th:method="post">
+                <form th:if="${isInWishlist}" th:action="@{'/wishlist/' + ${item.id} + '/remove?redirect=' + '/items/' + ${item.id}}" th:method="post">
                     <input type="hidden" name="_method" value="delete"/>
                     <button type="submit" class="btn btn-wishlist active">
                         <i class="fas fa-heart"></i>

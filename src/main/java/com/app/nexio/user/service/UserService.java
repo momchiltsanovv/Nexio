@@ -2,7 +2,7 @@ package com.app.nexio.user.service;
 
 import com.app.nexio.exception.UserDoesNotExistException;
 import com.app.nexio.exception.UsernameTakenException;
-import com.app.nexio.security.AuthenticationMetaData;
+import com.app.nexio.security.AuthenticationMetadata;
 import com.app.nexio.user.dto.EditUserRequest;
 import com.app.nexio.user.dto.RegisterRequest;
 import com.app.nexio.user.model.User;
@@ -193,7 +193,7 @@ public class UserService implements UserDetailsService {
         if (!user.isActiveAccount())
             currentSession.setAttribute("Inactive", "This account is blocked!");
 
-        return new AuthenticationMetaData(user.getId(),
+        return new AuthenticationMetadata(user.getId(),
                                           user.getUsername(),
                                           user.getPassword(),
                                           user.getRole(),
