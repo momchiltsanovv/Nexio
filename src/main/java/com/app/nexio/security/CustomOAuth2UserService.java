@@ -60,6 +60,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                 usernameToUse = "oauth_user_" + UUID.randomUUID().toString().substring(0, 8);
                 firstNameToUse = "OAuth";
                 lastNameToUse = "User";
+
             }
 
             user = User.builder()
