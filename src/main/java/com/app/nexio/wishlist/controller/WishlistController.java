@@ -1,7 +1,7 @@
 package com.app.nexio.wishlist.controller;
 
 import com.app.nexio.item.model.Item;
-import com.app.nexio.security.AuthenticationDetails;
+import com.app.nexio.security.AuthenticationMetaData;
 import com.app.nexio.user.model.User;
 import com.app.nexio.user.service.UserService;
 import com.app.nexio.wishlist.service.WishlistService;
@@ -27,7 +27,7 @@ public class WishlistController {
 
 
     @GetMapping
-    public String getWishlistPage(@AuthenticationPrincipal AuthenticationDetails authenticationDetails,
+    public String getWishlistPage(@AuthenticationPrincipal AuthenticationMetaData authenticationDetails,
                                   Model model) {
 
         User user = userService.getById(authenticationDetails.getUserId());
@@ -40,7 +40,7 @@ public class WishlistController {
     }
 
     @PostMapping("/{id}/add")
-    public String addToWishlist(@AuthenticationPrincipal AuthenticationDetails authenticationDetails,
+    public String addToWishlist(@AuthenticationPrincipal AuthenticationMetaData authenticationDetails,
                                 @PathVariable UUID id) {
 
         User user = userService.getById(authenticationDetails.getUserId());
@@ -51,7 +51,7 @@ public class WishlistController {
     }
 
     @DeleteMapping("/{id}/remove")
-    public String removeFromWishlist(@AuthenticationPrincipal AuthenticationDetails authenticationDetails,
+    public String removeFromWishlist(@AuthenticationPrincipal AuthenticationMetaData authenticationDetails,
                                      @PathVariable UUID id,
                                      HttpServletRequest request) {
         User user = userService.getById(authenticationDetails.getUserId());
@@ -62,7 +62,7 @@ public class WishlistController {
     }
 
     @DeleteMapping("/clear")
-    public String clearWishlist(@AuthenticationPrincipal AuthenticationDetails authenticationDetails) {
+    public String clearWishlist(@AuthenticationPrincipal AuthenticationMetaData authenticationDetails) {
 
         User user = userService.getById(authenticationDetails.getUserId());
 

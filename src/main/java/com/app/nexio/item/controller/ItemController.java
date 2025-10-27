@@ -5,7 +5,7 @@ import com.app.nexio.item.dto.EditItemRequest;
 import com.app.nexio.item.dto.PostItemRequest;
 import com.app.nexio.item.model.Item;
 import com.app.nexio.item.service.ItemService;
-import com.app.nexio.security.AuthenticationDetails;
+import com.app.nexio.security.AuthenticationMetaData;
 import com.app.nexio.user.model.User;
 import com.app.nexio.user.service.UserService;
 import com.app.nexio.wishlist.service.WishlistService;
@@ -35,7 +35,7 @@ public class ItemController {
     }
 
     @GetMapping("/{id}")
-    public String getViewItemsPage(@AuthenticationPrincipal AuthenticationDetails userDetails,
+    public String getViewItemsPage(@AuthenticationPrincipal AuthenticationMetaData userDetails,
                                    @PathVariable UUID id,
                                    Model model) {
 

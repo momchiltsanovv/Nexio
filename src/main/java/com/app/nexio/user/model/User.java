@@ -49,7 +49,7 @@ public class User {
 
     private boolean activeAccount;
 
-    @Column(nullable = false)
+    @Column
     @Enumerated(EnumType.STRING)
     private University university;
 

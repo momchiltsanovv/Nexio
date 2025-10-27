@@ -2,21 +2,17 @@ package com.app.nexio.user.controller;
 
 import com.app.nexio.item.model.Item;
 import com.app.nexio.item.service.ItemService;
-import com.app.nexio.security.AuthenticationDetails;
+import com.app.nexio.security.AuthenticationMetaData;
 import com.app.nexio.user.dto.EditUserRequest;
 import com.app.nexio.user.model.User;
 import com.app.nexio.user.service.AccountDeletionService;
 import com.app.nexio.user.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -73,7 +69,7 @@ public class UserController {
 
 
     @GetMapping("/profile")
-    public String getMyProfile(@AuthenticationPrincipal AuthenticationDetails authenticationDetails,
+    public String getMyProfile(@AuthenticationPrincipal AuthenticationMetaData authenticationDetails,
                                Model model) {
         model.addAttribute("active", "profile");
 
@@ -86,18 +82,18 @@ public class UserController {
     }
 
     @GetMapping("/profile/edit")
-    public String getEditProfilePage(@AuthenticationPrincipal AuthenticationDetails authenticationdetails,
+    public String getEditProfilePage(@AuthenticationPrincipal AuthenticationMetaData metaData,
                                      Model model) {
         model.addAttribute("active", "profile");
 
-        User user = userService.getById(authenticationdetails.getUserId());
+        User user = userService.getById(metaData.getUserId());
         model.addAttribute("user", EditUserRequest.fromUser(user));
 
         return "edit-profile";
     }
 
     @PatchMapping("/profile/edit")
-    public String editProfile(@AuthenticationPrincipal AuthenticationDetails authenticationdetails,
+    public String editProfile(@AuthenticationPrincipal AuthenticationMetaData metaData,
                               @Valid EditUserRequest request,
                               BindingResult bindingResult,
                               Model model) {
@@ -107,7 +103,7 @@ public class UserController {
             return "edit-profile";
         }
 
-        userService.editUserDetails(authenticationdetails.getUserId(), request);
+        userService.editUserDetails(metaData.getUserId(), request);
 
         return "redirect:/users/profile";
     }
@@ -127,12 +123,12 @@ public class UserController {
     }
 
     @DeleteMapping("/delete")
-    public String deleteUser(@AuthenticationPrincipal AuthenticationDetails authenticationDetails,
+    public String deleteUser(@AuthenticationPrincipal AuthenticationMetaData metaData,
                              HttpServletRequest request,
                              HttpServletResponse response) {
 
         accountDeletionService.deleteUserAccount(
-                authenticationDetails.getUserId(),
+                metaData.getUserId(),
                 request,
                 response
         );

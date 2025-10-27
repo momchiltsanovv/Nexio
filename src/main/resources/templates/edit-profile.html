@@ -121,6 +121,18 @@
                         </div>
 
                         <div class="field">
+                            <label for="university">University</label>
+                            <select id="university" th:field="*{university}">
+                                <option value="">Select University</option>
+                                <option th:each="university : ${T(com.app.nexio.user.model.University).values()}"
+                                        th:value="${university}"
+                                        th:text="${university.displayName}"
+                                        th:selected="${user.university != null and user.university.name() == university.name()}">
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="field">
                             <label for="graduationYear">Graduation Year</label>
                             <div class="input-with-clear">
                                 <input type="number" id="graduationYear" th:field="*{graduationYear}" 

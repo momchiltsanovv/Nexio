@@ -2,7 +2,7 @@ package com.app.nexio.user.service;
 
 import com.app.nexio.exception.UserDoesNotExistException;
 import com.app.nexio.exception.UsernameTakenException;
-import com.app.nexio.security.AuthenticationDetails;
+import com.app.nexio.security.AuthenticationMetaData;
 import com.app.nexio.user.dto.EditUserRequest;
 import com.app.nexio.user.dto.RegisterRequest;
 import com.app.nexio.user.model.User;
@@ -135,6 +135,7 @@ public class UserService implements UserDetailsService {
         user.get().setUsername(editRequest.getUsername());
         user.get().setInstagramURL(editRequest.getInstagramURL());
         user.get().setLinkedinURL(editRequest.getLinkedinURL());
+        user.get().setUniversity(editRequest.getUniversity());
         user.get().setMajor(editRequest.getMajor());
         user.get().setGraduationYear(editRequest.getGraduationYear());
 
@@ -191,6 +192,6 @@ public class UserService implements UserDetailsService {
         if (!user.isActiveAccount())
             currentSession.setAttribute("Inactive", "This account is blocked!");
 
-        return new AuthenticationDetails(user.getId(), user.getUsername(), user.getPassword(), user.getRole(), user.isActiveAccount());
+        return new AuthenticationMetaData(user.getId(), user.getUsername(), user.getPassword(),  user.getRole(), user.isActiveAccount());
     }
 }

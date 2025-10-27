@@ -13,7 +13,7 @@ import java.util.UUID;
 
 @Data
 @AllArgsConstructor
-public class AuthenticationDetails implements UserDetails {
+public class AuthenticationMetaData implements UserDetails {
 
     private UUID userId;
     private String usernameOrEmail;
