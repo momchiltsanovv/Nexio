@@ -18,9 +18,18 @@ spring:
     hibernate:
       ddl-auto: update
 
-  # Disable Security Auto Configuration
-  autoconfigure:
-    exclude: org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id:
+            client-secret:
+          github:
+            client-id:
+            client-secret:
+
+
 
 # User properties
 users:
