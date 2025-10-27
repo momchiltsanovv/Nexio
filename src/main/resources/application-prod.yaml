@@ -1,0 +1,48 @@
+spring:
+  application:
+    name: Nexio
+
+  # Datasource properties
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/nexio_db?useSSL=false
+    username: postgres
+    password: 1234
+
+  # JPA properties
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+    hibernate:
+      ddl-auto: update
+
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id:
+            client-secret:
+          github:
+            client-id:
+            client-secret:
+
+
+
+# User properties
+users:
+  defaultUser:
+    userRole: USER
+    activeByDefault: true
+
+# Logging Levels
+logging:
+  level:
+    # Disable the default loggers
+    org: WARN
+    blog: WARN
+    # Show SQL executed with parameter bindings
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor: TRACE
