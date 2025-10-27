@@ -17,11 +17,9 @@ import java.util.List;
 public class HomeController {
 
     private final ItemService itemService;
-    private final UserService userService;
 
-    public HomeController(ItemService itemService, UserService userService) {
+    public HomeController(ItemService itemService) {
         this.itemService = itemService;
-        this.userService = userService;
     }
 
     @GetMapping("/")
