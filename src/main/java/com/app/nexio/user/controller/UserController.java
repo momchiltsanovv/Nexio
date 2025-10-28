@@ -81,6 +81,7 @@ public class UserController {
         return "profile";
     }
 
+    //todo dont use verbs in endpoint  replace edit with details
     @GetMapping("/profile/edit")
     public String getEditProfilePage(@AuthenticationPrincipal AuthenticationMetadata metaData,
                                      Model model) {
