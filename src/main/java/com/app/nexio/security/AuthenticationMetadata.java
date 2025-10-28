@@ -17,6 +17,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class AuthenticationMetadata implements UserDetails, OAuth2User {
 
+    public static final String ROLE_PREFIX = "ROLE_";
     private UUID userId;
     private String usernameOrEmail;
     private String password;
@@ -39,7 +40,7 @@ public class AuthenticationMetadata implements UserDetails, OAuth2User {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
 
-        SimpleGrantedAuthority roles = new SimpleGrantedAuthority("ROLE_" + role.name());
+        SimpleGrantedAuthority roles = new SimpleGrantedAuthority(ROLE_PREFIX + role.name());
 
         return List.of(roles);
     }
