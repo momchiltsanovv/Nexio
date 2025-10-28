@@ -27,8 +27,6 @@ spring:
             client-id:
             client-secret:
 
-
-
 users:
   defaultUser:
     userRole: USER
