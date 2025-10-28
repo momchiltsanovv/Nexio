@@ -518,11 +518,11 @@
 
                 <!-- TODO remove the underline that appears in the links -->
                 <div class="social-buttons">
-                    <a href="/oauth2/authorization/google" class="social-btn google-btn" id="googleSignInBtn">
+                    <a th:href="@{/oauth2/authorization/google}" class="social-btn google-btn" id="googleSignInBtn">
                         <i class="fab fa-google"></i>
                         Google
                     </a>
-                    <a href="/oauth2/authorization/github" class="social-btn github-btn" id="githubSignInBtn">
+                    <a th:href="@{/oauth2/authorization/github}" class="social-btn github-btn" id="githubSignInBtn">
                         <i class="fab fa-github"></i>
                         GitHub
                     </a>
@@ -537,44 +537,23 @@
 </div>
 
 <script>
-    // document.addEventListener('DOMContentLoaded', function() {
-    //     const form = document.querySelector('form');
-    //     const submitBtn = document.getElementById('submitBtn');
-    //     // const usernameInput = document.getElementById('usernameOrEmail');
-    //     const googleBtn = document.getElementById('googleSignInBtn');
-    //     const githubBtn = document.getElementById('githubSignInBtn');
-    //
-    //     // Form submission with loading state
-    //     form.addEventListener('submit', function(e) {
-    //         submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Signing In...';
-    //         submitBtn.disabled = true;
-    //     });
-    //
-    //     // Focus first input
-    //     // usernameInput.focus();
-    //
-    //     // Google Sign-In button
-    //     googleBtn.addEventListener('click', function() {
-    //         // For now, this is a placeholder. In a real implementation, you would:
-    //         // 1. Initialize Google Sign-In API
-    //         // 2. Handle the OAuth flow
-    //         // 3. Send the Google token to your backend
-    //         // 4. Create user session with Google profile data
-    //
-    //         alert('Google Sign-In integration coming soon! For now, please use the regular login form.');
-    //     });
-    //
-    //     // GitHub Sign-In button
-    //     githubBtn.addEventListener('click', function() {
-    //         // For now, this is a placeholder. In a real implementation, you would:
-    //         // 1. Redirect to GitHub OAuth
-    //         // 2. Handle the OAuth callback
-    //         // 3. Send the GitHub token to your backend
-    //         // 4. Create user session with GitHub profile data
-    //
-    //         alert('GitHub Sign-In integration coming soon! For now, please use the regular login form.');
-    //     });
-    // });
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.querySelector('form');
+        const submitBtn = document.getElementById('submitBtn');
+        // const usernameInput = document.getElementById('usernameOrEmail');
+        const googleBtn = document.getElementById('googleSignInBtn');
+        const githubBtn = document.getElementById('githubSignInBtn');
+
+        // Form submission with loading state
+        form.addEventListener('submit', function(e) {
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Signing In...';
+            submitBtn.disabled = true;
+        });
+
+        // Focus first input
+        // usernameInput.focus();
+
+    });
 </script>
 
 </body>
