@@ -76,13 +76,10 @@ public class UserService implements UserDetailsService {
     private User initializeUserFromRequest(RegisterRequest registerRequest) {
         return User.builder()
                    .username(registerRequest.getUsername())
-                   .firstName(registerRequest.getFirstName())
-                   .lastName(registerRequest.getLastName())
                    .role(userProperties.getDefaultUser()
                                        .getUserRole())
                    .activeAccount(userProperties.getDefaultUser()
                                                 .isActiveByDefault())
-                   .university(registerRequest.getUniversity())
                    .email(registerRequest.getEmail())
                    .password(getEncodedPassword(registerRequest))
                    .build();

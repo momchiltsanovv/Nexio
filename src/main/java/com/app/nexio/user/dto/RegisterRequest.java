@@ -1,6 +1,5 @@
 package com.app.nexio.user.dto;
 
-import com.app.nexio.user.model.University;
 import jakarta.validation.constraints.*;
 import lombok.*;
 
@@ -11,12 +10,6 @@ import lombok.*;
 @AllArgsConstructor
 public class RegisterRequest {
 
-        @NotBlank(message = "First name is required")
-        private String firstName;
-
-        @NotBlank(message = "Last name is required")
-        private String lastName;
-
         @NotBlank(message = "Username is required")
         @Size(min = 3, max = 20, message = "Username must be between 3 and 20 characters")
         private String username;
@@ -24,9 +17,6 @@ public class RegisterRequest {
         @Email(message = "Please enter a valid email address")
         @NotBlank(message = "Email is required")
         private String email;
-
-        @NotNull(message = "University is required")
-        private University university;
 
         @NotBlank(message = "Password is required")
         @Pattern(regexp = "^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>/?])(?=.*[a-zA-Z]).{8,}$",

@@ -271,7 +271,7 @@
                         <label for="firstName">First Name</label>
                         <div class="input-with-clear">
                             <input type="text" id="firstName" th:field="*{firstName}"
-                                   placeholder="Jane">
+                                   placeholder="Jane" required>
                             <button type="button" class="clear-btn" onclick="clearField('firstName')"
                                     th:if="${user.firstName != null and user.firstName != ''}">
                                 <i class="fas fa-times"></i>
@@ -283,7 +283,7 @@
                         <label for="lastName">lastName </label>
                         <div class="input-with-clear">
                             <input type="text" id="lastName" th:field="*{lastName}"
-                                   placeholder="Doe">
+                                   placeholder="Doe" required>
                             <button type="button" class="clear-btn" onclick="clearField('lastName')"
                                     th:if="${user.lastName != null and user.lastName != ''}">
                                 <i class="fas fa-times"></i>
@@ -305,7 +305,7 @@
 
                     <div class="field">
                         <label for="university">University</label>
-                        <select id="university" th:field="*{university}">
+                        <select id="university" th:field="*{university}" required>
                             <option value="">Select University</option>
                             <option th:each="university : ${T(com.app.nexio.user.model.University).values()}"
                                     th:value="${university}"

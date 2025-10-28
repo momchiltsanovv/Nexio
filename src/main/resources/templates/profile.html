@@ -430,7 +430,14 @@
                          th:src="${user.profilePictureURL != null and !#strings.isEmpty(user.profilePictureURL)} ? ${user.profilePictureURL} : '/images/defaults/default_pfp.jpg'"
                          alt="avatar" loading="eager">
                     <div>
-                        <div class="name" th:text="|*{firstName} *{lastName}|"></div>
+                        <div class="name">
+                            <th:block th:if="*{firstName != null and lastName != null}">
+                                <span th:text="|*{firstName} *{lastName}|"></span>
+                            </th:block>
+                            <th:block th:if="*{firstName == null and lastName == null}">
+                                <span>Please enter your first and last name</span>
+                            </th:block>
+                        </div>
                         <div class="username" th:text=" '@' + *{username}"></div>
                         <th:block th:if="*{university != null and university.getDisplayName() != null}">
                             <div class="meta">

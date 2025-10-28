@@ -221,20 +221,6 @@
                 
                 <form th:action="@{/auth/register}" th:method="post" th:object="${registerRequest}">
                     <div class="form-grid">
-                        <div class="field">
-                            <label for="firstName">First Name *</label>
-                            <input type="text" id="firstName" name="firstName" th:field="*{firstName}" required>
-                            <p class="alert-warning" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></p>
-
-                        </div>
-                        
-                        <div class="field">
-                            <label for="lastName">Last Name *</label>
-                            <input type="text" id="lastName" name="lastName" th:field="*{lastName}" required>
-                            <p class="alert-warning" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></p>
-
-                        </div>
-                        
                         <div class="field full">
                             <label for="username">Username *</label>
                             <input type="text" id="username" name="username" placeholder="Choose a unique username" th:field="*{username}" required>
@@ -246,16 +232,6 @@
                             <input type="email" id="email" name="email" placeholder="your.email@university.edu" th:field="*{email}" required>
                             <p class="alert-warning" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
 
-                        </div>
-                        
-                        <div class="field full">
-                            <label for="university">University *</label>
-                            <select id="university" name="university" th:field="*{university}" required>
-                                <option th:each="university : ${T(com.app.nexio.user.model.University).values()}"
-                                        th:value="${university}"
-                                        th:text="${university.getDisplayName()}" >
-                                </option>
-                            </select>
                         </div>
                         
                         <div class="field full">
@@ -476,13 +452,6 @@
                 } else {
                     // Field-specific validation
                     switch (fieldName) {
-                        case 'firstName':
-                        case 'lastName':
-                            if (value.length > 50) {
-                                errorMessage = 'Name cannot exceed 50 characters';
-                                isValid = false;
-                            }
-                            break;
                             
                         case 'username':
                             if (value.length < 3 || value.length > 20) {
@@ -558,8 +527,6 @@
             
             function getRequiredMessage(fieldName) {
                 const messages = {
-                    'firstName': 'Please enter your first name',
-                    'lastName': 'Please enter your last name',
                     'username': 'Please choose a username',
                     'email': 'Please enter your email address',
                     'password': 'Please create a password'
