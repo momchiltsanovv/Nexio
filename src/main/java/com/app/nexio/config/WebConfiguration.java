@@ -24,9 +24,12 @@ public class WebConfiguration implements WebMvcConfigurer {
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
 
         httpSecurity.authorizeHttpRequests(matcher -> matcher
-                                                   .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-                                                   .requestMatchers("/", "/auth/register", "/info").permitAll()
-                                                   .anyRequest().authenticated()
+                                                   .requestMatchers(PathRequest.toStaticResources().atCommonLocations())
+                                                   .permitAll()
+                                                   .requestMatchers("/", "/auth/register", "/info")
+                                                   .permitAll()
+                                                   .anyRequest()
+                                                   .authenticated()
                                           )
                     .formLogin(form -> form
                                        .loginPage("/auth/login")
@@ -35,6 +38,7 @@ public class WebConfiguration implements WebMvcConfigurer {
                                        .failureUrl("/auth/login?error")
                                        .permitAll()
                               )
+                    .oauth2Login(oauth2 -> oauth2.defaultSuccessUrl("/users/profile", true))
                     .logout(logout -> logout
                             .logoutUrl("/auth/logout")
                             .logoutSuccessUrl("/")

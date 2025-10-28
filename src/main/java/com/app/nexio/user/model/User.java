@@ -1,5 +1,6 @@
 package com.app.nexio.user.model;
 
+import com.app.nexio.security.model.Provider;
 import com.app.nexio.wishlist.model.Wishlist;
 import jakarta.persistence.*;
 import lombok.*;
@@ -79,6 +80,10 @@ public class User {
     @Column
     @UpdateTimestamp
     private LocalDateTime updatedOn;
+
+
+    @Column
+    private Provider provider;
 
 
 }

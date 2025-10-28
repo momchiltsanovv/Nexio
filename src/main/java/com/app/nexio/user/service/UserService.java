@@ -3,6 +3,7 @@ package com.app.nexio.user.service;
 import com.app.nexio.exception.UserDoesNotExistException;
 import com.app.nexio.exception.UsernameTakenException;
 import com.app.nexio.security.AuthenticationMetadata;
+import com.app.nexio.security.model.Provider;
 import com.app.nexio.user.dto.EditUserRequest;
 import com.app.nexio.user.dto.RegisterRequest;
 import com.app.nexio.user.model.User;
@@ -21,12 +22,15 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -57,6 +61,10 @@ public class UserService implements UserDetailsService {
         this.wishlistService = wishlistService;
     }
 
+    public Optional<User> getUserByEmail(String email) {
+        return userRepository.findByUsernameOrEmail(email);
+    }
+
 
     @Transactional
     @CacheEvict(value = "users", allEntries = true)
@@ -82,6 +90,7 @@ public class UserService implements UserDetailsService {
                                                 .isActiveByDefault())
                    .email(registerRequest.getEmail())
                    .password(getEncodedPassword(registerRequest))
+                   .provider(Provider.LOCAL)
                    .build();
     }
 
@@ -164,9 +173,59 @@ public class UserService implements UserDetailsService {
                              .toList();
     }
 
+    public User loginRegisterByGoogleOAuth2(OAuth2AuthenticationToken token) {
+        OAuth2User oAuth2User = token.getPrincipal();
+        String name = oAuth2User.getAttribute("name");
+        String email = oAuth2User.getAttribute("email");
+
+        User user = userRepository.findByUsernameOrEmail(email).orElse(null);
+        if (user == null) {
+            String[] wholeName = name.split(" ");
+            String username = email.split("@")[0];
+
+            user = User.builder()
+                       .firstName(wholeName[1])
+                       .lastName(wholeName[2])
+                       .email(email)
+                       .username(username)
+                       .role(userProperties.getDefaultUser().getUserRole())
+                       .activeAccount(userProperties.getDefaultUser().isActiveByDefault())
+                       .provider(Provider.GOOGLE)
+                       .build();
+            wishlistService.initializeWishlist(user);
+            userRepository.save(user);
+        }
+        return user;
+    }
+
     public Integer getActiveUsersCount() {
         return userRepository
                 .getAllByActiveAccount(ACTIVE_ACCOUNT).size();
+    }
+
+    public User loginRegisterByGithubOAuth2(OAuth2AuthenticationToken token) {
+        OAuth2User oAuth2User = token.getPrincipal();
+        String name = oAuth2User.getAttribute("name");
+        String email = oAuth2User.getAttribute("email");
+
+        User user = userRepository.findByUsernameOrEmail(email).orElse(null);
+        if (user == null) {
+            String[] wholeName = name.split(" ");
+            String username = email.split("@")[0];
+
+            user = User.builder()
+                       .firstName(wholeName[1])
+                       .lastName(wholeName[2])
+                       .email(email)
+                       .username(username)
+                       .role(userProperties.getDefaultUser().getUserRole())
+                       .activeAccount(userProperties.getDefaultUser().isActiveByDefault())
+                       .provider(Provider.GITHUB)
+                       .build();
+            wishlistService.initializeWishlist(user);
+            userRepository.save(user);
+        }
+        return user;
     }
 
     @Cacheable("admins")
