@@ -14,10 +14,18 @@ import org.springframework.validation.annotation.Validated;
 @ConfigurationProperties(prefix = "users")
 public class UserProperties {
 
-    private DefaultUser defaultUser;
+    private defaultUser defaultUser;
+    private adminUser adminUser;
 
     @Data
-     public static class DefaultUser {
+    public static class defaultUser {
+
+        private UserRole userRole;
+        private boolean activeByDefault;
+    }
+
+    @Data
+    public static class adminUser {
 
         private UserRole userRole;
         private boolean activeByDefault;

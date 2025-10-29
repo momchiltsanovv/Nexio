@@ -38,7 +38,9 @@ public class WebConfiguration implements WebMvcConfigurer {
                                        .failureUrl("/auth/login?error")
                                        .permitAll()
                               )
-                    .oauth2Login(oauth2 -> oauth2.defaultSuccessUrl("/users/profile", true))
+                    .oauth2Login(oauth2 ->
+                                         oauth2.defaultSuccessUrl("/users/profile", true)
+                                               .failureUrl("/auth/login?oauth2error"))
                     .logout(logout -> logout
                             .logoutUrl("/auth/logout")
                             .logoutSuccessUrl("/")

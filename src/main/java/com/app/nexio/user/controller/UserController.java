@@ -12,7 +12,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -40,7 +42,8 @@ public class UserController {
 
     @GetMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public String getUsersPage(Model model) {
+    public String getUsersPage(@AuthenticationPrincipal AuthenticationMetadata metadata,
+                               Model model) {
         List<User> users = userService.getAllUsers();
         Integer activeUsers = userService.getActiveUsersCount();
         Integer adminsCount = userService.getAdminsCount();
@@ -132,7 +135,7 @@ public class UserController {
                 metaData.getUserId(),
                 request,
                 response
-        );
+                                                );
 
         return "redirect:/";
     }
