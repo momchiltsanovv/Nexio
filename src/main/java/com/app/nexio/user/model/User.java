@@ -62,7 +62,7 @@ public class User {
             nullable = false)
     private String email;
 
-    @Column(nullable = false)
+    @Column
     private String password;
 
 
