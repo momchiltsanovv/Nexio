@@ -1,3 +1,10 @@
+@font-face {
+    font-family: 'Cooper Black Std';
+    src: url('../fonts/CooperBlack-Std.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
 /* styles for wishlist.html */
 /* Sticky Footer - Wrapper Approach */
 .page-wrapper {
@@ -27,6 +34,16 @@
     display: flex;
     align-items: center;
     gap: 12px;
+}
+
+.section-title {
+    font-family: 'Cooper Black Std', sans-serif;
+    font-size: 2.2rem; /* Larger font size */
+    font-weight: 700;
+    color: #333; /* Darker, professional color */
+    margin: 0;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
 }
 
 .wishlist-title h1 {
