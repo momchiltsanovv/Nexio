@@ -1,0 +1,49 @@
+/* styles for info.html */
+.info-wrapper { max-width: 1100px; margin: 100px auto 40px; padding: 0 20px }
+
+/* Slide tabs */
+.tab-switch { position: sticky; top: 70px; z-index: 5; margin-bottom: 14px }
+.segmented { display:inline-flex; background:#f0f2f8; border:1px solid #e0e3f2; border-radius:12px; overflow:hidden }
+.segmented button { padding:10px 16px; border:none; background:transparent; font-weight:600; color:#444; cursor:pointer }
+.segmented button.active { background:#fff; color:#212346; border:1px solid #dfe3fb; margin:-1px; border-radius:10px }
+
+/* Panels */
+.panels { position: relative }
+.panel { transition: transform .25s ease, opacity .25s ease; will-change: transform, opacity }
+.panel.hidden { position: absolute; inset: 0 auto auto 0; width:100%; opacity:0; transform: translateX(20px); pointer-events:none }
+.panel.visible { opacity:1; transform: translateX(0) }
+
+/* Hero */
+.hero { background: linear-gradient(135deg,#f5f7ff 0%,#eef0ff 100%); border: 1px solid #e6e9f5; border-radius: 16px; padding: 28px 28px; display: grid; grid-template-columns: 1.3fr 1fr; gap: 20px; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,.04); margin-bottom: 22px }
+.hero h1 { font-size: 28px; margin: 0 0 8px 0 }
+.hero p { color:#555; margin: 0 }
+.hero-card { background:#fff; border:1px solid #e6e9f5; border-radius:12px; padding:14px; display:flex; gap:10px; align-items:center; justify-content:center }
+
+/* Two-column content cards */
+.section { background:#fff; border:1px solid #e0e0e0; border-radius:12px; box-shadow:0 2px 10px rgba(0,0,0,.05); padding:0; margin-bottom:20px; overflow:hidden }
+.section-inner { display:grid; grid-template-columns: 1.2fr 1fr; gap:0 }
+.section .text { padding:24px }
+.section h2 { font-size:22px; margin:0 0 12px 0 }
+.section p { color:#444; line-height:1.7; margin:8px 0 }
+.section .side { background:#fafbff; border-left:1px solid #e6e9f5; padding:20px; display:grid; gap:12px }
+
+/* Feature list (vertical cards) */
+.features-list { display:grid; grid-template-columns: 1fr; gap:12px }
+.feature-row { background:#fff; border:1px solid #e6e9f5; border-radius:12px; padding:14px; display:flex; gap:12px; align-items:flex-start }
+.feature-icon { width:36px; height:36px; display:flex; align-items:center; justify-content:center; border-radius:10px; background:#eef0ff; font-size:18px }
+
+/* Team as horizontal cards */
+.team-list { display:grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap:20px }
+.team-card { display:flex; flex-direction:column; gap:14px; align-items:center; text-align:center; border:1px solid #e6e9f5; background:#fff; border-radius:12px; padding:20px }
+.member-avatar { width:72px; height:72px; border-radius:50%; overflow:hidden; border:1px solid #e6e9f5; background:#f4f6fb }
+.member-image { width:100%; height:100%; object-fit:cover }
+
+/* FAQ stacked simple list */
+.faq-grid { display:grid; grid-template-columns: 1fr; gap:12px }
+.faq-item { border:none; border-radius:0; background:transparent }
+.faq-question { width:100%; text-align:left; background:transparent; border:none; padding:0; display:block; font-weight:800; color:#1a1a1a; cursor:default; font-size:18px; line-height:1.4 }
+.faq-answer { display:block; padding:4px 0 0 0; color:#555; border-top:none; font-size:14px; line-height:1.7 }
+.faq-icon { display:none !important }
+.faq-item + .faq-item { margin-top:8px }
+
+@media (max-width: 900px) { .hero { grid-template-columns: 1fr } .section-inner { grid-template-columns: 1fr } .faq-grid { grid-template-columns: 1fr } }
