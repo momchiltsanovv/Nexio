@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign In - nexio</title>
-    <link rel="stylesheet" href="/css/home.css">
+    <link rel="stylesheet" th:href="@{/css/home.css}">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <th:block th:replace="fragments/background :: background-styles"></th:block>
@@ -199,7 +199,7 @@
 
         .social-buttons {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1fr;
             gap: 12px;
         }
 
@@ -230,9 +230,9 @@
             font-size: 16px;
         }
 
-        .google-btn i {
+        /* .google-btn i {
             color: #4285f4;
-        }
+        } */
 
         .github-btn i {
             color: #333;
@@ -518,14 +518,10 @@
 
                 <!-- TODO remove the underline that appears in the links -->
                 <div class="social-buttons">
-                    <a th:href="@{/oauth2/authorization/google}" class="social-btn google-btn" id="googleSignInBtn">
-                        <i class="fab fa-google"></i>
-                        Google
-                    </a>
-                    <a th:href="@{/oauth2/authorization/github}" class="social-btn github-btn" id="githubSignInBtn">
+                    <button type="button" class="social-btn github-btn" id="githubSignInBtn">
                         <i class="fab fa-github"></i>
                         GitHub
-                    </a>
+                    </button>
                 </div>
 
                 <div class="form-footer">
@@ -540,8 +536,6 @@
     document.addEventListener('DOMContentLoaded', function() {
         const form = document.querySelector('form');
         const submitBtn = document.getElementById('submitBtn');
-        // const usernameInput = document.getElementById('usernameOrEmail');
-        const googleBtn = document.getElementById('googleSignInBtn');
         const githubBtn = document.getElementById('githubSignInBtn');
 
         // Form submission with loading state
@@ -550,8 +544,9 @@
             submitBtn.disabled = true;
         });
 
-        // Focus first input
-        // usernameInput.focus();
+        githubBtn.addEventListener('click', function() {
+            window.location.href = '/oauth2/authorization/github';
+        });
 
     });
 </script>

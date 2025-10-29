@@ -30,13 +30,15 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
+import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
+
 @Slf4j
 @Service
-public class UserService implements UserDetailsService {
+public class UserService implements UserDetailsService, OAuth2UserService<OAuth2UserRequest, OAuth2User> {
 
     public static final String USER_REGISTERED_SUCCESSFULLY = "User registered successfully";
     public static final String USERNAME_ALREADY_TAKEN = "Username %s is already taken";
@@ -168,13 +170,13 @@ public class UserService implements UserDetailsService {
                                  if (firstNameComparison != 0) {
                                      return firstNameComparison;
                                  }
-                                 return u1.getLastName().compareToIgnoreCase(u2.getLastName());
+                                 return u1.getLastName()
+                                          .compareToIgnoreCase(u2.getLastName());
                              })
                              .toList();
     }
 
-    public User loginRegisterByGoogleOAuth2(OAuth2AuthenticationToken token) {
-        OAuth2User oAuth2User = token.getPrincipal();
+    private AuthenticationMetadata processOAuth2User(OAuth2User oAuth2User, String provider) {
         String name = oAuth2User.getAttribute("name");
         String email = oAuth2User.getAttribute("email");
 
@@ -184,48 +186,31 @@ public class UserService implements UserDetailsService {
             String username = email.split("@")[0];
 
             user = User.builder()
-                       .firstName(wholeName[1])
-                       .lastName(wholeName[2])
+                       .firstName(wholeName.length > 1 ? wholeName[0] : name)
+                       .lastName(wholeName.length > 1 ? wholeName[1] : "")
                        .email(email)
                        .username(username)
-                       .role(userProperties.getDefaultUser().getUserRole())
+                       .role(userProperties.getAdminUser().getUserRole())
                        .activeAccount(userProperties.getDefaultUser().isActiveByDefault())
-                       .provider(Provider.GOOGLE)
+                       .provider(Provider.valueOf(provider.toUpperCase()))
                        .build();
+
             wishlistService.initializeWishlist(user);
             userRepository.save(user);
         }
-        return user;
+
+        return new AuthenticationMetadata(user.getId(),
+                                          user.getUsername(),
+                                          user.getPassword(),
+                                          user.getRole(),
+                                          user.isActiveAccount(),
+                                          oAuth2User.getAttributes()
+        );
     }
 
     public Integer getActiveUsersCount() {
         return userRepository
                 .getAllByActiveAccount(ACTIVE_ACCOUNT).size();
-    }
-
-    public User loginRegisterByGithubOAuth2(OAuth2AuthenticationToken token) {
-        OAuth2User oAuth2User = token.getPrincipal();
-        String name = oAuth2User.getAttribute("name");
-        String email = oAuth2User.getAttribute("email");
-
-        User user = userRepository.findByUsernameOrEmail(email).orElse(null);
-        if (user == null) {
-            String[] wholeName = name.split(" ");
-            String username = email.split("@")[0];
-
-            user = User.builder()
-                       .firstName(wholeName[1])
-                       .lastName(wholeName[2])
-                       .email(email)
-                       .username(username)
-                       .role(userProperties.getDefaultUser().getUserRole())
-                       .activeAccount(userProperties.getDefaultUser().isActiveByDefault())
-                       .provider(Provider.GITHUB)
-                       .build();
-            wishlistService.initializeWishlist(user);
-            userRepository.save(user);
-        }
-        return user;
     }
 
     @Cacheable("admins")
@@ -237,6 +222,13 @@ public class UserService implements UserDetailsService {
     public Integer getGraduatedCount() {
         return userRepository
                 .getAllByGraduationYearBefore(LocalDateTime.now().getYear()).size();
+    }
+
+    @Override
+    public OAuth2User loadUser(OAuth2UserRequest userRequest) {
+        OAuth2User oAuth2User = new org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService().loadUser(userRequest);
+        String provider = userRequest.getClientRegistration().getRegistrationId();
+        return processOAuth2User(oAuth2User, provider);
     }
 
     @Override
@@ -253,7 +245,8 @@ public class UserService implements UserDetailsService {
                                           user.getUsername(),
                                           user.getPassword(),
                                           user.getRole(),
-                                          user.isActiveAccount()
+                                          user.isActiveAccount(),
+                                          null
         );
     }
 }
