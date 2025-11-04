@@ -210,13 +210,15 @@ public class UserService implements UserDetailsService, OAuth2UserService<OAuth2
 
     public Integer getActiveUsersCount() {
         return userRepository
-                .getAllByActiveAccount(ACTIVE_ACCOUNT).size();
+                .getAllByActiveAccount(ACTIVE_ACCOUNT)
+                .size();
     }
 
     @Cacheable("admins")
     public Integer getAdminsCount() {
         return userRepository
-                .getAllByRole(ADMIN).size();
+                .getAllByRole(ADMIN)
+                .size();
     }
 
     public Integer getGraduatedCount() {
