@@ -1,7 +1,6 @@
 package com.app.nexio.security;
 
 import com.app.nexio.user.model.UserRole;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
