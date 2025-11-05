@@ -2,6 +2,7 @@ package com.app.nexio.user.service;
 
 import com.app.nexio.exception.UserDoesNotExistException;
 import com.app.nexio.exception.UsernameTakenException;
+import com.app.nexio.notification.service.NotificationService;
 import com.app.nexio.security.AuthenticationMetadata;
 import com.app.nexio.security.model.Provider;
 import com.app.nexio.user.dto.EditUserRequest;
@@ -51,16 +52,18 @@ public class UserService implements UserDetailsService, OAuth2UserService<OAuth2
     private final UserProperties userProperties;
     private final PasswordEncoder passwordEncoder;
     private final WishlistService wishlistService;
+    private final NotificationService notificationService;
 
     @Autowired
     public UserService(UserRepository userRepository,
                        UserProperties userProperties,
                        PasswordEncoder passwordEncoder,
-                       WishlistService wishlistService) {
+                       WishlistService wishlistService, NotificationService notificationService) {
         this.userRepository = userRepository;
         this.userProperties = userProperties;
         this.passwordEncoder = passwordEncoder;
         this.wishlistService = wishlistService;
+        this.notificationService = notificationService;
     }
 
     public Optional<User> getUserByEmail(String email) {
@@ -79,7 +82,9 @@ public class UserService implements UserDetailsService, OAuth2UserService<OAuth2
 
         User user = initializeUserFromRequest(registerRequest);
         wishlistService.initializeWishlist(user);
+        notificationService.sendNotificationWhenRegister(user.getId(), user.getEmail());
         userRepository.save(user);
+
         log.info(USER_REGISTERED_SUCCESSFULLY);
     }
 
@@ -196,6 +201,7 @@ public class UserService implements UserDetailsService, OAuth2UserService<OAuth2
                        .build();
 
             wishlistService.initializeWishlist(user);
+            notificationService.sendNotificationWhenRegister(user.getId(), user.getEmail());
             userRepository.save(user);
         }
 
