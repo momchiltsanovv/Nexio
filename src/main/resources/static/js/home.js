@@ -179,4 +179,25 @@ document.addEventListener('DOMContentLoaded', function () {
     // Initial apply of filters and sort on page load to set counts and visibility correctly
     applyFiltersAndSort();
 
+    // Profile Completion Modal Logic
+    const profileCompletionModal = document.getElementById('profileCompletionModal');
+    const closeButton = profileCompletionModal ? profileCompletionModal.querySelector('.close-button') : null;
+
+    if (profileCompletionModal && profileCompletionModal.getAttribute('data-th-if') === 'true') {
+        profileCompletionModal.style.display = 'flex';
+    }
+
+    if (closeButton) {
+        closeButton.addEventListener('click', function() {
+            profileCompletionModal.style.display = 'none';
+        });
+    }
+
+    // Close modal if user clicks outside of it
+    window.addEventListener('click', function(event) {
+        if (event.target === profileCompletionModal) {
+            profileCompletionModal.style.display = 'none';
+        }
+    });
+
 });

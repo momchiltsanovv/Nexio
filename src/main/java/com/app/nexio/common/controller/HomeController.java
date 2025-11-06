@@ -4,7 +4,10 @@ package com.app.nexio.common.controller;
 import com.app.nexio.item.model.Category;
 import com.app.nexio.item.model.Item;
 import com.app.nexio.item.service.ItemService;
+import com.app.nexio.security.AuthenticationMetadata;
+import com.app.nexio.user.model.User;
 import com.app.nexio.user.service.UserService;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,9 +20,11 @@ import java.util.List;
 public class HomeController {
 
     private final ItemService itemService;
+    private final UserService userService;
 
-    public HomeController(ItemService itemService) {
+    public HomeController(ItemService itemService, UserService userService) {
         this.itemService = itemService;
+        this.userService = userService;
     }
 
     @GetMapping("/")
@@ -29,7 +34,15 @@ public class HomeController {
     }
 
     @GetMapping("/home")
-    public String getHomePage(Model model) {
+    public String getHomePage(@AuthenticationPrincipal AuthenticationMetadata metadata, Model model) {
+
+        User user = userService.getById(metadata.getUserId());
+
+        if (user.getFirstName() == null || user.getFirstName().isEmpty() ||
+            user.getLastName() == null || user.getLastName().isEmpty() ||
+            user.getUniversity() == null) {
+            model.addAttribute("showProfilePopup", true);
+        }
 
         List<Item> items = itemService.findAllItems();
         Integer textbooksCount = itemService.getCategoryCount(Category.TEXTBOOKS);
