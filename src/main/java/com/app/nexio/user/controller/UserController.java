@@ -83,7 +83,7 @@ public class UserController {
     }
 
     //todo dont use verbs in endpoint  replace edit with details
-    @GetMapping("/profile/edit")
+    @GetMapping("/profile/details")
     public String getEditProfilePage(@AuthenticationPrincipal AuthenticationMetadata metaData,
                                      Model model) {
         model.addAttribute("active", "profile");
@@ -94,7 +94,7 @@ public class UserController {
         return "edit-profile";
     }
 
-    @PatchMapping("/profile/edit")
+    @PatchMapping("/profile/details")
     public String editProfile(@AuthenticationPrincipal AuthenticationMetadata metaData,
                               @Valid EditUserRequest request,
                               BindingResult bindingResult,

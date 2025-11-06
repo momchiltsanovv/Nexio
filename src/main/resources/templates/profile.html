@@ -95,7 +95,7 @@
 
                         <!-- Placeholder Instagram - show if URL is empty -->
                         <a th:if="${user.instagramURL == null or #strings.isEmpty(user.instagramURL)}"
-                           href="/users/profile/edit"
+                           href="/users/profile/details"
                            aria-label="Instagram"
                            style="opacity: 0.5;"
                            title="Add Instagram link">
@@ -112,7 +112,7 @@
 
                         <!-- Placeholder LinkedIn - show if URL is empty -->
                         <a th:if="${user.linkedinURL == null or #strings.isEmpty(user.linkedinURL)}"
-                           href="/users/profile/edit"
+                           href="/users/profile/details"
                            aria-label="LinkedIn"
                            style="opacity: 0.5;"
                            title="Add LinkedIn link">
@@ -130,7 +130,7 @@
                 <div class="section" style="margin-top:18px;">
                     <div class="section-title">Account Actions</div>
                     <div class="profile-actions">
-                        <a href="/users/profile/edit" class="action-btn edit-btn">
+                        <a href="/users/profile/details" class="action-btn edit-btn">
                             <i class="fas fa-edit"></i>
                             Edit Profile
                         </a>

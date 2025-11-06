@@ -19,10 +19,10 @@
     <div class="edit-card">
         <div class="edit-header">
             <i class="fas fa-user-edit" style="color: #212346;"></i>
-            <h1>Edit Profile</h1>
+            <h1>Edit Profile Details</h1>
         </div>
 
-        <form th:action="@{/users/profile/edit}" th:method="patch" th:object="${user}">
+        <form th:action="@{/users/profile/details}" th:method="patch" th:object="${user}">
             <div class="edit-body">
                 <div class="field full">
                     <label>Profile Picture</label>

@@ -53,7 +53,7 @@ public class ItemController {
         return "item-view";
     }
 
-    @GetMapping("/{itemId}/edit")
+    @GetMapping("/{itemId}/details")
     public String getEditItemPage(@PathVariable UUID itemId,
                                   Model model) {
         model.addAttribute("active", "item");
@@ -66,7 +66,7 @@ public class ItemController {
         return "edit-item";
     }
 
-    @PatchMapping("/{id}/edit") //Update item
+    @PatchMapping("/{id}/details") //Update item
     public String updateItem(@PathVariable UUID id,
                              @Valid EditItemRequest editRequest,
                              BindingResult bindingResult,
@@ -86,7 +86,7 @@ public class ItemController {
 
 
 
-    @GetMapping("/post")
+    @GetMapping("/creation")
     public String getPostItemPage(Model model) {
 
         model.addAttribute("active", "post");
@@ -95,7 +95,7 @@ public class ItemController {
         return "post-item";
     }
 
-    @PostMapping("/post")
+    @PostMapping("/creation")
     public String postItem(@Valid PostItemRequest postItemRequest,
                            BindingResult bindingResult) {
 
@@ -107,7 +107,7 @@ public class ItemController {
         return "home";
     }
 
-    @DeleteMapping("/{id}/delete")
+    @DeleteMapping("/{id}")
     public String deleteItem(@PathVariable UUID id) {
 
         return "edit-item";
