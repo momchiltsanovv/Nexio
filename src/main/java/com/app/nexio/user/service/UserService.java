@@ -82,8 +82,8 @@ public class UserService implements UserDetailsService, OAuth2UserService<OAuth2
 
         User user = initializeUserFromRequest(registerRequest);
         wishlistService.initializeWishlist(user);
-        notificationService.sendNotificationWhenRegister(user.getId(), user.getEmail());
         userRepository.save(user);
+        notificationService.sendNotificationWhenRegister(user.getId(), user.getEmail());
 
         log.info(USER_REGISTERED_SUCCESSFULLY);
     }
@@ -201,8 +201,8 @@ public class UserService implements UserDetailsService, OAuth2UserService<OAuth2
                        .build();
 
             wishlistService.initializeWishlist(user);
-            notificationService.sendNotificationWhenRegister(user.getId(), user.getEmail());
             userRepository.save(user);
+            notificationService.sendNotificationWhenRegister(user.getId(), user.getEmail());
         }
 
         return new AuthenticationMetadata(user.getId(),

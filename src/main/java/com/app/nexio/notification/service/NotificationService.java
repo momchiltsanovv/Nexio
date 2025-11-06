@@ -14,9 +14,13 @@ import java.util.UUID;
 public class NotificationService {
 
     public static final String EMAIL = "EMAIL";
+    public static final String CREATED_ACCOUNT = "Successfully created account";
+    public static final String BODY = "Thank You for Joining Us!\n" +
+            "We are thrilled to welcome you to our platform! Your registration was successful, and we're excited to have you on board.\n" +
+            "Feel free to customize it further to match your platform's tone and style!";
+
     private final NotificationClient notificationClient;
 
-    //TODO figure out why is this raising -> Could not autowire. No beans of 'NotificationClient' type found.
     @Autowired
     public NotificationService(NotificationClient notificationClient) {
         this.notificationClient = notificationClient;
@@ -28,9 +32,11 @@ public class NotificationService {
                                                             .userId(userId)
                                                             .contactInfo(contactInfo)
                                                             .type(EMAIL)
+                                                            .subject(CREATED_ACCOUNT)
+                                                            .body(BODY)
                                                             .build();
 
-        ResponseEntity<Void> response = notificationClient.upsertNotification(notification);
+        ResponseEntity<Void> response = notificationClient.notification(notification);
 
         if (!response.getStatusCode().is2xxSuccessful()) {
             log.error("Feign call to notification failed due to {}, can`t send successful registration email to user with id {}",

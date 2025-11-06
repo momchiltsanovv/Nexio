@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
              url = "http://localhost:8081/api/v1/notifications")
 public interface NotificationClient {
 
-    @PostMapping
-    ResponseEntity<Void> upsertNotification(@RequestBody UpsertNotification notification);
+    @PostMapping("/registration")
+    ResponseEntity<Void> notification(@RequestBody UpsertNotification notification);
 
 }
