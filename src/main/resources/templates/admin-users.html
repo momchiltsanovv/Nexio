@@ -96,22 +96,22 @@
                         <div class="d-flex align-items-center">
                             <img th:src="${user.profilePictureURL != null ? user.profilePictureURL : '/images/defaults/default_pfp.jpg'}" alt="Avatar" class="user-avatar me-3">
                             <div>
-                                <div class="fw-bold" th:text="${user.firstName + ' ' + user.lastName}"></div>
-                                <small class="text-muted" th:text="${'@' + user.username}"></small>
+                                <div class="fw-bold" th:text="${(user.firstName != null ? user.firstName : '') + ' ' + (user.lastName != null ? user.lastName : '') != ' ' ? (user.firstName != null ? user.firstName : '') + ' ' + (user.lastName != null ? user.lastName : '') : 'Not set'}"></div>
+                                <small class="text-muted" th:text="${user.username != null ? '@' + user.username : 'Not set'}"></small>
                             </div>
                         </div>
                     </td>
-                    <td th:text="${user.email}"></td>
+                    <td th:text="${user.email != null ? user.email : 'Not set'}"></td>
                     <td>
-                        <span class="badge bg-light text-dark" th:text="${user.university.getDisplayName()}"></span>
+                        <span class="badge bg-light text-dark" th:text="${user.university != null ? user.university.getDisplayName() : 'Not set'}"></span>
                     </td>
                     <td>
-                        <span class="role-badge" th:text="${user.role.getDisplayName()}"></span>
+                        <span class="role-badge" th:text="${user.role != null ? user.role.getDisplayName() : 'Not set'}"></span>
                     </td>
                     <td>
                         <span class="status-badge" th:text="${user.activeAccount ? 'Active' : 'Inactive'}"></span>
                     </td>
-                    <td th:text="${#temporals.format(user.createdOn, 'MMM dd, yyyy')}"></td>
+                    <td th:text="${user.createdOn != null ? #temporals.format(user.createdOn, 'MMM dd, yyyy') : 'Not set'}"></td>
                     <td>
                         <div class="action-buttons">
                             <a th:href="@{'/users/' + ${user.id}}" class="btn btn-primary btn-sm" title="View User Details">

@@ -23,7 +23,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -171,12 +170,15 @@ public class UserService implements UserDetailsService, OAuth2UserService<OAuth2
         return userRepository.findAll()
                              .stream()
                              .sorted((u1, u2) -> {
-                                 int firstNameComparison = u1.getFirstName().compareToIgnoreCase(u2.getFirstName());
-                                 if (firstNameComparison != 0) {
-                                     return firstNameComparison;
-                                 }
-                                 return u1.getLastName()
-                                          .compareToIgnoreCase(u2.getLastName());
+                                String firstName1 = u1.getFirstName() != null ? u1.getFirstName() : "";
+                                String firstName2 = u2.getFirstName() != null ? u2.getFirstName() : "";
+                                int firstNameComparison = firstName1.compareToIgnoreCase(firstName2);
+                                if (firstNameComparison != 0) {
+                                    return firstNameComparison;
+                                }
+                                String lastName1 = u1.getLastName() != null ? u1.getLastName() : "";
+                                String lastName2 = u2.getLastName() != null ? u2.getLastName() : "";
+                                return lastName1.compareToIgnoreCase(lastName2);
                              })
                              .toList();
     }
