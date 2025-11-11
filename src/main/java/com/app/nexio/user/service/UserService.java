@@ -1,5 +1,6 @@
 package com.app.nexio.user.service;
 
+import com.app.nexio.aws.service.AwsService;
 import com.app.nexio.exception.UserDoesNotExistException;
 import com.app.nexio.exception.UsernameTakenException;
 import com.app.nexio.notification.service.NotificationService;
@@ -27,7 +28,9 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -52,17 +55,19 @@ public class UserService implements UserDetailsService, OAuth2UserService<OAuth2
     private final PasswordEncoder passwordEncoder;
     private final WishlistService wishlistService;
     private final NotificationService notificationService;
+    private final AwsService awsService;
 
     @Autowired
     public UserService(UserRepository userRepository,
                        UserProperties userProperties,
                        PasswordEncoder passwordEncoder,
-                       WishlistService wishlistService, NotificationService notificationService) {
+                       WishlistService wishlistService, NotificationService notificationService, AwsService awsService) {
         this.userRepository = userRepository;
         this.userProperties = userProperties;
         this.passwordEncoder = passwordEncoder;
         this.wishlistService = wishlistService;
         this.notificationService = notificationService;
+        this.awsService = awsService;
     }
 
     public Optional<User> getUserByEmail(String email) {
@@ -136,14 +141,20 @@ public class UserService implements UserDetailsService, OAuth2UserService<OAuth2
         userRepository.save(user.get());
     }
 
-    public void editUserDetails(UUID userid, EditUserRequest editRequest) {
-        Optional<User> user = userRepository.findById(userid);
+    public void editUserDetails(UUID userId, EditUserRequest editRequest, MultipartFile file) throws IOException {
+        Optional<User> user = userRepository.findById(userId);
 
         if (user.isEmpty()) {
             throw new UserDoesNotExistException(NO_SUCH_USER_FOUND);
         }
 
-        user.get().setProfilePictureURL(editRequest.getProfilePictureURL());
+        String pictureURL = uploadProfilePictureAndGetURL(userId, file);
+
+        if (file != null && !file.isEmpty()) {
+            user.get().setProfilePictureURL(pictureURL);
+        }
+
+        //        user.get().setProfilePictureURL(editRequest.getProfilePictureURL());
         user.get().setFirstName(editRequest.getFirstName());
         user.get().setLastName(editRequest.getLastName());
         user.get().setInstagramURL(editRequest.getInstagramURL());
@@ -170,15 +181,15 @@ public class UserService implements UserDetailsService, OAuth2UserService<OAuth2
         return userRepository.findAll()
                              .stream()
                              .sorted((u1, u2) -> {
-                                String firstName1 = u1.getFirstName() != null ? u1.getFirstName() : "";
-                                String firstName2 = u2.getFirstName() != null ? u2.getFirstName() : "";
-                                int firstNameComparison = firstName1.compareToIgnoreCase(firstName2);
-                                if (firstNameComparison != 0) {
-                                    return firstNameComparison;
-                                }
-                                String lastName1 = u1.getLastName() != null ? u1.getLastName() : "";
-                                String lastName2 = u2.getLastName() != null ? u2.getLastName() : "";
-                                return lastName1.compareToIgnoreCase(lastName2);
+                                 String firstName1 = u1.getFirstName() != null ? u1.getFirstName() : "";
+                                 String firstName2 = u2.getFirstName() != null ? u2.getFirstName() : "";
+                                 int firstNameComparison = firstName1.compareToIgnoreCase(firstName2);
+                                 if (firstNameComparison != 0) {
+                                     return firstNameComparison;
+                                 }
+                                 String lastName1 = u1.getLastName() != null ? u1.getLastName() : "";
+                                 String lastName2 = u2.getLastName() != null ? u2.getLastName() : "";
+                                 return lastName1.compareToIgnoreCase(lastName2);
                              })
                              .toList();
     }
@@ -232,6 +243,15 @@ public class UserService implements UserDetailsService, OAuth2UserService<OAuth2
     public Integer getGraduatedCount() {
         return userRepository
                 .getAllByGraduationYearBefore(LocalDateTime.now().getYear()).size();
+    }
+
+    public String uploadProfilePictureAndGetURL(UUID userId, MultipartFile file) throws IOException {
+        String profilePictureURL = awsService.sendAwsFile(userId, file).toString();
+
+        log.info("Calling microservice to upload file: {}", file.getOriginalFilename());
+
+
+        return profilePictureURL;
     }
 
     @Override

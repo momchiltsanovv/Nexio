@@ -6,8 +6,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-@FeignClient(name = "notification-svc",
-             url = "http://localhost:8081/api/v1/notifications")
+@FeignClient(name = "notification-service",
+             url = "${client.notification.url}")
 public interface NotificationClient {
 
     @PostMapping("/registration")

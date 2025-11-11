@@ -10,7 +10,6 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @Configuration
 @ConfigurationPropertiesScan
-@EnableFeignClients(clients = NotificationClient.class)
 public class BeanConfiguration {
 
     @Bean

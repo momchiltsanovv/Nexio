@@ -8,6 +8,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.hibernate.validator.constraints.URL;
+import org.springframework.web.multipart.MultipartFile;
 
 @Builder
 @Getter
@@ -47,7 +48,7 @@ public class EditUserRequest {
 
         EditUserRequest editRequest = new EditUserRequest();
 
-        editRequest.setProfilePictureURL(user.getProfilePictureURL());
+//        editRequest.setProfilePictureURL(user.getProfilePictureURL());
         editRequest.setFirstName(user.getFirstName());
         editRequest.setLastName(user.getLastName());
         editRequest.setInstagramURL(user.getInstagramURL());

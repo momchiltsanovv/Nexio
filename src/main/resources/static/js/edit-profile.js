@@ -20,15 +20,14 @@ document.getElementById('profilePictureFile').addEventListener('change', functio
         const reader = new FileReader();
         reader.onload = function (e) {
             avatar.src = e.target.result;
-            hiddenURL.value = e.target.result;
         };
         reader.readAsDataURL(file);
 
         fileInfo.textContent = `Selected: ${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MB)`;
         fileInfo.style.display = 'block';
     } else {
-        avatar.src = 'https://via.placeholder.com/80x80/667eea/ffffff?text=U';
-        hiddenURL.value = '';
+        avatar.src = hiddenURL.value; // Revert to existing URL or placeholder
+        // hiddenURL.value remains unchanged if no new file is selected
         fileInfo.style.display = 'none';
     }
 });

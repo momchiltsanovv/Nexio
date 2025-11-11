@@ -17,7 +17,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
@@ -82,7 +84,6 @@ public class UserController {
         return "profile";
     }
 
-    //todo dont use verbs in endpoint  replace edit with details
     @GetMapping("/profile/details")
     public String getEditProfilePage(@AuthenticationPrincipal AuthenticationMetadata metaData,
                                      Model model) {
@@ -98,14 +99,18 @@ public class UserController {
     public String editProfile(@AuthenticationPrincipal AuthenticationMetadata metaData,
                               @Valid EditUserRequest request,
                               BindingResult bindingResult,
-                              Model model) {
+                              @RequestParam(value = "profilePictureFile",
+                                            required = false) MultipartFile profilePictureFile,
+                              Model model) throws IOException {
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("active", "profile");
             return "edit-profile";
         }
 
-        userService.editUserDetails(metaData.getUserId(), request);
+//        userService.uploadProfilePictureAndGetURL(metaData.getUserId(), profilePictureFile);
+
+        userService.editUserDetails(metaData.getUserId(), request, profilePictureFile);
 
         return "redirect:/users/profile";
     }

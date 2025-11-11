@@ -22,7 +22,8 @@
             <h1>Edit Profile Details</h1>
         </div>
 
-        <form th:action="@{/users/profile/details}" th:method="patch" th:object="${user}">
+        <form th:action="@{/users/profile/details}" th:method="post" enctype="multipart/form-data" th:object="${user}">
+            <input type="hidden" name="_method" value="patch" />
             <div class="edit-body">
                 <div class="field full">
                     <label>Profile Picture</label>
