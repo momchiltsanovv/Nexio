@@ -1,7 +1,7 @@
 package com.app.nexio.aws.service;
 
 import com.app.nexio.aws.client.AwsClient;
-import com.app.nexio.aws.client.dto.AwsUserDetails;
+import com.app.nexio.aws.client.dto.S3FileResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -22,21 +22,22 @@ public class AwsService {
         this.awsClient = awsClient;
     }
 
-    public ResponseEntity<String> sendAwsFile(UUID userId, MultipartFile file) {
-        AwsUserDetails details = AwsUserDetails.builder()
-                                               .userId(userId)
-                                               .file(file)
-                                               .build();
+    public ResponseEntity<S3FileResponse> sendAwsFile(UUID userId, MultipartFile file) {
 
-        ResponseEntity<?> response = awsClient.upsertProfilePicture(String.valueOf(userId), file);
+        ResponseEntity<S3FileResponse> response = awsClient.upsertProfilePicture(userId, file);
+        S3FileResponse body = response.getBody();
 
         if(!response.getStatusCode().is2xxSuccessful()) {
             log.error("Feign call to AWS-S3-SVC failed due to {}", response.getStatusCode());
+            return ResponseEntity.status(response.getStatusCode())
+                                 .body(body);
         }
 
-        Object body = response.getBody();
+        if (body != null && body.getURL() != null) {
+            return ResponseEntity.ok().body(body);
+        }
 
-        return null;
+        return ResponseEntity.status(500).body(body);
     }
 
 

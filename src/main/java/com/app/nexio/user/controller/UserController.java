@@ -108,7 +108,7 @@ public class UserController {
             return "edit-profile";
         }
 
-//        userService.uploadProfilePictureAndGetURL(metaData.getUserId(), profilePictureFile);
+        //        userService.uploadProfilePictureAndGetURL(metaData.getUserId(), profilePictureFile);
 
         userService.editUserDetails(metaData.getUserId(), request, profilePictureFile);
 
