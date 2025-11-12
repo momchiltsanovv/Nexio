@@ -154,7 +154,7 @@ public class UserService implements UserDetailsService, OAuth2UserService<OAuth2
             user.get().setProfilePictureURL(pictureURL);
         }
 
-        //        user.get().setProfilePictureURL(editRequest.getProfilePictureURL());
+        user.get().setProfilePictureURL(pictureURL);
         user.get().setFirstName(editRequest.getFirstName());
         user.get().setLastName(editRequest.getLastName());
         user.get().setInstagramURL(editRequest.getInstagramURL());
@@ -246,7 +246,9 @@ public class UserService implements UserDetailsService, OAuth2UserService<OAuth2
     }
 
     public String uploadProfilePictureAndGetURL(UUID userId, MultipartFile file) throws IOException {
-        String profilePictureURL = awsService.sendAwsFile(userId, file).toString();
+        String profilePictureURL = awsService.sendAwsFile(userId, file)
+                                             .getBody()
+                                             .getURL();
 
         log.info("Calling microservice to upload file: {}", file.getOriginalFilename());
 

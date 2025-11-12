@@ -108,8 +108,6 @@ public class UserController {
             return "edit-profile";
         }
 
-        //        userService.uploadProfilePictureAndGetURL(metaData.getUserId(), profilePictureFile);
-
         userService.editUserDetails(metaData.getUserId(), request, profilePictureFile);
 
         return "redirect:/users/profile";
@@ -137,8 +135,7 @@ public class UserController {
         accountDeletionService.deleteUserAccount(
                 metaData.getUserId(),
                 request,
-                response
-                                                );
+                response);
 
         return "redirect:/";
     }

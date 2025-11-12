@@ -29,7 +29,7 @@
                     <label>Profile Picture</label>
                     <div class="avatar-section">
                         <img class="current-avatar" id="avatarPreview"
-                             th:src="${user != null and user.profilePictureURL != null} ? ${user.profilePictureURL} : 'https://via.placeholder.com/80x80/667eea/ffffff?text=U'"
+                             th:src="${user.profilePictureURL} ?: 'https://via.placeholder.com/80x80/667eea/ffffff?text=U'"
                              alt="Current avatar">
                         <div class="avatar-upload">
                             <div class="file-upload-container">

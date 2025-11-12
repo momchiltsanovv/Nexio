@@ -48,7 +48,7 @@ public class EditUserRequest {
 
         EditUserRequest editRequest = new EditUserRequest();
 
-//        editRequest.setProfilePictureURL(user.getProfilePictureURL());
+        editRequest.setProfilePictureURL(user.getProfilePictureURL());
         editRequest.setFirstName(user.getFirstName());
         editRequest.setLastName(user.getLastName());
         editRequest.setInstagramURL(user.getInstagramURL());
