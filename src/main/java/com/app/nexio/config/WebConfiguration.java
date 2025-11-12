@@ -26,7 +26,7 @@ public class WebConfiguration implements WebMvcConfigurer {
         httpSecurity.authorizeHttpRequests(matcher -> matcher
                                                    .requestMatchers(PathRequest.toStaticResources().atCommonLocations())
                                                    .permitAll()
-                                                   .requestMatchers("/", "/auth/register", "/info")
+                                                   .requestMatchers("/", "/auth/register", "/info", "/fonts/**")
                                                    .permitAll()
                                                    .anyRequest()
                                                    .authenticated()

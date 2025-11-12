@@ -54,7 +54,7 @@ public class AuthController {
         String inactiveMessage = (String) session.getAttribute("Inactive");
         if (inactiveMessage != null) {
             model.addAttribute("inactiveAccountError", inactiveMessage);
-            session.removeAttribute("Inactive"); // Clear the session attribute
+            session.removeAttribute("Inactive");
         } else if (errorMessage != null) {
             model.addAttribute("loginError", errorMessage);
         }

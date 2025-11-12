@@ -66,7 +66,7 @@ public class ItemController {
         return "edit-item";
     }
 
-    @PatchMapping("/{id}/details") //Update item
+    @PatchMapping("/{id}/details")
     public String updateItem(@PathVariable UUID id,
                              @Valid EditItemRequest editRequest,
                              BindingResult bindingResult,

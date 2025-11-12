@@ -5,7 +5,7 @@ import com.app.nexio.item.model.Item;
 import java.util.UUID;
 
 public record WishlistItemResponse(
-        UUID id, //wishlistItem id
+        UUID id,
         Item item
 ) {
 }
