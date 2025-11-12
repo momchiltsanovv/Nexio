@@ -1,4 +1,4 @@
-package com.app.nexio.exception;
+package com.app.nexio.common.exception;
 
 public class ItemNotFoundException extends RuntimeException {
     public ItemNotFoundException(String message) {

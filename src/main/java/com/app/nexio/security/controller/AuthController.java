@@ -1,4 +1,4 @@
-package com.app.nexio.common.controller;
+package com.app.nexio.security.controller;
 
 import com.app.nexio.user.dto.LoginRequest;
 import com.app.nexio.user.dto.RegisterRequest;
@@ -8,10 +8,7 @@ import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/auth")
@@ -51,7 +48,7 @@ public class AuthController {
 
         session.getAttribute("SPRING_SECURITY_LAST_EXCEPTION");
         model.addAttribute("loginRequest", new LoginRequest());
-        String inactiveMessage = (String) session.getAttribute("Inactive");
+        String inactiveMessage = session.getAttribute("Inactive").toString();
         if (inactiveMessage != null) {
             model.addAttribute("inactiveAccountError", inactiveMessage);
             session.removeAttribute("Inactive");

@@ -1,7 +1,7 @@
 package com.app.nexio.wishlist.service;
 
-import com.app.nexio.exception.ItemAlreadyInWishlist;
-import com.app.nexio.exception.userAlreadyHaveWishlistException;
+import com.app.nexio.common.exception.ItemAlreadyInWishlist;
+import com.app.nexio.common.exception.userAlreadyHaveWishlistException;
 import com.app.nexio.item.model.Item;
 import com.app.nexio.item.service.ItemService;
 import com.app.nexio.user.model.User;

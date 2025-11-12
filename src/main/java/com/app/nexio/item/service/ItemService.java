@@ -1,6 +1,6 @@
 package com.app.nexio.item.service;
 
-import com.app.nexio.exception.ItemNotFoundException;
+import com.app.nexio.common.exception.ItemNotFoundException;
 import com.app.nexio.item.dto.EditItemRequest;
 import com.app.nexio.item.dto.PostItemRequest;
 import com.app.nexio.item.model.Category;
@@ -33,7 +33,6 @@ public class ItemService {
     public void editItem(UUID itemId, EditItemRequest editItemRequest) {
         Item item = getById(itemId);
 
-        // Update item fields
         item.setName(editItemRequest.getName());
         item.setPrice(editItemRequest.getPrice());
         item.setCondition(editItemRequest.getCondition());
@@ -81,7 +80,8 @@ public class ItemService {
     }
 
     public Integer getCategoryCount(Category category) {
-        return itemRepository.findAll().stream()
+        return itemRepository.findAll()
+                             .stream()
                              .filter(item -> item.getCategory() == category)
                              .toList()
                              .size();

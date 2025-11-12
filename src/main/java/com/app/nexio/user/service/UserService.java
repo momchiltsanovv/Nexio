@@ -1,8 +1,8 @@
 package com.app.nexio.user.service;
 
 import com.app.nexio.aws.service.AwsService;
-import com.app.nexio.exception.UserDoesNotExistException;
-import com.app.nexio.exception.UsernameTakenException;
+import com.app.nexio.common.exception.UserDoesNotExistException;
+import com.app.nexio.common.exception.UsernameTakenException;
 import com.app.nexio.notification.service.NotificationService;
 import com.app.nexio.security.AuthenticationMetadata;
 import com.app.nexio.security.model.Provider;

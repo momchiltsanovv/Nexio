@@ -1,4 +1,4 @@
-package com.app.nexio.exception;
+package com.app.nexio.common.exception;
 
 public class ItemAlreadyInWishlist extends RuntimeException {
     public ItemAlreadyInWishlist(String message) {
