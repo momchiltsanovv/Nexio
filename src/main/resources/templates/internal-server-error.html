@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>500 - Internal Server Error | nexio</title>
+    <link rel="stylesheet" th:href="@{/css/internal-server-error.css}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <th:block th:replace="~{fragments/background :: background-styles}"></th:block>
+</head>
+<body>
+    <th:block th:replace="~{fragments/background :: background-elements}"></th:block>
+    
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="/">
+                    <h2>nexio</h2>
+                    <span class="logo-subtitle">Student Marketplace</span>
+                </a>
+            </div>
+            <div class="nav-links">
+                <a href="/home" class="nav-link">Browse</a>
+                <a href="/info" class="nav-link">About</a>
+                <a href="/auth/login" class="nav-link login-btn">Login</a>
+                <a href="/auth/register" class="nav-link signup-btn">Sign Up</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 500 Content -->
+    <div class="error-container">
+        <div class="error-content">
+            <div class="error-code">
+                <span class="code-number">5</span>
+                <span class="code-number">0</span>
+                <span class="code-number">0</span>
+                <span class="code-icon">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </span>
+            </div>
+            <h1 class="error-title">Internal Server Error</h1>
+            <p class="error-description">
+                Oops! Something went wrong on our end. We're sorry for the inconvenience. 
+                Our team has been notified and is working to fix the issue. Please try again in a few moments.
+            </p>
+            <div class="error-actions">
+                <a href="/home" class="btn btn-primary">
+                    <i class="fas fa-home"></i>
+                    Go to Home
+                </a>
+                <a href="javascript:location.reload()" class="btn btn-secondary">
+                    <i class="fas fa-redo"></i>
+                    Try Again
+                </a>
+            </div>
+            <div class="helpful-links">
+                <p>In the meantime, you can:</p>
+                <div class="links-grid">
+                    <a href="/home" class="help-link">
+                        <i class="fas fa-th-large"></i>
+                        Browse Items
+                    </a>
+                    <a href="/info" class="help-link">
+                        <i class="fas fa-info-circle"></i>
+                        About Us
+                    </a>
+                    <a href="javascript:history.back()" class="help-link">
+                        <i class="fas fa-arrow-left"></i>
+                        Go Back
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>
+
