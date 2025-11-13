@@ -26,7 +26,6 @@ public class WishlistService {
         this.itemService = itemService;
     }
 
-
     public void addItem(User user, UUID itemId) {
         Wishlist wishlist = user.getWishlist();
         Set<Item> items = wishlist.getItems();
@@ -65,7 +64,6 @@ public class WishlistService {
         wishlist.setItems(new HashSet<>());
         user.setWishlist(wishlist);
     }
-
 
     public void clearWishlist(User user) {
         Wishlist wishlist = user.getWishlist();
