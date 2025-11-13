@@ -32,9 +32,9 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -73,11 +73,6 @@ public class UserService implements UserDetailsService, OAuth2UserService<OAuth2
         this.notificationService = notificationService;
         this.awsService = awsService;
     }
-
-    public Optional<User> getUserByEmail(String email) {
-        return userRepository.findByUsernameOrEmail(email);
-    }
-
 
     @Transactional
     @CacheEvict(value = "users", allEntries = true)
@@ -151,7 +146,7 @@ public class UserService implements UserDetailsService, OAuth2UserService<OAuth2
         userRepository.save(user.get());
     }
 
-    public void editUserDetails(UUID userId, EditUserRequest editRequest, MultipartFile file) throws IOException {
+    public void editUserDetails(UUID userId, EditUserRequest editRequest, MultipartFile file) {
         Optional<User> user = userRepository.findById(userId);
 
         if (user.isEmpty()) {
@@ -206,25 +201,8 @@ public class UserService implements UserDetailsService, OAuth2UserService<OAuth2
         String name = oAuth2User.getAttribute("name");
         String email = oAuth2User.getAttribute("email");
 
-        User user = userRepository.findByUsernameOrEmail(email).orElse(null);
-        if (user == null) {
-            String[] wholeName = name.split(" ");
-            String username = email.split("@")[0];
-
-            user = User.builder()
-                       .firstName(wholeName.length > 1 ? wholeName[0] : name)
-                       .lastName(wholeName.length > 1 ? wholeName[1] : "")
-                       .email(email)
-                       .username(username)
-                       .role(userProperties.getDefaultUser().getUserRole())
-                       .activeAccount(userProperties.getDefaultUser().isActiveByDefault())
-                       .provider(Provider.valueOf(provider.toUpperCase()))
-                       .build();
-
-            wishlistService.initializeWishlist(user);
-            userRepository.save(user);
-            notificationService.sendNotificationWhenRegister(user.getId(), user.getEmail());
-        }
+        User user = userRepository.findByUsernameOrEmail(email)
+                                  .orElseGet(() -> createOAuth2User(name, email, provider));
 
         return new AuthenticationMetadata(user.getId(),
                                           user.getUsername(),
@@ -233,6 +211,26 @@ public class UserService implements UserDetailsService, OAuth2UserService<OAuth2
                                           user.isActiveAccount(),
                                           oAuth2User.getAttributes()
         );
+    }
+
+    private User createOAuth2User(String name, String email, String provider) {
+        String[] wholeName = name.split(" ");
+        String username = email.split("@")[0];
+
+        User user = User.builder()
+                        .firstName(wholeName.length > 1 ? wholeName[0] : name)
+                        .lastName(wholeName.length > 1 ? wholeName[1] : "")
+                        .email(email)
+                        .username(username)
+                        .role(userProperties.getDefaultUser().getUserRole())
+                        .activeAccount(userProperties.getDefaultUser().isActiveByDefault())
+                        .provider(Provider.valueOf(provider.toUpperCase()))
+                        .build();
+
+        wishlistService.initializeWishlist(user);
+        userRepository.save(user);
+        notificationService.sendNotificationWhenRegister(user.getId(), user.getEmail());
+        return user;
     }
 
     public Integer getActiveUsersCount() {
@@ -253,10 +251,10 @@ public class UserService implements UserDetailsService, OAuth2UserService<OAuth2
                 .getAllByGraduationYearBefore(LocalDateTime.now().getYear()).size();
     }
 
-    public String uploadProfilePictureAndGetURL(UUID userId, MultipartFile file) throws IOException {
-        String profilePictureURL = awsService.sendAwsFile(userId, file)
-                                             .getBody()
-                                             .getURL();
+    public String uploadProfilePictureAndGetURL(UUID userId, MultipartFile file) {
+        String profilePictureURL = Objects.requireNonNull(awsService.sendAwsFile(userId, file)
+                                                                    .getBody())
+                                          .URL();
 
         log.info("Calling microservice to upload file: {}", file.getOriginalFilename());
 
@@ -275,13 +273,12 @@ public class UserService implements UserDetailsService, OAuth2UserService<OAuth2
     public UserDetails loadUserByUsername(String usernameOrEmail) throws UsernameNotFoundException {
         ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
         HttpSession currentSession = servletRequestAttributes.getRequest().getSession(true);
-        
+
         User user = userRepository.findByUsernameOrEmail(usernameOrEmail)
                                   .orElseThrow(() -> new UserDoesNotExistException(NO_SUCH_USER_FOUND));
 
-        if (!user.isActiveAccount()) {
-            // Set session attribute BEFORE throwing exception because Spring Security
-            // intercepts the exception in the filter chain before @ExceptionHandler can catch it
+        boolean active = user.isActiveAccount();
+        if (active) {
             currentSession.setAttribute("inactiveUserMessage", BLOCKED);
             throw new AccountDeleted(BLOCKED);
         }
@@ -290,7 +287,7 @@ public class UserService implements UserDetailsService, OAuth2UserService<OAuth2
                                           user.getUsername(),
                                           user.getPassword(),
                                           user.getRole(),
-                                          user.isActiveAccount(),
+                                          active,
                                           null
         );
     }

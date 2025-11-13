@@ -33,7 +33,7 @@ public class AwsService {
                                  .body(body);
         }
 
-        if (body != null && body.getURL() != null) {
+        if (body != null && body.URL() != null) {
             return ResponseEntity.ok().body(body);
         }
 
