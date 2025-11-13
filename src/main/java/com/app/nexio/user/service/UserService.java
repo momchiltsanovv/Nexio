@@ -1,6 +1,8 @@
 package com.app.nexio.user.service;
 
 import com.app.nexio.aws.service.AwsService;
+import com.app.nexio.common.exception.AccountDeleted;
+import com.app.nexio.common.exception.EmailAssociatedWithAnotherAccount;
 import com.app.nexio.common.exception.UserDoesNotExistException;
 import com.app.nexio.common.exception.UsernameTakenException;
 import com.app.nexio.notification.service.NotificationService;
@@ -17,6 +19,8 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
@@ -26,8 +30,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -49,6 +51,8 @@ public class UserService implements UserDetailsService, OAuth2UserService<OAuth2
     public static final UserRole USER = UserRole.USER;
     public static final String NO_SUCH_USER_FOUND = "No such user found";
     public static final boolean ACTIVE_ACCOUNT = true;
+    public static final String EMAIL_ASSOCIATED_WITH_ANOTHER_ACCOUNT = "Email associated with another account";
+    public static final String BLOCKED = "This account is blocked!";
     private final UserRepository userRepository;
     private static final String USER_UPDATED_SUCCESSFULLY = "User info updated successfully ";
     private final UserProperties userProperties;
@@ -83,6 +87,12 @@ public class UserService implements UserDetailsService, OAuth2UserService<OAuth2
         if (optionalUser.isPresent()) {
             throw new UsernameTakenException(USERNAME_ALREADY_TAKEN.formatted(registerRequest.getUsername()));
         }
+        optionalUser = userRepository.findUserByEmail(registerRequest.getEmail());
+
+        if (optionalUser.isPresent()) {
+            throw new EmailAssociatedWithAnotherAccount(EMAIL_ASSOCIATED_WITH_ANOTHER_ACCOUNT);
+        }
+
 
         User user = initializeUserFromRequest(registerRequest);
         wishlistService.initializeWishlist(user);
@@ -267,11 +277,16 @@ public class UserService implements UserDetailsService, OAuth2UserService<OAuth2
     public UserDetails loadUserByUsername(String usernameOrEmail) throws UsernameNotFoundException {
         ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
         HttpSession currentSession = servletRequestAttributes.getRequest().getSession(true);
+        
         User user = userRepository.findByUsernameOrEmail(usernameOrEmail)
                                   .orElseThrow(() -> new UserDoesNotExistException(NO_SUCH_USER_FOUND));
 
-        if (!user.isActiveAccount())
-            currentSession.setAttribute("Inactive", "This account is blocked!");
+        if (!user.isActiveAccount()) {
+            // Set session attribute BEFORE throwing exception because Spring Security
+            // intercepts the exception in the filter chain before @ExceptionHandler can catch it
+            currentSession.setAttribute("inactiveUserMessage", BLOCKED);
+            throw new AccountDeleted(BLOCKED);
+        }
 
         return new AuthenticationMetadata(user.getId(),
                                           user.getUsername(),

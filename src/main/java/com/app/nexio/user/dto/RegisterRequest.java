@@ -20,7 +20,7 @@ public class RegisterRequest {
 
         @NotBlank(message = "Password is required")
         @Pattern(regexp = "^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>/?])(?=.*[a-zA-Z]).{8,}$",
-                message = "Password must contain at least 1 uppercase letter, 1 digit, 1 special character, and be at least 8 characters long"
+                message = "Password requirements not met"
         )
         private String password;
 

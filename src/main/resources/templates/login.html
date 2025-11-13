@@ -7,11 +7,11 @@
     <link rel="stylesheet" th:href="@{/css/home.css}">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <th:block th:replace="fragments/background :: background-styles"></th:block>
+    <th:block th:replace="~{fragments/background :: background-styles}"></th:block>
     <link rel="stylesheet" th:href="@{/css/login.css}">
 </head>
 <body>
-<th:block th:replace="fragments/background :: background-elements"></th:block>
+<th:block th:replace="~{fragments/background :: background-elements}"></th:block>
 
 <div class="login-wrapper">
     <div class="login-container">
@@ -69,16 +69,9 @@
                 <p>Access your student marketplace account</p>
             </div>
 
-            <div th:if="${inactiveAccountError}" class="alert alert-danger">
-                Your account is currently inactive. It will be deleted in 30 days if no action is taken. Please contact
-                support to reactivate your account.
-            </div>
-
-            <div th:if="${loginError}" class="alert alert-danger">
-                Invalid username or password. Please try again.
-            </div>
-
             <form th:action="'/auth/login'" th:method="post" th:object="${loginRequest}">
+                <!-- Display error message (blocked account or invalid credentials) -->
+                <div class="alert-error" th:if="${errorMessage}" th:text="${errorMessage}"></div>
                 <div class="field">
                     <label for="usernameOrEmail">Username or Email</label>
                     <input type="text" id="usernameOrEmail" name="usernameOrEmail"

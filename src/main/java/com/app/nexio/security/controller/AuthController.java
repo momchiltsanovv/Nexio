@@ -3,6 +3,7 @@ package com.app.nexio.security.controller;
 import com.app.nexio.user.dto.LoginRequest;
 import com.app.nexio.user.dto.RegisterRequest;
 import com.app.nexio.user.service.UserService;
+import com.app.nexio.utils.LoginErrorHandler;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
@@ -22,8 +23,9 @@ public class AuthController {
 
     @GetMapping("/register")
     public String getRegisterPage(Model model) {
-
         model.addAttribute("registerRequest", new RegisterRequest());
+        model.addAttribute("registrationError", model.getAttribute("errorMessage"));
+
         return "register";
     }
 
@@ -45,16 +47,8 @@ public class AuthController {
     public String getLoginPage(@RequestParam(name = "error", required = false) String errorMessage,
                                Model model,
                                HttpSession session) {
-
-        session.getAttribute("SPRING_SECURITY_LAST_EXCEPTION");
         model.addAttribute("loginRequest", new LoginRequest());
-        String inactiveMessage = session.getAttribute("Inactive").toString();
-        if (inactiveMessage != null) {
-            model.addAttribute("inactiveAccountError", inactiveMessage);
-            session.removeAttribute("Inactive");
-        } else if (errorMessage != null) {
-            model.addAttribute("loginError", errorMessage);
-        }
+        LoginErrorHandler.handleLoginErrors(model, session, errorMessage);
         return "login";
     }
 }
