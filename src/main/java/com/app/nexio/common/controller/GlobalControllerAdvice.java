@@ -50,6 +50,7 @@ public class GlobalControllerAdvice {
         return "redirect:/auth/login";
     }
 
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Exception.class)
     public String handleGeneralException() {
         return "internal-server-error";
