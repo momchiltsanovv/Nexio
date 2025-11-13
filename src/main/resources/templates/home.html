@@ -7,12 +7,12 @@
     <link rel="stylesheet" th:href="@{/css/home.css}">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <th:block th:replace="fragments/background :: background-styles"></th:block>
+    <th:block th:replace="~{fragments/background :: background-styles}"></th:block>
 </head>
 <body>
-<th:block th:replace="fragments/background :: background-elements"></th:block>
+<th:block th:replace="~{fragments/background :: background-elements}"></th:block>
 
-<div th:replace="fragments/navbar :: navbar(${active})"></div>
+<div th:replace="~{fragments/navbar :: navbar(${active})}"></div>
 
 <!-- Profile Completion Modal -->
 <div id="profileCompletionModal" class="modal" th:if="${showProfilePopup}">
@@ -257,9 +257,9 @@
 </main>
 
 <!-- Footer -->
-<div th:replace="fragments/footer :: footer"></div>
+<div th:replace="~{fragments/footer :: footer}"></div>
 
 <script th:src="@{/js/home.js}"></script>
-<div th:replace="fragments/navbar-script :: navbar-script"></div>
+<div th:replace="~{fragments/navbar-script :: navbar-script}"></div>
 </body>
 </html>

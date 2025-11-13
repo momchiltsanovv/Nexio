@@ -7,14 +7,14 @@
     <link rel="stylesheet" href="/css/home.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <th:block th:replace="fragments/background :: background-styles"></th:block>
+    <th:block th:replace="~{fragments/background :: background-styles}"></th:block>
     <link rel="stylesheet" th:href="@{/css/post-item.css}">
 </head>
 <body>
-    <th:block th:replace="fragments/background :: background-elements"></th:block>
+    <th:block th:replace="~{fragments/background :: background-elements}"></th:block>
     
     <!-- Navigation -->
-    <th:block th:replace="fragments/navbar :: navbar(${active})"></th:block>
+    <th:block th:replace="~{fragments/navbar :: navbar(${active})}"></th:block>
     
     <div class="post-wrapper">
         <div class="post-card" >
@@ -125,7 +125,7 @@
     </div>
     
     <!-- Navbar Script -->
-    <th:block th:replace="fragments/navbar-script :: navbar-script"></th:block>
+    <th:block th:replace="~{fragments/navbar-script :: navbar-script}"></th:block>
     
     <script th:src="@{/js/post-item.js}"></script>
 </body>

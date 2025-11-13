@@ -23,7 +23,8 @@ public class AuthenticationMetadata implements UserDetails, OAuth2User {
     private boolean isAccountActive;
     private Map<String, Object> attributes;
 
-    public AuthenticationMetadata(UUID userId, String usernameOrEmail, String password, UserRole role, boolean isAccountActive, Map<String, Object> attributes) {
+    public AuthenticationMetadata(UUID userId, String usernameOrEmail, String password,
+                                  UserRole role, boolean isAccountActive, Map<String, Object> attributes) {
         this.userId = userId;
         this.usernameOrEmail = usernameOrEmail;
         this.password = password;

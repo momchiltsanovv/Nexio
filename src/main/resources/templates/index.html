@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,10 +7,10 @@
     <link rel="stylesheet" th:href="@{/css/index.css}">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <th:block th:replace="fragments/background :: background-styles"></th:block>
+    <th:block th:replace="~{fragments/background :: background-styles}"></th:block>
 </head>
 <body>
-    <th:block th:replace="fragments/background :: background-elements"></th:block>
+    <th:block th:replace="~{fragments/background :: background-elements}"></th:block>
     <!-- Navigation -->
     <nav class="navbar">
         <div class="nav-container">
@@ -20,7 +20,7 @@
             </div>
             <div class="nav-links">
                 <a href="/home" class="nav-link">Browse</a>
-                <a href="/users" class="nav-link">Users</a>
+                <a sec:authorize="hasRole('ADMIN')" href="/users" class="nav-link">Users</a>
                 <a href="/info" class="nav-link">About</a>
                 <a href="/auth/login" class="nav-link login-btn">Login</a>
                 <a href="/auth/register" class="nav-link signup-btn">Sign Up</a>
@@ -233,7 +233,7 @@
     </section>
 
     <!-- Footer -->
-    <div th:replace="fragments/footer :: footer"></div>
+    <div th:replace="~{fragments/footer :: footer}"></div>
 
     <script th:src="@{/js/index.js}"></script>
 </body>

@@ -8,7 +8,7 @@
     <link rel="stylesheet" th:href="@{/css/user-profile-view.css}">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <th:block th:replace="fragments/background :: background-styles"></th:block>
+    <th:block th:replace="~{fragments/background :: background-styles}"></th:block>
     <style>
         .profile-view-wrapper {
             max-width: 1100px;
@@ -410,9 +410,9 @@
     </style>
 </head>
 <body>
-<th:block th:replace="fragments/background :: background-elements"></th:block>
+<th:block th:replace="~{fragments/background :: background-elements}"></th:block>
 
-<div th:replace="fragments/navbar :: navbar(${active})"></div>
+<div th:replace="~{fragments/navbar :: navbar(${active})}"></div>
 
 <div class="profile-view-wrapper">
     <a href="/home" class="back-link">
@@ -575,7 +575,7 @@
     </div>
 </div>
 
-<script th:replace="fragments/navbar-script :: navbar-script"></script>
+<script th:replace="~{fragments/navbar-script :: navbar-script}"></script>
 <script th:src="@{/js/user-profile-view.js}"></script>
 </body>
 </html>

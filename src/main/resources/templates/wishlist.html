@@ -8,13 +8,13 @@
     <link rel="stylesheet" th:href="@{/css/wishlist.css}">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <th:block th:replace="fragments/background :: background-styles"></th:block>
+    <th:block th:replace="~{fragments/background :: background-styles}"></th:block>
 </head>
 <body>
-<th:block th:replace="fragments/background :: background-elements"></th:block>
+<th:block th:replace="~{fragments/background :: background-elements}"></th:block>
 
 <div class="page-wrapper">
-    <div th:replace="fragments/navbar :: navbar(${active})"></div>
+    <div th:replace="~{fragments/navbar :: navbar(${active})}"></div>
 
     <div class="page-content">
         <div class="wishlist-wrapper">
@@ -115,9 +115,9 @@
         </div>
     </div>
 
-    <script th:replace="fragments/navbar-script :: navbar-script"></script>
+    <script th:replace="~{fragments/navbar-script :: navbar-script}"></script>
     <script th:src="@{/js/wishlist.js}"></script>
-    <div th:replace="fragments/footer :: footer"></div>
+    <div th:replace="~{fragments/footer :: footer}"></div>
 </div>
 </body>
 </html>
