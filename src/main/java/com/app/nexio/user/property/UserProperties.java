@@ -22,8 +22,11 @@ public class UserProperties {
 
     @Data
     public static class adminUser {
+        private String username;
+        private String email;
         private UserRole userRole;
         private boolean activeByDefault;
+        private String password;
     }
 
 }

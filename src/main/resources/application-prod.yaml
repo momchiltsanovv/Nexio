@@ -31,6 +31,10 @@ users:
   defaultUser:
     userRole: USER
     activeByDefault: true
+  adminUser:
+    username: admin
+    email: admin@nexio.com
+    password: Admin123#
 
 logging:
   level:

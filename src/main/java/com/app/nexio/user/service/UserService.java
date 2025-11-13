@@ -158,9 +158,9 @@ public class UserService implements UserDetailsService, OAuth2UserService<OAuth2
             throw new UserDoesNotExistException(NO_SUCH_USER_FOUND);
         }
 
-        String pictureURL = uploadProfilePictureAndGetURL(userId, file);
-
+        String pictureURL = null;
         if (file != null && !file.isEmpty()) {
+            pictureURL = uploadProfilePictureAndGetURL(userId, file);
             user.get().setProfilePictureURL(pictureURL);
         }
 
@@ -176,13 +176,11 @@ public class UserService implements UserDetailsService, OAuth2UserService<OAuth2
         userRepository.save(user.get());
 
         log.info(USER_UPDATED_SUCCESSFULLY);
-
     }
 
     public User getById(UUID userId) {
         return userRepository.findById(userId)
                              .orElseThrow(() -> new UserDoesNotExistException("User with id: %s does not exist".formatted(userId)));
-
 
     }
 
@@ -218,7 +216,7 @@ public class UserService implements UserDetailsService, OAuth2UserService<OAuth2
                        .lastName(wholeName.length > 1 ? wholeName[1] : "")
                        .email(email)
                        .username(username)
-                       .role(userProperties.getAdminUser().getUserRole())
+                       .role(userProperties.getDefaultUser().getUserRole())
                        .activeAccount(userProperties.getDefaultUser().isActiveByDefault())
                        .provider(Provider.valueOf(provider.toUpperCase()))
                        .build();
