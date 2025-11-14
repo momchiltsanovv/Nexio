@@ -58,9 +58,9 @@ public class ItemService {
                              .orElseThrow(() -> new ItemNotFoundException("Item not found"));
     }
 
-    public List<Item> findAllItems() {
+    public List<Item> findAllNonDeletedItems() {
 
-        List<Item> allItems = itemRepository.findAll();
+        List<Item> allItems = itemRepository.findAllByIsDeletedFalse();
         allItems.sort(Comparator.comparing(Item::getCreatedOn));
         return allItems;
 
@@ -82,7 +82,7 @@ public class ItemService {
     public Integer getCategoryCount(Category category) {
         return itemRepository.findAll()
                              .stream()
-                             .filter(item -> item.getCategory() == category)
+                             .filter(item -> item.getCategory() == category && !item.isDeleted())
                              .toList()
                              .size();
 

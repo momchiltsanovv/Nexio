@@ -44,7 +44,7 @@ public class HomeController {
             model.addAttribute("showProfilePopup", true);
         }
 
-        List<Item> items = itemService.findAllItems();
+        List<Item> items = itemService.findAllNonDeletedItems();
         Integer textbooksCount = itemService.getCategoryCount(Category.TEXTBOOKS);
         Integer electronicsCount = itemService.getCategoryCount(Category.ELECTRONICS);
         Integer clothingCount = itemService.getCategoryCount(Category.CLOTHING);

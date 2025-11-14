@@ -1,5 +1,7 @@
 package com.app.nexio.user.service;
 
+import com.app.nexio.item.repository.ItemRepository;
+import com.app.nexio.user.model.User;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -17,13 +19,22 @@ import java.util.UUID;
 public class AccountDeletionService {
 
     private final UserService userService;
+    private final ItemRepository itemRepository;
 
-    public AccountDeletionService(UserService userService) {
+    public AccountDeletionService(UserService userService, ItemRepository itemRepository) {
         this.userService = userService;
+        this.itemRepository = itemRepository;
     }
 
     public void deleteUserAccount(UUID userId, HttpServletRequest request, HttpServletResponse response) {
         log.info("Deleting user account for user ID: {}", userId);
+
+        User user = userService.getById(userId);
+        
+        itemRepository.findByOwner(user).forEach(item -> {
+            item.setDeleted(true);
+            itemRepository.save(item);
+        });
 
         userService.switchStatus(userId);
 
