@@ -278,7 +278,7 @@ public class UserService implements UserDetailsService, OAuth2UserService<OAuth2
                                   .orElseThrow(() -> new UserDoesNotExistException(NO_SUCH_USER_FOUND));
 
         boolean active = user.isActiveAccount();
-        if (active) {
+        if (!active) {
             currentSession.setAttribute("inactiveUserMessage", BLOCKED);
             throw new AccountDeleted(BLOCKED);
         }
