@@ -110,6 +110,8 @@ public class ItemController {
     @DeleteMapping("/{id}")
     public String deleteItem(@PathVariable UUID id) {
 
+        itemService.switchStatus(id);
+
         return "edit-item";
     }
 

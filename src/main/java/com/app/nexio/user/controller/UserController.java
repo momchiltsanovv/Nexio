@@ -124,6 +124,7 @@ public class UserController {
     @PreAuthorize("hasRole('ADMIN')")
     public String toggleUserStatus(@PathVariable UUID id) {
         userService.switchStatus(id);
+        //todo figure out behavior for when admin deletes profile
         return "redirect:/users";
     }
 

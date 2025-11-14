@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -88,4 +89,11 @@ public class ItemService {
 
     }
 
+    public void switchStatus(UUID id) {
+        Optional<Item> optionalItem = itemRepository.findById(id);
+
+        //todo finish figure out how to delete only an item and not to have access to it after deletion
+        optionalItem.ifPresent(item -> item.setDeleted(true));
+
+    }
 }
