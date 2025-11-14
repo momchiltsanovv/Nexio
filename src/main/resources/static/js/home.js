@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const itemGrid = document.querySelector('.items-grid');
-    const itemCards = itemGrid.querySelectorAll('.item-card');
+    const itemGrid = document.getElementById('itemsGrid');
+    const itemCards = itemGrid ? itemGrid.querySelectorAll('.item-card') : [];
     const resultsCountSpan = document.getElementById('resultsCount');
 
     const mainSearchInput = document.getElementById('mainSearchInput');
@@ -139,11 +139,28 @@ document.addEventListener('DOMContentLoaded', function () {
         resultsCountSpan.textContent = visibleItems.length;
 
         // Show/hide empty state message
-        const emptyState = document.querySelector('.empty-state');
-        if (visibleItems.length === 0) {
-            emptyState.style.display = 'block';
-        } else {
-            emptyState.style.display = 'none';
+        const emptyState = document.getElementById('emptyState');
+        const emptyStateMessage = document.getElementById('emptyStateMessage');
+        
+        if (emptyState && emptyStateMessage) {
+            const hasActiveFilters = activeCategoryFilter !== 'all' || 
+                                     activeConditionFilter !== 'all' || 
+                                     minPrice > 0 || 
+                                     maxPriceInput.value !== '' || 
+                                     selectedLocation !== 'all' || 
+                                     currentSearchTerm !== '';
+            
+            if (visibleItems.length === 0) {
+                emptyState.style.display = 'flex';
+                // Update message based on whether filters are applied
+                if (hasActiveFilters) {
+                    emptyStateMessage.textContent = 'No items match your current filters. Try adjusting your search criteria.';
+                } else {
+                    emptyStateMessage.textContent = 'There are currently no items available.';
+                }
+            } else {
+                emptyState.style.display = 'none';
+            }
         }
     }
 
@@ -173,7 +190,9 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 
         // Re-append sorted items to the grid
-        items.forEach(item => itemGrid.appendChild(item));
+        if (itemGrid) {
+            items.forEach(item => itemGrid.appendChild(item));
+        }
     }
 
     // Initial apply of filters and sort on page load to set counts and visibility correctly

@@ -1728,7 +1728,7 @@ body {
 .empty-content h3 {
     font-size: 1.8rem;
     margin-bottom: 10px;
-    color: #ffffff;
+    color: #333;
 }
 
 .empty-content p {

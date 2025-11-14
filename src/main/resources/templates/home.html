@@ -41,7 +41,7 @@
                         Search
                     </button>
                 </div>
-            </div>
+            </div>ƒ
         </div>
         <!-- Filters Sidebar -->
         <aside class="filters-sidebar" id="filtersSidebar">
@@ -187,7 +187,7 @@
             </div>
 
             <!-- Items Grid -->
-            <div class="items-grid">
+            <div class="items-grid" id="itemsGrid">
                 <!-- Items populated by Thymeleaf -->
                 <div class="item-card"
                      th:each="item : ${items}"
@@ -241,15 +241,14 @@
                         </div>
                     </div>
                 </div>
+            </div>
 
-                    <!-- Empty state when no items -->
-                    <div th:if="${items == null or items.isEmpty()}" class="empty-state">
-                        <div class="empty-content">
-                            <i class="fas fa-box-open"></i>
-                            <h3>No items found</h3>
-                            <p>There are currently no items available.</p>
-                        </div>
-                    </div>
+            <!-- Empty state when no items (shown when filters result in no matches or when items list is empty) -->
+            <div class="empty-state" id="emptyState" th:style="${items == null or items.isEmpty() ? 'display: flex;' : 'display: none;'}">
+                <div class="empty-content">
+                    <i class="fas fa-box-open"></i>
+                    <h3>No items found</h3>
+                    <p id="emptyStateMessage">There are currently no items available.</p>
                 </div>
             </div>
         </div>
