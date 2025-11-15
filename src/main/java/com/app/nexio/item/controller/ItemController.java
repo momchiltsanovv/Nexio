@@ -42,6 +42,7 @@ public class ItemController {
         model.addAttribute("active", "home");
 
         Item item = itemService.getById(id);
+        itemService.validateItemAccess(item, userDetails);
         model.addAttribute("item", item);
 
         User user = userService.getById(userDetails.getUserId());
@@ -55,10 +56,12 @@ public class ItemController {
 
     @GetMapping("/{itemId}/details")
     public String getEditItemPage(@PathVariable UUID itemId,
+                                  @AuthenticationPrincipal AuthenticationMetadata userDetails,
                                   Model model) {
         model.addAttribute("active", "item");
 
         Item item = itemService.getById(itemId);
+        itemService.validateItemAccess(item, userDetails);
 
         model.addAttribute("item", item);
         model.addAttribute("editItemRequest", EditItemRequest.fromItem(item));
@@ -69,15 +72,19 @@ public class ItemController {
     @PatchMapping("/{id}/details")
     public String updateItem(@PathVariable UUID id,
                              @Valid EditItemRequest editRequest,
+                             @AuthenticationPrincipal AuthenticationMetadata userDetails,
                              BindingResult bindingResult,
                              Model model) {
 
         if (bindingResult.hasErrors()) {
             Item item = itemService.getById(id);
+            itemService.validateItemAccess(item, userDetails);
             model.addAttribute("item", item);
             return "edit-item";
         }
 
+        Item item = itemService.getById(id);
+        itemService.validateItemAccess(item, userDetails);
         itemService.editItem(id, editRequest);
 
 

@@ -6,7 +6,9 @@ import com.app.nexio.item.dto.PostItemRequest;
 import com.app.nexio.item.model.Category;
 import com.app.nexio.item.model.Item;
 import com.app.nexio.item.repository.ItemRepository;
+import com.app.nexio.security.AuthenticationMetadata;
 import com.app.nexio.user.model.User;
+import com.app.nexio.user.model.UserRole;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -82,5 +84,14 @@ public class ItemService {
         Item item = getById(id);
         item.setDeleted(true);
         itemRepository.save(item);
+    }
+
+    public void validateItemAccess(Item item, AuthenticationMetadata viewer) {
+        if (!item.getOwner().isActiveAccount()) {
+            boolean isAdmin = viewer != null && viewer.getRole() == UserRole.ADMIN;
+            if (!isAdmin) {
+                throw new ItemNotFoundException("Item not found");
+            }
+        }
     }
 }
