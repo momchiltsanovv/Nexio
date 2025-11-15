@@ -9,9 +9,7 @@ import com.app.nexio.item.repository.ItemRepository;
 import com.app.nexio.user.model.User;
 import org.springframework.stereotype.Service;
 
-import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -46,7 +44,7 @@ public class ItemService {
     }
 
     public List<Item> getUsersItems(User currentUser) {
-        return itemRepository.findByOwner(currentUser);
+        return itemRepository.findByOwnerAndNotDeleted(currentUser);
     }
 
     public Item getUserItem(UUID itemId, User currentUser) {
@@ -55,15 +53,12 @@ public class ItemService {
     }
 
     public Item getById(UUID itemId) {
-        return itemRepository.findById(itemId)
+        return itemRepository.findByIdAndNotDeleted(itemId)
                              .orElseThrow(() -> new ItemNotFoundException("Item not found"));
     }
 
     public List<Item> findAllNonDeletedItems() {
-        List<Item> allItems = itemRepository.findAll();
-        allItems.sort(Comparator.comparing(Item::getCreatedOn));
-
-        return allItems;
+        return itemRepository.findAllByOwnerActiveAccountTrueAndNotDeleted();
     }
 
     private Item initializeItemFromRequest(PostItemRequest postItemRequest) {
@@ -80,16 +75,12 @@ public class ItemService {
     }
 
     public Integer getCategoryCount(Category category) {
-        return itemRepository.findAll()
-                             .stream()
-                             .filter(item -> item.getCategory() == category)
-                             .toList()
-                             .size();
-
+        return itemRepository.findByCategoryAndOwnerActiveAccountTrueAndNotDeleted(category).size();
     }
 
     public void deleteItem(UUID id) {
-        Optional<Item> optionalItem = itemRepository.findById(id);
-        optionalItem.ifPresent(itemRepository::delete);
+        Item item = getById(id);
+        item.setDeleted(true);
+        itemRepository.save(item);
     }
 }

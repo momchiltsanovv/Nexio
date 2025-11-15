@@ -68,4 +68,7 @@ public class Item {
     @UpdateTimestamp
     private LocalDateTime updatedOn;
 
+    @Column(nullable = false)
+    private boolean isDeleted;
+
 }
