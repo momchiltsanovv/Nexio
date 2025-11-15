@@ -49,7 +49,7 @@ public class GlobalControllerAdvice {
 
     @ExceptionHandler(LastAdminException.class)
     public String handleLastAdminException(LastAdminException e, RedirectAttributes redirectAttributes) {
-        String errorMessage = "You are trying to deactivate the last active admin. This action is not allowed. Please promote another user to admin first or change this user's role to USER.";
+        String errorMessage = "You are trying to deactivate or change the role of the last active admin. This action is not allowed. Please promote another user to admin first or ensure at least one active admin exists.";
         redirectAttributes.addFlashAttribute("errorMessage", errorMessage);
         return "redirect:/users?lastAdminError=true";
     }

@@ -144,15 +144,25 @@ public class UserService implements UserDetailsService, OAuth2UserService<OAuth2
             @CacheEvict(value = "admins", allEntries = true)
     })
     public void switchRole(UUID userId) {
-        Optional<User> user = userRepository.findById(userId);
+        Optional<User> userOptional = userRepository.findById(userId);
 
-        if (user.isEmpty()) {
+        if (userOptional.isEmpty()) {
             throw new UserDoesNotExistException(NO_SUCH_USER_FOUND);
         }
 
-        user.get().setRole(user.get().getRole() == ADMIN ? USER : ADMIN);
+        User user = userOptional.get();
+        
+        if (user.getRole() == ADMIN && user.isActiveAccount()) {
+            long activeAdminsCount = userRepository.countActiveUsersByRole(ADMIN);
+            if (activeAdminsCount <= 1) {
+                log.warn("Attempt to change last active admin's role to USER with ID: {}", userId);
+                throw new LastAdminException(CANNOT_DEACTIVATE_LAST_ADMIN);
+            }
+        }
 
-        userRepository.save(user.get());
+        user.setRole(user.getRole() == ADMIN ? USER : ADMIN);
+
+        userRepository.save(user);
     }
 
     public void editUserDetails(UUID userId, EditUserRequest editRequest, MultipartFile file) {

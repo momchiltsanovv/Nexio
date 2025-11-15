@@ -138,8 +138,27 @@ document.addEventListener('DOMContentLoaded', function() {
                 const formData = new FormData(this);
                 fetch(this.action, {
                     method: 'POST',
-                    body: formData
+                    body: formData,
+                    redirect: 'follow'
                 }).then(response => {
+                    // Check if the response URL contains the error parameter
+                    if (response.redirected && response.url && response.url.includes('lastAdminError=true')) {
+                        // Revert the change
+                        row.dataset.role = currentRole;
+                        roleBadge.classList.remove('admin', 'user');
+                        roleBadge.classList.add(currentRole.toLowerCase());
+                        roleBadge.textContent = currentRole === 'ADMIN' ? 'Admin' : 'User';
+
+                        // Show error modal without page reload
+                        const errorMessage = 'You are trying to deactivate or change the role of the last active admin. This action is not allowed. Please promote another user to admin first or ensure at least one active admin exists.';
+                        showErrorModal(errorMessage);
+                        return;
+                    }
+                    // On success, reload the page to get fresh data
+                    if (response.ok || response.redirected) {
+                        window.location.reload();
+                        return;
+                    }
                     if (!response.ok) {
                         // If server request fails, revert the change
                         row.dataset.role = currentRole;
@@ -195,10 +214,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 const formData = new FormData(this);
                 fetch(this.action, {
                     method: 'POST',
-                    body: formData
+                    body: formData,
+                    redirect: 'follow'
                 }).then(response => {
-                    // Check if redirect URL contains error parameter
-                    if (response.redirected && response.url.includes('lastAdminError=true')) {
+                    // Check if the response URL contains the error parameter
+                    if (response.redirected && response.url && response.url.includes('lastAdminError=true')) {
                         // Revert the change
                         row.dataset.status = currentStatus;
                         statusBadge.classList.remove('active', 'inactive');
@@ -212,10 +232,14 @@ document.addEventListener('DOMContentLoaded', function() {
                         toggleStatusIcon.classList.add(currentStatus === 'active' ? 'fa-user-slash' : 'fa-user-check');
                         toggleStatusText.textContent = currentStatus === 'active' ? 'Deactivate' : 'Activate';
 
-                        // Show error modal
-                        showErrorModal('You are trying to deactivate the last active admin. This action is not allowed. Please promote another user to admin first or change this user\'s role to USER.');
-                        // Reload page to get fresh data
-                        window.location.href = response.url;
+                        // Show error modal without page reload
+                        const errorMessage = 'You are trying to deactivate or change the role of the last active admin. This action is not allowed. Please promote another user to admin first or ensure at least one active admin exists.';
+                        showErrorModal(errorMessage);
+                        return;
+                    }
+                    // On success, reload the page to get fresh data
+                    if (response.ok || response.redirected) {
+                        window.location.reload();
                         return;
                     }
                     if (!response.ok) {
