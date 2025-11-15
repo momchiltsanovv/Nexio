@@ -47,6 +47,13 @@ public class GlobalControllerAdvice {
         return "redirect:/auth/login";
     }
 
+    @ExceptionHandler(LastAdminException.class)
+    public String handleLastAdminException(LastAdminException e, RedirectAttributes redirectAttributes) {
+        String errorMessage = "You are trying to deactivate the last active admin. This action is not allowed. Please promote another user to admin first or change this user's role to USER.";
+        redirectAttributes.addFlashAttribute("errorMessage", errorMessage);
+        return "redirect:/users?lastAdminError=true";
+    }
+
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Exception.class)
     public String handleGeneralException() {

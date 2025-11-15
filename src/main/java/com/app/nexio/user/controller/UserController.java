@@ -58,14 +58,14 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public String getUserProfilePage(@PathVariable UUID id, 
+    public String getUserProfilePage(@PathVariable UUID id,
                                      @AuthenticationPrincipal AuthenticationMetadata currentUser,
                                      Model model) {
         model.addAttribute("active", "user-profile-view");
         User user = userService.getById(id);
-        
+
         userService.validateProfileAccess(user, currentUser);
-        
+
         List<Item> usersItems = itemService.getUsersItems(user);
         model.addAttribute("user", user);
         model.addAttribute("items", usersItems);
@@ -126,7 +126,7 @@ public class UserController {
     @PreAuthorize("hasRole('ADMIN')")
     public String toggleUserStatus(@PathVariable UUID id) {
         userService.switchStatus(id);
-        //todo figure out behavior for when admin deletes profile
+
         return "redirect:/users";
     }
 
@@ -134,7 +134,6 @@ public class UserController {
     public String deleteUser(@AuthenticationPrincipal AuthenticationMetadata metaData,
                              HttpServletRequest request,
                              HttpServletResponse response) {
-
         accountDeletionService.deleteUserAccount(
                 metaData.getUserId(),
                 request,

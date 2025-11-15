@@ -25,5 +25,8 @@ public interface UserRepository extends JpaRepository<User, UUID> {
 
     List<User> getAllByRole(UserRole role);
 
+    @Query("SELECT COUNT(u) FROM User u WHERE u.role = :role AND u.activeAccount = true")
+    long countActiveUsersByRole(@Param("role") UserRole role);
+
     List<User> getAllByGraduationYearBefore(Integer graduationYearBefore);
 }

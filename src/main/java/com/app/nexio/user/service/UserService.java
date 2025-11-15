@@ -51,6 +51,7 @@ public class UserService implements UserDetailsService, OAuth2UserService<OAuth2
     public static final String EMAIL_ASSOCIATED_WITH_ANOTHER_ACCOUNT = "Email associated with another account";
     public static final String BLOCKED = "This account is blocked!";
     public static final String DEACTIVATED_ACCOUNT = "This user is with deactivated account";
+    public static final String CANNOT_DEACTIVATE_LAST_ADMIN = "Cannot deactivate the last active admin. Please promote another user to admin first or change this user's role to USER.";
     private final UserRepository userRepository;
     private static final String USER_UPDATED_SUCCESSFULLY = "User info updated successfully ";
     private final UserProperties userProperties;
@@ -118,14 +119,24 @@ public class UserService implements UserDetailsService, OAuth2UserService<OAuth2
             @CacheEvict(value = "admins", allEntries = true)
     })
     public void switchStatus(UUID userId) {
-        Optional<User> user = userRepository.findById(userId);
+        Optional<User> userOptional = userRepository.findById(userId);
 
-        if (user.isEmpty()) {
+        if (userOptional.isEmpty()) {
             throw new UserDoesNotExistException(NO_SUCH_USER_FOUND);
         }
 
-        user.get().setActiveAccount(!user.get().isActiveAccount());
-        userRepository.save(user.get());
+        User user = userOptional.get();
+        
+        if (user.getRole() == ADMIN && user.isActiveAccount()) {
+            long activeAdminsCount = userRepository.countActiveUsersByRole(ADMIN);
+            if (activeAdminsCount <= 1) {
+                log.warn("Attempt to deactivate last active admin with ID: {}", userId);
+                throw new LastAdminException(CANNOT_DEACTIVATE_LAST_ADMIN);
+            }
+        }
+
+        user.setActiveAccount(!user.isActiveAccount());
+        userRepository.save(user);
     }
 
     @Caching(evict = {
@@ -298,10 +309,10 @@ public class UserService implements UserDetailsService, OAuth2UserService<OAuth2
 
  
     public void validateProfileAccess(User profileOwner, AuthenticationMetadata viewer) {
-        boolean isAdmin = viewer != null && viewer.getRole() == UserRole.ADMIN;
+        boolean isAdmin = viewer != null && 
+        viewer.getRole() == UserRole.ADMIN;
         if (!isAdmin) {
             isAccountActive(profileOwner);
         }
-        // Admins can view deactivated profiles, so no check needed for them
     }
 }

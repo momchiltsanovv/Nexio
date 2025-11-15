@@ -1,4 +1,43 @@
+// Modal functions
+function showErrorModal(message) {
+    const modal = document.getElementById('errorModal');
+    const errorMessage = document.getElementById('errorMessage');
+    if (modal && errorMessage) {
+        errorMessage.textContent = message;
+        modal.style.display = 'block';
+    }
+}
+
+function closeErrorModal() {
+    const modal = document.getElementById('errorModal');
+    if (modal) {
+        modal.style.display = 'none';
+        // Remove query parameter from URL
+        const url = new URL(window.location);
+        url.searchParams.delete('lastAdminError');
+        window.history.replaceState({}, '', url);
+    }
+}
+
+// Close modal when clicking outside of it
+window.onclick = function(event) {
+    const modal = document.getElementById('errorModal');
+    if (event.target === modal) {
+        closeErrorModal();
+    }
+}
+
 document.addEventListener('DOMContentLoaded', function() {
+        // Check for error parameter on page load
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('lastAdminError') === 'true') {
+            // Check for flash attribute message (passed via server-side via data attribute on modal)
+            const modal = document.getElementById('errorModal');
+            const errorMessage = modal ? modal.getAttribute('data-error-message') : null;
+            const defaultMessage = 'You are trying to deactivate the last active admin. This action is not allowed. Please promote another user to admin first or change this user\'s role to USER.';
+            showErrorModal(errorMessage || defaultMessage);
+        }
+
         const searchInput = document.getElementById('searchInput');
         const filterButtons = document.querySelectorAll('.filter-btn');
         const tableBody = document.getElementById('usersTableBody');
@@ -158,6 +197,27 @@ document.addEventListener('DOMContentLoaded', function() {
                     method: 'POST',
                     body: formData
                 }).then(response => {
+                    // Check if redirect URL contains error parameter
+                    if (response.redirected && response.url.includes('lastAdminError=true')) {
+                        // Revert the change
+                        row.dataset.status = currentStatus;
+                        statusBadge.classList.remove('active', 'inactive');
+                        statusBadge.classList.add(currentStatus);
+                        statusBadge.textContent = currentStatus === 'active' ? 'Active' : 'Inactive';
+
+                        // Revert toggle status button text and icon
+                        toggleStatusButton.classList.remove('active', 'inactive');
+                        toggleStatusButton.classList.add(currentStatus);
+                        toggleStatusIcon.classList.remove('fa-user-slash', 'fa-user-check');
+                        toggleStatusIcon.classList.add(currentStatus === 'active' ? 'fa-user-slash' : 'fa-user-check');
+                        toggleStatusText.textContent = currentStatus === 'active' ? 'Deactivate' : 'Activate';
+
+                        // Show error modal
+                        showErrorModal('You are trying to deactivate the last active admin. This action is not allowed. Please promote another user to admin first or change this user\'s role to USER.');
+                        // Reload page to get fresh data
+                        window.location.href = response.url;
+                        return;
+                    }
                     if (!response.ok) {
                         // If server request fails, revert the change
                         row.dataset.status = currentStatus;
@@ -173,6 +233,9 @@ document.addEventListener('DOMContentLoaded', function() {
                         toggleStatusText.textContent = currentStatus === 'active' ? 'Deactivate' : 'Activate';
 
                         alert('Failed to update status. Please try again.');
+                    } else {
+                        // Success - reload page to get fresh data
+                        window.location.reload();
                     }
                 }).catch(error => {
                     // If request fails, revert the change

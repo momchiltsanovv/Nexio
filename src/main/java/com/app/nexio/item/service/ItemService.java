@@ -86,9 +86,9 @@ public class ItemService {
         itemRepository.save(item);
     }
 
-    public void validateItemAccess(Item item, AuthenticationMetadata viewer) {
+    public void validateItemAccess(Item item, AuthenticationMetadata user) {
         if (!item.getOwner().isActiveAccount()) {
-            boolean isAdmin = viewer != null && viewer.getRole() == UserRole.ADMIN;
+            boolean isAdmin = user != null && user.getRole() == UserRole.ADMIN;
             if (!isAdmin) {
                 throw new ItemNotFoundException("Item not found");
             }
