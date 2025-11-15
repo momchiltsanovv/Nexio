@@ -42,8 +42,6 @@ public class Item {
             nullable = false)
     private String description;
 
-    private boolean isDeleted;
-
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Category category;

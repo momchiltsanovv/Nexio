@@ -1,10 +1,7 @@
 package com.app.nexio.user.service;
 
 import com.app.nexio.aws.service.AwsService;
-import com.app.nexio.common.exception.AccountDeleted;
-import com.app.nexio.common.exception.EmailAssociatedWithAnotherAccount;
-import com.app.nexio.common.exception.UserDoesNotExistException;
-import com.app.nexio.common.exception.UsernameTakenException;
+import com.app.nexio.common.exception.*;
 import com.app.nexio.notification.service.NotificationService;
 import com.app.nexio.security.AuthenticationMetadata;
 import com.app.nexio.security.model.Provider;
@@ -53,6 +50,7 @@ public class UserService implements UserDetailsService, OAuth2UserService<OAuth2
     public static final boolean ACTIVE_ACCOUNT = true;
     public static final String EMAIL_ASSOCIATED_WITH_ANOTHER_ACCOUNT = "Email associated with another account";
     public static final String BLOCKED = "This account is blocked!";
+    public static final String DEACTIVATED_ACCOUNT = "This user is with deactivated account";
     private final UserRepository userRepository;
     private static final String USER_UPDATED_SUCCESSFULLY = "User info updated successfully ";
     private final UserProperties userProperties;
@@ -290,5 +288,20 @@ public class UserService implements UserDetailsService, OAuth2UserService<OAuth2
                                           active,
                                           null
         );
+    }
+
+    public void isAccountActive(User user) {
+         if(!user.isActiveAccount()) {
+             throw new DeactivatedAccount(DEACTIVATED_ACCOUNT);
+         }
+    }
+
+ 
+    public void validateProfileAccess(User profileOwner, AuthenticationMetadata viewer) {
+        boolean isAdmin = viewer != null && viewer.getRole() == UserRole.ADMIN;
+        if (!isAdmin) {
+            isAccountActive(profileOwner);
+        }
+        // Admins can view deactivated profiles, so no check needed for them
     }
 }

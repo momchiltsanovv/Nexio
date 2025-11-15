@@ -16,7 +16,8 @@ public class GlobalControllerAdvice {
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler({NoResourceFoundException.class,
-            AccessDeniedException.class})
+            AccessDeniedException.class,
+            DeactivatedAccount.class})
     public String handleNotFoundException(Exception e) {
 
         return "not-found";

@@ -19,7 +19,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
@@ -59,17 +58,20 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public String getUserProfilePage(@PathVariable UUID id, Model model) {
-
+    public String getUserProfilePage(@PathVariable UUID id, 
+                                     @AuthenticationPrincipal AuthenticationMetadata currentUser,
+                                     Model model) {
         model.addAttribute("active", "user-profile-view");
         User user = userService.getById(id);
+        
+        userService.validateProfileAccess(user, currentUser);
+        
         List<Item> usersItems = itemService.getUsersItems(user);
         model.addAttribute("user", user);
         model.addAttribute("items", usersItems);
 
         return "user-profile-view";
     }
-
 
     @GetMapping("/profile")
     public String getMyProfile(@AuthenticationPrincipal AuthenticationMetadata metaData,
@@ -101,7 +103,7 @@ public class UserController {
                               BindingResult bindingResult,
                               @RequestParam(value = "profilePictureFile",
                                             required = false) MultipartFile profilePictureFile,
-                              Model model) throws IOException {
+                              Model model) {
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("active", "profile");

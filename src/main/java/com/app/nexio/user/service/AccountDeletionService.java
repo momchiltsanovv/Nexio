@@ -30,13 +30,10 @@ public class AccountDeletionService {
         log.info("Deleting user account for user ID: {}", userId);
 
         User user = userService.getById(userId);
-        
-        itemRepository.findByOwner(user).forEach(item -> {
-            item.setDeleted(true);
-            itemRepository.save(item);
-        });
 
         userService.switchStatus(userId);
+        itemRepository.deleteAll(itemRepository.findByOwner(user));
+
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null) {

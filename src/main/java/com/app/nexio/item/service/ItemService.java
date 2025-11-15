@@ -60,11 +60,10 @@ public class ItemService {
     }
 
     public List<Item> findAllNonDeletedItems() {
-
-        List<Item> allItems = itemRepository.findAllByIsDeletedFalse();
+        List<Item> allItems = itemRepository.findAll();
         allItems.sort(Comparator.comparing(Item::getCreatedOn));
-        return allItems;
 
+        return allItems;
     }
 
     private Item initializeItemFromRequest(PostItemRequest postItemRequest) {
@@ -83,17 +82,14 @@ public class ItemService {
     public Integer getCategoryCount(Category category) {
         return itemRepository.findAll()
                              .stream()
-                             .filter(item -> item.getCategory() == category && !item.isDeleted())
+                             .filter(item -> item.getCategory() == category)
                              .toList()
                              .size();
 
     }
 
-    public void switchStatus(UUID id) {
+    public void deleteItem(UUID id) {
         Optional<Item> optionalItem = itemRepository.findById(id);
-
-        //todo finish figure out how to delete only an item and not to have access to it after deletion
-        optionalItem.ifPresent(item -> item.setDeleted(true));
-
+        optionalItem.ifPresent(itemRepository::delete);
     }
 }
