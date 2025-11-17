@@ -10,7 +10,11 @@ import com.app.nexio.item.repository.ItemRepository;
 import com.app.nexio.security.AuthenticationMetadata;
 import com.app.nexio.user.model.User;
 import com.app.nexio.user.model.UserRole;
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -31,20 +35,27 @@ public class ItemService {
         this.awsService = awsService;
     }
 
-    public void postItem(PostItemRequest postItemRequest, MultipartFile file) {
-        Item item = initializeItemFromRequest(postItemRequest, file);
-
+    @Transactional
+    @Caching(evict = {
+            @CacheEvict(value = "items", allEntries = true),
+            @CacheEvict(value = "categoryCount", allEntries = true)
+    })
+    public void postItem(PostItemRequest postItemRequest, MultipartFile file, User owner) {
+        Item item = initializeItemFromRequest(postItemRequest, owner);
         itemRepository.save(item);
+
+        setImage(item.getId(), file, item);
+        itemRepository.save(item);
+
     }
 
 
+    @Caching(evict = {
+            @CacheEvict(value = "items", allEntries = true),
+            @CacheEvict(value = "categoryCount", allEntries = true)
+    })
     public void editItem(UUID itemId, EditItemRequest editItemRequest, MultipartFile file) {
         Item item = getById(itemId);
-
-        if (file != null && !file.isEmpty()) {
-                String imageURL = uploadItemImage(itemId, file);
-                item.setImageURL(imageURL);
-        }
 
         item.setName(editItemRequest.getName());
         item.setPrice(editItemRequest.getPrice());
@@ -52,28 +63,33 @@ public class ItemService {
         item.setDescription(editItemRequest.getDescription());
         item.setCategory(editItemRequest.getCategory());
         item.setExchangeLocation(editItemRequest.getExchangeLocation());
+        setImage(itemId, file, item);
 
         itemRepository.save(item);
     }
 
-    public String uploadItemImage(UUID itemId, MultipartFile file) {
+    private void setImage(UUID itemId, MultipartFile file, Item item) {
+        if (file != null && !file.isEmpty()) {
+            String imageURL = uploadItemImage(itemId, file);
+            item.setImageURL(imageURL);
+        }
+    }
+
+    private String uploadItemImage(UUID itemId, MultipartFile file) {
         var response = awsService.uploadItemImage(itemId, file);
         var body = response.getBody();
-        
+
         if (response.getStatusCode().is2xxSuccessful() && body != null && body.URL() != null) {
             return body.URL();
         }
-        
-        throw new RuntimeException("Failed to upload item image: " + (response.getStatusCode().is2xxSuccessful() ? "Invalid response" : response.getStatusCode()));
+
+        throw new RuntimeException("Failed to upload item image: " + (response.getStatusCode().is2xxSuccessful()
+                ? "Invalid response"
+                : response.getStatusCode()));
     }
 
     public List<Item> getUsersItems(User currentUser) {
         return itemRepository.findByOwnerAndNotDeleted(currentUser);
-    }
-
-    public Item getUserItem(UUID itemId, User currentUser) {
-        return itemRepository.findByOwnerAndId(itemId, currentUser)
-                             .orElseThrow(() -> new ItemNotFoundException("Item not found or access denied"));
     }
 
     public Item getById(UUID itemId) {
@@ -81,22 +97,12 @@ public class ItemService {
                              .orElseThrow(() -> new ItemNotFoundException(ITEM_NOT_FOUND));
     }
 
+    @Cacheable("items")
     public List<Item> findAllNonDeletedItems() {
         return itemRepository.findAllByOwnerActiveAccountTrueAndNotDeleted();
     }
 
-    private Item initializeItemFromRequest(PostItemRequest postItemRequest, MultipartFile file) {
-
-
-//        String URL = null;
-//        if (file != null && !file.isEmpty()) {
-//            URL = Objects.requireNonNull(awsService.sendAwsProfileFile(, file)
-//                                                   .getBody())
-//                         .URL();
-//            item.get().setProfilePictureURL(URL);
-//        }
-//
-
+    private Item initializeItemFromRequest(PostItemRequest postItemRequest, User owner) {
         return Item.builder()
                    .name(postItemRequest.getName())
                    .price(postItemRequest.getPrice())
@@ -104,15 +110,17 @@ public class ItemService {
                    .description(postItemRequest.getDescription())
                    .category(postItemRequest.getCategory())
                    .exchangeLocation(postItemRequest.getExchangeLocation())
-//                   .imageURL(URL)
+                   .owner(owner)
                    .build();
 
     }
 
+    @Cacheable("categoryCount")
     public Integer getCategoryCount(Category category) {
         return itemRepository.findByCategoryAndOwnerActiveAccountTrueAndNotDeleted(category).size();
     }
 
+    @CacheEvict(value = "items", allEntries = true)
     public void deleteItem(UUID id) {
         Item item = getById(id);
         item.setDeleted(true);

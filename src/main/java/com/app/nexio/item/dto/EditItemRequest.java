@@ -18,7 +18,7 @@ public class EditItemRequest {
 
 
     @NotBlank(message = "Item name is required")
-    @Size(min = 2, message = "Item name must be at 2 characters")
+    @Size(min = 3, message = "Item name must be at 2 characters")
     String name;
 
     @NotNull(message = "Price is required")

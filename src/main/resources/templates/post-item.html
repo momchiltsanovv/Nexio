@@ -32,7 +32,8 @@
 
                             <div class="field">
                                 <label for="category">Category</label>
-                                <select id="category" name="category" required>
+                                <select id="category" name="category" th:field="*{category}" required>
+                                    <option value="">Select category</option>
                                     <option th:each="category : ${T(com.app.nexio.item.model.Category).values()}"
                                             th:value="${category}"
                                     th:text="${category.getDisplayName()}">
@@ -42,7 +43,7 @@
 
                             <div class="field">
                                 <label for="condition">Condition</label>
-                                <select id="condition" name="condition" required>
+                                <select id="condition" name="condition" th:field="*{condition}" required>
                                     <option value="">Select condition</option>
                                     <option th:each="condition : ${T(com.app.nexio.item.model.ItemCondition).values()}"
                                             th:value="${condition}"
@@ -51,10 +52,10 @@
                             </div>
 
                             <div class="field">
-                                <label for="location">Location</label>
-                                <select id="location" name="location" required>
+                                <label for="exchangeLocation">Location</label>
+                                <select id="exchangeLocation" name="exchangeLocation" th:field="*{exchangeLocation}" required>
                                     <option value="">Select location</option>
-                                    <option th:each=" location : ${T(com.app.nexio.item.model.Location).values()}"
+                                    <option th:each="location : ${T(com.app.nexio.item.model.Location).values()}"
                                             th:value="${location}"
                                             th:text="${location.getDisplayName()}">
 
@@ -78,7 +79,7 @@
                                     <div class="images-grid">
                                         <div class="img-slot" id="slot-1">
                                             <i class="fas fa-image" id="icon-1"></i>
-                                            <input type="file" id="photo-1" name="photo" accept="image/*">
+                                            <input type="file" id="photo-1" name="itemImageFile" accept="image/*">
                                             <img id="preview-1" class="photo-preview" style="display: none;">
                                             <button type="button" class="remove-photo" id="remove-1" style="display: none;">×</button>
                                         </div>

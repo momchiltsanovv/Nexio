@@ -87,11 +87,10 @@ public class UserService implements UserDetailsService, OAuth2UserService<OAuth2
             throw new EmailAssociatedWithAnotherAccount(EMAIL_ASSOCIATED_WITH_ANOTHER_ACCOUNT);
         }
 
-
         User user = initializeUserFromRequest(registerRequest);
         wishlistService.initializeWishlist(user);
         userRepository.save(user);
-//        notificationService.sendNotificationWhenRegister(user.getId(), user.getEmail());
+        notificationService.sendNotificationWhenRegister(user.getId(), user.getEmail());
 
         log.info(USER_REGISTERED_SUCCESSFULLY);
     }
@@ -126,7 +125,7 @@ public class UserService implements UserDetailsService, OAuth2UserService<OAuth2
         }
 
         User user = userOptional.get();
-        
+
         if (user.getRole() == ADMIN && user.isActiveAccount()) {
             long activeAdminsCount = userRepository.countActiveUsersByRole(ADMIN);
             if (activeAdminsCount <= 1) {
@@ -151,7 +150,7 @@ public class UserService implements UserDetailsService, OAuth2UserService<OAuth2
         }
 
         User user = userOptional.get();
-        
+
         if (user.getRole() == ADMIN && user.isActiveAccount()) {
             long activeAdminsCount = userRepository.countActiveUsersByRole(ADMIN);
             if (activeAdminsCount <= 1) {
@@ -165,6 +164,10 @@ public class UserService implements UserDetailsService, OAuth2UserService<OAuth2
         userRepository.save(user);
     }
 
+    @Caching(evict = {
+            @CacheEvict(value = "users", allEntries = true),
+            @CacheEvict(value = "admins", allEntries = true)
+    })
     public void editUserDetails(UUID userId, EditUserRequest editRequest, MultipartFile file) {
         Optional<User> user = userRepository.findById(userId);
 
@@ -271,9 +274,9 @@ public class UserService implements UserDetailsService, OAuth2UserService<OAuth2
     }
 
     public String uploadProfilePicture(UUID userId, MultipartFile file) {
-        String profilePictureURL = Objects.requireNonNull(awsService.sendAwsProfileFile(userId, file)
-                                                                    .getBody())
-                                          .URL();
+        String profilePictureURL = awsService.sendAwsProfileFile(userId, file)
+                                             .getBody()
+                                             .URL();
 
         log.info("Calling microservice to upload file: {}", file.getOriginalFilename());
 
@@ -312,15 +315,15 @@ public class UserService implements UserDetailsService, OAuth2UserService<OAuth2
     }
 
     public void isAccountActive(User user) {
-         if(!user.isActiveAccount()) {
-             throw new DeactivatedAccount(DEACTIVATED_ACCOUNT);
-         }
+        if (!user.isActiveAccount()) {
+            throw new DeactivatedAccount(DEACTIVATED_ACCOUNT);
+        }
     }
 
- 
+
     public void validateProfileAccess(User profileOwner, AuthenticationMetadata viewer) {
-        boolean isAdmin = viewer != null && 
-        viewer.getRole() == UserRole.ADMIN;
+        boolean isAdmin = viewer != null &&
+                viewer.getRole() == UserRole.ADMIN;
         if (!isAdmin) {
             isAccountActive(profileOwner);
         }

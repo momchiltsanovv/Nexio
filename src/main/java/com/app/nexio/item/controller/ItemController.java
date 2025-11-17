@@ -107,14 +107,17 @@ public class ItemController {
     public String postItem(@Valid PostItemRequest postItemRequest,
                            @RequestParam(value = "itemImageFile",
                                          required = false) MultipartFile itemImageFile,
+                           @AuthenticationPrincipal AuthenticationMetadata userDetails,
                            BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
             return "home";
         }
-        itemService.postItem(postItemRequest, itemImageFile);
+        
+        User owner = userService.getById(userDetails.getUserId());
+        itemService.postItem(postItemRequest, itemImageFile, owner);
 
-        return "home";
+        return "redirect:/home";
     }
 
     @DeleteMapping("/{id}")
