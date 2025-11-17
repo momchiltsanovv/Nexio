@@ -24,28 +24,21 @@ public class AwsService {
     }
 
     public ResponseEntity<S3Response> sendAwsProfileFile(UUID userId, MultipartFile file) {
-
         ResponseEntity<S3Response> response = awsClient.upsertProfilePicture(userId, file);
-        S3Response body = response.getBody();
 
-        if(!response.getStatusCode().is2xxSuccessful()) {
-            log.error(FEIGN_CALL_FAILED, response.getStatusCode());
-            return ResponseEntity.status(response.getStatusCode())
-                                 .body(body);
-        }
-
-        if (body != null && body.URL() != null) {
-            return ResponseEntity.ok().body(body);
-        }
-
-        return ResponseEntity.status(500).body(body);
+        return getS3ResponseEntity(response);
     }
 
     public ResponseEntity<S3Response> uploadItemImage(UUID itemId, MultipartFile file) {
         ResponseEntity<S3Response> response = awsClient.upsertItemPictures(itemId, file);
+
+        return getS3ResponseEntity(response);
+    }
+
+    private static ResponseEntity<S3Response> getS3ResponseEntity(ResponseEntity<S3Response> response) {
         S3Response body = response.getBody();
 
-        if(!response.getStatusCode().is2xxSuccessful()) {
+        if (!response.getStatusCode().is2xxSuccessful()) {
             log.error(FEIGN_CALL_FAILED, response.getStatusCode());
             return ResponseEntity.status(response.getStatusCode())
                                  .body(body);
@@ -57,5 +50,6 @@ public class AwsService {
 
         return ResponseEntity.status(500).body(body);
     }
+
 
 }
