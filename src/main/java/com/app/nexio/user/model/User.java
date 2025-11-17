@@ -72,8 +72,8 @@ public class User {
     private Wishlist wishlist;
 
 
-    @Column(updatable = false)
     @CreationTimestamp
+    @Column(updatable = false)
     private LocalDateTime createdOn;
 
     @Column

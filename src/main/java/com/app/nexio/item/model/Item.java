@@ -59,6 +59,7 @@ public class Item {
     private Set<Wishlist> wishlists;
 
     @CreationTimestamp
+    @Column(updatable = false)
     private LocalDateTime createdOn;
 
     @UpdateTimestamp
