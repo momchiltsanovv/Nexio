@@ -1,8 +1,10 @@
 package com.app.nexio.utils;
 
 import jakarta.servlet.http.HttpSession;
+import lombok.experimental.UtilityClass;
 import org.springframework.ui.Model;
 
+@UtilityClass
 public class LoginErrorHandler {
 
     private static final String INACTIVE_USER_MESSAGE = "inactiveUserMessage";

@@ -1,5 +1,8 @@
 package com.app.nexio.utils;
 
+import lombok.experimental.UtilityClass;
+
+@UtilityClass
 public class EmailNotificationUtils {
 
     public static final String EMAIL = "EMAIL";
