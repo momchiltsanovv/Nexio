@@ -1,7 +1,7 @@
 package com.app.nexio.aws.service;
 
 import com.app.nexio.aws.client.AwsClient;
-import com.app.nexio.aws.client.dto.S3FileResponse;
+import com.app.nexio.aws.client.dto.S3Response;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +14,7 @@ import java.util.UUID;
 @Service
 public class AwsService {
 
+    public static final String FEIGN_CALL_FAILED = "Feign call to AWS-S3-SVC failed due to {}";
     private final AwsClient awsClient;
 
 
@@ -22,13 +23,13 @@ public class AwsService {
         this.awsClient = awsClient;
     }
 
-    public ResponseEntity<S3FileResponse> sendAwsFile(UUID userId, MultipartFile file) {
+    public ResponseEntity<S3Response> sendAwsProfileFile(UUID userId, MultipartFile file) {
 
-        ResponseEntity<S3FileResponse> response = awsClient.upsertProfilePicture(userId, file);
-        S3FileResponse body = response.getBody();
+        ResponseEntity<S3Response> response = awsClient.upsertProfilePicture(userId, file);
+        S3Response body = response.getBody();
 
         if(!response.getStatusCode().is2xxSuccessful()) {
-            log.error("Feign call to AWS-S3-SVC failed due to {}", response.getStatusCode());
+            log.error(FEIGN_CALL_FAILED, response.getStatusCode());
             return ResponseEntity.status(response.getStatusCode())
                                  .body(body);
         }
@@ -40,5 +41,21 @@ public class AwsService {
         return ResponseEntity.status(500).body(body);
     }
 
+    public ResponseEntity<S3Response> uploadItemImage(UUID itemId, MultipartFile file) {
+        ResponseEntity<S3Response> response = awsClient.upsertItemPictures(itemId, file);
+        S3Response body = response.getBody();
+
+        if(!response.getStatusCode().is2xxSuccessful()) {
+            log.error(FEIGN_CALL_FAILED, response.getStatusCode());
+            return ResponseEntity.status(response.getStatusCode())
+                                 .body(body);
+        }
+
+        if (body != null && body.URL() != null) {
+            return ResponseEntity.ok().body(body);
+        }
+
+        return ResponseEntity.status(500).body(body);
+    }
 
 }

@@ -23,7 +23,7 @@
             <h1>Edit Item</h1>
         </div>
 
-        <form th:action="@{'/items/' + ${item.id} + '/details'}" th:method="patch" th:object="${editItemRequest}">
+        <form th:action="@{'/items/' + ${item.id} + '/details'}" th:method="patch" th:object="${editItemRequest}" enctype="multipart/form-data">
             <input type="hidden" name="_method" value="patch">
             <div class="post-body">
                 <div class="form-grid">
@@ -75,51 +75,19 @@
                         </div>
 
                         <div class="field full">
-                            <label>Photos</label>
+                            <label>Photo</label>
                             <div class="images-card">
                                 <div class="images-grid">
-                                    <div class="img-slot" id="slot-1">
-                                        <i class="fas fa-image" id="icon-1"></i>
-                                        <input type="file" id="photo-1" name="photos" accept="image/*">
-                                        <img id="preview-1" class="photo-preview" style="display: none;">
-                                        <button type="button" class="remove-photo" id="remove-1" style="display: none;">
-                                            ×
-                                        </button>
-                                    </div>
-                                    <div class="img-slot" id="slot-2">
-                                        <i class="fas fa-image" id="icon-2"></i>
-                                        <input type="file" id="photo-2" name="photos" accept="image/*">
-                                        <img id="preview-2" class="photo-preview" style="display: none;">
-                                        <button type="button" class="remove-photo" id="remove-2" style="display: none;">
-                                            ×
-                                        </button>
-                                    </div>
-                                    <div class="img-slot" id="slot-3">
-                                        <i class="fas fa-image" id="icon-3"></i>
-                                        <input type="file" id="photo-3" name="photos" accept="image/*">
-                                        <img id="preview-3" class="photo-preview" style="display: none;">
-                                        <button type="button" class="remove-photo" id="remove-3" style="display: none;">
-                                            ×
-                                        </button>
-                                    </div>
-                                    <div class="img-slot" id="slot-4">
-                                        <i class="fas fa-image" id="icon-4"></i>
-                                        <input type="file" id="photo-4" name="photos" accept="image/*">
-                                        <img id="preview-4" class="photo-preview" style="display: none;">
-                                        <button type="button" class="remove-photo" id="remove-4" style="display: none;">
-                                            ×
-                                        </button>
-                                    </div>
-                                    <div class="img-slot" id="slot-5">
-                                        <i class="fas fa-image" id="icon-5"></i>
-                                        <input type="file" id="photo-5" name="photos" accept="image/*">
-                                        <img id="preview-5" class="photo-preview" style="display: none;">
-                                        <button type="button" class="remove-photo" id="remove-5" style="display: none;">
+                                    <div class="img-slot" id="slot-1" th:classappend="${editItemRequest.imageURL != null and !editItemRequest.imageURL.isEmpty()} ? 'has-photo' : ''">
+                                        <i class="fas fa-image" id="icon-1" th:style="${editItemRequest.imageURL != null and !editItemRequest.imageURL.isEmpty()} ? 'display: none;' : 'display: flex;'"></i>
+                                        <input type="file" id="photo-1" name="files" accept="image/*">
+                                        <img id="preview-1" class="photo-preview" th:src="*{imageURL}" th:style="${editItemRequest.imageURL != null and !editItemRequest.imageURL.isEmpty()} ? 'display: block;' : 'display: none;'">
+                                        <button type="button" class="remove-photo" id="remove-1" th:style="${editItemRequest.imageURL != null and !editItemRequest.imageURL.isEmpty()} ? 'display: flex;' : 'display: none;'">
                                             ×
                                         </button>
                                     </div>
                                 </div>
-                                <div class="help">Up to 5 images. Paste URLs below if you prefer.</div>
+                                <div class="help">Upload a photo for your item (JPG, PNG, GIF up to 30MB)</div>
                             </div>
                         </div>
                 </div>

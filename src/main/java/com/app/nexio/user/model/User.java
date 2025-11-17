@@ -65,7 +65,6 @@ public class User {
     @Column
     private String password;
 
-
     @OneToOne(cascade = CascadeType.ALL,
               orphanRemoval = true,
               fetch = FetchType.LAZY)
@@ -83,6 +82,7 @@ public class User {
 
 
     @Column
+    @Enumerated(EnumType.STRING)
     private Provider provider;
 
 

@@ -91,7 +91,7 @@ public class UserService implements UserDetailsService, OAuth2UserService<OAuth2
         User user = initializeUserFromRequest(registerRequest);
         wishlistService.initializeWishlist(user);
         userRepository.save(user);
-        notificationService.sendNotificationWhenRegister(user.getId(), user.getEmail());
+//        notificationService.sendNotificationWhenRegister(user.getId(), user.getEmail());
 
         log.info(USER_REGISTERED_SUCCESSFULLY);
     }
@@ -174,7 +174,7 @@ public class UserService implements UserDetailsService, OAuth2UserService<OAuth2
 
         String pictureURL = null;
         if (file != null && !file.isEmpty()) {
-            pictureURL = uploadProfilePictureAndGetURL(userId, file);
+            pictureURL = uploadProfilePicture(userId, file);
             user.get().setProfilePictureURL(pictureURL);
         }
 
@@ -270,8 +270,8 @@ public class UserService implements UserDetailsService, OAuth2UserService<OAuth2
                 .getAllByGraduationYearBefore(LocalDateTime.now().getYear()).size();
     }
 
-    public String uploadProfilePictureAndGetURL(UUID userId, MultipartFile file) {
-        String profilePictureURL = Objects.requireNonNull(awsService.sendAwsFile(userId, file)
+    public String uploadProfilePicture(UUID userId, MultipartFile file) {
+        String profilePictureURL = Objects.requireNonNull(awsService.sendAwsProfileFile(userId, file)
                                                                     .getBody())
                                           .URL();
 

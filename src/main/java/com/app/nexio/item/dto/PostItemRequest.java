@@ -36,6 +36,5 @@ public class PostItemRequest {
         @NotNull(message = "Location is required")
         Location exchangeLocation;
 
-        @Size(max = 5, message = "Maximum 5 images allowed")
-        List<String> imageURLs;
+        String imageURLs;
 }

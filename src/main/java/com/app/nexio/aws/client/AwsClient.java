@@ -1,6 +1,6 @@
 package com.app.nexio.aws.client;
 
-import com.app.nexio.aws.client.dto.S3FileResponse;
+import com.app.nexio.aws.client.dto.S3Response;
 import feign.Headers;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
@@ -19,8 +19,15 @@ public interface AwsClient {
                  produces = {"application/json"},
                  consumes = {"multipart/form-data"})
     @Headers("Content-Type: multipart/form-data")
-    ResponseEntity<S3FileResponse> upsertProfilePicture(@RequestParam("user_id") UUID userId,
-                                                        @RequestPart("file") MultipartFile file);
+    ResponseEntity<S3Response> upsertProfilePicture(@RequestParam("user_id") UUID userId,
+                                                    @RequestPart("file") MultipartFile file);
 
+
+    @PostMapping(value = "/upload/item",
+                 produces = {"application/json"},
+                 consumes = {"multipart/form-data"})
+    @Headers("Content-Type: multipart/form-data")
+    ResponseEntity<S3Response> upsertItemPictures(@RequestParam("item_id") UUID itemId,
+                                                  @RequestPart("file") MultipartFile file);
 
 }

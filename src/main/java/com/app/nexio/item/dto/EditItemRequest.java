@@ -8,7 +8,6 @@ import jakarta.validation.constraints.*;
 import lombok.*;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 @Builder
 @Getter
@@ -16,6 +15,8 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class EditItemRequest {
+
+
     @NotBlank(message = "Item name is required")
     @Size(min = 2, message = "Item name must be at 2 characters")
     String name;
@@ -34,22 +35,21 @@ public class EditItemRequest {
     @NotNull(message = "Category is required")
     Category category;
 
-    @NotBlank(message = "Location is required")
+    @NotNull(message = "Location is required")
     Location exchangeLocation;
 
-    @Size(max = 5, message = "Maximum 5 images allowed")
-    List<String> imageURLs;
+    String imageURL;
 
 
     public static EditItemRequest fromItem(Item item) {
         EditItemRequest request = new EditItemRequest();
+        request.setImageURL(item.getImageURL());
         request.setName(item.getName());
         request.setCategory(item.getCategory());
         request.setCondition(item.getCondition());
         request.setExchangeLocation(item.getExchangeLocation());
         request.setPrice(item.getPrice());
         request.setDescription(item.getDescription());
-        request.setImageURLs(item.getImageURLs());
         return request;
     }
 }

@@ -198,14 +198,14 @@
                      th:data-title="${item.name}"
                      th:data-description="${item.description}"
                      th:data-location="${item.exchangeLocation.name()}"
-                     th:data-imageurl="${item.imageURLs != null and !item.imageURLs.isEmpty() ? item.imageURLs[0] : '/images/defaults/no_image.webp'}"
+                     th:data-imageurl="${item.imageURL != null and !item.imageURL.isEmpty() ? item.imageURL : '/images/defaults/no_image.webp'}"
                      th:data-seller-name="${item.owner.firstName + ' ' + item.owner.lastName}"
                      th:data-seller-uni="${item.owner.university}"
                      th:data-seller-avatar="${item.owner.profilePictureURL != null ? item.owner.profilePictureURL : '/images/defaults/default_pfp.jpg'}"
                      th:data-createdat="${item.createdOn}">
 
                     <div class="item-image">
-                        <img th:src="@{${item.imageURLs != null and !item.imageURLs.isEmpty() ? item.imageURLs[0] : '/images/defaults/no_image.webp'}}"
+                        <img th:src="@{${item.imageURL != null and !item.imageURL.isEmpty() ? item.imageURL : '/images/defaults/no_image.webp'}}"
                              th:alt="${item.name ?: 'Item image'}"
                              onerror="this.src='/images/defaults/no_image.webp'">
                         <div class="item-badges">

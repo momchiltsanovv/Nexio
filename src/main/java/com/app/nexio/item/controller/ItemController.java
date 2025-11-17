@@ -16,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.UUID;
 
@@ -72,6 +73,7 @@ public class ItemController {
     @PatchMapping("/{id}/details")
     public String updateItem(@PathVariable UUID id,
                              @Valid EditItemRequest editRequest,
+                             @RequestParam(value = "files", required = false) MultipartFile file,
                              @AuthenticationPrincipal AuthenticationMetadata userDetails,
                              BindingResult bindingResult,
                              Model model) {
@@ -85,12 +87,11 @@ public class ItemController {
 
         Item item = itemService.getById(id);
         itemService.validateItemAccess(item, userDetails);
-        itemService.editItem(id, editRequest);
+        itemService.editItem(id, editRequest, file);
 
 
-        return "redirect:/item-view/" + id;
+        return "redirect:/items/" + id;
     }
-
 
 
     @GetMapping("/creation")
@@ -104,12 +105,14 @@ public class ItemController {
 
     @PostMapping("/creation")
     public String postItem(@Valid PostItemRequest postItemRequest,
+                           @RequestParam(value = "itemImageFile",
+                                         required = false) MultipartFile itemImageFile,
                            BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
             return "home";
         }
-        itemService.postItem(postItemRequest);
+        itemService.postItem(postItemRequest, itemImageFile);
 
         return "home";
     }

@@ -22,7 +22,7 @@
                 <i class="fas fa-plus-circle" style="color:#212346"></i>
                 <h1>Post a new item</h1>
             </div>
-            <form th:action="@{/items/creation}" th:method="post" th:object="${postItemRequest}">
+            <form th:action="@{/items/creation}" th:method="post" th:object="${postItemRequest}" enctype="multipart/form-data">
                 <div class="post-body">
                     <div class="form-grid">
                             <div class="field full">
@@ -73,41 +73,17 @@
                             </div>
 
                             <div class="field full">
-                                <label>Photos</label>
+                                <label>Photo</label>
                                 <div class="images-card">
                                     <div class="images-grid">
                                         <div class="img-slot" id="slot-1">
                                             <i class="fas fa-image" id="icon-1"></i>
-                                            <input type="file" id="photo-1" name="photos" accept="image/*">
+                                            <input type="file" id="photo-1" name="photo" accept="image/*">
                                             <img id="preview-1" class="photo-preview" style="display: none;">
                                             <button type="button" class="remove-photo" id="remove-1" style="display: none;">×</button>
                                         </div>
-                                        <div class="img-slot" id="slot-2">
-                                            <i class="fas fa-image" id="icon-2"></i>
-                                            <input type="file" id="photo-2" name="photos" accept="image/*">
-                                            <img id="preview-2" class="photo-preview" style="display: none;">
-                                            <button type="button" class="remove-photo" id="remove-2" style="display: none;">×</button>
-                                        </div>
-                                        <div class="img-slot" id="slot-3">
-                                            <i class="fas fa-image" id="icon-3"></i>
-                                            <input type="file" id="photo-3" name="photos" accept="image/*">
-                                            <img id="preview-3" class="photo-preview" style="display: none;">
-                                            <button type="button" class="remove-photo" id="remove-3" style="display: none;">×</button>
-                                        </div>
-                                        <div class="img-slot" id="slot-4">
-                                            <i class="fas fa-image" id="icon-4"></i>
-                                            <input type="file" id="photo-4" name="photos" accept="image/*">
-                                            <img id="preview-4" class="photo-preview" style="display: none;">
-                                            <button type="button" class="remove-photo" id="remove-4" style="display: none;">×</button>
-                                        </div>
-                                        <div class="img-slot" id="slot-5">
-                                            <i class="fas fa-image" id="icon-5"></i>
-                                            <input type="file" id="photo-5" name="photos" accept="image/*">
-                                            <img id="preview-5" class="photo-preview" style="display: none;">
-                                            <button type="button" class="remove-photo" id="remove-5" style="display: none;">×</button>
-                                        </div>
                                     </div>
-                                    <div class="help">Up to 5 images. Paste URLs below if you prefer.</div>
+                                    <div class="help">Upload a photo for your item (JPG, PNG, GIF up to 30MB)</div>
                                 </div>
                             </div>
 

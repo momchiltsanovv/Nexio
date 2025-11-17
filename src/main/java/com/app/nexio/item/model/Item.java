@@ -10,7 +10,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -50,11 +49,8 @@ public class Item {
     @Column(nullable = false)
     private Location exchangeLocation;
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = "item_images", joinColumns = @JoinColumn(name = "item_id"))
-    @Column(name = "image_url", columnDefinition = "TEXT")
-    @Singular
-    private List<String> imageURLs;
+    @Column(columnDefinition = "TEXT")
+    private String imageURL;
 
     @ManyToOne
     private User owner;

@@ -159,11 +159,11 @@
                 <!-- Items Grid -->
                 <div class="items-grid" th:if="${items != null and !items.isEmpty()}">
                     <a th:each="item : ${items}" th:href="@{'/items/' + ${item.id}}" class="item-card">
-                        <img th:if="${item.imageURLs != null and !item.imageURLs.isEmpty()}"
-                             th:src="${item.imageURLs[0]}"
+                        <img th:if="${item.imageURL != null and !item.imageURL.isEmpty()}"
+                             th:src="${item.imageURL}"
                              th:alt="${item.name}"
                              class="item-image">
-                        <img th:unless="${item.imageURLs != null and !item.imageURLs.isEmpty()}"
+                        <img th:unless="${item.imageURL != null and !item.imageURL.isEmpty()}"
                              th:src="@{/images/defaults/no_image.webp}"
                              th:alt="${item.name}"
                              class="item-image">

@@ -26,18 +26,10 @@
         <div class="item-main">
             <!-- Images -->
             <div class="item-images">
-                <div th:if="*{imageURLs != null and !imageURLs.isEmpty()}">
-                    <img th:src="*{imageURLs[0]}" th:alt="*{name}" class="main-image" id="mainImage">
-                    <div class="image-thumbnails" th:if="*{imageURLs.size() > 1}">
-                        <img th:each="image, iterStat : *{imageURLs}"
-                             th:src="${image}"
-                             th:alt="*{name}"
-                             class="thumbnail"
-                             th:classappend="${iterStat.first} ? 'active' : ''"
-                             th:onclick="'changeMainImage(\'' + ${image} + '\', this)'">
-                    </div>
+                <div th:if="*{imageURL != null and !imageURL.isEmpty()}">
+                    <img th:src="*{imageURL}" th:alt="*{name}" class="main-image" id="mainImage">
                 </div>
-                <div th:unless="*{imageURLs != null and !imageURLs.isEmpty()}" class="image-placeholder">
+                <div th:unless="*{imageURL != null and !imageURL.isEmpty()}" class="image-placeholder">
                     <i class="fas fa-image"></i>
                     <span>No Image Available</span>
                 </div>
