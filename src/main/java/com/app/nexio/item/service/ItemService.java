@@ -7,6 +7,7 @@ import com.app.nexio.item.dto.PostItemRequest;
 import com.app.nexio.item.model.Category;
 import com.app.nexio.item.model.Item;
 import com.app.nexio.item.repository.ItemRepository;
+import com.app.nexio.notification.service.NotificationService;
 import com.app.nexio.security.AuthenticationMetadata;
 import com.app.nexio.user.model.User;
 import com.app.nexio.user.model.UserRole;
@@ -29,10 +30,12 @@ public class ItemService {
     public static final String ITEM_NOT_FOUND = "Item not found";
     private final ItemRepository itemRepository;
     private final AwsService awsService;
+    private final NotificationService notificationService;
 
-    public ItemService(ItemRepository itemRepository, AwsService awsService) {
+    public ItemService(ItemRepository itemRepository, AwsService awsService, NotificationService notificationService) {
         this.itemRepository = itemRepository;
         this.awsService = awsService;
+        this.notificationService = notificationService;
     }
 
     @Transactional
@@ -47,6 +50,7 @@ public class ItemService {
         setImage(item.getId(), file, item);
         itemRepository.save(item);
 
+        notificationService.sendNotificationWhenItemPosted(owner.getId(), owner.getEmail(), item.getName());
     }
 
 
