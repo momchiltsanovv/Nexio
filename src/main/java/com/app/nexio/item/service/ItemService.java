@@ -47,7 +47,7 @@ public class ItemService {
         Item item = initializeItemFromRequest(postItemRequest, owner);
         itemRepository.save(item);
 
-        setImage(item.getId(), file, item);
+        setImage(item.getId(), file, item, owner.getId());
         itemRepository.save(item);
 
         notificationService.sendNotificationWhenItemPosted(owner.getId(), owner.getEmail(), item.getName());
@@ -67,20 +67,20 @@ public class ItemService {
         item.setDescription(editItemRequest.getDescription());
         item.setCategory(editItemRequest.getCategory());
         item.setExchangeLocation(editItemRequest.getExchangeLocation());
-        setImage(itemId, file, item);
+        setImage(itemId, file, item, item.getOwner().getId());
 
         itemRepository.save(item);
     }
 
-    private void setImage(UUID itemId, MultipartFile file, Item item) {
+    private void setImage(UUID itemId, MultipartFile file, Item item, UUID userId) {
         if (file != null && !file.isEmpty()) {
-            String imageURL = uploadItemImage(itemId, file);
+            String imageURL = uploadItemImage(itemId, userId, file);
             item.setImageURL(imageURL);
         }
     }
 
-    private String uploadItemImage(UUID itemId, MultipartFile file) {
-        var response = awsService.uploadItemImage(itemId, file);
+    private String uploadItemImage(UUID itemId, UUID userId, MultipartFile file) {
+        var response = awsService.uploadItemImage(itemId, userId, file);
         var body = response.getBody();
 
         if (response.getStatusCode().is2xxSuccessful() && body != null && body.URL() != null) {

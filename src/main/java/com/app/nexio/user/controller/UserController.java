@@ -1,5 +1,7 @@
 package com.app.nexio.user.controller;
 
+import com.app.nexio.aws.client.dto.AssetResponse;
+import com.app.nexio.aws.service.AwsService;
 import com.app.nexio.item.model.Item;
 import com.app.nexio.item.service.ItemService;
 import com.app.nexio.security.AuthenticationMetadata;
@@ -30,12 +32,14 @@ public class UserController {
     private final UserService userService;
     private final ItemService itemService;
     private final AccountDeletionService accountDeletionService;
+    private final AwsService awsService;
 
     @Autowired
-    public UserController(UserService userService, ItemService itemService, AccountDeletionService accountDeletionService) {
+    public UserController(UserService userService, ItemService itemService, AccountDeletionService accountDeletionService, AwsService awsService) {
         this.userService = userService;
         this.itemService = itemService;
         this.accountDeletionService = accountDeletionService;
+        this.awsService = awsService;
     }
 
 
@@ -128,6 +132,22 @@ public class UserController {
         userService.switchStatus(id);
 
         return "redirect:/users";
+    }
+
+    @GetMapping("/{id}/assets")
+    @PreAuthorize("hasRole('ADMIN')")
+    public String getUserAssets(@PathVariable UUID id,
+                               @AuthenticationPrincipal AuthenticationMetadata currentUser,
+                               Model model) {
+        model.addAttribute("active", "community");
+        
+        User user = userService.getById(id);
+        List<AssetResponse> assets = awsService.getAssetsByUserId(id);
+        
+        model.addAttribute("user", user);
+        model.addAttribute("assets", assets);
+        
+        return "user-assets";
     }
 
     @DeleteMapping("/delete")

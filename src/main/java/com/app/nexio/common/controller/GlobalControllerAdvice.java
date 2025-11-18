@@ -9,7 +9,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import javax.naming.AuthenticationException;
-import java.nio.file.AccessDeniedException;
+import org.springframework.security.access.AccessDeniedException;
 
 @ControllerAdvice
 public class GlobalControllerAdvice {
@@ -18,7 +18,8 @@ public class GlobalControllerAdvice {
     @ExceptionHandler({NoResourceFoundException.class,
             AccessDeniedException.class,
             DeactivatedAccount.class,
-            ItemNotFoundException.class})
+            ItemNotFoundException.class,
+            })
     public String handleNotFoundException(Exception e) {
 
         return "not-found";
