@@ -57,17 +57,93 @@
     padding: 12px 14px;
     border: 1px solid #ddd;
     border-radius: 10px;
-    font-size: 14px
+    font-size: 14px;
+    transition: border-color 0.3s ease;
+}
+
+.field input.valid, .field select.valid {
+    border-color: #4CAF50;
+    background-color: #f8fff8;
+}
+
+.field input.invalid, .field select.invalid {
+    border-color: #f44336;
+    background-color: #fff5f5;
+}
+
+.field input:focus.valid, .field select:focus.valid {
+    border-color: #4CAF50;
+    outline-color: #4CAF50;
+}
+
+.field input:focus.invalid, .field select:focus.invalid {
+    border-color: #f44336;
+    outline-color: #f44336;
+}
+
+.name-feedback {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
 }
 
 .field textarea {
     min-height: 140px;
-    resize: vertical
+    resize: vertical;
+    transition: border-color 0.3s ease;
+}
+
+.field textarea.valid {
+    border-color: #4CAF50;
+    background-color: #f8fff8;
+}
+
+.field textarea.invalid {
+    border-color: #f44336;
+    background-color: #fff5f5;
+}
+
+.field textarea:focus.valid {
+    border-color: #4CAF50;
+    outline-color: #4CAF50;
+}
+
+.field textarea:focus.invalid {
+    border-color: #f44336;
+    outline-color: #f44336;
+}
+
+.description-feedback {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
 }
 
 .help {
     font-size: 12px;
     color: #888
+}
+
+.char-counter {
+    font-size: 12px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+
+.char-counter.valid {
+    color: #4CAF50;
+    background-color: #e8f5e9;
+}
+
+.char-counter.invalid {
+    color: #f44336;
+    background-color: #ffebee;
 }
 
 .images-card {
@@ -138,6 +214,18 @@
 .img-slot.has-photo {
     border: 1px solid #4CAF50;
     background: #f8fff8
+}
+
+.img-slot.invalid-upload {
+    border: 2px solid #f44336;
+    background: #fff5f5;
+    animation: shake 0.3s ease-in-out;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
 }
 
 .form-actions {

@@ -22,12 +22,18 @@
                 <i class="fas fa-plus-circle" style="color:#212346"></i>
                 <h1>Post a new item</h1>
             </div>
-            <form th:action="@{/items/creation}" th:method="post" th:object="${postItemRequest}" enctype="multipart/form-data">
+            <form id="postItemForm" th:action="@{/items/creation}" th:method="post" th:object="${postItemRequest}" enctype="multipart/form-data">
                 <div class="post-body">
                     <div class="form-grid">
                             <div class="field full">
                                 <label for="name">Title</label>
-                                <input id="name" name="name" type="text" placeholder="e.g., MacBook Pro 13 M1" th:field="*{name}" required>
+                                <input id="name" name="name" type="text" placeholder="e.g., MacBook Pro 13 M1" th:field="*{name}" required minlength="3">
+                                <div class="name-feedback">
+                                    <div class="help">Min 3 characters</div>
+                                    <div class="char-counter" id="nameCharCounter">
+                                        <span id="nameCharCount">0</span> / 3 characters
+                                    </div>
+                                </div>
                             </div>
 
                             <div class="field">
@@ -69,22 +75,27 @@
 
                             <div class="field full">
                                 <label for="description">Description</label>
-                                <textarea id="description" name="description" placeholder="Describe the item, condition, and any details buyers should know." th:field="*{description}" required></textarea>
-                                <div class="help">Min 10 characters. No personal contact details.</div>
+                                <textarea id="description" name="description" placeholder="Describe the item, condition, and any details buyers should know." th:field="*{description}" required minlength="10"></textarea>
+                                <div class="description-feedback">
+                                    <div class="help">Min 10 characters. No personal contact details.</div>
+                                    <div class="char-counter" id="charCounter">
+                                        <span id="charCount">0</span> / 10 characters
+                                    </div>
+                                </div>
                             </div>
 
                             <div class="field full">
-                                <label>Photo</label>
+                                <label>Photo <span style="color: #f44336;">*</span></label>
                                 <div class="images-card">
                                     <div class="images-grid">
                                         <div class="img-slot" id="slot-1">
                                             <i class="fas fa-image" id="icon-1"></i>
-                                            <input type="file" id="photo-1" name="itemImageFile" accept="image/*">
+                                            <input type="file" id="photo-1" name="itemImageFile" accept="image/*" required>
                                             <img id="preview-1" class="photo-preview" style="display: none;">
                                             <button type="button" class="remove-photo" id="remove-1" style="display: none;">×</button>
                                         </div>
                                     </div>
-                                    <div class="help">Upload a photo for your item (JPG, PNG, GIF up to 30MB)</div>
+                                    <div class="help">Upload a photo for your item (JPG, PNG, GIF up to 30MB) - Required</div>
                                 </div>
                             </div>
 
