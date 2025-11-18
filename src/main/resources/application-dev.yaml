@@ -1,0 +1,58 @@
+spring:
+  application:
+    name: Nexio
+  servlet:
+    multipart:
+      max-file-size: 30MB
+      max_request-size: 30MB
+
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/nexio_db?useSSL=false
+    username: postgres
+    password: 1234
+
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+    hibernate:
+      ddl-auto: update
+
+  security:
+    oauth2:
+      client:
+        registration:
+          github:
+            client-id: Ov23li7xGVuwgCT6neub
+            client-secret: a077e79d9c0d28fe1cf3001e22d2723f9e385c04
+            scope:
+              - read:user
+              - read:email
+
+users:
+  defaultUser:
+    userRole: USER
+    activeByDefault: true
+  adminUser:
+    username: admin
+    email: admin@nexio.com
+    password: Admin123#
+    active-by-default: true
+    userRole: ADMIN
+logging:
+  level:
+    org: WARN
+    blog: WARN
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor: TRACE
+
+
+client:
+  notification:
+    url: http://localhost:8081/api/v1/notifications
+  aws:
+    url: http://localhost:8082/api/v1/aws
+
+
