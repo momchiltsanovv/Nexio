@@ -303,6 +303,20 @@
             color: #0dcaf0;
         }
 
+        .btn-info {
+            background-color: #0dcaf0;
+            color: #ffffff;
+            border: 1px solid #0dcaf0;
+        }
+
+        .btn-info:hover {
+            background-color: #0aa2c0;
+            border-color: #0aa2c0;
+            color: #ffffff;
+            box-shadow: 0 4px 12px rgba(13, 202, 240, 0.3);
+            transform: translateY(-1px);
+        }
+
         .badge {
             display: inline-block;
             padding: 0.35em 0.65em;
