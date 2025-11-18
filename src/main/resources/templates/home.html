@@ -239,15 +239,15 @@
                                 View Details
                             </a>
                         </div>
+                        </div>
                     </div>
                 </div>
-            </div>
 
             <!-- Empty state when no items (shown when filters result in no matches or when items list is empty) -->
             <div class="empty-state" id="emptyState" th:style="${items == null or items.isEmpty() ? 'display: flex;' : 'display: none;'}">
-                <div class="empty-content">
-                    <i class="fas fa-box-open"></i>
-                    <h3>No items found</h3>
+                        <div class="empty-content">
+                            <i class="fas fa-box-open"></i>
+                            <h3>No items found</h3>
                     <p id="emptyStateMessage">There are currently no items available.</p>
                 </div>
             </div>

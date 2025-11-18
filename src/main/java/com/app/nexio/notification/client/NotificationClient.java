@@ -16,4 +16,6 @@ public interface NotificationClient {
     @PostMapping("/posted-item")
     ResponseEntity<Void> notifyPostedItem(@RequestBody UpsertNotification notification);
 
+    @PostMapping("/semester-start")
+    ResponseEntity<Void> notifySemesterStart(UpsertNotification notification);
 }

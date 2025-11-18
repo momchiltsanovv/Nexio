@@ -150,7 +150,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                      selectedLocation !== 'all' || 
                                      currentSearchTerm !== '';
             
-            if (visibleItems.length === 0) {
+        if (visibleItems.length === 0) {
                 emptyState.style.display = 'flex';
                 // Update message based on whether filters are applied
                 if (hasActiveFilters) {
@@ -158,8 +158,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 } else {
                     emptyStateMessage.textContent = 'There are currently no items available.';
                 }
-            } else {
-                emptyState.style.display = 'none';
+        } else {
+            emptyState.style.display = 'none';
             }
         }
     }
@@ -191,7 +191,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // Re-append sorted items to the grid
         if (itemGrid) {
-            items.forEach(item => itemGrid.appendChild(item));
+        items.forEach(item => itemGrid.appendChild(item));
         }
     }
 
